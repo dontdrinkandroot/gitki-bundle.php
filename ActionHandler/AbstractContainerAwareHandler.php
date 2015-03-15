@@ -65,9 +65,9 @@ class AbstractContainerAwareHandler extends ContainerAware
     /**
      * Renders a view.
      *
-     * @param string   $view       The view name
-     * @param array    $parameters An array of parameters to pass to the view
-     * @param Response $response   A response instance
+     * @param string        $view       The view name
+     * @param array         $parameters An array of parameters to pass to the view
+     * @param Response|null $response   A response instance
      *
      * @return Response A Response instance
      */

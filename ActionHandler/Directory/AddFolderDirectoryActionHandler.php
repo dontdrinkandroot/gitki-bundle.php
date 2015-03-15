@@ -20,7 +20,6 @@ class AddFolderDirectoryActionHandler extends AbstractContainerAwareHandler impl
         $path = DirectoryPath::parse($directoryPath);
 
         $form = $this->createFormBuilder()
-            ->add('title', 'text', ['label' => 'Title', 'required' => true])
             ->add(
                 'dirname',
                 'text',
@@ -36,7 +35,6 @@ class AddFolderDirectoryActionHandler extends AbstractContainerAwareHandler impl
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $title = $form->get('title')->getData();
                 $dirname = $form->get('dirname')->getData();
                 $subDirPath = $path->appendDirectory($dirname);
 
@@ -45,7 +43,7 @@ class AddFolderDirectoryActionHandler extends AbstractContainerAwareHandler impl
                 return $this->redirect(
                     $this->generateUrl(
                         'ddr_gitki_wiki_directory',
-                        ['path' => $subDirPath->toAbsoluteUrlString()]
+                        ['path' => $subDirPath->toAbsoluteString()]
                     )
                 );
             }

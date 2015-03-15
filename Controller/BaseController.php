@@ -35,6 +35,11 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * @param string $role
+     *
+     * @return bool
+     */
     protected function hasRole($role)
     {
         return $this->get('security.context')->isGranted($role);
