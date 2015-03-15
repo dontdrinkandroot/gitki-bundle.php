@@ -42,6 +42,8 @@ checks:
         avoid_todo_comments: true
         avoid_fixme_comments: true
 tools:
+    external_code_coverage: true
+    php_code_coverage: true
     php_code_sniffer:
         config:
             standard: "PSR2"
