@@ -39,23 +39,23 @@ class RenameFileActionHandler extends AbstractContainerAwareHandler implements F
                     $user,
                     $filePath,
                     $newPath,
-                    'Renaming ' . $filePath->toAbsoluteUrlString() . ' to ' . $newPath->toAbsoluteUrlString()
+                    'Renaming ' . $filePath->toAbsoluteString() . ' to ' . $newPath->toAbsoluteString()
                 );
 
                 return $this->redirect(
                     $this->generateUrl(
                         'ddr_gitki_wiki_directory',
-                        array('path' => $newPath->getParentPath()->toAbsoluteUrlString())
+                        ['path' => $newPath->getParentPath()->toAbsoluteString()]
                     )
                 );
             }
         } else {
-            $form->setData(array('newpath' => $filePath->toAbsoluteUrlString()));
+            $form->setData(['newpath' => $filePath->toAbsoluteString()]);
         }
 
         return $this->render(
             'DdrGitkiBaseBundle:Wiki:file.rename.html.twig',
-            array('form' => $form->createView(), 'path' => $filePath)
+            ['form' => $form->createView(), 'path' => $filePath]
         );
     }
 }

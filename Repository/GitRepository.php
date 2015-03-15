@@ -265,9 +265,6 @@ class GitRepository implements GitRepositoryInterface
      */
     protected function getAuthorString(GitUserInterface $user)
     {
-        $name = $user->getUsername();
-        $email = $user->getEmail();
-
         return sprintf('"%s <%s>"', $user->getUsername(), $user->getEmail());
     }
 
@@ -291,8 +288,9 @@ class GitRepository implements GitRepositoryInterface
     protected function parseLog($log)
     {
         preg_match_all(LogParser::getMatchString(), $log, $matches);
-        $metaData = array();
-        for ($i = 0; $i < count($matches[1]); $i++) {
+        $metaData = [];
+        $numEntries = count($matches[1]);
+        for ($i = 0; $i < $numEntries; $i++) {
             $hash = $matches[1][$i];
             $name = $matches[2][$i];
             $eMail = $matches[3][$i];

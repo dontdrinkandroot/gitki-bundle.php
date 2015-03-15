@@ -5,6 +5,7 @@ namespace Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory;
 use Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\AbstractContainerAwareHandler;
 use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 class UploadFileActionHandler extends AbstractContainerAwareHandler implements DirectoryActionHandlerInterface
@@ -27,10 +28,10 @@ class UploadFileActionHandler extends AbstractContainerAwareHandler implements D
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                /* @var \Symfony\Component\HttpFoundation\File\UploadedFile $uploadedFile */
+                /* @var UploadedFile $uploadedFile */
                 $uploadedFile = $form->get('uploadedFile')->getData();
                 $uploadedFileName = $form->get('uploadedFileName')->getData();
-                if (null == $uploadedFileName || trim($uploadedFileName) == "") {
+                if (null == $uploadedFileName || trim($uploadedFileName) == '') {
                     $uploadedFileName = $uploadedFile->getClientOriginalName();
                 }
                 $filePath = $directoryPath->appendFile($uploadedFileName);
@@ -44,16 +45,15 @@ class UploadFileActionHandler extends AbstractContainerAwareHandler implements D
                 return $this->redirect(
                     $this->generateUrl(
                         'ddr_gitki_wiki_directory',
-                        array('path' => $directoryPath->toAbsoluteUrlString())
+                        ['path' => $directoryPath->toAbsoluteString()]
                     )
                 );
             }
-        } else {
         }
 
         return $this->render(
             'DdrGitkiBaseBundle:Wiki:directory.uploadFile.html.twig',
-            array('form' => $form->createView(), 'path' => $directoryPath)
+            ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
 }

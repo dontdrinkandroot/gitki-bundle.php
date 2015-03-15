@@ -19,10 +19,10 @@ class FileHistoryActionHandler extends AbstractContainerAwareHandler implements 
 
         return $this->render(
             'DdrGitkiBaseBundle:Wiki:file.history.html.twig',
-            array(
+            [
                 'path'    => $filePath,
                 'history' => $history
-            )
+            ]
         );
     }
 }
