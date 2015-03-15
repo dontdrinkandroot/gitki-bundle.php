@@ -34,6 +34,16 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     private $client;
 
+    /**
+     * @var string
+     */
+    private $index;
+
+    /**
+     * @param string $host
+     * @param int    $port
+     * @param string $index
+     */
     public function __construct($host, $port, $index)
     {
         $this->host = $host;
@@ -180,6 +190,11 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         return $this->client->delete($params);
     }
 
+    /**
+     * @param FilePath $path
+     *
+     * @return string
+     */
     public function getTitle(FilePath $path)
     {
         $params = array(
@@ -195,6 +210,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         return $result['_source']['title'];
     }
 
+    /**
+     * @param AnalyzerInterface $analyzer
+     */
     public function registerAnalyzer(AnalyzerInterface $analyzer)
     {
         foreach ($analyzer->getSupportedExtensions() as $extension) {
