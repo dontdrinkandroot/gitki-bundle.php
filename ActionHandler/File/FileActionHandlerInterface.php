@@ -11,8 +11,8 @@ interface FileActionHandlerInterface
 {
 
     /**
-     * @param FilePath $filePath
-     * @param Request  $request
+     * @param FilePath         $filePath
+     * @param Request          $request
      * @param GitUserInterface $user
      *
      * @return Response

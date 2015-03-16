@@ -35,6 +35,11 @@ class WikiService
     private $lockService;
 
     /**
+     * @var array
+     */
+    protected $editableExtensions = [];
+
+    /**
      * @param GitRepositoryInterface $gitRepository
      * @param LockService            $lockService
      */
@@ -187,8 +192,7 @@ class WikiService
         FilePath $relativeFilePath,
         UploadedFile $uploadedFile,
         $commitMessage
-    )
-    {
+    ) {
         $relativeDirectoryPath = $relativeFilePath->getParentPath();
 
         $this->assertFileDoesNotExist($relativeFilePath);
@@ -343,6 +347,22 @@ class WikiService
     public function getFileHistory(FilePath $path, $maxCount = null)
     {
         return $this->gitRepository->getFileHistory($path, $maxCount);
+    }
+
+    /**
+     * @param string $extension
+     */
+    public function registerEditableExtension($extension)
+    {
+        $this->editableExtensions[$extension] = true;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getEditableExtensions()
+    {
+        return array_keys($this->editableExtensions);
     }
 
     /**

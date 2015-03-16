@@ -16,13 +16,15 @@ class ListDirectoryActionHandler extends AbstractContainerAwareHandler implement
     public function handle(DirectoryPath $directoryPath, Request $request, GitUserInterface $user)
     {
         $directoryListing = $this->getWikiService()->listDirectory($directoryPath);
+        $editableExtensions = $this->getWikiService()->getEditableExtensions();
 
         return $this->render(
             'DdrGitkiBaseBundle:Wiki:directory.listing.html.twig',
-            array(
-                'path' => $directoryPath,
-                'directoryListing' => $directoryListing
-            )
+            [
+                'path'               => $directoryPath,
+                'directoryListing'   => $directoryListing,
+                'editableExtensions' => $editableExtensions
+            ]
         );
     }
 }

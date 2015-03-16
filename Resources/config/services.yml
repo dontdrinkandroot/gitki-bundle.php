@@ -77,6 +77,13 @@ services:
         tags:
             -  { name: ddr.gitki.action_handler.directory, action: upload }
 
+    ddr.gitki.service.action_handler.directory.create_file:
+        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\CreateFileActionHandler
+        calls:
+            - [ setContainer,[ @service_container ] ]
+        tags:
+            -  { name: ddr.gitki.action_handler.directory, action: create }
+
     # FILE HANDLERS
 
     ddr.gitki.action_handler.file.serve:

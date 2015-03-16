@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\Gitki\BaseBundle;
 
 use Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection\DdrGitkiExtension;
 use Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection\DirectoryActionHandlerCompilerPass;
+use Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection\EditorCompilerPass;
 use Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection\ElasticsearchCompilerPass;
 use Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection\FileActionHandlerCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,6 +20,7 @@ class DdrGitkiBaseBundle extends Bundle
         $container->registerExtension(new DdrGitkiExtension());
         $container->addCompilerPass(new DirectoryActionHandlerCompilerPass());
         $container->addCompilerPass(new FileActionHandlerCompilerPass());
+        $container->addCompilerPass(new EditorCompilerPass());
         $container->addCompilerPass(new ElasticsearchCompilerPass());
     }
 
