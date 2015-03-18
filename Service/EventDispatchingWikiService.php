@@ -67,6 +67,8 @@ class EventDispatchingWikiService extends WikiService
      */
     public function deleteFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
     {
+        parent::deleteFile($user, $relativeFilePath, $commitMessage);
+
         $this->eventDispatcher->dispatch(
             FileDeletedEvent::NAME,
             new FileDeletedEvent($user, $commitMessage, time(), $relativeFilePath)

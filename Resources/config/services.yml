@@ -9,10 +9,6 @@ services:
             - { name: kernel.event_listener, event: ddr.gitki.file.deleted, method: onFileDeleted }
             - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
-#    ddr.gitki.service.wiki:
-#        class: Dontdrinkandroot\Gitki\BaseBundle\Service\ElasticsearchWikiService
-#        arguments: [@ddr.gitki.repository.git, @ddr.gitki.service.markdown, @event_dispatcher, @ddr.gitki.repository.elasticsearch]
-
     ddr.gitki.twig.gitki_extension:
         class: Dontdrinkandroot\Gitki\BaseBundle\Twig\GitkiExtension
         tags:
@@ -33,90 +29,38 @@ services:
             - @ddr.gitki.service.lock
             - @event_dispatcher
 
-    ddr.gitki.service.action_handler.directory:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Service\ActionHandler\DirectoryActionHandlerService
+    # ROUTING
 
-    ddr.gitki.service.action_handler.file:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Service\ActionHandler\FileActionHandlerService
-
-    # DIRECTORY HANDLERS
-
-    ddr.gitki.action_handler.directory.list:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\ListDirectoryActionHandler
+    ddr.gitki.router.route_provider:
+        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\RouteProvider
         calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.directory }
-            -  { name: ddr.gitki.action_handler.directory, action: list }
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::serveAction']]
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::serveAction', 'raw']]
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::deleteAction', 'delete']]
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::holdLockAction', 'holdlock']]
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::historyAction', 'history']]
+            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::renameAction', 'rename']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::listAction']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::indexAction', 'index']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createSubdirectoryAction', 'addfolder']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createSubdirectoryAction', 'createsubdirectory']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createFileAction', 'create']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createFileAction', 'createfile']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::deleteAction', 'delete']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::uploadFileAction', 'upload']]
+            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::uploadFileAction', 'uploadfile']]
 
-    ddr.gitki.action_handler.directory.index:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\DirectoryIndexActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.directory, action: index }
+    ddr.giki.router.request_matcher:
+        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\WikiRequestMatcher
+        arguments:
+            - @ddr.gitki.router.route_provider
 
-    ddr.gitki.action_handler.directory.add_folder:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\AddFolderDirectoryActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
+    ddr.gitki.router.listener:
+        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\WikiRouterListener
+        arguments:
+            - @ddr.giki.router.request_matcher
+            - @router.request_context
+            - @logger
+            - @request_stack
         tags:
-            -  { name: ddr.gitki.action_handler.directory, action: addfolder }
-
-    ddr.gitki.action_handler.directory.delete:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\DeleteDirectoryActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.directory, action: delete }
-
-    ddr.gitki.action_handler.directory.upload_file:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\UploadFileActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.directory, action: upload }
-
-    ddr.gitki.service.action_handler.directory.create_file:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\Directory\CreateFileActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.directory, action: create }
-
-    # FILE HANDLERS
-
-    ddr.gitki.action_handler.file.serve:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\File\ServeFileActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.file }
-
-    ddr.gitki.action_handler.file.delete:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\File\DeleteFileActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.file, action: delete }
-
-    ddr.gitki.action_handler.file.rename:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\File\RenameFileActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.file, action: rename }
-
-    ddr.gitki.action_handler.file.history:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\File\FileHistoryActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.file, action: history }
-
-    ddr.gitki.action_handler.file.hold_lock:
-        class: Dontdrinkandroot\Gitki\BaseBundle\ActionHandler\File\HoldLockActionHandler
-        calls:
-            - [ setContainer,[ @service_container ] ]
-        tags:
-            -  { name: ddr.gitki.action_handler.file, action: holdlock }
+            - { name: kernel.event_listener, event: kernel.request, priority: 33 }
