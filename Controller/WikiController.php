@@ -3,8 +3,7 @@
 
 namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Service\ActionHandler\DirectoryActionHandlerServiceInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Service\ActionHandler\FileActionHandlerServiceInterface;
+use Dontdrinkandroot\Gitki\BaseBundle\Routing\ActionResolver;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
@@ -25,9 +24,11 @@ class WikiController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $directoryPath = DirectoryPath::parse($path);
-        $directoryHandlerService = $this->getDirectoryActionHandlerService();
+        $routeProvider = $this->getActionResolver();
+        $action = $request->query->get('action', '');
+        $controller = $routeProvider->resolveDirectoryAction($action);
 
-        return $directoryHandlerService->handle($directoryPath, $request, $this->getUser());
+        return $this->forward($controller,['path' => $path]);
     }
 
     /**
@@ -40,9 +41,11 @@ class WikiController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
-        $fileHandlerService = $this->getFileHandlerService();
+        $routeProvider = $this->getActionResolver();
+        $action = $request->query->get('action', '');
+        $controller = $routeProvider->resolveFileAction($action, $filePath->getExtension());
 
-        return $fileHandlerService->handle($filePath, $request, $this->getUser());
+        return $this->forward($controller, ['path' => $path]);
     }
 
     /**
@@ -71,18 +74,10 @@ class WikiController extends BaseController
     }
 
     /**
-     * @return DirectoryActionHandlerServiceInterface
+     * @return ActionResolver
      */
-    protected function getDirectoryActionHandlerService()
+    protected function getActionResolver()
     {
-        return $this->get('ddr.gitki.service.action_handler.directory');
-    }
-
-    /**
-     * @return FileActionHandlerServiceInterface
-     */
-    protected function getFileHandlerService()
-    {
-        return $this->get('ddr.gitki.service.action_handler.file');
+        return $this->get('ddr.gitki.router.action_resolver');
     }
 }

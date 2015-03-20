@@ -6,7 +6,7 @@ namespace Dontdrinkandroot\Gitki\BaseBundle\Routing;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
-interface RouteProviderInterface
+interface ActionResolverInterface
 {
 
     /**

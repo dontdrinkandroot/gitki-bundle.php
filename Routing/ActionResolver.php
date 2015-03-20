@@ -5,7 +5,7 @@ namespace Dontdrinkandroot\Gitki\BaseBundle\Routing;
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class RouteProvider implements RouteProviderInterface
+class ActionResolver implements ActionResolverInterface
 {
 
     protected $directoryActions = [];
@@ -40,13 +40,22 @@ class RouteProvider implements RouteProviderInterface
         return $this->fileTypeActions[''][$action];
     }
 
+    /**
+     * @param string $controller
+     * @param string $action
+     */
     public function registerDirectoryAction($controller, $action = '')
     {
-        $this->directoryActions[$action] = new RouteDefinition($controller);
+        $this->directoryActions[$action] = $controller;
     }
 
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param string $extension
+     */
     public function registerFileAction($controller, $action = '', $extension = '')
     {
-        $this->fileTypeActions[$extension][$action] = new RouteDefinition($controller);
+        $this->fileTypeActions[$extension][$action] = $controller;
     }
 }

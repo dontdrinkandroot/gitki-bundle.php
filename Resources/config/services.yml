@@ -31,36 +31,23 @@ services:
 
     # ROUTING
 
-    ddr.gitki.router.route_provider:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\RouteProvider
+    ddr.gitki.router.action_resolver:
+        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\ActionResolver
         calls:
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::serveAction']]
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::serveAction', 'raw']]
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::deleteAction', 'delete']]
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::holdLockAction', 'holdlock']]
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::historyAction', 'history']]
-            - [registerFileAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\FileController::renameAction', 'rename']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::listAction']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::indexAction', 'index']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createSubdirectoryAction', 'addfolder']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createSubdirectoryAction', 'createsubdirectory']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createFileAction', 'create']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::createFileAction', 'createfile']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::deleteAction', 'delete']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::uploadFileAction', 'upload']]
-            - [registerDirectoryAction, ['Dontdrinkandroot\Gitki\BaseBundle\Controller\DirectoryController::uploadFileAction', 'uploadfile']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:serve']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:serve', 'raw']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:delete', 'delete']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:holdLock', 'holdlock']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:history', 'history']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:File:rename', 'rename']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list', 'list']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:index', 'index']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'addfolder']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'createsubdirectory']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'create']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'createfile']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:delete', 'delete']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'upload']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'uploadfile']]
 
-    ddr.giki.router.request_matcher:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\WikiRequestMatcher
-        arguments:
-            - @ddr.gitki.router.route_provider
-
-    ddr.gitki.router.listener:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Routing\WikiRouterListener
-        arguments:
-            - @ddr.giki.router.request_matcher
-            - @router.request_context
-            - @logger
-            - @request_stack
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 33 }
