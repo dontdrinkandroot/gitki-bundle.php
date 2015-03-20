@@ -70,7 +70,7 @@ class FileController extends BaseController
         $history = $this->getWikiService()->getFileHistory($filePath);
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:file.history.html.twig',
+            'DdrGitkiBaseBundle:File:history.html.twig',
             [
                 'path'    => $filePath,
                 'history' => $history
@@ -120,7 +120,7 @@ class FileController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:file.rename.html.twig',
+            'DdrGitkiBaseBundle:File:rename.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

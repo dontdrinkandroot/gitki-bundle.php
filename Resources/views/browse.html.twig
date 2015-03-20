@@ -7,7 +7,7 @@
             <div class="container">
                 {% block actions %}
                 {% endblock %}
-                {{ include('DdrGitkiBaseBundle:Wiki:breadcrumb.partial.html.twig', {'path' : path}) }}
+                {{ include('DdrGitkiBaseBundle::breadcrumb.partial.html.twig', {'path' : path}) }}
             </div>
         </div>
     {% endif %}

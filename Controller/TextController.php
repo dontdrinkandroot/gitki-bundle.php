@@ -66,7 +66,7 @@ class TextController extends BaseController
             $this->getWikiService()->createLock($user, $filePath);
         } catch (PageLockedException $e) {
             $renderedView = $this->renderView(
-                'DdrGitkiBaseBundle:Wiki:file.locked.html.twig',
+                'DdrGitkiBaseBundle:Wiki:locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 

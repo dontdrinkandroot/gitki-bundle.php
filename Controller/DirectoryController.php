@@ -18,7 +18,7 @@ class DirectoryController extends BaseController
         $editableExtensions = $this->getWikiService()->getEditableExtensions();
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:directory.listing.html.twig',
+            'DdrGitkiBaseBundle:Directory:list.html.twig',
             [
                 'path'               => $directoryPath,
                 'directoryListing'   => $directoryListing,
@@ -78,7 +78,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:directory.addFolder.html.twig',
+            'DdrGitkiBaseBundle:Directory:create.subdirectory.html.twig',
             ['form' => $form->createView(), 'path' => $path]
         );
     }
@@ -123,7 +123,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:directory.createFile.html.twig',
+            'DdrGitkiBaseBundle:Directory:create.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
@@ -187,7 +187,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Wiki:directory.uploadFile.html.twig',
+            'DdrGitkiBaseBundle:Directory:upload.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
