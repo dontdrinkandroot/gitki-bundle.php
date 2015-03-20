@@ -13,7 +13,7 @@
         {% for result in results %}
             <li>
                 [{{ result.score|number_format(2) }}] <a
-                        href="{{ path('ddr_gitki_wiki_file', {'path': result.path}) }}">
+                        href="{{ path('ddr_gitki_file', {'path': result.path}) }}">
                     {% if result.title is not empty %}
                         {{ result.title }}
                     {% else %}

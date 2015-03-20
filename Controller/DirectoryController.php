@@ -33,10 +33,10 @@ class DirectoryController extends BaseController
 
         $indexFilePath = $directoryPath->appendFile('index.md');
         if ($this->getWikiService()->exists($indexFilePath)) {
-            return $this->redirectToRoute('ddr_gitki_wiki_file', ['path' => $indexFilePath->toAbsoluteString()]);
+            return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
         }
 
-        return $this->redirectToRoute('ddr_gitki_wiki_directory', ['path' => $directoryPath->toAbsoluteString()]);
+        return $this->redirectToRoute('ddr_gitki_directory', ['path' => $directoryPath->toAbsoluteString()]);
     }
 
     public function createSubdirectoryAction(Request $request, $path)
@@ -70,7 +70,7 @@ class DirectoryController extends BaseController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'ddr_gitki_wiki_directory',
+                        'ddr_gitki_directory',
                         ['path' => $subDirPath->toAbsoluteString()]
                     )
                 );
@@ -115,7 +115,7 @@ class DirectoryController extends BaseController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'ddr_gitki_wiki_file',
+                        'ddr_gitki_file',
                         ['path' => $filePath->toAbsoluteString(), 'action' => 'edit']
                     )
                 );
@@ -140,7 +140,7 @@ class DirectoryController extends BaseController
 
         return $this->redirect(
             $this->generateUrl(
-                'ddr_gitki_wiki_directory',
+                'ddr_gitki_directory',
                 ['path' => $parentDirPath]
             )
         );
@@ -179,7 +179,7 @@ class DirectoryController extends BaseController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'ddr_gitki_wiki_directory',
+                        'ddr_gitki_directory',
                         ['path' => $directoryPath->toAbsoluteString()]
                     )
                 );

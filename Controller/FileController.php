@@ -5,10 +5,10 @@ namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
 
 use Dontdrinkandroot\Gitki\BaseBundle\Exception\PageLockedException;
 use Dontdrinkandroot\Path\FilePath;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-use Symfony\Component\HttpFoundation\File\File;
 
 class FileController extends BaseController
 {
@@ -44,7 +44,7 @@ class FileController extends BaseController
         $this->getWikiService()->deleteFile($user, $filePath, $commitMessage);
 
         return $this->redirectToRoute(
-            'ddr_gitki_wiki_directory',
+            'ddr_gitki_directory',
             ['path' => $filePath->getParentPath()->toAbsoluteString()]
         );
     }
@@ -110,7 +110,7 @@ class FileController extends BaseController
 
                 return $this->redirect(
                     $this->generateUrl(
-                        'ddr_gitki_wiki_directory',
+                        'ddr_gitki_directory',
                         ['path' => $newPath->getParentPath()->toAbsoluteString()]
                     )
                 );
