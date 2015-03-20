@@ -52,12 +52,22 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $this->doLoad($config, $container);
     }
 
+    /**
+     * @param array            $config
+     * @param ContainerBuilder $container
+     *
+     * @return Configuration
+     */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration();
     }
 
-    protected function doLoad($config, ContainerBuilder $container)
+    /**
+     * @param array            $config
+     * @param ContainerBuilder $container
+     */
+    protected function doLoad(array $config, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
@@ -73,5 +83,9 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         } else {
             $container->setParameter('ddr_gitki.elasticsearch.enabled', false);
         }
+
+        $container->setParameter('ddr_gitki.role.watcher', $config['roles']['watcher']);
+        $container->setParameter('ddr_gitki.role.committer', $config['roles']['committer']);
+        $container->setParameter('ddr_gitki.role.admin', $config['roles']['admin']);
     }
 }

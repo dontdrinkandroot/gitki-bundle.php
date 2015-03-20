@@ -35,6 +35,14 @@ class Configuration implements ConfigurationInterface
                         ->integerNode('port')->defaultValue(9200)->end()
                     ->end()
                 ->end()
+                ->arrayNode('roles')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('watcher')->defaultValue('IS_AUTHENTICATED_ANONYMOUSLY')->end()
+                        ->scalarNode('committer')->defaultValue('ROLE_USER')->end()
+                        ->scalarNode('admin')->defaultValue('ROLE_USER')->end()
+                    ->end()
+                ->end()
             ->end();
         // @formatter:on
 

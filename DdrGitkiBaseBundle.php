@@ -18,9 +18,6 @@ class DdrGitkiBaseBundle extends Bundle
         parent::build($container);
 
         $container->registerExtension(new DdrGitkiExtension());
-        $container->addCompilerPass(new DirectoryActionHandlerCompilerPass());
-        $container->addCompilerPass(new FileActionHandlerCompilerPass());
-        $container->addCompilerPass(new EditorCompilerPass());
         $container->addCompilerPass(new ElasticsearchCompilerPass());
     }
 

@@ -12,6 +12,8 @@ class DirectoryController extends BaseController
 
     public function listAction($path)
     {
+        $this->assertWatcher();
+
         $directoryPath = DirectoryPath::parse($path);
 
         $directoryListing = $this->getWikiService()->listDirectory($directoryPath);
@@ -29,6 +31,8 @@ class DirectoryController extends BaseController
 
     public function indexAction($path)
     {
+        $this->assertWatcher();
+
         $directoryPath = DirectoryPath::parse($path);
 
         $indexFilePath = $directoryPath->appendFile('index.md');
@@ -41,7 +45,7 @@ class DirectoryController extends BaseController
 
     public function createSubdirectoryAction(Request $request, $path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
@@ -85,7 +89,7 @@ class DirectoryController extends BaseController
 
     public function createFileAction(Request $request, $path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
@@ -130,7 +134,7 @@ class DirectoryController extends BaseController
 
     public function deleteAction($path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
@@ -148,7 +152,7 @@ class DirectoryController extends BaseController
 
     public function uploadFileAction(Request $request, $path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
         $user = $this->getUser();

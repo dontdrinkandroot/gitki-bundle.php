@@ -55,6 +55,8 @@ class RepositoryController extends BaseController
      */
     public function historyAction()
     {
+        $this->assertWatcher();
+
         $history = $this->getWikiService()->getHistory(20);
 
         return $this->render('DdrGitkiBaseBundle::history.html.twig', ['history' => $history]);

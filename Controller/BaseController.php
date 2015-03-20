@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class BaseController extends Controller
 {
 
+    const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
+
     /**
      * @return GitUserInterface|null
      */
@@ -33,6 +35,21 @@ class BaseController extends Controller
         if (false === $this->get('security.context')->isGranted($role)) {
             throw new AccessDeniedException();
         }
+    }
+
+    protected function assertWatcher()
+    {
+        $this->denyAccessUnlessGranted($this->getWikiService()->getWatcherRole());
+    }
+
+    protected function assertCommitter()
+    {
+        $this->denyAccessUnlessGranted($this->getWikiService()->getCommitterRole());
+    }
+
+    protected function assertAdmin()
+    {
+        $this->denyAccessUnlessGranted($this->getWikiService()->getAdminRole());
     }
 
     /**

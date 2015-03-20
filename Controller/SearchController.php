@@ -11,6 +11,8 @@ class SearchController extends BaseController
 
     public function searchAction(Request $request)
     {
+        $this->assertWatcher();
+
         $form = $this->createFormBuilder(null, array('csrf_protection' => false))
             ->add('searchString', 'text', array('label' => 'Text'))
             ->add('search', 'submit')

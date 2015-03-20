@@ -15,6 +15,8 @@ class FileController extends BaseController
 
     public function serveAction(Request $request, $path)
     {
+        $this->assertWatcher();
+
         $filePath = FilePath::parse($path);
 
         $file = $this->getWikiService()->getFile($filePath);
@@ -35,7 +37,7 @@ class FileController extends BaseController
 
     public function deleteAction($path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
         $user = $this->getUser();
@@ -51,7 +53,7 @@ class FileController extends BaseController
 
     public function holdLockAction($path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
         $user = $this->getUser();
@@ -63,7 +65,7 @@ class FileController extends BaseController
 
     public function historyAction($path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
 
@@ -80,7 +82,7 @@ class FileController extends BaseController
 
     public function renameAction(Request $request, $path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
         $user = $this->getUser();

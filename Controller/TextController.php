@@ -16,6 +16,8 @@ class TextController extends BaseController
 
     public function viewAction($path)
     {
+        $this->assertWatcher();
+
         $filePath = FilePath::parse($path);
         $user = $this->getUser();
 
@@ -57,7 +59,7 @@ class TextController extends BaseController
 
     public function editAction(Request $request, $path)
     {
-        $this->assertRole('ROLE_COMMITTER');
+        $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
         $user = $this->getUser();
@@ -66,7 +68,7 @@ class TextController extends BaseController
             $this->getWikiService()->createLock($user, $filePath);
         } catch (PageLockedException $e) {
             $renderedView = $this->renderView(
-                'DdrGitkiBaseBundle:Wiki:locked.html.twig',
+                'DdrGitkiBaseBundle:File:locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 

@@ -28,8 +28,10 @@ services:
             - @ddr.gitki.repository.git
             - @ddr.gitki.service.lock
             - @event_dispatcher
-
-    # ROUTING
+        calls:
+            - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
+            - [setCommitterRole, ['%ddr_gitki.role.committer%']]
+            - [setAdminRole, ['%ddr_gitki.role.admin%']]
 
     ddr.gitki.router.action_resolver:
         class: Dontdrinkandroot\Gitki\BaseBundle\Routing\ActionResolver

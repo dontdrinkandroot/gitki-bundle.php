@@ -40,6 +40,21 @@ class WikiService
     protected $editableExtensions = [];
 
     /**
+     * @var string
+     */
+    protected $watcherRole = 'IS_AUTHENTICATED_ANONYMOUSLY';
+
+    /**
+     * @var string
+     */
+    protected $committerRole = 'ROLE_USER';
+
+    /**
+     * @var string
+     */
+    protected $adminRole = 'ROLE_USER';
+
+    /**
      * @param GitRepositoryInterface $gitRepository
      * @param LockService            $lockService
      */
@@ -428,4 +443,59 @@ class WikiService
             );
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getWatcherRole()
+    {
+        return $this->watcherRole;
+    }
+
+    /**
+     * @param string $watcherRole
+     *
+     * @return null
+     */
+    public function setWatcherRole($watcherRole)
+    {
+        $this->watcherRole = $watcherRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitterRole()
+    {
+        return $this->committerRole;
+    }
+
+    /**
+     * @param string $committerRole
+     *
+     * @return null
+     */
+    public function setCommitterRole($committerRole)
+    {
+        $this->committerRole = $committerRole;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminRole()
+    {
+        return $this->adminRole;
+    }
+
+    /**
+     * @param string $adminRole
+     *
+     * @return null
+     */
+    public function setAdminRole($adminRole)
+    {
+        $this->adminRole = $adminRole;
+    }
+
 }
