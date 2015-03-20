@@ -1,0 +1,45 @@
+{% extends 'DdrGitkiBaseBundle:Wiki:base.html.twig' %}
+{% block title %} - {{ path }} - Edit{% endblock %}
+{% block body_class %}wiki edit page{% endblock %}
+{% block actions %}
+{% endblock %}
+{% block pageheader %}{% endblock %}
+{% block content %}
+    <div class="margin-top-extra">
+        {{ form(form, { 'attr': {'class' : 'edit' }}) }}
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        function HoldLock(holdLockUrl) {
+
+            var self = this;
+            var timeOut = null;
+
+            var refresh = function () {
+                $.get(holdLockUrl)
+                        .done(function (data) {
+                            timeOut = window.setTimeout(refresh, 10000);
+                        })
+                        .fail(function (data) {
+                            console.error(data);
+                            alert("We are sorry. Holding the page lock failed (saving won't work anymore), copy your data to the clipboard, go back and try to reedit the page.")
+                        });
+            };
+
+            this.cancel = function () {
+                clearTimeout(timeOut);
+            };
+
+            refresh();
+        }
+
+        var holdLock = new HoldLock("{{ path('ddr_gitki_file', {'path': path, 'action': 'holdlock'}) }}");
+    </script>
+    <script type="text/javascript">
+        $("form.edit").submit(function (event) {
+            holdLock.cancel();
+        });
+    </script>
+{% endblock %}

@@ -40,14 +40,16 @@ services:
             - [registerFileAction, ['DdrGitkiBaseBundle:File:holdLock', 'holdlock']]
             - [registerFileAction, ['DdrGitkiBaseBundle:File:history', 'history']]
             - [registerFileAction, ['DdrGitkiBaseBundle:File:rename', 'rename']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:Text:view', '', 'txt']]
+            - [registerFileAction, ['DdrGitkiBaseBundle:Text:edit', 'edit', 'txt']]
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list']]
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list', 'list']]
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:index', 'index']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'addfolder']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'addfolder']] #TODO: deprecated
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'createsubdirectory']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'create']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'create']] #TODO: deprecated
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'createfile']]
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:delete', 'delete']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'upload']]
+            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'upload']] #TODO: deprecated
             - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'uploadfile']]
 
