@@ -3,16 +3,13 @@
 
 namespace Dontdrinkandroot\Gitki\BaseBundle\Routing;
 
-use Dontdrinkandroot\Path\DirectoryPath;
-use Dontdrinkandroot\Path\FilePath;
-
 interface ActionResolverInterface
 {
 
     /**
      * @param string $action
      *
-     * @return RouteDefinition
+     * @return string
      */
     public function resolveDirectoryAction($action);
 
@@ -20,7 +17,7 @@ interface ActionResolverInterface
      * @param string $action
      * @param string $extension
      *
-     * @return RouteDefinition
+     * @return string
      */
     public function resolveFileAction($action, $extension);
 }
