@@ -49,9 +49,9 @@ class GitkiExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('isGitkiWatcher', 'isWatcher'),
-            new \Twig_SimpleFunction('isGitkiCommitter', 'isCommitter'),
-            new \Twig_SimpleFunction('isGitkiAdmin', 'isAdmin')
+            new \Twig_SimpleFunction('isGitkiWatcher', [$this, 'isWatcher']),
+            new \Twig_SimpleFunction('isGitkiCommitter', [$this, 'isCommitter']),
+            new \Twig_SimpleFunction('isGitkiAdmin', [$this, 'isAdmin'])
         ];
     }
 

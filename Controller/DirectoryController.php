@@ -17,14 +17,13 @@ class DirectoryController extends BaseController
         $directoryPath = DirectoryPath::parse($path);
 
         $directoryListing = $this->getWikiService()->listDirectory($directoryPath);
-        $editableExtensions = $this->getWikiService()->getEditableExtensions();
 
         return $this->render(
             'DdrGitkiBaseBundle:Directory:list.html.twig',
             [
                 'path'               => $directoryPath,
                 'directoryListing'   => $directoryListing,
-                'editableExtensions' => $editableExtensions
+                'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
             ]
         );
     }
@@ -99,13 +98,13 @@ class DirectoryController extends BaseController
             ->add(
                 'filename',
                 'text',
-                array(
+                [
                     'label'    => 'Filename',
                     'required' => true,
-                    'attr'     => array(
-                        'input_group' => array('append' => '.' . $extension)
-                    )
-                )
+                    'attr'     => [
+                        'input_group' => ['append' => '.' . $extension]
+                    ]
+                ]
             )
             ->add('create', 'submit')
             ->getForm();

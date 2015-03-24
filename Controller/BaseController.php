@@ -4,6 +4,7 @@
 namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
 
 use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
+use Dontdrinkandroot\Gitki\BaseBundle\Service\ExtensionRegistryInterface;
 use Dontdrinkandroot\Gitki\BaseBundle\Service\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Kernel;
@@ -68,5 +69,13 @@ class BaseController extends Controller
         $kernel = $this->container->get('kernel');
 
         return $kernel->getEnvironment();
+    }
+
+    /**
+     * @return ExtensionRegistryInterface
+     */
+    protected function getExtensionRegistry()
+    {
+        return $this->get('ddr.gitki.registry.extension');
     }
 }

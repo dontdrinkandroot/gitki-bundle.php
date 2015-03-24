@@ -14,6 +14,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class RepositoryController extends BaseController
 {
 
+    const REQUEST_PARAMETER_ACTION = 'action';
+
     /**
      * @param Request $request
      * @param string  $path
@@ -24,11 +26,15 @@ class RepositoryController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $directoryPath = DirectoryPath::parse($path);
-        $routeProvider = $this->getActionResolver();
-        $action = $request->query->get('action', '');
-        $controller = $routeProvider->resolveDirectoryAction($action);
+        $extensionRegistry = $this->getExtensionRegistry();
+        $action = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
+        $controller = $extensionRegistry->resolveDirectoryAction($action);
 
-        return $this->forward($controller,['path' => $path]);
+        return $this->forward(
+            $controller,
+            ['path' => $path],
+            $request->query->all()
+        );
     }
 
     /**
@@ -41,11 +47,15 @@ class RepositoryController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
-        $routeProvider = $this->getActionResolver();
-        $action = $request->query->get('action', '');
-        $controller = $routeProvider->resolveFileAction($action, $filePath->getExtension());
+        $routeProvider = $this->getExtensionRegistry();
+        $extensionRegistry = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
+        $controller = $routeProvider->resolveFileAction($extensionRegistry, $filePath->getExtension());
 
-        return $this->forward($controller, ['path' => $path]);
+        return $this->forward(
+            $controller,
+            ['path' => $path],
+            $request->query->all()
+        );
     }
 
     /**
@@ -73,13 +83,5 @@ class RepositoryController extends BaseController
         if (StringUtils::startsWith($path, '/.git')) {
             throw new AccessDeniedHttpException();
         }
-    }
-
-    /**
-     * @return ActionResolver
-     */
-    protected function getActionResolver()
-    {
-        return $this->get('ddr.gitki.router.action_resolver');
     }
 }
