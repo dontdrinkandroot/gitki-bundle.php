@@ -29,7 +29,7 @@
                     <span class="fa fa-fw fa-print"></span> Print
                 </a>
             </li>
-            {% if is_granted('ROLE_COMMITTER') %}
+            {% if isGitkiCommitter() %}
                 <li role="presentation" class="divider"></li>
                 <li role="presentation">
                     <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}"

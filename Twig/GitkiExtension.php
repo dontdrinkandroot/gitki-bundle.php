@@ -3,9 +3,27 @@
 
 namespace Dontdrinkandroot\Gitki\BaseBundle\Twig;
 
+use Dontdrinkandroot\Gitki\BaseBundle\Service\WikiService;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+
 class GitkiExtension extends \Twig_Extension
 {
 
+    /**
+     * @var WikiService
+     */
+    protected $wikiService;
+
+    /**
+     * @var SecurityContextInterface
+     */
+    private $securityContext;
+
+    public function __construct(SecurityContextInterface $securityContext, WikiService $wikiService)
+    {
+        $this->wikiService = $wikiService;
+        $this->securityContext = $securityContext;
+    }
 
     /**
      * @inheritdoc
@@ -20,9 +38,21 @@ class GitkiExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('dirTitle', array($this, 'titleFilter')),
-        );
+        return [
+            new \Twig_SimpleFilter('dirTitle', [$this, 'titleFilter']),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFunctions()
+    {
+        return [
+            new \Twig_SimpleFunction('isGitkiWatcher', 'isWatcher'),
+            new \Twig_SimpleFunction('isGitkiCommitter', 'isCommitter'),
+            new \Twig_SimpleFunction('isGitkiAdmin', 'isAdmin')
+        ];
     }
 
     public function titleFilter($title)
@@ -35,5 +65,25 @@ class GitkiExtension extends \Twig_Extension
         $transformedTitle .= ucfirst($words[count($words) - 1]);
 
         return $transformedTitle;
+    }
+
+    public function isWatcher()
+    {
+        return $this->hasRole($this->wikiService->getWatcherRole());
+    }
+
+    public function isCommitter()
+    {
+        return $this->hasRole($this->wikiService->getCommitterRole());
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole($this->wikiService->getAdminRole());
+    }
+
+    public function hasRole($role)
+    {
+        return $this->securityContext->isGranted($role);
     }
 }

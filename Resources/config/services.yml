@@ -11,6 +11,9 @@ services:
 
     ddr.gitki.twig.gitki_extension:
         class: Dontdrinkandroot\Gitki\BaseBundle\Twig\GitkiExtension
+        arguments:
+            - @security.context
+            - @ddr.gitki.service.wiki
         tags:
             - { name: twig.extension }
 
