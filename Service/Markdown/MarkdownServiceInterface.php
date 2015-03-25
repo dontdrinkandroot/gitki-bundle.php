@@ -6,7 +6,7 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
 use Dontdrinkandroot\Path\FilePath;
 
-interface MarkdownService
+interface MarkdownServiceInterface
 {
 
     /**

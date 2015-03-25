@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\GitkiBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;

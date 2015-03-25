@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\GitkiBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
@@ -12,6 +12,7 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\LockService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;

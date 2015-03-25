@@ -3,8 +3,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
-use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistryInterface;
-use Dontdrinkandroot\GitkiBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class GitkiExtension extends \Twig_Extension

@@ -30,7 +30,7 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
         );
 
         $serviceDefinition = $container->findDefinition('ddr.gitki.service.elasticsearch');
-        $serviceDefinition->setClass('Dontdrinkandroot\GitkiBundle\Service\ElasticsearchService');
+        $serviceDefinition->setClass('Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService');
 
         $taggedServices = $container->findTaggedServiceIds('ddr.gitki.analyzer');
 

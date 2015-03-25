@@ -3,7 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Service\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends BaseController

@@ -4,8 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistryInterface;
-use Dontdrinkandroot\GitkiBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;

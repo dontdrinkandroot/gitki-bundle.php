@@ -14,7 +14,7 @@ use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
 
-class RepositoryAwareMarkdownService implements MarkdownService
+class RepositoryAwareMarkdownServiceInterface implements MarkdownServiceInterface
 {
 
     /**

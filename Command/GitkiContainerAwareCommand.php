@@ -3,8 +3,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Command;
 
-use Dontdrinkandroot\GitkiBundle\Service\ElasticsearchServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 

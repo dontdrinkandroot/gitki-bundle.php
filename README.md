@@ -62,10 +62,12 @@ git repository which is initialized and readable/writeable by the webserver.
 ddr_gitki:
     repository_path:      ~ # Required
     name:                 GitKi
-    twig:
-        show_breadcrumbs:     true
-        show_toc:             true
-        toc_max_level:        3
+    show_breadcrumbs:     true
+    markdown:
+        allow_html:           false
+        toc:
+            enabled:              true
+            max_level:            3
     elasticsearch:
         index_name:           ~ # Required
         host:                 localhost

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\GitkiBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 

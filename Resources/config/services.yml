@@ -33,7 +33,7 @@ services:
         arguments: [%ddr_gitki.repository_path%]
 
     ddr.gitki.registry.extension:
-        class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry
+        class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry
         calls:
             - [registerFileAction, ['DdrGitkiBundle:File:serve']]
             - [registerFileAction, ['DdrGitkiBundle:File:serve', 'raw']]
@@ -56,7 +56,7 @@ services:
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
 
     ddr.gitki.service.elasticsearch:
-        class: Dontdrinkandroot\GitkiBundle\Service\NoopElasticsearchService
+        class: Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService
         arguments:
             - @ddr.gitki.repository.git
             - @ddr.gitki.repository.elasticsearch
@@ -70,7 +70,7 @@ services:
         arguments: [@ddr.gitki.repository.git]
 
     ddr.gitki.service.wiki:
-        class: Dontdrinkandroot\GitkiBundle\Service\EventDispatchingWikiService
+        class: Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService
         arguments:
             - @ddr.gitki.repository.git
             - @ddr.gitki.service.lock
@@ -81,7 +81,7 @@ services:
             - [setAdminRole, ['%ddr_gitki.role.admin%']]
 
     ddr.gitki.service.markdown:
-        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService
+        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownServiceInterface
         arguments:
             - @ddr.gitki.repository.git
             - '%ddr_gitki_markdown.allow_html%'
