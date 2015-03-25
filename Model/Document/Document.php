@@ -1,26 +1,45 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Analyzer;
+namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
+use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 
-class AnalyzedFile
+class Document
 {
 
     /**
-     * @var string
+     * @var FilePath
      */
-    protected $title;
+    private $path;
 
     /**
      * @var string
      */
-    protected $content;
+    private $title;
+
+    /**
+     * @var string
+     */
+    private $content;
 
     /**
      * @var Path[]
      */
-    protected $linkedPaths = [];
+    private $linkedPaths;
+
+    public function __construct(FilePath $path)
+    {
+        $this->path = $path;
+    }
+
+    /**
+     * @return FilePath
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 
     /**
      * @return string
@@ -32,8 +51,6 @@ class AnalyzedFile
 
     /**
      * @param string $title
-     *
-     * @return null
      */
     public function setTitle($title)
     {
@@ -59,28 +76,18 @@ class AnalyzedFile
     }
 
     /**
+     * @param Path[] $pageLinks
+     */
+    public function setLinkedPaths($pageLinks)
+    {
+        $this->linkedPaths = $pageLinks;
+    }
+
+    /**
      * @return Path[]
      */
     public function getLinkedPaths()
     {
         return $this->linkedPaths;
-    }
-
-    /**
-     * @param Path[] $linkedPaths
-     *
-     * @return null
-     */
-    public function setLinkedPaths($linkedPaths)
-    {
-        $this->linkedPaths = $linkedPaths;
-    }
-
-    /**
-     * @param Path $linkedPath
-     */
-    public function addLinkedPath(Path $linkedPath)
-    {
-        $this->linkedPaths[] = $linkedPath;
     }
 }

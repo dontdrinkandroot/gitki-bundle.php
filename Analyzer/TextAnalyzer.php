@@ -3,6 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 
+use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
 class TextAnalyzer implements AnalyzerInterface
@@ -21,8 +22,9 @@ class TextAnalyzer implements AnalyzerInterface
      */
     public function analyze(FilePath $path, $content)
     {
-        $analyzedFile = new AnalyzedFile();
+        $analyzedFile = new AnalyzedDocument($path);
         $analyzedFile->setContent($content);
+        $analyzedFile->setAnalyzedContent($content);
         $analyzedFile->setTitle($path->getName());
 
         return $analyzedFile;

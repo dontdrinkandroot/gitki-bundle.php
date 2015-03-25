@@ -7,10 +7,10 @@ use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
+use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\LockService;
 use Dontdrinkandroot\Path\DirectoryPath;
@@ -113,7 +113,7 @@ class WikiService
      * @param string           $content
      * @param string           $commitMessage
      *
-     * @return ParsedMarkdownDocument
+     * @return \Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument
      *
      * @throws \Exception
      */

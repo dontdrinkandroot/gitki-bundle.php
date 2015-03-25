@@ -7,14 +7,14 @@ use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\EscapingHtmlBlockRenderer;
 use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\EscapingHtmlInlineRenderer;
 use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\RepositoryAwareLinkRenderer;
 use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\TocBuildingHeaderRenderer;
-use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
+use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
 use Dontdrinkandroot\Path\FilePath;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
 
-class RepositoryAwareMarkdownServiceInterface implements MarkdownServiceInterface
+class RepositoryAwareMarkdownService implements MarkdownServiceInterface
 {
 
     /**
@@ -70,8 +70,8 @@ class RepositoryAwareMarkdownServiceInterface implements MarkdownServiceInterfac
         $title = $headerRenderer->getTitle();
         $toc = $headerRenderer->getToc();
 
-        $result = new ParsedMarkdownDocument();
-        $result->setSource($content);
+        $result = new ParsedMarkdownDocument($path);
+        $result->setContent($content);
         $result->setLinkedPaths($linkedPaths);
         $result->setTitle($title);
         $result->setToc($toc);

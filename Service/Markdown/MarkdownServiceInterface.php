@@ -3,7 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 
-use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
+use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\Path\FilePath;
 
 interface MarkdownServiceInterface

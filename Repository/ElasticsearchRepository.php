@@ -4,7 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
-use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
+use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
+use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
 
@@ -94,8 +95,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
         $searchResults = [];
         foreach ($result['hits']['hits'] as $hit) {
-            $searchResult = new SearchResult();
-            $searchResult->setPath(FilePath::parse($hit['_id']));
+            $searchResult = new SearchResultDocument(FilePath::parse($hit['_id']));
             $searchResult->setScore($hit['_score']);
             if (isset($hit['fields'])) {
                 if (isset($hit['fields']['title'][0])) {
@@ -111,7 +111,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $path, AnalyzedFile $analyzedFile)
+    public function indexFile(FilePath $path, AnalyzedDocument $document)
     {
 
         $params = [
@@ -119,9 +119,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             'index' => $this->index,
             'type' => $path->getExtension(),
             'body' => [
-                'title'        => $analyzedFile->getTitle(),
-                'content'      => $analyzedFile->getContent(),
-                'linked_paths' => $analyzedFile->getLinkedPaths()
+                'title'        => $document->getTitle(),
+                'content'      => $document->getAnalyzedContent(),
+                'linked_paths' => $document->getLinkedPaths()
             ]
         ];
 

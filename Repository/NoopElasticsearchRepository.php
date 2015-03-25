@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
+use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
@@ -19,7 +20,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $path, AnalyzedFile $analyzedFile)
+    public function indexFile(FilePath $path, AnalyzedDocument $document)
     {
         /* NOOP */
     }

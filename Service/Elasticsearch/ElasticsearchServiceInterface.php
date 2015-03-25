@@ -3,7 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
-use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
+use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 
 interface ElasticsearchServiceInterface
@@ -12,7 +12,7 @@ interface ElasticsearchServiceInterface
     /**
      * @param string $searchString
      *
-     * @return SearchResult[]
+     * @return SearchResultDocument[]
      */
     public function search($searchString);
 
