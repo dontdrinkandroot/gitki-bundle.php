@@ -40,7 +40,7 @@ class FileController extends BaseController
         $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         $commitMessage = 'Removing ' . $filePath->toAbsoluteString();
         $this->getWikiService()->deleteFile($user, $filePath, $commitMessage);
@@ -56,7 +56,7 @@ class FileController extends BaseController
         $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         $expiry = $this->getWikiService()->holdLock($user, $filePath);
 
@@ -85,7 +85,7 @@ class FileController extends BaseController
         $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         try {
             $this->getWikiService()->createLock($user, $filePath);

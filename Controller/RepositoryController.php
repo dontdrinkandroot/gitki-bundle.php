@@ -3,8 +3,6 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Routing\ActionResolver;
-use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +23,6 @@ class RepositoryController extends BaseController
     public function directoryAction(Request $request, $path)
     {
         $this->checkPreconditions($request, $path);
-        $directoryPath = DirectoryPath::parse($path);
         $extensionRegistry = $this->getExtensionRegistry();
         $action = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
         $controller = $extensionRegistry->resolveDirectoryAction($action);

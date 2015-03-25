@@ -154,7 +154,7 @@ class DirectoryController extends BaseController
         $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         $form = $this->createFormBuilder()
             ->add('uploadedFile', 'file', array('label' => 'File'))
@@ -169,7 +169,7 @@ class DirectoryController extends BaseController
                 /* @var UploadedFile $uploadedFile */
                 $uploadedFile = $form->get('uploadedFile')->getData();
                 $uploadedFileName = $form->get('uploadedFileName')->getData();
-                if (null == $uploadedFileName || trim($uploadedFileName) == '') {
+                if (null === $uploadedFileName || trim($uploadedFileName) === '') {
                     $uploadedFileName = $uploadedFile->getClientOriginalName();
                 }
                 $filePath = $directoryPath->appendFile($uploadedFileName);

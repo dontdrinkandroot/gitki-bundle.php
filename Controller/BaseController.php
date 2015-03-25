@@ -17,10 +17,21 @@ class BaseController extends Controller
 
     /**
      * @return GitUserInterface|null
+     *
+     * @throws \Exception Thrown if the current user is not a GitUser.
      */
-    public function getUser()
+    public function getGitUser()
     {
-        return parent::getUser();
+        $user = parent::getUser();
+        if (null === $user) {
+            return null;
+        }
+
+        if (!($user instanceof GitUserInterface)) {
+            throw new \Exception('Unexpected User Class');
+        }
+
+        return $user;
     }
 
     /**

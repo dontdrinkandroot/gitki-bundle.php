@@ -19,7 +19,7 @@ class TextController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         $file = null;
         try {
@@ -62,7 +62,7 @@ class TextController extends BaseController
         $this->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
+        $user = $this->getGitUser();
 
         try {
             $this->getWikiService()->createLock($user, $filePath);

@@ -6,16 +6,13 @@ namespace Dontdrinkandroot\GitkiBundle\Service;
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
-use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
 use Dontdrinkandroot\Path\FilePath;
 
 class NoopElasticsearchService implements ElasticsearchServiceInterface
 {
 
     /**
-     * @param string $searchString
-     *
-     * @return SearchResult[]
+     * {@inheritdoc}
      */
     public function search($searchString)
     {
@@ -23,7 +20,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     }
 
     /**
-     * @param FilePath $filePath
+     * {@inheritdoc}
      */
     public function indexFile(FilePath $filePath)
     {
@@ -31,9 +28,17 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     }
 
     /**
-     * @param FilePath $filePath
+     * {@inheritdoc}
      */
     public function deleteFile(FilePath $filePath)
+    {
+        /* Noop */
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearIndex()
     {
         /* Noop */
     }
@@ -41,18 +46,15 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     public function onFileChanged(FileChangedEvent $event)
     {
         /* Noop */
-        echo "hello world";
     }
 
     public function onFileDeleted(FileDeletedEvent $event)
     {
         /* Noop */
-        echo "hello world";
     }
 
     public function onFileMoved(FileMovedEvent $event)
     {
         /* Noop */
-        echo "hello world";
     }
 }

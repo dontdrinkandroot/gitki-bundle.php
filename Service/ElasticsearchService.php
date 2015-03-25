@@ -36,7 +36,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function search($searchString)
     {
@@ -44,7 +44,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function indexFile(FilePath $filePath)
     {
@@ -60,11 +60,19 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteFile(FilePath $filePath)
     {
         $this->repository->deleteFile($filePath);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearIndex()
+    {
+        $this->repository->clear();
     }
 
     public function onFileChanged(FileChangedEvent $event)

@@ -25,4 +25,9 @@ interface ElasticsearchServiceInterface
      * @param FilePath $filePath
      */
     public function deleteFile(FilePath $filePath);
+
+    /**
+     * Removes all document from the index.
+     */
+    public function clearIndex();
 }

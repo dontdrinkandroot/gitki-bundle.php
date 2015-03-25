@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SearchCommand extends ElasticsearchCommand
+class SearchCommand extends GitkiContainerAwareCommand
 {
 
     protected function configure()
@@ -20,8 +20,8 @@ class SearchCommand extends ElasticsearchCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $searchString = $input->getArgument('searchstring');
-        $elasticSearchRepo = $this->getElasticsearchRepository();
-        $results = $elasticSearchRepo->search($searchString);
+        $elasticsearchService = $this->getElasticsearchService();
+        $results = $elasticsearchService->search($searchString);
         if (count($results) == 0) {
             $output->writeln('No results found');
         } else {

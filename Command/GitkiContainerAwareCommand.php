@@ -3,6 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Command;
 
+use Dontdrinkandroot\GitkiBundle\Service\ElasticsearchServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\WikiService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -24,5 +25,13 @@ abstract class GitkiContainerAwareCommand extends ContainerAwareCommand
     protected function getQuestionHelper()
     {
         return $this->getHelper('question');
+    }
+
+    /**
+     * @return ElasticsearchServiceInterface
+     */
+    protected function getElasticsearchService()
+    {
+        return $this->getContainer()->get('ddr.gitki.service.elasticsearch');
     }
 }

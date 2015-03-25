@@ -1,5 +1,6 @@
 {
     "name": "dontdrinkandroot/gitki-bundle",
+    "description": "Symfony Bundle that allows you to easily integrate a git based wiki into you project.",
     "type": "symfony-bundle",
     "license": "Apache-2.0",
     "authors": [
