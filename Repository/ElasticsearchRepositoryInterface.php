@@ -2,29 +2,12 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
 use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
 use Dontdrinkandroot\Path\FilePath;
 
 interface ElasticsearchRepositoryInterface
 {
-
-    /**
-     * @param FileChangedEvent $event
-     */
-    public function onFileChanged(FileChangedEvent $event);
-
-    /**
-     * @param FileDeletedEvent $event
-     */
-    public function onFileDeleted(FileDeletedEvent $event);
-
-    /**
-     * @param FileMovedEvent $event
-     */
-    public function onFileMoved(FileMovedEvent $event);
 
     /**
      * @param $searchString
@@ -34,9 +17,10 @@ interface ElasticsearchRepositoryInterface
     public function search($searchString);
 
     /**
-     * @param FilePath $path
+     * @param FilePath     $path
+     * @param AnalyzedFile $analyzedFile
      */
-    public function addFile(FilePath $path);
+    public function indexFile(FilePath $path, AnalyzedFile $analyzedFile);
 
     /**
      * @param FilePath $path

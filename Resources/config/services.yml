@@ -2,12 +2,13 @@ parameters:
 
 services:
 
+    ddr.gitki.analyzer.text:
+        class: Dontdrinkandroot\GitkiBundle\Analyzer\TextAnalyzer
+        tags:
+            -  { name: ddr.gitki.analyzer }
+
     ddr.gitki.repository.elasticsearch:
         class:  Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository
-        tags:
-            - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
-            - { name: kernel.event_listener, event: ddr.gitki.file.deleted, method: onFileDeleted }
-            - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
     ddr.gitki.twig.gitki_extension:
         class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
@@ -42,6 +43,16 @@ services:
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:delete', 'delete']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'upload']] #TODO: deprecated
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'uploadfile']]
+
+    ddr.gitki.service.elasticsearch:
+        class: Dontdrinkandroot\GitkiBundle\Service\NoopElasticsearchService
+        arguments:
+            - @ddr.gitki.repository.git
+            - @ddr.gitki.repository.elasticsearch
+        tags:
+            - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
+            - { name: kernel.event_listener, event: ddr.gitki.file.deleted, method: onFileDeleted }
+            - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
     ddr.gitki.service.lock:
         class: Dontdrinkandroot\GitkiBundle\Service\LockService

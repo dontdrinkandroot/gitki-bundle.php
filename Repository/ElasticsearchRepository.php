@@ -3,31 +3,13 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzerInterface;
-use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
 use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
 use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
 
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-
-    /**
-     * @var AnalyzerInterface[];
-     */
-    protected $analyzers = [];
-
-    /**
-     * @var string
-     */
-    private $host;
-
-    /**
-     * @var int
-     */
-    private $port;
 
     /**
      * @var Client
@@ -79,11 +61,11 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $result = $this->client->search($params);
 
         foreach ($result['hits']['hits'] as $hit) {
-            $params = array(
+            $params = [
                 'id'   => $hit['_id'],
                 'index' => $this->index,
                 'type' => $hit['_type']
-            );
+            ];
 
             $this->client->delete($params);
         }
@@ -129,47 +111,17 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileChanged(FileChangedEvent $event)
+    public function indexFile(FilePath $path, AnalyzedFile $analyzedFile)
     {
-        $this->addFile($event->getFile());
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function onFileDeleted(FileDeletedEvent $event)
-    {
-        $this->deleteFile($event->getFile());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onFileMoved(FileMovedEvent $event)
-    {
-        $this->deleteFile($event->getPreviousFile());
-        $this->addFile($event->getFile());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addFile(FilePath $path)
-    {
-        if (!isset($this->analyzers[$path->getExtension()])) {
-            return null;
-        }
-
-        $analyzer = $this->analyzers[$path->getExtension()];
-        $result = $analyzer->analyze($path);
         $params = [
             'id'   => $path->toAbsoluteString(),
             'index' => $this->index,
             'type' => $path->getExtension(),
             'body' => [
-                'title'        => $result->getTitle(),
-                'content'      => $result->getContent(),
-                'linked_paths' => $result->getLinkedPaths()
+                'title'        => $analyzedFile->getTitle(),
+                'content'      => $analyzedFile->getContent(),
+                'linked_paths' => $analyzedFile->getLinkedPaths()
             ]
         ];
 
@@ -197,26 +149,16 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function getTitle(FilePath $path)
     {
-        $params = array(
+        $params = [
             'index'           => $this->index,
             'id'              => $path->toAbsoluteString(),
-            '_source_include' => array('title')
-        );
+            '_source_include' => ['title']
+        ];
         $result = $this->client->get($params);
         if (null === $result) {
             return null;
         }
 
         return $result['_source']['title'];
-    }
-
-    /**
-     * @param AnalyzerInterface $analyzer
-     */
-    public function registerAnalyzer(AnalyzerInterface $analyzer)
-    {
-        foreach ($analyzer->getSupportedExtensions() as $extension) {
-            $this->analyzers[$extension] = $analyzer;
-        }
     }
 }

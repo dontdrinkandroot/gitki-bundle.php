@@ -29,10 +29,13 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
             ]
         );
 
+        $serviceDefinition = $container->findDefinition('ddr.gitki.service.elasticsearch');
+        $serviceDefinition->setClass('Dontdrinkandroot\GitkiBundle\Service\ElasticsearchService');
+
         $taggedServices = $container->findTaggedServiceIds('ddr.gitki.analyzer');
 
         foreach ($taggedServices as $id => $tags) {
-            $repositoryDefinition->addMethodCall(
+            $serviceDefinition->addMethodCall(
                 'registerAnalyzer',
                 [new Reference($id)]
             );

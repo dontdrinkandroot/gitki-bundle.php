@@ -32,7 +32,7 @@ class TextController extends BaseController
             $content = $this->getWikiService()->getContent($filePath);
 
             $renderedView = $this->renderView(
-                'DdrGitkiBaseBundle:Text:view.html.twig',
+                'DdrGitkiBundle:Text:view.html.twig',
                 [
                     'path'    => $filePath,
                     'content' => $content
@@ -68,7 +68,7 @@ class TextController extends BaseController
             $this->getWikiService()->createLock($user, $filePath);
         } catch (PageLockedException $e) {
             $renderedView = $this->renderView(
-                'DdrGitkiBaseBundle:File:locked.html.twig',
+                'DdrGitkiBundle:File:locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 
@@ -141,7 +141,7 @@ class TextController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Text:edit.html.twig',
+            'DdrGitkiBundle:Text:edit.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

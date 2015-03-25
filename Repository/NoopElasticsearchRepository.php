@@ -2,37 +2,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
 use Dontdrinkandroot\Path\FilePath;
 
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onFileChanged(FileChangedEvent $event)
-    {
-        /* NOOP */
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onFileDeleted(FileDeletedEvent $event)
-    {
-        /* NOOP */
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onFileMoved(FileMovedEvent $event)
-    {
-        /* NOOP */
-    }
 
     /**
      * {@inheritdoc}
@@ -45,7 +19,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function addFile(FilePath $path)
+    public function indexFile(FilePath $path, AnalyzedFile $analyzedFile)
     {
         /* NOOP */
     }

@@ -14,8 +14,9 @@ interface AnalyzerInterface
 
     /**
      * @param FilePath $path
+     * @param string   $content
      *
      * @return AnalyzedFile
      */
-    public function analyze(FilePath $path);
+    public function analyze(FilePath $path, $content);
 }
