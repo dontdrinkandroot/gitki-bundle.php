@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Tests;
+namespace Dontdrinkandroot\GitkiBundle\Tests;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 
 class TestUser implements GitUserInterface
 {

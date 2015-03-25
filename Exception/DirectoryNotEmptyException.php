@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Exception;
+namespace Dontdrinkandroot\GitkiBundle\Exception;
 
 use Dontdrinkandroot\Path\DirectoryPath;
 

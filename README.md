@@ -27,7 +27,7 @@ Installation
 Install via composer:
 
 ```
-composer require dontdrinkandroot/gitki-base-bundle
+composer require dontdrinkandroot/gitki-bundle
 ```
 
 Enable the bundle by adding the following line in the ```app/AppKernel.php``` file of your project:
@@ -40,7 +40,7 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             // ...
-            new Dontdrinkandroot\Gitki\BaseBundle\DdrGitkiBaseBundle(),
+            new Dontdrinkandroot\GitkiBundle\DdrGitkiBundle(),
         );
 
         // ...
@@ -49,7 +49,7 @@ class AppKernel extends Kernel
 ```
 
 To use this bundle in your project the User class handed to the bundle  *must* implement the
-```Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface```. Fortunately this is compatible with the FOSUserBundle.
+```Dontdrinkandroot\GitkiBundle\Model\GitUserInterface```. Fortunately this is compatible with the FOSUserBundle.
 
 Configuration
 -------------
@@ -80,6 +80,6 @@ Add the routing to the ```app/config/routing.yml```:
 
 ```
 ddr_gitki_base:
-resource: "@DdrGitkiBaseBundle/Resources/config/routing.yml"
+resource: "@DdrGitkiBundle/Resources/config/routing.yml"
 prefix: /wiki
 ```

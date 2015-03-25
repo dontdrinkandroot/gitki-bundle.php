@@ -1,8 +1,8 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Event;
+namespace Dontdrinkandroot\GitkiBundle\Event;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class FileMovedEvent extends AbstractFileEvent

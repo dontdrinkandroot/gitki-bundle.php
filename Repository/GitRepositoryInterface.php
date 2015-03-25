@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\CommitMetadata;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;

@@ -1,17 +1,17 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Exception\DirectoryNotEmptyException;
-use Dontdrinkandroot\Gitki\BaseBundle\Exception\FileExistsException;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\CommitMetadata;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\DirectoryListing;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\Directory;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\PageFile;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\ParsedMarkdownDocument;
-use Dontdrinkandroot\Gitki\BaseBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
+use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
+use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Model\ParsedMarkdownDocument;
+use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
@@ -259,7 +259,7 @@ class WikiService
         $pages = array();
         /* @var Directory[] $subDirectories */
         $subDirectories = array();
-        /* @var \Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\File[] $otherFiles */
+        /* @var \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File[] $otherFiles */
         $otherFiles = array();
 
         $finder = new Finder();
@@ -271,7 +271,7 @@ class WikiService
                 $pages[] = $this->createPageFile($repositoryPath, $relativeDirectoryPath, $file);
             } else {
                 if ($file->getExtension() != 'lock') {
-                    $otherFile = new \Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\File(
+                    $otherFile = new \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File(
                         $repositoryPath->toAbsoluteString(DIRECTORY_SEPARATOR),
                         $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
                         $file->getRelativePathName()
@@ -310,8 +310,8 @@ class WikiService
         usort(
             $otherFiles,
             function (
-                \Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\File $a,
-                \Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\File $b
+                \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File $a,
+                \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File $b
             ) {
                 return strcmp($a->getFilename(), $b->getFilename());
             }

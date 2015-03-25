@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Twig;
+namespace Dontdrinkandroot\GitkiBundle\Twig;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\WikiService;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class GitkiExtension extends \Twig_Extension

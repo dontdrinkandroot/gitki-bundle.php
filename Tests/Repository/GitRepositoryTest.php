@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Tests\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Repository;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\CommitMetadata;
-use Dontdrinkandroot\Gitki\BaseBundle\Repository\GitRepository;
-use Dontdrinkandroot\Gitki\BaseBundle\Tests\GitRepositoryTestCase;
-use Dontdrinkandroot\Gitki\BaseBundle\Tests\TestUser;
+use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
+use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
+use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
+use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
 
 class GitRepositoryTest extends GitRepositoryTestCase

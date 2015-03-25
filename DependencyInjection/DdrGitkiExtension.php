@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection;
+namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,14 +10,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return "ddr_gitki";
-    }
 
     /**
      * {@inheritdoc}
@@ -49,31 +41,11 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->doLoad($config, $container);
-    }
-
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     *
-     * @return Configuration
-     */
-    public function getConfiguration(array $config, ContainerBuilder $container)
-    {
-        return new Configuration();
-    }
-
-    /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
-    protected function doLoad(array $config, ContainerBuilder $container)
-    {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('ddr_gitki_base.repository_path', $config['repository_path']);
-        $container->setParameter('ddr_gitki_base.name', $config['name']);
+        $container->setParameter('ddr_gitki.repository_path', $config['repository_path']);
+        $container->setParameter('ddr_gitki.name', $config['name']);
 
         if (isset($config['elasticsearch'])) {
             $container->setParameter('ddr_gitki.elasticsearch.enabled', true);

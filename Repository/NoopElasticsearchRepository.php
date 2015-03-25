@@ -1,10 +1,10 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\Path\FilePath;
 
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface

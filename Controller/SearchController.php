@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
+namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Repository\ElasticsearchRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends BaseController

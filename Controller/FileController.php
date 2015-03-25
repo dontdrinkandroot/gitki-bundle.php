@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
+namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Exception\PageLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;

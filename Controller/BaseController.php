@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
+namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Service\ExtensionRegistryInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;

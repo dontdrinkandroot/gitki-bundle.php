@@ -1,11 +1,11 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Exception\PageLockedException;
-use Dontdrinkandroot\Gitki\BaseBundle\Exception\PageLockExpiredException;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\PageLockExpiredException;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class LockService

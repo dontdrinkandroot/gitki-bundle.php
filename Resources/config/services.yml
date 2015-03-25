@@ -3,14 +3,14 @@ parameters:
 services:
 
     ddr.gitki.repository.elasticsearch:
-        class:  Dontdrinkandroot\Gitki\BaseBundle\Repository\NoopElasticsearchRepository
+        class:  Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository
         tags:
             - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
             - { name: kernel.event_listener, event: ddr.gitki.file.deleted, method: onFileDeleted }
             - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
     ddr.gitki.twig.gitki_extension:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Twig\GitkiExtension
+        class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
         arguments:
             - @security.context
             - @ddr.gitki.service.wiki
@@ -18,36 +18,36 @@ services:
             - { name: twig.extension }
 
     ddr.gitki.repository.git:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Repository\GitRepository
-        arguments: [%ddr_gitki_base.repository_path%]
+        class: Dontdrinkandroot\GitkiBundle\Repository\GitRepository
+        arguments: [%ddr_gitki.repository_path%]
 
     ddr.gitki.registry.extension:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Service\ExtensionRegistry
+        class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry
         calls:
-            - [registerExtension, ['txt', 'Text', 'DdrGitkiBaseBundle:Text:view','DdrGitkiBaseBundle:Text:edit']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:serve']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:serve', 'raw']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:delete', 'delete']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:holdLock', 'holdlock']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:history', 'history']]
-            - [registerFileAction, ['DdrGitkiBaseBundle:File:rename', 'rename']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:list', 'list']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:index', 'index']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'addfolder']] #TODO: deprecated
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createSubdirectory', 'createsubdirectory']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'create']] #TODO: deprecated
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:createFile', 'createfile']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:delete', 'delete']]
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'upload']] #TODO: deprecated
-            - [registerDirectoryAction, ['DdrGitkiBaseBundle:Directory:uploadFile', 'uploadfile']]
+            - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
+            - [registerFileAction, ['DdrGitkiBundle:File:serve']]
+            - [registerFileAction, ['DdrGitkiBundle:File:serve', 'raw']]
+            - [registerFileAction, ['DdrGitkiBundle:File:delete', 'delete']]
+            - [registerFileAction, ['DdrGitkiBundle:File:holdLock', 'holdlock']]
+            - [registerFileAction, ['DdrGitkiBundle:File:history', 'history']]
+            - [registerFileAction, ['DdrGitkiBundle:File:rename', 'rename']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list', 'list']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index', 'index']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createSubdirectory', 'addfolder']] #TODO: deprecated
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createSubdirectory', 'createsubdirectory']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createFile', 'create']] #TODO: deprecated
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createFile', 'createfile']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:delete', 'delete']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'upload']] #TODO: deprecated
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'uploadfile']]
 
     ddr.gitki.service.lock:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Service\LockService
+        class: Dontdrinkandroot\GitkiBundle\Service\LockService
         arguments: [@ddr.gitki.repository.git]
 
     ddr.gitki.service.wiki:
-        class: Dontdrinkandroot\Gitki\BaseBundle\Service\EventDispatchingWikiService
+        class: Dontdrinkandroot\GitkiBundle\Service\EventDispatchingWikiService
         arguments:
             - @ddr.gitki.repository.git
             - @ddr.gitki.service.lock

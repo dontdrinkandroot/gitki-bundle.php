@@ -1,5 +1,5 @@
 {
-    "name": "dontdrinkandroot/gitki-base-bundle",
+    "name": "dontdrinkandroot/gitki-bundle",
     "type": "symfony-bundle",
     "license": "Apache-2.0",
     "authors": [
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dontdrinkandroot\\Gitki\\BaseBundle\\": ""
+            "Dontdrinkandroot\\GitkiBundle\\": ""
         }
     },
     "extra": {

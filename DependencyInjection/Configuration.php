@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection;
+namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

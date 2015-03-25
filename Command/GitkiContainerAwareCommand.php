@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Command;
+namespace Dontdrinkandroot\GitkiBundle\Command;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Service\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\WikiService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 

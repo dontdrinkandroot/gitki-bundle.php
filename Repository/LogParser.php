@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 class LogParser
 {

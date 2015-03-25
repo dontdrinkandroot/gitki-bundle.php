@@ -1,12 +1,12 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileMovedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\GitUserInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Model;
+namespace Dontdrinkandroot\GitkiBundle\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Analyzer;
+namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 
 use Dontdrinkandroot\Path\FilePath;
 

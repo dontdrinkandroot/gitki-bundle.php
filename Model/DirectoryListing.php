@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Model;
+namespace Dontdrinkandroot\GitkiBundle\Model;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\Directory;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\File;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo\PageFile;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\Path\DirectoryPath;
 
 class DirectoryListing

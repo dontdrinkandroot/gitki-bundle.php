@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Model;
+namespace Dontdrinkandroot\GitkiBundle\Model;
 
 use Dontdrinkandroot\Path\FilePath;
 

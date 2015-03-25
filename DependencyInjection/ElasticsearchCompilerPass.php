@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\DependencyInjection;
+namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,7 +20,7 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
         }
 
         $repositoryDefinition = $container->findDefinition('ddr.gitki.repository.elasticsearch');
-        $repositoryDefinition->setClass('Dontdrinkandroot\Gitki\BaseBundle\Repository\ElasticsearchRepository');
+        $repositoryDefinition->setClass('Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepository');
         $repositoryDefinition->setArguments(
             [
                 $container->getParameter('ddr_gitki.elasticsearch.host'),

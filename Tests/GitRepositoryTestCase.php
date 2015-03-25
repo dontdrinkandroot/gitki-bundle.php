@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Tests;
+namespace Dontdrinkandroot\GitkiBundle\Tests;
 
 use GitWrapper\GitWrapper;
 use Symfony\Component\Filesystem\Filesystem;

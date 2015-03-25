@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Analyzer\AnalyzerInterface;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileDeletedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Event\FileMovedEvent;
-use Dontdrinkandroot\Gitki\BaseBundle\Model\SearchResult;
+use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzerInterface;
+use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Model\SearchResult;
 use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
 

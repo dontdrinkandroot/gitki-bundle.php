@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Model\FileInfo;
+namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 class PageFile extends File
 {

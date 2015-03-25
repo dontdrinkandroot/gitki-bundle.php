@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service;
 
 interface ExtensionRegistryInterface
 {

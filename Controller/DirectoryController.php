@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
+namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

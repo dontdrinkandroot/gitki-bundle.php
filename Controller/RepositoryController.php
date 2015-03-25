@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Dontdrinkandroot\Gitki\BaseBundle\Controller;
+namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\Gitki\BaseBundle\Routing\ActionResolver;
+use Dontdrinkandroot\GitkiBundle\Routing\ActionResolver;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
