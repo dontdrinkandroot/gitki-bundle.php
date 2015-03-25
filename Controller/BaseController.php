@@ -20,7 +20,7 @@ class BaseController extends Controller
      *
      * @throws \Exception Thrown if the current user is not a GitUser.
      */
-    public function getGitUser()
+    protected function getGitUser()
     {
         $user = parent::getUser();
         if (null === $user) {

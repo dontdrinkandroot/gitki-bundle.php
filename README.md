@@ -15,8 +15,8 @@ This project is currently in alpha state. It is working but changes happen frequ
 ### Features
 
 * Git based
+* Fully integrated markdown support (commonmark)
 * Optional elasticsearch integration
-* Full [markdown support](https://github.com/dontdrinkandroot/gitki-markdown-bundle.php) (commonmark) available
 * Minimal configuration
 * Easy to extend
 * Easy to integrate

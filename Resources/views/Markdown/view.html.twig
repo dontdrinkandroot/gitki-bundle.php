@@ -1,0 +1,30 @@
+{% extends 'DdrGitkiBundle:File:view.html.twig' %}
+{% block title %} - {{ document.title }}{% endblock %}
+{% block body_class %}wiki page show{% endblock %}
+{% block content %}
+    <div class="markdown-page">
+        {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
+            <div class="row">
+                <div class="col-md-4 col-md-push-8">
+                    {{ include('DdrGitkiBundle:Markdown:toc.partial.html.twig') }}
+                </div>
+                <div class="markdown-html col-md-8 col-md-pull-4">
+                    {{ document.html|raw }}
+                </div>
+            </div>
+        {% else %}
+            <div class="markdown-html">
+                {{ document.html|raw }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    {{ parent() }}
+{% endblock %}

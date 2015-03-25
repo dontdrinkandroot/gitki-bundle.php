@@ -2,8 +2,17 @@ parameters:
 
 services:
 
+    # ANALYZERS
+
     ddr.gitki.analyzer.text:
         class: Dontdrinkandroot\GitkiBundle\Analyzer\TextAnalyzer
+        tags:
+            -  { name: ddr.gitki.analyzer }
+
+    ddr.gitki.analyzer.markdown:
+        class: Dontdrinkandroot\Gitki\MarkdownBundle\Analyzer\MarkdownAnalyzer
+        arguments:
+            - '@ddr.gitki.service.markdown'
         tags:
             -  { name: ddr.gitki.analyzer }
 
@@ -26,13 +35,13 @@ services:
     ddr.gitki.registry.extension:
         class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry
         calls:
-            - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
             - [registerFileAction, ['DdrGitkiBundle:File:serve']]
             - [registerFileAction, ['DdrGitkiBundle:File:serve', 'raw']]
             - [registerFileAction, ['DdrGitkiBundle:File:delete', 'delete']]
             - [registerFileAction, ['DdrGitkiBundle:File:holdLock', 'holdlock']]
             - [registerFileAction, ['DdrGitkiBundle:File:history', 'history']]
             - [registerFileAction, ['DdrGitkiBundle:File:rename', 'rename']]
+            - [registerFileAction, ['DdrGitkiBundle::Markdown:preview','preview','md']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list', 'list']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index', 'index']]
@@ -43,6 +52,8 @@ services:
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:delete', 'delete']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'upload']] #TODO: deprecated
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'uploadfile']]
+            - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
+            - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
 
     ddr.gitki.service.elasticsearch:
         class: Dontdrinkandroot\GitkiBundle\Service\NoopElasticsearchService
@@ -68,3 +79,9 @@ services:
             - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
             - [setCommitterRole, ['%ddr_gitki.role.committer%']]
             - [setAdminRole, ['%ddr_gitki.role.admin%']]
+
+    ddr.gitki.service.markdown:
+        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService
+        arguments:
+            - @ddr.gitki.repository.git
+            - '%ddr_gitki_markdown.allow_html%'
