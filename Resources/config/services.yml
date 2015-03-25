@@ -14,6 +14,7 @@ services:
         arguments:
             - @security.context
             - @ddr.gitki.service.wiki
+            - @ddr.gitki.registry.extension
         tags:
             - { name: twig.extension }
 

@@ -19,7 +19,7 @@ class DirectoryController extends BaseController
         $directoryListing = $this->getWikiService()->listDirectory($directoryPath);
 
         return $this->render(
-            'DdrGitkiBaseBundle:Directory:list.html.twig',
+            'DdrGitkiBundle:Directory:list.html.twig',
             [
                 'path'               => $directoryPath,
                 'directoryListing'   => $directoryListing,
@@ -81,7 +81,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Directory:create.subdirectory.html.twig',
+            'DdrGitkiBundle:Directory:create.subdirectory.html.twig',
             ['form' => $form->createView(), 'path' => $path]
         );
     }
@@ -126,7 +126,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Directory:create.file.html.twig',
+            'DdrGitkiBundle:Directory:create.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
@@ -190,7 +190,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBaseBundle:Directory:upload.file.html.twig',
+            'DdrGitkiBundle:Directory:upload.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }

@@ -3,6 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\WikiService;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -19,10 +20,19 @@ class GitkiExtension extends \Twig_Extension
      */
     private $securityContext;
 
-    public function __construct(SecurityContextInterface $securityContext, WikiService $wikiService)
-    {
+    /**
+     * @var ExtensionRegistryInterface
+     */
+    private $extensionRegistry;
+
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        WikiService $wikiService,
+        ExtensionRegistryInterface $extensionRegistry
+    ) {
         $this->wikiService = $wikiService;
         $this->securityContext = $securityContext;
+        $this->extensionRegistry = $extensionRegistry;
     }
 
     /**
@@ -51,7 +61,8 @@ class GitkiExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('isGitkiWatcher', [$this, 'isWatcher']),
             new \Twig_SimpleFunction('isGitkiCommitter', [$this, 'isCommitter']),
-            new \Twig_SimpleFunction('isGitkiAdmin', [$this, 'isAdmin'])
+            new \Twig_SimpleFunction('isGitkiAdmin', [$this, 'isAdmin']),
+            new \Twig_SimpleFunction('isEditable', [$this, 'isEditable'])
         ];
     }
 
@@ -85,5 +96,10 @@ class GitkiExtension extends \Twig_Extension
     public function hasRole($role)
     {
         return $this->securityContext->isGranted($role);
+    }
+
+    public function isEditable($extension)
+    {
+        return $this->extensionRegistry->isEditable($extension);
     }
 }

@@ -31,13 +31,15 @@
             </li>
             {% if isGitkiCommitter() %}
                 <li role="presentation" class="divider"></li>
-                <li role="presentation">
-                    <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}"
-                       role="menuitem" tabindex="-1"
-                       title="Edit">
-                        <span class="fa fa-fw fa-pencil"></span> Edit
-                    </a>
-                </li>
+                {% if isEditable(path.extension) %}
+                    <li role="presentation">
+                        <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}"
+                           role="menuitem" tabindex="-1"
+                           title="Edit">
+                            <span class="fa fa-fw fa-pencil"></span> Edit
+                        </a>
+                    </li>
+                {% endif %}
                 <li role="presentation">
                     <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'rename'}) }}"
                        role="menuitem" tabindex="-1"
