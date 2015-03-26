@@ -49,6 +49,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ddr_gitki_markdown.allow_html', $config['markdown']['allow_html']);
 
         if (isset($config['elasticsearch'])) {
+            $this->assertElasticSearchAvailable();
             $container->setParameter('ddr_gitki.elasticsearch.enabled', true);
             $container->setParameter('ddr_gitki.elasticsearch.host', $config['elasticsearch']['host']);
             $container->setParameter('ddr_gitki.elasticsearch.port', $config['elasticsearch']['port']);
@@ -60,5 +61,12 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ddr_gitki.role.watcher', $config['roles']['watcher']);
         $container->setParameter('ddr_gitki.role.committer', $config['roles']['committer']);
         $container->setParameter('ddr_gitki.role.admin', $config['roles']['admin']);
+    }
+
+    private function assertElasticSearchAvailable()
+    {
+        if (!class_exists('Elasticsearch\Client')) {
+            throw new \Exception('You configured elasticsearch but the client is not available');
+        }
     }
 }

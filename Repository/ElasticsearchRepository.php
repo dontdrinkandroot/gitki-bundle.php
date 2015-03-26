@@ -3,7 +3,6 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
