@@ -1,6 +1,7 @@
 {
     "name": "dontdrinkandroot/gitki-bundle",
-    "description": "Symfony Bundle that allows you to easily integrate a git based wiki into you project.",
+    "description": "Symfony Bundle that allows you to easily integrate a git based wiki into you project",
+    "keywords": ["git", "wiki", "markdown", "symfony", "bundle"],
     "type": "symfony-bundle",
     "license": "Apache-2.0",
     "authors": [
@@ -15,12 +16,14 @@
         "symfony/symfony": "~2.6",
         "dontdrinkandroot/utils": "0.2.*",
         "cpliakas/git-wrapper": "~1.0",
-        "elasticsearch/elasticsearch": "~1.0",
         "league/commonmark": "0.7.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.1",
         "twbs/bootstrap": "~3.2"
+    },
+    "suggest": {
+        "elasticsearch/elasticsearch": "Include this if you want the wiki to be searchable"
     },
     "autoload": {
         "psr-4": {

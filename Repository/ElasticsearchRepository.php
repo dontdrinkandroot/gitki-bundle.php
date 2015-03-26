@@ -43,11 +43,12 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function clear()
     {
-        /* TODO: Delete without id is not supported by current elasticsearch PHP API
-        $params = array(
+        /* Delete without id is not supported by current elasticsearch PHP API, iterating over results instead */
+
+        /*$params = [
             'index' => $this->index,
             'type' => self::MARKDOWN_DOCUMENT_TYPE,
-        );
+        ];
 
         return $this->client->delete($params);*/
 
