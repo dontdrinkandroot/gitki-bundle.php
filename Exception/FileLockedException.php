@@ -3,7 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Exception;
 
-class PageLockedException extends \Exception
+class FileLockedException extends \Exception
 {
 
     /**

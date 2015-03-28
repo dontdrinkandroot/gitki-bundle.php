@@ -3,8 +3,7 @@
 {% block body_class %}wiki edit page{% endblock %}
 {% block actions %}
 {% endblock %}
-{% block pageheader %}{% endblock %}
-{% block content %}
+{% block main_content %}
     <div class="markdown-page">
         <div class="row editor">
             <div class="col-md-6">
@@ -22,7 +21,7 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock main_content %}
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript">

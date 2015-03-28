@@ -1,13 +1,13 @@
 {% extends 'DdrGitkiBundle::scaffold.html.twig' %}
 {% block body %}
-    <header>
-        {% block navbar %}
-            {{ include('DdrGitkiBundle::navbar.partial.html.twig') }}
-        {% endblock navbar %}
-    </header>
-    {% block abovecontainer %}
-    {% endblock abovecontainer %}
-    <div id="content" class="container">
-        {% block container %}{% endblock container %}
-    </div>
+    {% block navbar %}
+        {{ include('DdrGitkiBundle:Navbar:navbar.partial.html.twig') }}
+    {% endblock navbar %}
+    {% block header %}
+    {% endblock header %}
+    {% block main %}
+        <div id="main" class="container">
+            {% block main_content %}{% endblock main_content %}
+        </div>
+    {% endblock main %}
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block heading %}
-    <span class="fa fa-lock"></span> Locked
-{% endblock %}
-{% block content %}
+{% block main_content %}
+    <div class="page-header">
+        <h1><span class="fa fa-lock"></span> Locked</h1>
+    </div>
     <div class="alert alert-warning">The page you are trying to edit is locked by user "{{ lockedBy }}". Please try
         again
         later.
     </div>
-{% endblock %}
+{% endblock main_content %}

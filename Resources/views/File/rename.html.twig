@@ -1,8 +1,8 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
 {% block title %} - {{ path }} - Rename{% endblock %}
-{% block heading %}
-    Rename File
-{% endblock %}
-{% block content %}
+{% block main_content %}
+    <div class="page-header">
+        <h1>Rename File</h1>
+    </div>
     {{ form(form) }}
-{% endblock %}
+{% endblock main_content %}

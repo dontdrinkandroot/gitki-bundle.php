@@ -46,7 +46,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
 
         $htmlElement = parent::render($inline, $htmlRenderer);
 
-        if ($externalUrl = $this->isExternalUrl($inline->getUrl())) {
+        if ($this->isExternalUrl($inline->getUrl())) {
             $htmlElement->setAttribute('rel', 'external');
         } else {
             if (!$this->targetUrlExists($inline->getUrl())) {

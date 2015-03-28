@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
 use Symfony\Component\Form\SubmitButton;
@@ -66,18 +66,18 @@ class TextController extends BaseController
 
         try {
             $this->getWikiService()->createLock($user, $filePath);
-        } catch (PageLockedException $e) {
+        } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 
-            return new Response($renderedView, 409);
+            return new Response($renderedView, Response::HTTP_LOCKED);
         }
 
         $form = $this->createFormBuilder()
             ->add('content', 'textarea')
-            ->add('commitMessage', 'text', array('label' => 'Commit Message', 'required' => true))
+            ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
             ->add(
                 'actions',
                 'form_actions',

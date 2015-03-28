@@ -35,10 +35,11 @@
         </div>
     {% endif %}
 {% endblock %}
-{% block heading %}
-    {% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}
-{% endblock %}
-{% block content %}
+{% block main_content %}
+
+    <div class="page-header">
+        <h1>{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
+    </div>
 
     {% if directoryListing.pages is not empty %}
         <h2>Pages</h2>
@@ -158,4 +159,4 @@
         </ul>
     {% endif %}
 
-{% endblock %}
+{% endblock main_content %}

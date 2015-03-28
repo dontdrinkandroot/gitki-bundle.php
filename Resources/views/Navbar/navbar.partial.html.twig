@@ -15,17 +15,17 @@
             {% block navbar_left %}
                 <ul class="nav navbar-nav">
                     {% block navbar_left_content %}
-                        <li><a href="{{ path('ddr_gitki_history') }}">History</a></li>
+                        {{ include('DdrGitkiBundle:Navbar:left.partial.html.twig') }}
                     {% endblock %}
                 </ul>
             {% endblock %}
             {% block navbar_form %}
-                {{ include('DdrGitkiBundle::navbar.form.partial.html.twig') }}
+                {{ include('DdrGitkiBundle:Navbar:form.partial.html.twig') }}
             {% endblock %}
             {% block navbar_right %}
                 <ul class="nav navbar-nav navbar-right">
                     {% block navbar_right_content %}
-                        {{ include('DdrGitkiBundle::navbar.right.partial.html.twig') }}
+                        {{ include('DdrGitkiBundle:Navbar:right.partial.html.twig') }}
                     {% endblock %}
                 </ul>
             {% endblock %}

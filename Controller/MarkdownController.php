@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
 use Symfony\Component\Form\SubmitButton;
@@ -79,13 +79,13 @@ class MarkdownController extends BaseController
 
         try {
             $this->getWikiService()->createLock($user, $filePath);
-        } catch (PageLockedException $e) {
+        } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 
-            return new Response($renderedView, 409);
+            return new Response($renderedView, Response::HTTP_LOCKED);
         }
 
         $form = $this->createFormBuilder()
@@ -145,7 +145,8 @@ class MarkdownController extends BaseController
                 $title = $request->query->get('title');
                 if (!empty($title)) {
                     $content = $title . "\n";
-                    for ($i = 0; $i < strlen($title); $i++) {
+                    $titleLength = strlen($title);
+                    for ($i = 0; $i < $titleLength; $i++) {
                         $content .= '=';
                     }
                     $content .= "\n\n";

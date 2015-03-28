@@ -3,7 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +89,7 @@ class FileController extends BaseController
 
         try {
             $this->getWikiService()->createLock($user, $filePath);
-        } catch (PageLockedException $e) {
+        } catch (FileLockedException $e) {
             throw new ConflictHttpException($e->getMessage());
         }
 

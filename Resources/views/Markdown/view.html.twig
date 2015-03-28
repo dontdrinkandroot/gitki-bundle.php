@@ -1,7 +1,7 @@
 {% extends 'DdrGitkiBundle:File:view.html.twig' %}
 {% block title %} - {{ document.title }}{% endblock %}
 {% block body_class %}wiki page show{% endblock %}
-{% block content %}
+{% block main_content %}
     <div class="markdown-page">
         {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
             <div class="row">
@@ -18,7 +18,7 @@
             </div>
         {% endif %}
     </div>
-{% endblock %}
+{% endblock main_content %}
 {% block javascript %}
     {{ parent() }}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>

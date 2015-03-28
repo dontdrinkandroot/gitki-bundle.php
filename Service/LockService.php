@@ -2,8 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service;
 
-use Dontdrinkandroot\GitkiBundle\Exception\PageLockedException;
-use Dontdrinkandroot\GitkiBundle\Exception\PageLockExpiredException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\FilePath;
@@ -29,7 +29,7 @@ class LockService
      * @param GitUserInterface $user
      * @param FilePath      $relativeFilePath
      *
-     * @throws PageLockedException
+     * @throws FileLockedException
      */
     public function createLock(GitUserInterface $user, FilePath $relativeFilePath)
     {
@@ -79,7 +79,7 @@ class LockService
      * @param FilePath      $relativeFilePath
      *
      * @return bool
-     * @throws PageLockExpiredException
+     * @throws FileLockExpiredException
      */
     public function assertUserHasLock(GitUserInterface $user, FilePath $relativeFilePath)
     {
@@ -91,7 +91,7 @@ class LockService
             }
         }
 
-        throw new PageLockExpiredException();
+        throw new FileLockExpiredException();
     }
 
     /**
@@ -99,7 +99,7 @@ class LockService
      * @param FilePath      $relativeFilePath
      *
      * @return int
-     * @throws PageLockExpiredException
+     * @throws FileLockExpiredException
      */
     public function holdLockForUser(GitUserInterface $user, FilePath $relativeFilePath)
     {
@@ -174,7 +174,7 @@ class LockService
      * @param FilePath      $relativeLockPath
      *
      * @return bool
-     * @throws PageLockedException
+     * @throws FileLockedException
      */
     protected function assertUnlocked(GitUserInterface $user, FilePath $relativeLockPath)
     {
@@ -191,6 +191,6 @@ class LockService
             return true;
         }
 
-        throw new PageLockedException($lockLogin, $this->getLockExpiry($relativeLockPath));
+        throw new FileLockedException($lockLogin, $this->getLockExpiry($relativeLockPath));
     }
 }

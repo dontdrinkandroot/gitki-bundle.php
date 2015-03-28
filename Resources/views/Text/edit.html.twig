@@ -3,12 +3,11 @@
 {% block body_class %}wiki edit page{% endblock %}
 {% block actions %}
 {% endblock %}
-{% block pageheader %}{% endblock %}
-{% block content %}
-    <div class="margin-top-extra">
+{% block main_content %}
+    <div>
         {{ form(form, { 'attr': {'class' : 'edit' }}) }}
     </div>
-{% endblock %}
+{% endblock main_content %}
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript">
