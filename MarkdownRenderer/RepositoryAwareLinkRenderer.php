@@ -75,6 +75,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
                 return true;
             }
         } catch (\Exception $e) {
+            /* If parsing url fails, ignore silently and assume it is not external */
         }
 
         return false;
@@ -101,6 +102,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
 
             return $fileExists;
         } catch (\Exception $e) {
+            /* If parsing url fails, ignore silently and assume the target exists */
         }
 
         return true;

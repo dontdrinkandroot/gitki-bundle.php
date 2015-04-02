@@ -33,7 +33,7 @@ class GitRepositoryTest extends GitRepositoryTestCase
         /** @var CommitMetadata $firstEntry */
         $firstEntry = $history[0];
         $this->assertEquals('Added test.txt', $firstEntry->getMessage());
-        $this->assertEquals('test@example.com', $firstEntry->getEMail());
+        $this->assertEquals('test@example.com', $firstEntry->getEmail());
         $this->assertEquals('Tester', $firstEntry->getCommitter());
     }
 }

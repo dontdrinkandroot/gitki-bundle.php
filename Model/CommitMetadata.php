@@ -19,7 +19,7 @@ class CommitMetadata
     /**
      * @var string
      */
-    private $eMail;
+    private $email;
 
     /**
      * @var int
@@ -35,7 +35,7 @@ class CommitMetadata
     {
         $this->hash = $hash;
         $this->committer = $committer;
-        $this->eMail = $eMail;
+        $this->email = $eMail;
         $this->timeStamp = $timeStamp;
         $this->message = $message;
     }
@@ -57,19 +57,19 @@ class CommitMetadata
     }
 
     /**
-     * @param string $eMail
+     * @param string $email
      */
-    public function setEMail($eMail)
+    public function setEmail($email)
     {
-        $this->eMail = $eMail;
+        $this->email = $email;
     }
 
     /**
      * @return string
      */
-    public function getEMail()
+    public function getEmail()
     {
-        return $this->eMail;
+        return $this->email;
     }
 
     /**

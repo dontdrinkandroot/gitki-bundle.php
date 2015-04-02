@@ -7,6 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
@@ -28,8 +29,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function __construct($host, $port, $index)
     {
-        $this->host = $host;
-        $this->port = $port;
         $this->index = strtolower($index);
 
         $params = [];
@@ -138,14 +137,18 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function findTitle(FilePath $path)
     {
-        $params = [
-            'id'              => $path->toAbsoluteString(),
-            'index' => $this->index,
-            'type'  => $path->getExtension(),
-            '_source_include' => ['title']
-        ];
-        $result = $this->client->get($params);
-        if (null === $result) {
+        try {
+            $params = [
+                'id'              => $path->toAbsoluteString(),
+                'index'           => $this->index,
+                'type'            => $path->getExtension(),
+                '_source_include' => ['title']
+            ];
+            $result = $this->client->get($params);
+            if (null === $result) {
+                return null;
+            }
+        } catch (Missing404Exception $e) {
             return null;
         }
 
