@@ -66,6 +66,13 @@ services:
         class: Dontdrinkandroot\GitkiBundle\Service\LockService
         arguments: [@ddr.gitki.repository.git]
 
+    ddr.gitki.service.directory:
+        class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
+        arguments:
+            - @ddr.gitki.repository.git
+        calls:
+            - [setIndexFiles, ['%ddr_gitki.index_files%']]
+
     ddr.gitki.service.wiki:
         class: Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService
         arguments:

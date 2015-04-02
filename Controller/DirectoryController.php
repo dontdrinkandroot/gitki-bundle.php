@@ -34,8 +34,8 @@ class DirectoryController extends BaseController
 
         $directoryPath = DirectoryPath::parse($path);
 
-        $indexFilePath = $directoryPath->appendFile('index.md');
-        if ($this->getWikiService()->exists($indexFilePath)) {
+        $indexFilePath = $this->getDirectoryService()->resolveIndexFile($directoryPath);
+        if (null !== $indexFilePath) {
             return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
         }
 

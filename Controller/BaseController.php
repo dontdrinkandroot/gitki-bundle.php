@@ -4,6 +4,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,6 +41,14 @@ class BaseController extends Controller
     protected function getWikiService()
     {
         return $this->get('ddr.gitki.service.wiki');
+    }
+
+    /**
+     * @return DirectoryServiceInterface
+     */
+    protected function getDirectoryService()
+    {
+        return $this->get('ddr.gitki.service.directory');
     }
 
     protected function assertRole($role)

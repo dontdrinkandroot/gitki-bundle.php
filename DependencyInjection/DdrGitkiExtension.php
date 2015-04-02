@@ -47,6 +47,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ddr_gitki.repository_path', $config['repository_path']);
         $container->setParameter('ddr_gitki.name', $config['name']);
         $container->setParameter('ddr_gitki_markdown.allow_html', $config['markdown']['allow_html']);
+        $container->setParameter('ddr_gitki.index_files', $config['index_files']);
 
         if (isset($config['elasticsearch'])) {
             $this->assertElasticSearchAvailable();
