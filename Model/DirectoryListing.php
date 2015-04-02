@@ -17,11 +17,6 @@ class DirectoryListing
     private $path;
 
     /**
-     * @var PageFile[]
-     */
-    private $pages;
-
-    /**
      * @var Directory[]
      */
     private $subdirectories;
@@ -29,28 +24,18 @@ class DirectoryListing
     /**
      * @var File[]
      */
-    private $otherFiles;
+    private $files;
 
     /**
      * @param DirectoryPath $path
-     * @param PageFile[] $pages
      * @param Directory[] $subdirectories
-     * @param File[] $otherFiles
+     * @param File[]      $files
      */
-    public function __construct($path, $pages, $subdirectories, $otherFiles)
+    public function __construct($path, $subdirectories, $files)
     {
         $this->path = $path;
-        $this->pages = $pages;
         $this->subdirectories = $subdirectories;
-        $this->otherFiles = $otherFiles;
-    }
-
-    /**
-     * @return PageFile[]
-     */
-    public function getPages()
-    {
-        return $this->pages;
+        $this->files = $files;
     }
 
     /**
@@ -72,8 +57,8 @@ class DirectoryListing
     /**
      * @return File[]
      */
-    public function getOtherFiles()
+    public function getFiles()
     {
-        return $this->otherFiles;
+        return $this->files;
     }
 }

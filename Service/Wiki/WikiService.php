@@ -6,8 +6,6 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
-use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
-use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
@@ -96,8 +94,6 @@ class WikiService
      * @param FilePath         $relativeFilePath
      * @param string           $content
      * @param string           $commitMessage
-     *
-     * @return \Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument
      *
      * @throws \Exception
      */
@@ -231,81 +227,6 @@ class WikiService
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @return DirectoryListing
-     */
-    public function listDirectory(DirectoryPath $relativeDirectoryPath)
-    {
-        $repositoryPath = $this->gitRepository->getRepositoryPath();
-        $absoluteDirectoryPath = $this->gitRepository->getAbsolutePath($relativeDirectoryPath);
-
-        /* @var PageFile[] $pages */
-        $pages = array();
-        /* @var Directory[] $subDirectories */
-        $subDirectories = array();
-        /* @var \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File[] $otherFiles */
-        $otherFiles = array();
-
-        $finder = new Finder();
-        $finder->in($absoluteDirectoryPath->toAbsoluteString(DIRECTORY_SEPARATOR));
-        $finder->depth(0);
-        foreach ($finder->files() as $file) {
-            /* @var \Symfony\Component\Finder\SplFileInfo $file */
-            if ($file->getExtension() == "md") {
-                $pages[] = $this->createPageFile($repositoryPath, $relativeDirectoryPath, $file);
-            } else {
-                if ($file->getExtension() != 'lock') {
-                    $otherFile = new \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File(
-                        $repositoryPath->toAbsoluteString(DIRECTORY_SEPARATOR),
-                        $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
-                        $file->getRelativePathName()
-                    );
-                    $otherFiles[] = $otherFile;
-                }
-            }
-        }
-
-        $finder = new Finder();
-        $finder->in($absoluteDirectoryPath->toAbsoluteString(DIRECTORY_SEPARATOR));
-        $finder->depth(0);
-        $finder->ignoreDotFiles(true);
-        foreach ($finder->directories() as $directory) {
-            /* @var \Symfony\Component\Finder\SplFileInfo $directory */
-            $subDirectory = new Directory(
-                $repositoryPath->toAbsoluteString(DIRECTORY_SEPARATOR),
-                $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
-                $directory->getRelativePathName() . DIRECTORY_SEPARATOR
-            );
-            $subDirectories[] = $subDirectory;
-        }
-
-        usort(
-            $pages,
-            function (PageFile $a, PageFile $b) {
-                return strcmp($a->getTitle(), $b->getTitle());
-            }
-        );
-        usort(
-            $subDirectories,
-            function (Directory $a, Directory $b) {
-                return strcmp($a->getFilename(), $b->getFilename());
-            }
-        );
-        usort(
-            $otherFiles,
-            function (
-                \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File $a,
-                \Dontdrinkandroot\GitkiBundle\Model\FileInfo\File $b
-            ) {
-                return strcmp($a->getFilename(), $b->getFilename());
-            }
-        );
-
-        return new DirectoryListing($relativeDirectoryPath, $pages, $subDirectories, $otherFiles);
-    }
-
-    /**
      * @param FilePath $path
      *
      * @return File
@@ -371,25 +292,6 @@ class WikiService
     public function createFolder(DirectoryPath $path)
     {
         $this->gitRepository->createFolder($path);
-    }
-
-    /**
-     * @param DirectoryPath $repositoryPath
-     * @param DirectoryPath $directoryPath
-     * @param SplFileInfo   $file
-     *
-     * @return PageFile
-     */
-    protected function createPageFile(DirectoryPath $repositoryPath, DirectoryPath $directoryPath, SplFileInfo $file)
-    {
-        $pageFile = new PageFile(
-            $repositoryPath->toAbsoluteString(DIRECTORY_SEPARATOR),
-            $directoryPath->toRelativeString(DIRECTORY_SEPARATOR),
-            $file->getRelativePathName()
-        );
-        $pageFile->setTitle($pageFile->getRelativePath()->getFileName());
-
-        return $pageFile;
     }
 
     protected function assertCommitMessageExists($commitMessage)

@@ -77,6 +77,7 @@ services:
         class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
         arguments:
             - @ddr.gitki.repository.git
+            - @ddr.gitki.repository.elasticsearch
         calls:
             - [setIndexFiles, ['%ddr_gitki.index_files%']]
 

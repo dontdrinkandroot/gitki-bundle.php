@@ -16,7 +16,7 @@ class DirectoryController extends BaseController
 
         $directoryPath = DirectoryPath::parse($path);
 
-        $directoryListing = $this->getWikiService()->listDirectory($directoryPath);
+        $directoryListing = $this->getDirectoryService()->listDirectory($directoryPath);
 
         return $this->render(
             'DdrGitkiBundle:Directory:list.html.twig',

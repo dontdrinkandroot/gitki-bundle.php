@@ -18,6 +18,11 @@ class File extends PathAwareFileInfo
      */
     protected $absolutePath;
 
+    /**
+     * @var string
+     */
+    protected $title;
+
     public function __construct($basePath, $currentDirectoryPath, $relativeFilePath)
     {
         parent::__construct($basePath . $currentDirectoryPath . $relativeFilePath);
@@ -39,5 +44,21 @@ class File extends PathAwareFileInfo
     public function getAbsolutePath()
     {
         return $this->absolutePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 }

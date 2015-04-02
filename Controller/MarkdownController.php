@@ -19,7 +19,6 @@ class MarkdownController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
 
         $file = null;
         try {
@@ -45,7 +44,7 @@ class MarkdownController extends BaseController
             return $response;
         } catch (FileNotFoundException $e) {
 
-            if (null === $user) {
+            if (null === $this->getUser()) {
                 throw new NotFoundHttpException('This page does not exist');
             }
 

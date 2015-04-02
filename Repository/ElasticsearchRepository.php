@@ -42,18 +42,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function clear()
     {
-        /* Delete without id is not supported by current elasticsearch PHP API, iterating over results instead */
-
-        /*$params = [
-            'index' => $this->index,
-            'type' => self::MARKDOWN_DOCUMENT_TYPE,
-        ];
-
-        return $this->client->delete($params);*/
-
         $params = [
-            'index' => $this->index,
-            'fields' => array('_id')
+            'index'  => $this->index,
+            'fields' => ['_id']
         ];
 
         $params['body']['query']['match_all'] = [];
@@ -143,15 +134,14 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     }
 
     /**
-     * @param FilePath $path
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getTitle(FilePath $path)
+    public function findTitle(FilePath $path)
     {
         $params = [
-            'index'           => $this->index,
             'id'              => $path->toAbsoluteString(),
+            'index' => $this->index,
+            'type'  => $path->getExtension(),
             '_source_include' => ['title']
         ];
         $result = $this->client->get($params);

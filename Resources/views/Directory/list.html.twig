@@ -41,52 +41,6 @@
         <h1>{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
     </div>
 
-    {% if directoryListing.pages is not empty %}
-        <h2>Pages</h2>
-        <ul class="list-unstyled">
-            {% for page in directoryListing.pages %}
-                <li>
-                    <div class="dropdown item-actions">
-                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
-                              data-toggle="dropdown">
-                           <span class="fa fa-fw fa-file-o"></span>
-                        </span>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            {% if isGitkiCommitter() %}
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" title="Edit"
-                                       href="{{ path('ddr_gitki_file', {'path': page.absolutePath, 'action': 'edit'}) }}">
-                                        <span class="fa fa-fw fa-pencil"></span> Edit
-                                    </a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_file', {'path': page.absolutePath, 'action': 'rename'}) }}"
-                                       title="Rename">
-                                        <span class="fa fa-fw fa-arrows-h"></span> Move
-                                    </a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_file', {'path': page.absolutePath, 'action': 'delete'}) }}"
-                                       title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
-                                    </a>
-                                </li>
-                            {% endif %}
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1"
-                                   href="{{ path('ddr_gitki_file', {'path': page.absolutePath, 'action': 'history'}) }}"
-                                   title="History"><span class="fa fa-fw fa-history"></span> History
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <a href="{{ path('ddr_gitki_file', {'path': page.absolutePath}) }}">{{ page.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
     {% if directoryListing.subDirectories is not empty %}
         <h2>Directories</h2>
         <ul class="list-unstyled">
@@ -120,10 +74,10 @@
         </ul>
     {% endif %}
 
-    {% if directoryListing.otherFiles is not empty %}
+    {% if directoryListing.files is not empty %}
         <h2>Files</h2>
         <ul class="list-unstyled">
-            {% for file in directoryListing.otherFiles %}
+            {% for file in directoryListing.files %}
                 <li>
                     <div class="dropdown item-actions">
                         <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
@@ -153,7 +107,13 @@
                             </li>
                         </ul>
                     </div>
-                    <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">{{ file.filename }}</a>
+                    <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
+                        {% if file.title is not empty %}
+                            {{ file.title }} <span class="text-muted">{{ file.filename }}</span>
+                        {% else %}
+                            {{ file.filename }}
+                        {% endif %}
+                    </a>
                 </li>
             {% endfor %}
         </ul>

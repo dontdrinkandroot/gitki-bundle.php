@@ -40,4 +40,12 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     {
         /* NOOP */
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findTitle(FilePath $path)
+    {
+        return null;
+    }
 }

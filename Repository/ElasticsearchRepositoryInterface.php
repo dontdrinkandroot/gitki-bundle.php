@@ -28,6 +28,13 @@ interface ElasticsearchRepositoryInterface
     public function deleteFile(FilePath $path);
 
     /**
+     * @param FilePath $path
+     *
+     * @return string
+     */
+    public function findTitle(FilePath $path);
+
+    /**
      * Clears the whole index.
      */
     public function clear();
