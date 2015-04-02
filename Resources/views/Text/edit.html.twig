@@ -10,30 +10,8 @@
 {% endblock main_content %}
 {% block javascript %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/ddrgitki/js/holdlock.js') }}"></script>
     <script type="text/javascript">
-        function HoldLock(holdLockUrl) {
-
-            var self = this;
-            var timeOut = null;
-
-            var refresh = function () {
-                $.get(holdLockUrl)
-                        .done(function (data) {
-                            timeOut = window.setTimeout(refresh, 10000);
-                        })
-                        .fail(function (data) {
-                            console.error(data);
-                            alert("We are sorry. Holding the page lock failed (saving won't work anymore), copy your data to the clipboard, go back and try to reedit the page.")
-                        });
-            };
-
-            this.cancel = function () {
-                clearTimeout(timeOut);
-            };
-
-            refresh();
-        }
-
         var holdLock = new HoldLock("{{ path('ddr_gitki_file', {'path': path, 'action': 'holdlock'}) }}");
     </script>
     <script type="text/javascript">

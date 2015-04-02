@@ -6,6 +6,7 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Kernel;
@@ -17,15 +18,15 @@ class BaseController extends Controller
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     /**
-     * @return GitUserInterface|null
+     * @return GitUserInterface
      *
      * @throws \Exception Thrown if the current user is not a GitUser.
      */
     protected function getGitUser()
     {
-        $user = parent::getUser();
+        $user = $this->getUser();
         if (null === $user) {
-            return null;
+            throw new \Exception('No user was found');
         }
 
         if (!($user instanceof GitUserInterface)) {
@@ -51,6 +52,14 @@ class BaseController extends Controller
         return $this->get('ddr.gitki.service.directory');
     }
 
+    /**
+     * @return RoleServiceInterface
+     */
+    protected function getRoleServie()
+    {
+        return $this->get('ddr.gitki.service.role');
+    }
+
     protected function assertRole($role)
     {
         if (false === $this->get('security.context')->isGranted($role)) {
@@ -60,17 +69,17 @@ class BaseController extends Controller
 
     protected function assertWatcher()
     {
-        $this->denyAccessUnlessGranted($this->getWikiService()->getWatcherRole());
+        $this->denyAccessUnlessGranted($this->getRoleServie()->getWatcherRole());
     }
 
     protected function assertCommitter()
     {
-        $this->denyAccessUnlessGranted($this->getWikiService()->getCommitterRole());
+        $this->denyAccessUnlessGranted($this->getRoleServie()->getCommitterRole());
     }
 
     protected function assertAdmin()
     {
-        $this->denyAccessUnlessGranted($this->getWikiService()->getAdminRole());
+        $this->denyAccessUnlessGranted($this->getRoleServie()->getAdminRole());
     }
 
     /**

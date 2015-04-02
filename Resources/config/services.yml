@@ -23,7 +23,7 @@ services:
         class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
         arguments:
             - @security.context
-            - @ddr.gitki.service.wiki
+            - @ddr.gitki.service.role
             - @ddr.gitki.registry.extension
         tags:
             - { name: twig.extension }
@@ -41,7 +41,7 @@ services:
             - [registerFileAction, ['DdrGitkiBundle:File:holdLock', 'holdlock']]
             - [registerFileAction, ['DdrGitkiBundle:File:history', 'history']]
             - [registerFileAction, ['DdrGitkiBundle:File:rename', 'rename']]
-            - [registerFileAction, ['DdrGitkiBundle::Markdown:preview','preview','md']]
+            - [registerFileAction, ['DdrGitkiBundle:Markdown:preview','preview','md']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list', 'list']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index', 'index']]
@@ -66,6 +66,13 @@ services:
         class: Dontdrinkandroot\GitkiBundle\Service\LockService
         arguments: [@ddr.gitki.repository.git]
 
+    ddr.gitki.service.role:
+        class: Dontdrinkandroot\GitkiBundle\Service\Role\RoleService
+        calls:
+            - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
+            - [setCommitterRole, ['%ddr_gitki.role.committer%']]
+            - [setAdminRole, ['%ddr_gitki.role.admin%']]
+
     ddr.gitki.service.directory:
         class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
         arguments:
@@ -79,10 +86,6 @@ services:
             - @ddr.gitki.repository.git
             - @ddr.gitki.service.lock
             - @event_dispatcher
-        calls:
-            - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
-            - [setCommitterRole, ['%ddr_gitki.role.committer%']]
-            - [setAdminRole, ['%ddr_gitki.role.admin%']]
 
     ddr.gitki.service.markdown:
         class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService

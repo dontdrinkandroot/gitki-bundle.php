@@ -4,16 +4,13 @@
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class GitkiExtension extends \Twig_Extension
 {
 
-    /**
-     * @var WikiService
-     */
-    protected $wikiService;
+
 
     /**
      * @var SecurityContextInterface
@@ -25,14 +22,19 @@ class GitkiExtension extends \Twig_Extension
      */
     private $extensionRegistry;
 
+    /**
+     * @var RoleServiceInterface
+     */
+    private $roleService;
+
     public function __construct(
         SecurityContextInterface $securityContext,
-        WikiService $wikiService,
+        RoleServiceInterface $roleService,
         ExtensionRegistryInterface $extensionRegistry
     ) {
-        $this->wikiService = $wikiService;
         $this->securityContext = $securityContext;
         $this->extensionRegistry = $extensionRegistry;
+        $this->roleService = $roleService;
     }
 
     /**
@@ -80,17 +82,17 @@ class GitkiExtension extends \Twig_Extension
 
     public function isWatcher()
     {
-        return $this->hasRole($this->wikiService->getWatcherRole());
+        return $this->hasRole($this->roleService->getWatcherRole());
     }
 
     public function isCommitter()
     {
-        return $this->hasRole($this->wikiService->getCommitterRole());
+        return $this->hasRole($this->roleService->getCommitterRole());
     }
 
     public function isAdmin()
     {
-        return $this->hasRole($this->wikiService->getAdminRole());
+        return $this->hasRole($this->roleService->getAdminRole());
     }
 
     public function hasRole($role)
