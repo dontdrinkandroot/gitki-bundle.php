@@ -49,7 +49,12 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $params['body']['query']['match_all'] = [];
         $params['body']['size'] = 10000;
 
-        $result = $this->client->search($params);
+        try {
+            $result = $this->client->search($params);
+        } catch (Missing404Exception $e) {
+            /* If index is missing nothing to be done */
+            return;
+        }
 
         foreach ($result['hits']['hits'] as $hit) {
             $params = [
