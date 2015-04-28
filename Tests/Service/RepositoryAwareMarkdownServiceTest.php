@@ -23,24 +23,64 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
      */
     protected $user;
 
+    /**
+     * @var FilePath
+     */
+    private $example1Path;
+
+    private $example1Content;
+
     public function setUp()
     {
         parent::setUp();
 
-        $this->gitRepository = new GitRepository(GitRepositoryTestCase::TEST_PATH);#
+        $this->gitRepository = new GitRepository(GitRepositoryTestCase::TEST_PATH);
         $this->user = new TestUser('Tester', 'test@example.com');
 
-        $example1Content = file_get_contents(__DIR__ . '/../Data/example1.md');
-        $example1Path = new FilePath('example1.md');
+        $this->example1Content = file_get_contents(__DIR__ . '/../Data/example1.md');
+        $this->example1Path = new FilePath('example1.md');
 
-        $this->gitRepository->putContent($example1Path, $example1Content);
-        $this->gitRepository->addAndCommit($this->user, 'Adding example1', $example1Path);
+        $this->gitRepository->putContent($this->example1Path, $this->example1Content);
+        $this->gitRepository->addAndCommit($this->user, 'Adding example1', $this->example1Path);
     }
 
     public function testParseWithHtmlEnabled()
     {
-        //TODO: Implement
-        $this->markTestSkipped('Needs to be implemented');
         $markdownService = new RepositoryAwareMarkdownService($this->gitRepository, true);
+        $parsedMarkdownDocument = $markdownService->parse($this->example1Path, $this->example1Content);
+
+        $this->assertEquals('The Document Title', $parsedMarkdownDocument->getTitle());
+
+        $toc = $parsedMarkdownDocument->getToc();
+        $this->assertEquals(
+            [
+                [
+                    'text'     => 'First Subheading',
+                    'id'       => 'heading1',
+                    'level'    => 2,
+                    'children' => [
+                        [
+                            'text'     => 'Third level heading',
+                            'id'       => 'heading2',
+                            'level'    => 3,
+                            'children' => []
+                        ],
+                        [
+                            'text'     => 'Second third level heading',
+                            'id'       => 'heading3',
+                            'level'    => 3,
+                            'children' => []
+                        ]
+                    ],
+                ],
+                [
+                    'text'     => 'Second Subheading with a link',
+                    'id'       => 'heading4',
+                    'level'    => 2,
+                    'children' => []
+                ]
+            ],
+            $toc
+        );
     }
 }
