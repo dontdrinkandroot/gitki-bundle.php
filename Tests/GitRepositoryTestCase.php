@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
 use GitWrapper\GitWrapper;

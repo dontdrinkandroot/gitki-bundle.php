@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\RepositoryAwareLinkRenderer;
 use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
+use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\FilePath;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
@@ -28,10 +29,10 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
     private $allowHtml;
 
     /**
-     * @param GitRepository $repository
+     * @param GitRepositoryInterface $repository
      * @param bool          $allowHtml
      */
-    public function __construct(GitRepository $repository, $allowHtml)
+    public function __construct(GitRepositoryInterface $repository, $allowHtml)
     {
         $this->repository = $repository;
         $this->allowHtml = $allowHtml;
@@ -45,7 +46,6 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
      */
     public function parse(FilePath $path, $content)
     {
-
         $linkRenderer = new RepositoryAwareLinkRenderer($path, $this->repository);
         $headerRenderer = new TocBuildingHeaderRenderer();
 

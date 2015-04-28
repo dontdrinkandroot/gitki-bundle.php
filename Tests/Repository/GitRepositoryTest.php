@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Tests\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
