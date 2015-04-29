@@ -39,7 +39,10 @@ class DirectoryController extends BaseController
             return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
         }
 
-        return $this->redirectToRoute('ddr_gitki_directory', ['path' => $directoryPath->toAbsoluteString()]);
+        return $this->redirectToRoute(
+            'ddr_gitki_directory',
+            ['path' => $directoryPath->toAbsoluteString(), 'action' => 'list']
+        );
     }
 
     public function createSubdirectoryAction(Request $request, $path)
