@@ -122,8 +122,6 @@ class TocBuildingHeaderRenderer extends HeaderRenderer
             return $text;
         }
 
-        var_dump($inline);
-
         return '';
     }
 }
