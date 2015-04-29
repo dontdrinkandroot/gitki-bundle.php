@@ -42,7 +42,7 @@ services:
             - [registerFileAction, ['DdrGitkiBundle:File:history', 'history']]
             - [registerFileAction, ['DdrGitkiBundle:File:rename', 'rename']]
             - [registerFileAction, ['DdrGitkiBundle:Markdown:preview','preview','md']]
-            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:list', 'list']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index', 'index']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createSubdirectory', 'createsubdirectory']]

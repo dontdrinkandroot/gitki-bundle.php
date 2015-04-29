@@ -10,9 +10,9 @@ interface MarkdownServiceInterface
 {
 
     /**
-     * @param string        $content
+     * @param string   $content
      *
-     * @param FilePath|null $path The path of the document to parse. Used to resolve references.
+     * @param FilePath $path The path of the document to parse. Used to resolve references.
      *
      * @return ParsedMarkdownDocument
      */
