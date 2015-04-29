@@ -29,7 +29,7 @@ class MarkdownController extends BaseController
             $response->setLastModified($lastModified);
 
             $content = $this->getWikiService()->getContent($filePath);
-            $document = $this->getMarkdownService()->parse($filePath, $content);
+            $document = $this->getMarkdownService()->parse($content, $filePath);
 
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:Markdown:view.html.twig',
@@ -64,7 +64,7 @@ class MarkdownController extends BaseController
         $filePath = FilePath::parse($path);
 
         $markdown = $request->request->get('markdown');
-        $document = $this->getMarkdownService()->parse($filePath, $markdown);
+        $document = $this->getMarkdownService()->parse($markdown, $filePath);
 
         return new Response($document->getHtml());
     }

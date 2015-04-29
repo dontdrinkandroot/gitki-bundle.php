@@ -39,14 +39,14 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
     }
 
     /**
-     * @param FilePath $path
      * @param string   $content
+     * @param FilePath $path
      *
      * @return ParsedMarkdownDocument
      */
-    public function parse(FilePath $path, $content)
+    public function parse($content, FilePath $path)
     {
-        $linkRenderer = new RepositoryAwareLinkRenderer($path, $this->repository);
+        $linkRenderer = new RepositoryAwareLinkRenderer($this->repository, $path);
         $headerRenderer = new TocBuildingHeaderRenderer();
 
         $environment = Environment::createCommonMarkEnvironment();

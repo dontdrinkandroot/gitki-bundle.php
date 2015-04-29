@@ -86,7 +86,7 @@ class LockService
         $lockPath = $this->getLockPath($relativeFilePath);
         if ($this->gitRepository->exists($lockPath) && !$this->isLockExpired($lockPath)) {
             $lockLogin = $this->getLockLogin($lockPath);
-            if ($lockLogin == $user->getEmail($user)) {
+            if ($lockLogin == $user->getEmail()) {
                 return true;
             }
         }

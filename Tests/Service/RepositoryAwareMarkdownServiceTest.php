@@ -47,7 +47,7 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
     public function testToc()
     {
         $markdownService = new RepositoryAwareMarkdownService($this->gitRepository, true);
-        $parsedMarkdownDocument = $markdownService->parse($this->tocTestPath, $this->tocTestContent);
+        $parsedMarkdownDocument = $markdownService->parse($this->tocTestContent, $this->tocTestPath);
 
         $this->assertEquals('The Document Title', $parsedMarkdownDocument->getTitle());
 
@@ -89,16 +89,16 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
         $linkTestPath = new FilePath('links.md');
         $markdownService = new RepositoryAwareMarkdownService($this->gitRepository, true);
 
-        $parsedMarkdownDocument = $markdownService->parse($linkTestPath, '[Existing Link](./toc.md)');
+        $parsedMarkdownDocument = $markdownService->parse('[Existing Link](./toc.md)', $linkTestPath);
         $this->assertSame('<p><a href="./toc.md">Existing Link</a></p>' . "\n", $parsedMarkdownDocument->getHtml());
 
-        $parsedMarkdownDocument = $markdownService->parse($linkTestPath, '[Missing Link](./missing.md)');
+        $parsedMarkdownDocument = $markdownService->parse('[Missing Link](./missing.md)', $linkTestPath);
         $this->assertSame(
             '<p><a href="./missing.md" class="missing">Missing Link</a></p>' . "\n",
             $parsedMarkdownDocument->getHtml()
         );
 
-        $parsedMarkdownDocument = $markdownService->parse($linkTestPath, '[External Link](http://example.com)');
+        $parsedMarkdownDocument = $markdownService->parse('[External Link](http://example.com)', $linkTestPath);
         $this->assertSame(
             '<p><a href="http://example.com" rel="external">External Link</a></p>' . "\n",
             $parsedMarkdownDocument->getHtml()

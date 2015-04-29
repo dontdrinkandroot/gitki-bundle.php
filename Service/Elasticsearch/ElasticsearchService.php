@@ -56,7 +56,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
         $content = $this->gitRepository->getContent($filePath);
         $document = $analyzer->analyze($filePath, $content);
 
-        return $this->repository->indexFile($filePath, $document);
+        $this->repository->indexFile($filePath, $document);
     }
 
     /**

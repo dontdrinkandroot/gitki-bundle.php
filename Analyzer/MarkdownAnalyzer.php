@@ -33,7 +33,7 @@ class MarkdownAnalyzer implements AnalyzerInterface
      */
     public function analyze(FilePath $path, $content)
     {
-        $markdownDocument = $this->markdownService->parse($path, $content);
+        $markdownDocument = $this->markdownService->parse($content, $path);
         $analyzedDocument = new AnalyzedDocument($path);
         $analyzedDocument->setTitle($markdownDocument->getTitle());
         $analyzedDocument->setContent($content);

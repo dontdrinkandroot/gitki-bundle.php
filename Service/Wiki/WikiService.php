@@ -199,7 +199,7 @@ class WikiService
 
         $this->createLock($user, $relativeFilePath);
         $uploadedFile->move(
-            $this->gitRepository->getAbsolutePath($relativeDirectoryPath),
+            $this->gitRepository->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR),
             $relativeFilePath->getName()
         );
 

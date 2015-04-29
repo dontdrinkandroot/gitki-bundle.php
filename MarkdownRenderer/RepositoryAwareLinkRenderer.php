@@ -26,7 +26,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
      */
     private $currentFilePath;
 
-    public function __construct(FilePath $currentFilePath, GitRepositoryInterface $gitRepository)
+    public function __construct(GitRepositoryInterface $gitRepository, FilePath $currentFilePath)
     {
         $this->gitRepository = $gitRepository;
         $this->currentFilePath = $currentFilePath;
@@ -91,11 +91,9 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
             if (StringUtils::startsWith($urlPath, '/')) {
                 /* Absolute paths won't work */
                 return false;
-            } else {
-                $currentDirectoryPath = $this->currentFilePath->getParentPath();
-                $path = $currentDirectoryPath->appendPathString($urlPath);
             }
-
+            $currentDirectoryPath = $this->currentFilePath->getParentPath();
+            $path = $currentDirectoryPath->appendPathString($urlPath);
             $fileExists = $this->gitRepository->exists($path);
 
             $this->linkedPaths[] = $path;

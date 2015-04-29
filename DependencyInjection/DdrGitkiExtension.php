@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -64,10 +65,28 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ddr_gitki.role.admin', $config['roles']['admin']);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param array            $config
+     * @param ContainerBuilder $container
+     *
+     * @return ConfigurationInterface
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        $configuration = parent::getConfiguration($config, $container);
+        if (null === $configuration) {
+            throw new \RuntimeException('No configuration found');
+        }
+
+        return $configuration;
+    }
+
     private function assertElasticSearchAvailable()
     {
         if (!class_exists('Elasticsearch\Client')) {
-            throw new \Exception('You configured elasticsearch but the client is not available');
+            throw new \RuntimeException('You configured elasticsearch but the client is not available');
         }
     }
 }
