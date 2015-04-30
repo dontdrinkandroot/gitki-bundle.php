@@ -9,19 +9,32 @@
             <div class="col-md-6">
                 <div class="btn-toolbar edit-actions" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group" role="group" aria-label="Headings">
-                        <button type="button" class="btn btn-default h1-action">H1</button>
-                        <button type="button" class="btn btn-default h2-action">H2</button>
-                        <button type="button" class="btn btn-default h3-action">H3</button>
-                        <button type="button" class="btn btn-default h4-action">H4</button>
+                        <button type="button" class="btn btn-default h1-action" title="Change to first level heading">
+                            H1
+                        </button>
+                        <button type="button" class="btn btn-default h2-action" title="Change to second level heading">
+                            H2
+                        </button>
+                        <button type="button" class="btn btn-default h3-action" title="Change to third level heading">
+                            H3
+                        </button>
+                        <button type="button" class="btn btn-default h4-action" title="Change to fourth level heading">
+                            H4
+                        </button>
                     </div>
                     <div class="btn-group" role="group" aria-label="Text Style">
-                        <button type="button" class="btn btn-default bold-action"><i class="fa fa-bold"></i></button>
-                        <button type="button" class="btn btn-default italic-action"><i class="fa fa-italic"></i>
+                        <button type="button" class="btn btn-default bold-action" title="Change to bold">
+                            <i class="fa fa-bold"></i>
+                        </button>
+                        <button type="button" class="btn btn-default italic-action" title="Change to italic">
+                            <i class="fa fa-italic"></i>
                         </button>
                     </div>
                     {#<div class="btn-group" role="group" aria-label="Links">#}
-                    {#<button type="button" class="btn btn-default"><i class="fa fa-link"></i></button>#}
-                    {#<button type="button" class="btn btn-default"><i class="fa fa-globe"></i></button>#}
+                    {#&#123;&#35;<button type="button" class="btn btn-default"><i class="fa fa-link"></i></button>&#35;&#125;#}
+                    {#<button type="button" class="btn btn-default external-link-action" title="Add external link"  data-toggle="modal" data-target="#externalLinkModal">#}
+                    {#<i class="fa fa-globe"></i>#}
+                    {#</button>#}
                     {#</div>#}
                 </div>
                 {{ form(form, { 'attr': {'class' : 'edit' }}) }}
@@ -39,6 +52,36 @@
         </div>
     </div>
 {% endblock main_content %}
+{% block modals %}
+    <div class="modal fade" id="externalLinkModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Add external link</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="external-link-text" class="control-label">Text:</label>
+                            <input type="text" class="form-control" id="external-link-text" required="required" />
+                        </div>
+                        <div class="form-group">
+                            <label for="external-link-url" class="control-label">Url:</label>
+                            <input type="url" class="form-control" id="external-link-url" required="required" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add links</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block javascript %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/ddrgitki/js/holdlock.js') }}"></script>
@@ -159,6 +202,11 @@
                 var newMarkDown = selection.before + '#### ' + selection.selected + selection.after;
                 $editArea.val(newMarkDown);
                 $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .external-link-action').click(function () {
+                var selection = getSelection();
+                $('#externalLinkModal').modal('show');
             });
         }
         new MarkdownEditor();

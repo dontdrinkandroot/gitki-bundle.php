@@ -56,6 +56,14 @@
                             <span class="fa fa-fw fa-upload"></span> Upload file
                         </a>
                     </li>
+                    {% for extension,name in editableExtensions %}
+                        <li role="presentation">
+                            <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'createfile', 'extension': extension}) }}"
+                               role="menuitem" tabindex="-1" title="Create {{ name }} file">
+                                <span class="fa fa-fw fa-file-o"></span> Create {{ name }} file
+                            </a>
+                        </li>
+                    {% endfor %}
                 {% endif %}
             </ul>
         </div>

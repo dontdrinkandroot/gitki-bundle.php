@@ -38,7 +38,8 @@ class MarkdownController extends BaseController
                 'DdrGitkiBundle:Markdown:view.html.twig',
                 [
                     'path'     => $filePath,
-                    'document' => $document
+                    'document'           => $document,
+                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
                 ]
             );
 
