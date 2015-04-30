@@ -7,6 +7,23 @@
     <div class="markdown-page">
         <div class="row editor">
             <div class="col-md-6">
+                <div class="btn-toolbar edit-actions" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group" role="group" aria-label="Headings">
+                        <button type="button" class="btn btn-default h1-action">H1</button>
+                        <button type="button" class="btn btn-default h2-action">H2</button>
+                        <button type="button" class="btn btn-default h3-action">H3</button>
+                        <button type="button" class="btn btn-default h4-action">H4</button>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Text Style">
+                        <button type="button" class="btn btn-default bold-action"><i class="fa fa-bold"></i></button>
+                        <button type="button" class="btn btn-default italic-action"><i class="fa fa-italic"></i>
+                        </button>
+                    </div>
+                    {#<div class="btn-group" role="group" aria-label="Links">#}
+                    {#<button type="button" class="btn btn-default"><i class="fa fa-link"></i></button>#}
+                    {#<button type="button" class="btn btn-default"><i class="fa fa-globe"></i></button>#}
+                    {#</div>#}
+                </div>
                 {{ form(form, { 'attr': {'class' : 'edit' }}) }}
             </div>
             <div class="col-md-6">
@@ -70,6 +87,80 @@
 
             this.update();
         }
-        new Preview($("#form_content"), $("#preview .markdown-html"));
+
+        var preview = new Preview($("#form_content"), $("#preview .markdown-html"));
+    </script>
+    <script type="text/javascript">
+        function MarkdownEditor() {
+
+            var markdownEditor = this;
+            var $editArea = $("#form_content");
+
+            function repeat(str, n) {
+                var text = '';
+                return new Array(n + 1).join(str);
+            }
+
+            function getSelection() {
+                var markDown = $editArea.val();
+                var selectionStart = $editArea[0].selectionStart;
+                var selectionEnd = $editArea[0].selectionEnd;
+                var before = markDown.substring(0, selectionStart);
+                var selected = markDown.substring(selectionStart, selectionEnd);
+                var after = markDown.substring(selectionEnd, markDown.length);
+                return {
+                    'selectionStart': selectionStart,
+                    'selectionEnd': selectionEnd,
+                    'before': before,
+                    'selected': selected,
+                    'after': after
+                }
+            }
+
+            $('.edit-actions .bold-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + '**' + selection.selected + '**' + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .italic-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + '*' + selection.selected + '*' + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .h1-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + selection.selected;
+                newMarkDown += "\n" + repeat('=', selection.selected.length) + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .h2-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + selection.selected;
+                newMarkDown += "\n" + repeat('-', selection.selected.length) + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .h3-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + '### ' + selection.selected + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+
+            $('.edit-actions .h4-action').click(function () {
+                var selection = getSelection();
+                var newMarkDown = selection.before + '#### ' + selection.selected + selection.after;
+                $editArea.val(newMarkDown);
+                $editArea.trigger('propertychange');
+            });
+        }
+        new MarkdownEditor();
     </script>
 {% endblock %}

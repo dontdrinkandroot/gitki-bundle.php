@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class MarkdownController extends BaseController
 {
 
-    public function viewAction($path)
+    public function viewAction(Request $request, $path)
     {
         $this->assertWatcher();
 
@@ -27,6 +27,9 @@ class MarkdownController extends BaseController
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response->setLastModified($lastModified);
+            if ($response->isNotModified($request)) {
+                return $response;
+            }
 
             $content = $this->getWikiService()->getContent($filePath);
             $document = $this->getMarkdownService()->parse($content, $filePath);
@@ -89,19 +92,22 @@ class MarkdownController extends BaseController
 
         $form = $this->createFormBuilder()
             ->add('content', 'textarea')
-            ->add('commitMessage', 'text', array('label' => 'Commit Message', 'required' => true))
+            ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
             ->add(
                 'actions',
                 'form_actions',
-                array(
-                    'buttons' => array(
-                        'save'   => array('type' => 'submit', 'options' => array('label' => 'Save')),
-                        'cancel' => array(
+                [
+                    'buttons' => [
+                        'save'   => [
                             'type'    => 'submit',
-                            'options' => array('label' => 'Cancel', 'button_class' => 'default')
-                        ),
-                    )
-                )
+                            'options' => ['label' => 'Save']
+                        ],
+                        'cancel' => [
+                            'type'    => 'submit',
+                            'options' => ['label' => 'Cancel', 'button_class' => 'default']
+                        ],
+                    ]
+                ]
             )
             ->getForm();
 

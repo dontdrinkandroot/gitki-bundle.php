@@ -111,7 +111,7 @@ class FileController extends BaseController
                 ]
             )
             ->add('name', 'text', ['required' => true, 'data' => $filePath->getName()])
-            ->add('rename', 'submit')
+            ->add('move', 'submit')
             ->getForm();
 
         $form->handleRequest($request);
