@@ -22,4 +22,12 @@ interface DirectoryServiceInterface
      * @return DirectoryListing
      */
     public function listDirectory(DirectoryPath $relativeDirectoryPath);
+
+    /**
+     * @param DirectoryPath $rootPath
+     * @param bool          $includeRoot
+     *
+     * @return DirectoryPath[]
+     */
+    public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true);
 }

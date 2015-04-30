@@ -4,6 +4,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +81,7 @@ class FileController extends BaseController
         );
     }
 
-    public function renameAction(Request $request, $path)
+    public function moveAction(Request $request, $path)
     {
         $this->assertCommitter();
 
@@ -93,8 +94,23 @@ class FileController extends BaseController
             throw new ConflictHttpException($e->getMessage());
         }
 
+        $directories = $this->getDirectoryService()->findSubDirectories(new DirectoryPath());
+        $directoryChoices = [];
+        foreach ($directories as $directory) {
+            $directoryChoices[$directory->toAbsoluteString()] = $directory->toAbsoluteString();
+        }
+
         $form = $this->createFormBuilder()
-            ->add('newpath', 'text', ['label' => 'New path', 'required' => true])
+            ->add(
+                'directory',
+                'choice',
+                [
+                    'choices'  => $directoryChoices,
+                    'required' => true,
+                    'data'     => $filePath->getParentPath()->toAbsoluteString()
+                ]
+            )
+            ->add('name', 'text', ['required' => true, 'data' => $filePath->getName()])
             ->add('rename', 'submit')
             ->getForm();
 
@@ -102,12 +118,15 @@ class FileController extends BaseController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $newPath = FilePath::parse($form->get('newpath')->getData());
+                $newDirectory = DirectoryPath::parse($form->get('directory')->getData());
+                $newName = $form->get('name')->getData();
+                $newPath = $newDirectory->appendFile($newName);
+
                 $this->getWikiService()->renameFile(
                     $user,
                     $filePath,
                     $newPath,
-                    'Renaming ' . $filePath->toAbsoluteString() . ' to ' . $newPath->toAbsoluteString()
+                    sprintf('Moving %s to %s', $filePath->toAbsoluteString(), $newPath->toAbsoluteString())
                 );
 
                 return $this->redirect(
@@ -117,12 +136,10 @@ class FileController extends BaseController
                     )
                 );
             }
-        } else {
-            $form->setData(['newpath' => $filePath->toAbsoluteString()]);
         }
 
         return $this->render(
-            'DdrGitkiBundle:File:rename.html.twig',
+            'DdrGitkiBundle:File:move.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

@@ -54,12 +54,6 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             {% if isGitkiCommitter() %}
                                 <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" title="Edit"
-                                       href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'edit'}) }}">
-                                        <span class="fa fa-fw fa-pencil"></span> Edit
-                                    </a>
-                                </li>
-                                <li role="presentation">
                                     <a role="menuitem" tabindex="-1"
                                        href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'delete'}) }}"
                                        title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
@@ -87,8 +81,14 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                             {% if isGitkiCommitter() %}
                                 <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" title="Edit"
+                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'edit'}) }}">
+                                        <span class="fa fa-fw fa-pencil"></span> Edit
+                                    </a>
+                                </li>
+                                <li role="presentation">
                                     <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'rename'}) }}"
+                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'move'}) }}"
                                        title="Rename"><span class="fa fa-fw fa-arrows-h"></span> Move
                                     </a>
                                 </li>

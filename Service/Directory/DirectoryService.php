@@ -30,7 +30,7 @@ class DirectoryService implements DirectoryServiceInterface
     private $elasticsearchRepository;
 
     /**
-     * @param GitRepositoryInterface           $gitRepository
+     * @param GitRepositoryInterface $gitRepository
      * @param ElasticsearchRepositoryInterface $elasticsearchRepository
      */
     public function __construct(
@@ -133,7 +133,7 @@ class DirectoryService implements DirectoryServiceInterface
         );
         $finder->depth(0);
         foreach ($finder->files() as $splFile) {
-            /* @var SplFileInfo $splFile */
+            /** @var SplFileInfo $splFile */
             if ($splFile->getExtension() != 'lock') {
                 $file = new File(
                     $this->gitRepository->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR),
@@ -149,5 +149,30 @@ class DirectoryService implements DirectoryServiceInterface
         }
 
         return $files;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true)
+    {
+        $subDirectories = [];
+        if ($includeRoot) {
+            $subDirectories[] = $rootPath;
+        }
+
+        $basePath = $this->gitRepository->getAbsolutePath($rootPath);
+        $finder = new Finder();
+        $finder->in($basePath->toAbsoluteString(DIRECTORY_SEPARATOR));
+        foreach ($finder->directories() as $splFile) {
+            /** @var SplFileInfo $splFile */
+            $subDirectory = DirectoryPath::parse(
+                $splFile->getRelativePathname() . DIRECTORY_SEPARATOR,
+                DIRECTORY_SEPARATOR
+            );
+            $subDirectories[] = $subDirectory;
+        }
+
+        return $subDirectories;
     }
 }
