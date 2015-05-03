@@ -13,12 +13,16 @@
     ],
     "require": {
         "php": ">=5.5",
-        "symfony/symfony": "~2.6",
+        "symfony/finder": "~2.6",
+        "symfony/form": "~2.6",
+        "symfony/framework-bundle": "~2.6",
+        "symfony/twig-bundle": "~2.6",
         "dontdrinkandroot/utils": "0.2.*",
         "cpliakas/git-wrapper": "~1.0",
         "league/commonmark": "0.7.2"
     },
     "require-dev": {
+        "symfony/console": "~2.6",
         "phpunit/phpunit": "~4.1",
         "twbs/bootstrap": "~3.2",
         "elasticsearch/elasticsearch": "~1.3"
