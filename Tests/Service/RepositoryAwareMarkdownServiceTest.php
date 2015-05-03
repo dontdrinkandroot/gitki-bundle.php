@@ -104,4 +104,20 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
             $parsedMarkdownDocument->getHtml()
         );
     }
+
+    public function testTables()
+    {
+        $tablesPath = new FilePath('tables.md');
+        $tablesContent = file_get_contents(__DIR__ . '/../Data/tables.md');
+
+        $this->gitRepository->putContent($tablesPath, $tablesContent);
+        $this->gitRepository->addAndCommit($this->user, 'Adding tables test file', $tablesPath);
+
+        $markdownService = new RepositoryAwareMarkdownService($this->gitRepository, true);
+        $parsedMarkdownDocument = $markdownService->parse($tablesContent, $tablesPath);
+
+        $tablesHtml = file_get_contents(__DIR__ . '/../Data/tables.html');
+
+        $this->assertEquals($tablesHtml, $parsedMarkdownDocument->getHtml());
+    }
 }
