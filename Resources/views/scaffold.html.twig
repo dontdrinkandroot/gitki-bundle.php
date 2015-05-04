@@ -5,10 +5,10 @@
     <title>{{ ddr_gitki_name }}{% block title %}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block stylesheet %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/style.css') }}"
+              media="screen" />
         <link rel="stylesheet" type="text/css"
               href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-              media="screen" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/style.css') }}"
               media="screen" />
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/print.css') }}" media="print" />
     {% endblock stylesheet %}
@@ -18,7 +18,7 @@
 {% endblock body %}
 {% block javascript %}
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         /* Open certain links in new tabs */
         $('a[rel~=external]').attr('target', '_blank');
