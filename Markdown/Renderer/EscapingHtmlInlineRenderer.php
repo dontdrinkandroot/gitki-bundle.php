@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\MarkdownRenderer;
+namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;

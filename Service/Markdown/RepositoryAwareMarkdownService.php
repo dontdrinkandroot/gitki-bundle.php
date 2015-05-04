@@ -3,10 +3,10 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 
-use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\EscapingHtmlBlockRenderer;
-use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\EscapingHtmlInlineRenderer;
-use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\RepositoryAwareLinkRenderer;
-use Dontdrinkandroot\GitkiBundle\MarkdownRenderer\TocBuildingHeaderRenderer;
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlBlockRenderer;
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlInlineRenderer;
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\RepositoryAwareLinkRenderer;
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;

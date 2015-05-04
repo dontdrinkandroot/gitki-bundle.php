@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\MarkdownRenderer;
+namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\HtmlBlock;

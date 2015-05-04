@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\MarkdownRenderer;
+namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
 use Dontdrinkandroot\Path\FilePath;
