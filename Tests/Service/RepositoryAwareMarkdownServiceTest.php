@@ -91,6 +91,9 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
 
         $parsedMarkdownDocument = $markdownService->parse('[Existing Link](./toc.md)', $linkTestPath);
         $this->assertSame('<p><a href="./toc.md">Existing Link</a></p>' . "\n", $parsedMarkdownDocument->getHtml());
+        $linkedPaths = $parsedMarkdownDocument->getLinkedPaths();
+        $this->assertCount(1, $linkedPaths);
+        $this->assertEquals(new FilePath('toc.md'), $linkedPaths[0]);
 
         $parsedMarkdownDocument = $markdownService->parse('[Missing Link](./missing.md)', $linkTestPath);
         $this->assertSame(
