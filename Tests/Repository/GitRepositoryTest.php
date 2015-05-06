@@ -3,7 +3,6 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
@@ -13,7 +12,7 @@ class GitRepositoryTest extends GitRepositoryTestCase
 
     protected function createGitRepository()
     {
-        return new GitRepository(self::TEST_PATH);
+        return new \Dontdrinkandroot\GitkiBundle\Service\Git\GitService(self::TEST_PATH);
     }
 
     public function testAddAndCommit()

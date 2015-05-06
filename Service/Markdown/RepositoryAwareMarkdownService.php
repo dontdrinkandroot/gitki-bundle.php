@@ -8,8 +8,8 @@ use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlInlineRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\RepositoryAwareLinkRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
@@ -19,7 +19,7 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
 {
 
     /**
-     * @var GitRepository
+     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitService
      */
     protected $repository;
 
@@ -29,10 +29,10 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
     private $allowHtml;
 
     /**
-     * @param GitRepositoryInterface $repository
+     * @param GitServiceInterface $repository
      * @param bool          $allowHtml
      */
-    public function __construct(GitRepositoryInterface $repository, $allowHtml)
+    public function __construct(GitServiceInterface $repository, $allowHtml)
     {
         $this->repository = $repository;
         $this->allowHtml = $allowHtml;

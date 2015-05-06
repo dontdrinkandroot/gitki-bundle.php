@@ -5,21 +5,21 @@ namespace Dontdrinkandroot\GitkiBundle\Service;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class LockService
 {
 
     /**
-     * @var GitRepositoryInterface
+     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
      */
     private $gitRepository;
 
     /**
-     * @param GitRepositoryInterface $gitRepository
+     * @param GitServiceInterface $gitRepository
      */
-    public function __construct(GitRepositoryInterface $gitRepository)
+    public function __construct(GitServiceInterface $gitRepository)
     {
 
         $this->gitRepository = $gitRepository;

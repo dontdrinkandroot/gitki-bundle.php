@@ -8,7 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -17,7 +17,7 @@ class DirectoryService implements DirectoryServiceInterface
 {
 
     /**
-     * @var GitRepositoryInterface
+     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
      */
     private $gitRepository;
 
@@ -30,11 +30,11 @@ class DirectoryService implements DirectoryServiceInterface
     private $elasticsearchRepository;
 
     /**
-     * @param GitRepositoryInterface $gitRepository
+     * @param \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface $gitRepository
      * @param ElasticsearchRepositoryInterface $elasticsearchRepository
      */
     public function __construct(
-        GitRepositoryInterface $gitRepository,
+        GitServiceInterface $gitRepository,
         ElasticsearchRepositoryInterface $elasticsearchRepository
     ) {
         $this->gitRepository = $gitRepository;

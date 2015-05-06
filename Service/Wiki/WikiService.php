@@ -8,7 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\LockService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
@@ -23,7 +23,7 @@ class WikiService
 {
 
     /**
-     * @var GitRepositoryInterface
+     * @var GitServiceInterface
      */
     protected $gitRepository;
 
@@ -38,11 +38,11 @@ class WikiService
     protected $editableExtensions = [];
 
     /**
-     * @param GitRepositoryInterface $gitRepository
+     * @param GitServiceInterface $gitRepository
      * @param LockService            $lockService
      */
     public function __construct(
-        GitRepositoryInterface $gitRepository,
+        GitServiceInterface $gitRepository,
         LockService $lockService
     ) {
         $this->gitRepository = $gitRepository;

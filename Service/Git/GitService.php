@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Dontdrinkandroot\GitkiBundle\Repository;
+namespace Dontdrinkandroot\GitkiBundle\Service\Git;
 
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Repository\LogParser;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
@@ -12,7 +13,7 @@ use Dontdrinkandroot\Utils\StringUtils;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Filesystem\Filesystem;
 
-class GitRepository implements GitRepositoryInterface
+class GitService implements GitServiceInterface
 {
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use League\CommonMark\HtmlElement;
@@ -15,7 +15,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
 {
 
     /**
-     * @var GitRepositoryInterface
+     * @var GitServiceInterface
      */
     private $gitRepository;
 
@@ -26,7 +26,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
      */
     private $currentFilePath;
 
-    public function __construct(GitRepositoryInterface $gitRepository, FilePath $currentFilePath)
+    public function __construct(GitServiceInterface $gitRepository, FilePath $currentFilePath)
     {
         $this->gitRepository = $gitRepository;
         $this->currentFilePath = $currentFilePath;

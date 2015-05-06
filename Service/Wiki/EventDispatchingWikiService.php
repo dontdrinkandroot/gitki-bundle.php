@@ -6,7 +6,7 @@ use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\LockService;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -20,7 +20,7 @@ class EventDispatchingWikiService extends WikiService
     protected $eventDispatcher;
 
     public function __construct(
-        GitRepositoryInterface $gitRepository,
+        GitServiceInterface $gitRepository,
         LockService $lockService,
         EventDispatcherInterface $eventDispatcher
     ) {

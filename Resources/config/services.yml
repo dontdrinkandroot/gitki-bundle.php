@@ -28,10 +28,6 @@ services:
         tags:
             - { name: twig.extension }
 
-    ddr.gitki.repository.git:
-        class: Dontdrinkandroot\GitkiBundle\Repository\GitRepository
-        arguments: [%ddr_gitki.repository_path%]
-
     ddr.gitki.registry.extension:
         class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry
         calls:
@@ -51,6 +47,10 @@ services:
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'uploadfile']]
             - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
+
+    ddr.gitki.service.git:
+        class: Dontdrinkandroot\GitkiBundle\Service\Git\GitService
+        arguments: [%ddr_gitki.repository_path%]
 
     ddr.gitki.service.elasticsearch:
         class: Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService
@@ -76,7 +76,7 @@ services:
     ddr.gitki.service.directory:
         class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
         arguments:
-            - @ddr.gitki.repository.git
+            - @ddr.gitki.service.git
             - @ddr.gitki.repository.elasticsearch
         calls:
             - [setIndexFiles, ['%ddr_gitki.index_files%']]
@@ -84,12 +84,12 @@ services:
     ddr.gitki.service.wiki:
         class: Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService
         arguments:
-            - @ddr.gitki.repository.git
+            - @ddr.gitki.service.git
             - @ddr.gitki.service.lock
             - @event_dispatcher
 
     ddr.gitki.service.markdown:
         class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService
         arguments:
-            - @ddr.gitki.repository.git
+            - @ddr.gitki.service.git
             - '%ddr_gitki_markdown.allow_html%'

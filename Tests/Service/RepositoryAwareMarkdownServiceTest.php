@@ -3,8 +3,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Service;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepository;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
@@ -14,7 +14,7 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
 {
 
     /**
-     * @var GitRepositoryInterface
+     * @var GitServiceInterface
      */
     protected $gitRepository;
 
@@ -34,7 +34,7 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
     {
         parent::setUp();
 
-        $this->gitRepository = new GitRepository(GitRepositoryTestCase::TEST_PATH);
+        $this->gitRepository = new GitService(GitRepositoryTestCase::TEST_PATH);
         $this->user = new TestUser('Tester', 'test@example.com');
 
         $this->tocTestContent = file_get_contents(__DIR__ . '/../Data/toc.md');

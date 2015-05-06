@@ -8,7 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
-use Dontdrinkandroot\GitkiBundle\Repository\GitRepositoryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class ElasticsearchService implements ElasticsearchServiceInterface
@@ -25,11 +25,11 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     private $repository;
 
     /**
-     * @var GitRepositoryInterface
+     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
      */
     private $gitRepository;
 
-    public function __construct(GitRepositoryInterface $gitRepository, ElasticsearchRepositoryInterface $repository)
+    public function __construct(GitServiceInterface $gitRepository, ElasticsearchRepositoryInterface $repository)
     {
         $this->gitRepository = $gitRepository;
         $this->repository = $repository;
