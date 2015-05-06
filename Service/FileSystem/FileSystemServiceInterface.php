@@ -69,4 +69,21 @@ interface FileSystemServiceInterface
      * @return Path
      */
     public function getAbsolutePath(Path $path);
+
+    /**
+     * @param DirectoryPath $root
+     * @param bool          $includeRoot
+     * @param bool          $recursive
+     *
+     * @return DirectoryPath[]
+     */
+    public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true);
+
+    /**
+     * @param DirectoryPath $root
+     * @param bool          $recursive
+     *
+     * @return FilePath[]
+     */
+    public function listFiles(DirectoryPath $root, $recursive = true);
 }

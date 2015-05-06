@@ -100,15 +100,15 @@ class DirectoryService implements DirectoryServiceInterface
         $subDirectories = [];
         $finder = new Finder();
         $finder->in(
-            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
+            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteFileSystemString()
         );
         $finder->depth(0);
         $finder->ignoreDotFiles(true);
         foreach ($finder->directories() as $directory) {
             /* @var SplFileInfo $directory */
             $subDirectory = new Directory(
-                $this->fileSystemService->getBasePath()->toAbsoluteString(DIRECTORY_SEPARATOR),
-                $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
+                $this->fileSystemService->getBasePath()->toAbsoluteFileSystemString(),
+                $relativeDirectoryPath->toRelativeFileSystemString(),
                 $directory->getRelativePathName() . DIRECTORY_SEPARATOR
             );
             $subDirectories[] = $subDirectory;
@@ -129,15 +129,15 @@ class DirectoryService implements DirectoryServiceInterface
 
         $finder = new Finder();
         $finder->in(
-            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
+            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteFileSystemString()
         );
         $finder->depth(0);
         foreach ($finder->files() as $splFile) {
             /** @var SplFileInfo $splFile */
             if ($splFile->getExtension() != 'lock') {
                 $file = new File(
-                    $this->fileSystemService->getBasePath()->toAbsoluteString(DIRECTORY_SEPARATOR),
-                    $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
+                    $this->fileSystemService->getBasePath()->toAbsoluteFileSystemString(),
+                    $relativeDirectoryPath->toRelativeFileSystemString(),
                     $splFile->getRelativePathName()
                 );
                 $title = $this->elasticsearchRepository->findTitle($file->getAbsolutePath());
@@ -163,7 +163,7 @@ class DirectoryService implements DirectoryServiceInterface
 
         $basePath = $this->fileSystemService->getAbsolutePath($rootPath);
         $finder = new Finder();
-        $finder->in($basePath->toAbsoluteString(DIRECTORY_SEPARATOR));
+        $finder->in($basePath->toAbsoluteFileSystemString());
         foreach ($finder->directories() as $splFile) {
             /** @var SplFileInfo $splFile */
             $subDirectory = DirectoryPath::parse(

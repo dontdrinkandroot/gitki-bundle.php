@@ -138,6 +138,22 @@ class FileSystemService implements FileSystemServiceInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true)
+    {
+        // TODO: Implement listDirectories() method.
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listFiles(DirectoryPath $root, $recursive = true)
+    {
+        // TODO: Implement listFiles() method.
+    }
+
+    /**
      * @param Path $path
      *
      * @return Path

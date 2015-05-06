@@ -82,10 +82,7 @@ class GitService implements GitServiceInterface
     public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage)
     {
         $workingCopy = $this->getWorkingCopy();
-        $workingCopy->mv(
-            $oldPath->toRelativeFileSystemString(),
-            $newPath->toRelativeFileSystemString()
-        );
+        $workingCopy->mv($oldPath->toRelativeFileSystemString(), $newPath->toRelativeFileSystemString());
         $this->commit($author, $commitMessage);
     }
 

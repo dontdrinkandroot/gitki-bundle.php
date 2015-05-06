@@ -49,7 +49,7 @@ services:
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
 
     ddr.gitki.service.file_system:
-        class: Dontdrinkandroot\GitkiBundle\Service\Git\FileSystem
+        class: Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService
         arguments: [%ddr_gitki.repository_path%]
 
     ddr.gitki.service.git:
