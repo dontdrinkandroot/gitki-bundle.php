@@ -101,7 +101,7 @@ class WikiService
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->lockService->assertUserHasLock($user, $relativeFilePath);
-        $this->gitService->putAndCommitFile($user, $commitMessage, $relativeFilePath, $content);
+        $this->gitService->putAndCommitFile($user, $relativeFilePath, $content, $commitMessage);
     }
 
     /**
@@ -126,7 +126,7 @@ class WikiService
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->createLock($user, $relativeFilePath);
-        $this->gitService->removeAndCommit($user, $commitMessage, $relativeFilePath);
+        $this->gitService->removeAndCommit($user, $relativeFilePath, $commitMessage);
         $this->removeLock($user, $relativeFilePath);
     }
 
@@ -165,9 +165,9 @@ class WikiService
 
         $this->gitService->moveAndCommit(
             $user,
-            $commitMessage,
             $relativeOldFilePath,
-            $relativeNewFilePath
+            $relativeNewFilePath,
+            $commitMessage
         );
 
         $this->removeLock($user, $relativeOldFilePath);
@@ -197,7 +197,7 @@ class WikiService
         }
 
         $this->createLock($user, $relativeFilePath);
-        $this->gitService->addAndCommitUploadedFile($user, $relativeFilePath, $commitMessage, $uploadedFile);
+        $this->gitService->addAndCommitUploadedFile($user, $commitMessage, $uploadedFile, $relativeFilePath);
         $this->removeLock($user, $relativeFilePath);
     }
 

@@ -21,7 +21,7 @@ class GitService implements GitServiceInterface
      */
     private $fileSystemService;
 
-    public function __construct($repositoryPath, FileSystemServiceInterface $fileSystemService)
+    public function __construct(FileSystemServiceInterface $fileSystemService)
     {
         $this->fileSystemService = $fileSystemService;
     }
@@ -70,7 +70,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAndCommit(GitUserInterface $author, $commitMessage, $paths)
+    public function removeAndCommit(GitUserInterface $author, $paths, $commitMessage)
     {
         $this->remove($this->toFilePathArray($paths));
         $this->commit($author, $commitMessage);
@@ -79,7 +79,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function moveAndCommit(GitUserInterface $author, $commitMessage, FilePath $oldPath, FilePath $newPath)
+    public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage)
     {
         $workingCopy = $this->getWorkingCopy();
         $workingCopy->mv(
@@ -132,7 +132,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function putAndCommitFile($author, $commitMessage, FilePath $path, $content)
+    public function putAndCommitFile($author, FilePath $path, $content, $commitMessage)
     {
         $this->fileSystemService->putContent($path, $content);
         $this->add([$path]);
@@ -141,13 +141,14 @@ class GitService implements GitServiceInterface
 
     /**
      * @param GitUserInterface $author
-     * @param string           $commitMessage
      * @param FilePath         $path
      * @param UploadedFile     $uploadedFile
      *
+     * @param string $commitMessage
+     *
      * @return mixed
      */
-    public function addAndCommitUploadedFile($author, $commitMessage, FilePath $path, UploadedFile $uploadedFile)
+    public function addAndCommitUploadedFile($author, FilePath $path, UploadedFile $uploadedFile, $commitMessage)
     {
         $uploadedFile->move(
             $this->fileSystemService->getAbsolutePath($path->getParentPath())->toAbsoluteFileSystemString(),

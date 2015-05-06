@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Service;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService;
@@ -10,18 +11,23 @@ use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
 
-class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
+class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 {
 
     /**
      * @var GitServiceInterface
      */
-    protected $gitRepository;
+    protected $gitService;
 
     /**
      * @var GitUserInterface
      */
     protected $user;
+
+    /**
+     * @var
+     */
+    protected $fileSystemService;
 
     /**
      * @var FilePath
@@ -34,19 +40,19 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
     {
         parent::setUp();
 
-        $this->gitRepository = new GitService(GitRepositoryTestCase::TEST_PATH);
+        $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::TEST_PATH);
+        $this->gitService = new GitService($this->fileSystemService);
         $this->user = new TestUser('Tester', 'test@example.com');
 
         $this->tocTestContent = file_get_contents(__DIR__ . '/../Data/toc.md');
         $this->tocTestPath = new FilePath('toc.md');
 
-        $this->gitRepository->putContent($this->tocTestPath, $this->tocTestContent);
-        $this->gitRepository->addAndCommit($this->user, 'Adding tocTest', $this->tocTestPath);
+        $this->gitService->putAndCommitFile($this->user, $this->tocTestPath, $this->tocTestContent, 'Adding tocTest');
     }
 
     public function testToc()
     {
-        $markdownService = new FileSystemAwareMarkdownService($this->gitRepository, true);
+        $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
         $parsedMarkdownDocument = $markdownService->parse($this->tocTestContent, $this->tocTestPath);
 
         $this->assertEquals('The Document Title', $parsedMarkdownDocument->getTitle());
@@ -87,7 +93,7 @@ class RepositoryAwareMarkdownServiceTest extends GitRepositoryTestCase
     public function testLinks()
     {
         $linkTestPath = new FilePath('links.md');
-        $markdownService = new FileSystemAwareMarkdownService($this->gitRepository, true);
+        $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
 
         $parsedMarkdownDocument = $markdownService->parse('[Existing Link](./toc.md)', $linkTestPath);
         $this->assertSame('<p><a href="./toc.md">Existing Link</a></p>' . "\n", $parsedMarkdownDocument->getHtml());

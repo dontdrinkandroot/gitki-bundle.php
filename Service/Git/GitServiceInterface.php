@@ -33,11 +33,11 @@ interface GitServiceInterface
     public function getContent(FilePath $path);
 
     /**
-     * @param GitUserInterface $author
-     * @param string              $commitMessage
+     * @param GitUserInterface    $author
      * @param FilePath[]|FilePath $paths
+     * @param string              $commitMessage
      */
-    public function removeAndCommit(GitUserInterface $author, $commitMessage, $paths);
+    public function removeAndCommit(GitUserInterface $author, $paths, $commitMessage);
 
     /**
      * @param Path $path
@@ -48,11 +48,11 @@ interface GitServiceInterface
 
     /**
      * @param GitUserInterface $author
-     * @param string           $commitMessage
      * @param FilePath         $oldPath
      * @param FilePath         $newPath
+     * @param string           $commitMessage
      */
-    public function moveAndCommit(GitUserInterface $author, $commitMessage, FilePath $oldPath, FilePath $newPath);
+    public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage);
 
     /**
      * @return DirectoryPath
@@ -81,19 +81,17 @@ interface GitServiceInterface
 
     /**
      * @param GitUserInterface $author
-     * @param string           $commitMessage
      * @param FilePath         $path
      * @param string           $content
+     * @param string           $commitMessage
      */
-    public function putAndCommitFile($author, $commitMessage, FilePath $path, $content);
+    public function putAndCommitFile($author, FilePath $path, $content, $commitMessage);
 
     /**
      * @param GitUserInterface $author
-     * @param string           $commitMessage
      * @param FilePath         $path
      * @param UploadedFile     $uploadedFile
-     *
-     * @return mixed
+     * @param string           $commitMessage
      */
-    public function addAndCommitUploadedFile($author, $commitMessage, FilePath $path, UploadedFile $uploadedFile);
+    public function addAndCommitUploadedFile($author, FilePath $path, UploadedFile $uploadedFile, $commitMessage);
 }
