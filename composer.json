@@ -17,9 +17,9 @@
         "symfony/form": "~2.6",
         "symfony/framework-bundle": "~2.6",
         "symfony/twig-bundle": "~2.6",
-        "dontdrinkandroot/utils": "0.2.*",
+        "dontdrinkandroot/utils": "~0.2.4",
         "cpliakas/git-wrapper": "~1.0",
-        "league/commonmark": "0.7.2"
+        "league/commonmark": "0.8.0"
     },
     "require-dev": {
         "symfony/console": "~2.6",
