@@ -6,36 +6,24 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Git;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Repository\LogParser;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
-use Dontdrinkandroot\Utils\StringUtils;
 use GitWrapper\GitWrapper;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GitService implements GitServiceInterface
 {
 
     /**
-     * @var Filesystem
+     * @var FileSystemServiceInterface
      */
-    protected $fileSystem = null;
+    private $fileSystemService;
 
-    private $repositoryPath;
-
-    public function __construct($repositoryPath)
+    public function __construct($repositoryPath, FileSystemServiceInterface $fileSystemService)
     {
-        $pathString = $repositoryPath;
-
-        if (!StringUtils::startsWith($pathString, '/')) {
-            throw new \Exception('Repository Path must be absolute');
-        }
-
-        if (!StringUtils::endsWith($pathString, '/')) {
-            $pathString .= '/';
-        }
-
-        $this->repositoryPath = DirectoryPath::parse($pathString);
+        $this->fileSystemService = $fileSystemService;
     }
 
     /**
@@ -43,7 +31,7 @@ class GitService implements GitServiceInterface
      */
     public function getRepositoryPath()
     {
-        return $this->repositoryPath;
+        return $this->fileSystemService->getBasePath();
     }
 
     /**
@@ -80,53 +68,12 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @param FilePath[] $paths
-     */
-    public function add(array $paths)
-    {
-        $workingCopy = $this->getWorkingCopy();
-        foreach ($paths as $path) {
-            $workingCopy->add($path->toRelativeFileSystemString());
-        }
-    }
-
-    /**
-     * @param FilePath[] $paths
-     */
-    public function remove(array $paths)
-    {
-        $workingCopy = $this->getWorkingCopy();
-        foreach ($paths as $path) {
-            $workingCopy->rm($path->toRelativeFileSystemString());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addAndCommit(GitUserInterface $author, $commitMessage, $paths)
-    {
-        $this->add($this->toFilePathArray($paths));
-        $this->commit($author, $commitMessage);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function removeAndCommit(GitUserInterface $author, $commitMessage, $paths)
     {
         $this->remove($this->toFilePathArray($paths));
         $this->commit($author, $commitMessage);
-    }
-
-    public function commit(GitUserInterface $author, $commitMessage)
-    {
-        $this->getWorkingCopy()->commit(
-            [
-                'm'      => $commitMessage,
-                'author' => $this->getAuthorString($author)
-            ]
-        );
     }
 
     /**
@@ -147,9 +94,7 @@ class GitService implements GitServiceInterface
      */
     public function exists(Path $path)
     {
-        $absolutePath = $this->getAbsolutePath($path);
-
-        return $this->getFileSystem()->exists($absolutePath->toAbsoluteFileSystemString());
+        return $this->fileSystemService->exists($path);
     }
 
     /**
@@ -165,23 +110,7 @@ class GitService implements GitServiceInterface
      */
     public function createDirectory(DirectoryPath $relativePath)
     {
-        $this->getFileSystem()->mkdir($this->getAbsolutePathString($relativePath), 0755);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function touchFile(FilePath $relativePath)
-    {
-        $this->getFileSystem()->touch($this->getAbsolutePathString($relativePath));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function putContent(FilePath $relativePath, $content)
-    {
-        file_put_contents($this->getAbsolutePathString($relativePath), $content);
+        $this->fileSystemService->createDirectory($relativePath);
     }
 
     /**
@@ -195,25 +124,37 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getModificationTime(Path $relativePath)
-    {
-        return filemtime($this->getAbsolutePathString($relativePath));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeFile(FilePath $relativePath)
-    {
-        $this->getFileSystem()->remove($this->getAbsolutePathString($relativePath));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function removeDirectory(DirectoryPath $path)
     {
-        $this->getFileSystem()->remove($this->getAbsolutePathString($path));
+        $this->fileSystemService->removeDirectory($path);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function putAndCommitFile($author, $commitMessage, FilePath $path, $content)
+    {
+        $this->fileSystemService->putContent($path, $content);
+        $this->add([$path]);
+        $this->commit($author, $commitMessage);
+    }
+
+    /**
+     * @param GitUserInterface $author
+     * @param string           $commitMessage
+     * @param FilePath         $path
+     * @param UploadedFile     $uploadedFile
+     *
+     * @return mixed
+     */
+    public function addAndCommitUploadedFile($author, $commitMessage, FilePath $path, UploadedFile $uploadedFile)
+    {
+        $uploadedFile->move(
+            $this->fileSystemService->getAbsolutePath($path->getParentPath())->toAbsoluteFileSystemString(),
+            $path->getName()
+        );
+
+        $this->addAndCommitFile($author, $commitMessage, $path);
     }
 
     /**
@@ -222,7 +163,7 @@ class GitService implements GitServiceInterface
     protected function getWorkingCopy()
     {
         $git = new GitWrapper();
-        $workingCopy = $git->workingCopy($this->repositoryPath);
+        $workingCopy = $git->workingCopy($this->fileSystemService->getBasePath()->toAbsoluteFileSystemString());
 
         return $workingCopy;
     }
@@ -262,18 +203,6 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @return Filesystem
-     */
-    protected function getFileSystem()
-    {
-        if (null === $this->fileSystem) {
-            $this->fileSystem = new Filesystem();
-        }
-
-        return $this->fileSystem;
-    }
-
-    /**
      * @param string $log
      *
      * @return CommitMetadata[]
@@ -293,5 +222,52 @@ class GitService implements GitServiceInterface
         }
 
         return $metaData;
+    }
+
+    /**
+     * @param GitUserInterface $author
+     * @param string           $commitMessage
+     */
+    protected function commit(GitUserInterface $author, $commitMessage)
+    {
+        $this->getWorkingCopy()->commit(
+            [
+                'm'      => $commitMessage,
+                'author' => $this->getAuthorString($author)
+            ]
+        );
+    }
+
+    /**
+     * @param FilePath[] $paths
+     */
+    protected function add(array $paths)
+    {
+        $workingCopy = $this->getWorkingCopy();
+        foreach ($paths as $path) {
+            $workingCopy->add($path->toRelativeFileSystemString());
+        }
+    }
+
+    /**
+     * @param FilePath[] $paths
+     */
+    protected function remove(array $paths)
+    {
+        $workingCopy = $this->getWorkingCopy();
+        foreach ($paths as $path) {
+            $workingCopy->rm($path->toRelativeFileSystemString());
+        }
+    }
+
+    /**
+     * @param GitUserInterface $author
+     * @param string           $commitMessage
+     * @param FilePath         $path
+     */
+    protected function addAndCommitFile(GitUserInterface $author, $commitMessage, FilePath $path)
+    {
+        $this->add([$path]);
+        $this->commit($author, $commitMessage);
     }
 }

@@ -7,7 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\LockService;
+use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

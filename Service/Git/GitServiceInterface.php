@@ -8,6 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface GitServiceInterface
 {
@@ -26,28 +27,10 @@ interface GitServiceInterface
 
     /**
      * @param FilePath $path
-     */
-    public function touchFile(FilePath $path);
-
-    /**
-     * @param FilePath $path
-     * @param mixed    $content
-     */
-    public function putContent(FilePath $path, $content);
-
-    /**
-     * @param FilePath $path
      *
      * @return string
      */
     public function getContent(FilePath $path);
-
-    /**
-     * @param GitUserInterface $author
-     * @param string              $commitMessage
-     * @param FilePath[]|FilePath $paths
-     */
-    public function addAndCommit(GitUserInterface $author, $commitMessage, $paths);
 
     /**
      * @param GitUserInterface $author
@@ -65,9 +48,9 @@ interface GitServiceInterface
 
     /**
      * @param GitUserInterface $author
-     * @param string        $commitMessage
-     * @param FilePath      $oldPath
-     * @param FilePath      $newPath
+     * @param string           $commitMessage
+     * @param FilePath         $oldPath
+     * @param FilePath         $newPath
      */
     public function moveAndCommit(GitUserInterface $author, $commitMessage, FilePath $oldPath, FilePath $newPath);
 
@@ -92,19 +75,25 @@ interface GitServiceInterface
     public function getFileHistory(FilePath $path, $maxCount);
 
     /**
-     * @param FilePath $path
-     */
-    public function removeFile(FilePath $path);
-
-    /**
-     * @param Path $path
-     *
-     * @return int
-     */
-    public function getModificationTime(Path $path);
-
-    /**
      * @param DirectoryPath $path
      */
     public function removeDirectory(DirectoryPath $path);
+
+    /**
+     * @param GitUserInterface $author
+     * @param string           $commitMessage
+     * @param FilePath         $path
+     * @param string           $content
+     */
+    public function putAndCommitFile($author, $commitMessage, FilePath $path, $content);
+
+    /**
+     * @param GitUserInterface $author
+     * @param string           $commitMessage
+     * @param FilePath         $path
+     * @param UploadedFile     $uploadedFile
+     *
+     * @return mixed
+     */
+    public function addAndCommitUploadedFile($author, $commitMessage, FilePath $path, UploadedFile $uploadedFile);
 }

@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
-use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use League\CommonMark\HtmlElement;
@@ -11,13 +11,13 @@ use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Renderer\LinkRenderer;
 
-class RepositoryAwareLinkRenderer extends LinkRenderer
+class FileSystemAwareLinkRenderer extends LinkRenderer
 {
 
     /**
-     * @var GitServiceInterface
+     * @var FileSystemServiceInterface
      */
-    private $gitRepository;
+    private $fileSystemService;
 
     private $linkedPaths = [];
 
@@ -26,9 +26,9 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
      */
     private $currentFilePath;
 
-    public function __construct(GitServiceInterface $gitRepository, FilePath $currentFilePath)
+    public function __construct(FileSystemServiceInterface $fileSystemService, FilePath $currentFilePath)
     {
-        $this->gitRepository = $gitRepository;
+        $this->fileSystemService = $fileSystemService;
         $this->currentFilePath = $currentFilePath;
     }
 
@@ -94,7 +94,7 @@ class RepositoryAwareLinkRenderer extends LinkRenderer
             }
             $currentDirectoryPath = $this->currentFilePath->getParentPath();
             $path = $currentDirectoryPath->appendPathString($urlPath);
-            $fileExists = $this->gitRepository->exists($path);
+            $fileExists = $this->fileSystemService->exists($path);
 
             $this->linkedPaths[] = $path;
 

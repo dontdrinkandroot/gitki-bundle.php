@@ -1,33 +1,32 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Service;
+namespace Dontdrinkandroot\GitkiBundle\Service\Lock;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class LockService
 {
 
     /**
-     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
+     * @var FileSystemServiceInterface
      */
-    private $gitRepository;
+    private $fileSystemService;
 
     /**
-     * @param GitServiceInterface $gitRepository
+     * @param FileSystemServiceInterface $fileSystemService
      */
-    public function __construct(GitServiceInterface $gitRepository)
+    public function __construct(FileSystemServiceInterface $fileSystemService)
     {
-
-        $this->gitRepository = $gitRepository;
+        $this->fileSystemService = $fileSystemService;
     }
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath      $relativeFilePath
+     * @param FilePath         $relativeFilePath
      *
      * @throws FileLockedException
      */
@@ -38,27 +37,27 @@ class LockService
 
         $this->assertUnlocked($user, $relativeLockPath);
 
-        if (!$this->gitRepository->exists($relativeLockDir)) {
-            $this->gitRepository->createDirectory($relativeLockDir);
+        if (!$this->fileSystemService->exists($relativeLockDir)) {
+            $this->fileSystemService->createDirectory($relativeLockDir);
         }
 
-        if ($this->gitRepository->exists($relativeLockPath)) {
-            $this->gitRepository->touchFile($relativeLockPath);
+        if ($this->fileSystemService->exists($relativeLockPath)) {
+            $this->fileSystemService->touchFile($relativeLockPath);
         } else {
-            $this->gitRepository->putContent($relativeLockPath, $user->getEmail());
+            $this->fileSystemService->putContent($relativeLockPath, $user->getEmail());
         }
     }
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath      $relativeFilePath
+     * @param FilePath         $relativeFilePath
      *
      * @throws \Exception
      */
     public function removeLock(GitUserInterface $user, FilePath $relativeFilePath)
     {
         $relativeLockPath = $this->getLockPath($relativeFilePath);
-        if (!$this->gitRepository->exists($relativeLockPath)) {
+        if (!$this->fileSystemService->exists($relativeLockPath)) {
             return;
         }
 
@@ -76,7 +75,7 @@ class LockService
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath      $relativeFilePath
+     * @param FilePath         $relativeFilePath
      *
      * @return bool
      * @throws FileLockExpiredException
@@ -84,7 +83,7 @@ class LockService
     public function assertUserHasLock(GitUserInterface $user, FilePath $relativeFilePath)
     {
         $lockPath = $this->getLockPath($relativeFilePath);
-        if ($this->gitRepository->exists($lockPath) && !$this->isLockExpired($lockPath)) {
+        if ($this->fileSystemService->exists($lockPath) && !$this->isLockExpired($lockPath)) {
             $lockLogin = $this->getLockLogin($lockPath);
             if ($lockLogin == $user->getEmail()) {
                 return true;
@@ -96,7 +95,7 @@ class LockService
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath      $relativeFilePath
+     * @param FilePath         $relativeFilePath
      *
      * @return int
      * @throws FileLockExpiredException
@@ -106,7 +105,7 @@ class LockService
         $this->assertUserHasLock($user, $relativeFilePath);
         $lockPath = $this->getLockPath($relativeFilePath);
 
-        $this->gitRepository->touchFile($lockPath);
+        $this->fileSystemService->touchFile($lockPath);
 
         return $this->getLockExpiry($lockPath);
     }
@@ -133,7 +132,7 @@ class LockService
      */
     protected function getLockExpiry(FilePath $relativeLockPath)
     {
-        $mTime = $this->gitRepository->getModificationTime($relativeLockPath);
+        $mTime = $this->fileSystemService->getModificationTime($relativeLockPath);
 
         return $mTime + (60);
     }
@@ -145,7 +144,7 @@ class LockService
      */
     protected function getLockLogin(FilePath $lockPath)
     {
-        return $this->gitRepository->getContent($lockPath);
+        return $this->fileSystemService->getContent($lockPath);
     }
 
     /**
@@ -166,19 +165,19 @@ class LockService
      */
     protected function removeLockFile(FilePath $lockPath)
     {
-        $this->gitRepository->removeFile($lockPath);
+        $this->fileSystemService->removeFile($lockPath);
     }
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath      $relativeLockPath
+     * @param FilePath         $relativeLockPath
      *
      * @return bool
      * @throws FileLockedException
      */
     protected function assertUnlocked(GitUserInterface $user, FilePath $relativeLockPath)
     {
-        if (!$this->gitRepository->exists($relativeLockPath)) {
+        if (!$this->fileSystemService->exists($relativeLockPath)) {
             return true;
         }
 

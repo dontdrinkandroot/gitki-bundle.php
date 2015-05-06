@@ -8,7 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -17,9 +17,9 @@ class DirectoryService implements DirectoryServiceInterface
 {
 
     /**
-     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
+     * @var FileSystemServiceInterface
      */
-    private $gitRepository;
+    private $fileSystemService;
 
     /** @var string[] */
     private $indexFiles = [];
@@ -30,14 +30,14 @@ class DirectoryService implements DirectoryServiceInterface
     private $elasticsearchRepository;
 
     /**
-     * @param \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface $gitRepository
+     * @param FileSystemServiceInterface $fileSystemService
      * @param ElasticsearchRepositoryInterface $elasticsearchRepository
      */
     public function __construct(
-        GitServiceInterface $gitRepository,
+        FileSystemServiceInterface $fileSystemService,
         ElasticsearchRepositoryInterface $elasticsearchRepository
     ) {
-        $this->gitRepository = $gitRepository;
+        $this->fileSystemService = $fileSystemService;
         $this->elasticsearchRepository = $elasticsearchRepository;
     }
 
@@ -56,7 +56,7 @@ class DirectoryService implements DirectoryServiceInterface
     {
         foreach ($this->indexFiles as $indexFile) {
             $filePath = $directoryPath->appendFile($indexFile);
-            if ($this->gitRepository->exists($filePath)) {
+            if ($this->fileSystemService->exists($filePath)) {
                 return $filePath;
             }
         }
@@ -100,14 +100,14 @@ class DirectoryService implements DirectoryServiceInterface
         $subDirectories = [];
         $finder = new Finder();
         $finder->in(
-            $this->gitRepository->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
+            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
         );
         $finder->depth(0);
         $finder->ignoreDotFiles(true);
         foreach ($finder->directories() as $directory) {
             /* @var SplFileInfo $directory */
             $subDirectory = new Directory(
-                $this->gitRepository->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR),
+                $this->fileSystemService->getBasePath()->toAbsoluteString(DIRECTORY_SEPARATOR),
                 $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
                 $directory->getRelativePathName() . DIRECTORY_SEPARATOR
             );
@@ -129,14 +129,14 @@ class DirectoryService implements DirectoryServiceInterface
 
         $finder = new Finder();
         $finder->in(
-            $this->gitRepository->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
+            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR)
         );
         $finder->depth(0);
         foreach ($finder->files() as $splFile) {
             /** @var SplFileInfo $splFile */
             if ($splFile->getExtension() != 'lock') {
                 $file = new File(
-                    $this->gitRepository->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR),
+                    $this->fileSystemService->getBasePath()->toAbsoluteString(DIRECTORY_SEPARATOR),
                     $relativeDirectoryPath->toRelativeString(DIRECTORY_SEPARATOR),
                     $splFile->getRelativePathName()
                 );
@@ -161,7 +161,7 @@ class DirectoryService implements DirectoryServiceInterface
             $subDirectories[] = $rootPath;
         }
 
-        $basePath = $this->gitRepository->getAbsolutePath($rootPath);
+        $basePath = $this->fileSystemService->getAbsolutePath($rootPath);
         $finder = new Finder();
         $finder->in($basePath->toAbsoluteString(DIRECTORY_SEPARATOR));
         foreach ($finder->directories() as $splFile) {

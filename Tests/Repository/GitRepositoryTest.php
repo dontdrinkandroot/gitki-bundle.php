@@ -22,7 +22,7 @@ class GitRepositoryTest extends GitRepositoryTestCase
         $gitRepository = $this->createGitRepository();
         $filePath = FilePath::parse('test.txt');
         $gitRepository->putContent($filePath, 'asdf');
-        $gitRepository->addAndCommit($user, 'Added test.txt', $filePath);
+        $gitRepository->addAndCommitFile($user, 'Added test.txt', $filePath);
         $this->assertTrue($gitRepository->exists($filePath));
 
         $history = $gitRepository->getFileHistory($filePath);

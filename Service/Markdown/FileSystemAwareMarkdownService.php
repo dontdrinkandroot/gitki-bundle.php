@@ -5,23 +5,22 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlBlockRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlInlineRenderer;
-use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\RepositoryAwareLinkRenderer;
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\FileSystemAwareLinkRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
-use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
-use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
 
-class RepositoryAwareMarkdownService implements MarkdownServiceInterface
+class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
 
     /**
-     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitService
+     * @var FileSystemServiceInterface
      */
-    protected $repository;
+    protected $fileSystemService;
 
     /**
      * @var bool
@@ -29,12 +28,12 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
     private $allowHtml;
 
     /**
-     * @param GitServiceInterface $repository
-     * @param bool          $allowHtml
+     * @param FileSystemServiceInterface $fileSystemService
+     * @param bool                       $allowHtml
      */
-    public function __construct(GitServiceInterface $repository, $allowHtml)
+    public function __construct(FileSystemServiceInterface $fileSystemService, $allowHtml)
     {
-        $this->repository = $repository;
+        $this->fileSystemService = $fileSystemService;
         $this->allowHtml = $allowHtml;
     }
 
@@ -46,7 +45,7 @@ class RepositoryAwareMarkdownService implements MarkdownServiceInterface
      */
     public function parse($content, FilePath $path)
     {
-        $linkRenderer = new RepositoryAwareLinkRenderer($this->repository, $path);
+        $linkRenderer = new FileSystemAwareLinkRenderer($this->fileSystemService, $path);
         $headerRenderer = new TocBuildingHeaderRenderer();
 
         $environment = Environment::createCommonMarkEnvironment();

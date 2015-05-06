@@ -48,14 +48,18 @@ services:
             - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
 
+    ddr.gitki.service.file_system:
+        class: Dontdrinkandroot\GitkiBundle\Service\Git\FileSystem
+        arguments: [%ddr_gitki.repository_path%]
+
     ddr.gitki.service.git:
         class: Dontdrinkandroot\GitkiBundle\Service\Git\GitService
-        arguments: [%ddr_gitki.repository_path%]
+        arguments: [@ddr.gitki.service.file_system]
 
     ddr.gitki.service.elasticsearch:
         class: Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService
         arguments:
-            - @ddr.gitki.repository.git
+            - @ddr.gitki.service.git
             - @ddr.gitki.repository.elasticsearch
         tags:
             - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
@@ -63,8 +67,8 @@ services:
             - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
     ddr.gitki.service.lock:
-        class: Dontdrinkandroot\GitkiBundle\Service\LockService
-        arguments: [@ddr.gitki.repository.git]
+        class: Dontdrinkandroot\GitkiBundle\Service\Lock\LockService
+        arguments: [@ddr.gitki.service.file_system]
 
     ddr.gitki.service.role:
         class: Dontdrinkandroot\GitkiBundle\Service\Role\RoleService
@@ -76,7 +80,7 @@ services:
     ddr.gitki.service.directory:
         class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
         arguments:
-            - @ddr.gitki.service.git
+            - @ddr.gitki.service.file_system
             - @ddr.gitki.repository.elasticsearch
         calls:
             - [setIndexFiles, ['%ddr_gitki.index_files%']]
@@ -89,7 +93,7 @@ services:
             - @event_dispatcher
 
     ddr.gitki.service.markdown:
-        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\RepositoryAwareMarkdownService
+        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService
         arguments:
-            - @ddr.gitki.service.git
+            - @ddr.gitki.service.file_system
             - '%ddr_gitki_markdown.allow_html%'

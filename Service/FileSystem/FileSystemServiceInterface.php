@@ -3,7 +3,70 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\FileSystem;
 
+use Dontdrinkandroot\Path\DirectoryPath;
+use Dontdrinkandroot\Path\FilePath;
+use Dontdrinkandroot\Path\Path;
+
 interface FileSystemServiceInterface
 {
 
+    /**
+     * @return DirectoryPath
+     */
+    public function getBasePath();
+
+    /**
+     * @param Path $path
+     *
+     * @return bool
+     */
+    public function exists(Path $path);
+
+    /**
+     * @param DirectoryPath $path
+     */
+    public function createDirectory(DirectoryPath $path);
+
+    /**
+     * @param FilePath $path
+     */
+    public function touchFile(FilePath $path);
+
+    /**
+     * @param FilePath $path
+     * @param string   $content
+     */
+    public function putContent(FilePath $path, $content);
+
+    /**
+     * @param Path $path
+     *
+     * @return int
+     */
+    public function getModificationTime(Path $path);
+
+    /**
+     * @param FilePath $path
+     *
+     * @return string
+     */
+    public function getContent(FilePath $path);
+
+    /**
+     * @param FilePath $path
+     */
+    public function removeFile(FilePath $path);
+
+    /**
+     * @param DirectoryPath $path
+     * @param bool          $ignoreEmpty
+     */
+    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false);
+
+    /**
+     * @param Path $path
+     *
+     * @return Path
+     */
+    public function getAbsolutePath(Path $path);
 }

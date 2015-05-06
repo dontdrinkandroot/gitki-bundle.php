@@ -9,7 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\LockService;
+use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
@@ -25,7 +25,7 @@ class WikiService
     /**
      * @var GitServiceInterface
      */
-    protected $gitRepository;
+    protected $gitService;
 
     /**
      * @var LockService
@@ -38,14 +38,14 @@ class WikiService
     protected $editableExtensions = [];
 
     /**
-     * @param GitServiceInterface $gitRepository
-     * @param LockService            $lockService
+     * @param GitServiceInterface $gitService
+     * @param LockService         $lockService
      */
     public function __construct(
-        GitServiceInterface $gitRepository,
+        GitServiceInterface $gitService,
         LockService $lockService
     ) {
-        $this->gitRepository = $gitRepository;
+        $this->gitService = $gitService;
         $this->lockService = $lockService;
     }
 
@@ -56,7 +56,7 @@ class WikiService
      */
     public function exists(Path $relativePath)
     {
-        return $this->gitRepository->exists($relativePath);
+        return $this->gitService->exists($relativePath);
     }
 
     /**
@@ -86,7 +86,7 @@ class WikiService
      */
     public function getContent(FilePath $relativeFilePath)
     {
-        return $this->gitRepository->getContent($relativeFilePath);
+        return $this->gitService->getContent($relativeFilePath);
     }
 
     /**
@@ -101,8 +101,7 @@ class WikiService
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->lockService->assertUserHasLock($user, $relativeFilePath);
-        $this->gitRepository->putContent($relativeFilePath, $content);
-        $this->gitRepository->addAndCommit($user, $commitMessage, $relativeFilePath);
+        $this->gitService->putAndCommitFile($user, $commitMessage, $relativeFilePath, $content);
     }
 
     /**
@@ -127,7 +126,7 @@ class WikiService
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->createLock($user, $relativeFilePath);
-        $this->gitRepository->removeAndCommit($user, $commitMessage, $relativeFilePath);
+        $this->gitService->removeAndCommit($user, $commitMessage, $relativeFilePath);
         $this->removeLock($user, $relativeFilePath);
     }
 
@@ -139,7 +138,7 @@ class WikiService
     public function deleteDirectory(DirectoryPath $relativeDirectoryPath)
     {
         $this->assertDirectoryIsEmpty($relativeDirectoryPath);
-        $this->gitRepository->removeDirectory($relativeDirectoryPath);
+        $this->gitService->removeDirectory($relativeDirectoryPath);
     }
 
     /**
@@ -164,7 +163,7 @@ class WikiService
         $this->lockService->assertUserHasLock($user, $relativeOldFilePath);
         $this->createLock($user, $relativeNewFilePath);
 
-        $this->gitRepository->moveAndCommit(
+        $this->gitService->moveAndCommit(
             $user,
             $commitMessage,
             $relativeOldFilePath,
@@ -193,18 +192,12 @@ class WikiService
 
         $this->assertFileDoesNotExist($relativeFilePath);
 
-        if (!$this->gitRepository->exists($relativeDirectoryPath)) {
-            $this->gitRepository->createDirectory($relativeDirectoryPath);
+        if (!$this->gitService->exists($relativeDirectoryPath)) {
+            $this->gitService->createDirectory($relativeDirectoryPath);
         }
 
         $this->createLock($user, $relativeFilePath);
-        $uploadedFile->move(
-            $this->gitRepository->getAbsolutePath($relativeDirectoryPath)->toAbsoluteString(DIRECTORY_SEPARATOR),
-            $relativeFilePath->getName()
-        );
-
-        $this->gitRepository->addAndCommit($user, $commitMessage, $relativeFilePath);
-
+        $this->gitService->addAndCommitUploadedFile($user, $relativeFilePath, $commitMessage, $uploadedFile);
         $this->removeLock($user, $relativeFilePath);
     }
 
@@ -214,7 +207,7 @@ class WikiService
     public function findAllFiles()
     {
         $finder = new Finder();
-        $finder->in($this->gitRepository->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR));
+        $finder->in($this->gitService->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR));
 
         $filePaths = [];
 
@@ -233,7 +226,7 @@ class WikiService
      */
     public function getFile(FilePath $path)
     {
-        $absolutePath = $this->gitRepository->getAbsolutePath($path);
+        $absolutePath = $this->gitService->getAbsolutePath($path);
 
         return new File($absolutePath->toAbsoluteString(DIRECTORY_SEPARATOR));
     }
@@ -248,7 +241,7 @@ class WikiService
     public function getHistory($maxCount)
     {
         try {
-            return $this->gitRepository->getWorkingCopyHistory($maxCount);
+            return $this->gitService->getWorkingCopyHistory($maxCount);
         } catch (GitException $e) {
             if ($e->getMessage() === "fatal: bad default revision 'HEAD'\n") {
                 /* swallow, history not there yet */
@@ -267,7 +260,7 @@ class WikiService
      */
     public function getFileHistory(FilePath $path, $maxCount = null)
     {
-        return $this->gitRepository->getFileHistory($path, $maxCount);
+        return $this->gitService->getFileHistory($path, $maxCount);
     }
 
     /**
@@ -291,7 +284,7 @@ class WikiService
      */
     public function createFolder(DirectoryPath $path)
     {
-        $this->gitRepository->createDirectory($path);
+        $this->gitService->createDirectory($path);
     }
 
     protected function assertCommitMessageExists($commitMessage)
@@ -308,7 +301,7 @@ class WikiService
      */
     protected function assertDirectoryIsEmpty(DirectoryPath $relativeDirectoryPath)
     {
-        $absoluteDirectoryPath = $this->gitRepository->getAbsolutePath($relativeDirectoryPath);
+        $absoluteDirectoryPath = $this->gitService->getAbsolutePath($relativeDirectoryPath);
         $finder = new Finder();
         $finder->in($absoluteDirectoryPath->toAbsoluteString(DIRECTORY_SEPARATOR));
         $numFiles = $finder->files()->count();
@@ -324,7 +317,7 @@ class WikiService
      */
     protected function assertFileDoesNotExist(FilePath $relativeNewFilePath)
     {
-        if ($this->gitRepository->exists($relativeNewFilePath)) {
+        if ($this->gitService->exists($relativeNewFilePath)) {
             throw new FileExistsException(
                 'File ' . $relativeNewFilePath->toRelativeString(DIRECTORY_SEPARATOR) . ' already exists'
             );
