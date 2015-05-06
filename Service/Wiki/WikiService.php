@@ -194,7 +194,7 @@ class WikiService
         $this->assertFileDoesNotExist($relativeFilePath);
 
         if (!$this->gitRepository->exists($relativeDirectoryPath)) {
-            $this->gitRepository->mkdir($relativeDirectoryPath);
+            $this->gitRepository->createDirectory($relativeDirectoryPath);
         }
 
         $this->createLock($user, $relativeFilePath);
@@ -291,7 +291,7 @@ class WikiService
      */
     public function createFolder(DirectoryPath $path)
     {
-        $this->gitRepository->createFolder($path);
+        $this->gitRepository->createDirectory($path);
     }
 
     protected function assertCommitMessageExists($commitMessage)

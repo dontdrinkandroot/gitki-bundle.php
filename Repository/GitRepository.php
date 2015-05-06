@@ -68,7 +68,7 @@ class GitRepository implements GitRepositoryInterface
             $options['max-count'] = $maxCount;
         }
         if (null !== $path) {
-            $options['p'] = $path->toRelativeString(DIRECTORY_SEPARATOR);
+            $options['p'] = $path->toRelativeFileSystemString();
         }
 
         $workingCopy = $this->getWorkingCopy();
@@ -85,7 +85,7 @@ class GitRepository implements GitRepositoryInterface
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
-            $workingCopy->add($path->toRelativeString(DIRECTORY_SEPARATOR));
+            $workingCopy->add($path->toRelativeFileSystemString());
         }
     }
 
@@ -96,7 +96,7 @@ class GitRepository implements GitRepositoryInterface
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
-            $workingCopy->rm($path->toRelativeString(DIRECTORY_SEPARATOR));
+            $workingCopy->rm($path->toRelativeFileSystemString());
         }
     }
 
@@ -135,8 +135,8 @@ class GitRepository implements GitRepositoryInterface
     {
         $workingCopy = $this->getWorkingCopy();
         $workingCopy->mv(
-            $oldPath->toRelativeString(DIRECTORY_SEPARATOR),
-            $newPath->toRelativeString(DIRECTORY_SEPARATOR)
+            $oldPath->toRelativeFileSystemString(),
+            $newPath->toRelativeFileSystemString()
         );
         $this->commit($author, $commitMessage);
     }
@@ -148,7 +148,7 @@ class GitRepository implements GitRepositoryInterface
     {
         $absolutePath = $this->getAbsolutePath($path);
 
-        return $this->getFileSystem()->exists($absolutePath->toAbsoluteString(DIRECTORY_SEPARATOR));
+        return $this->getFileSystem()->exists($absolutePath->toAbsoluteFileSystemString());
     }
 
     /**
@@ -162,7 +162,7 @@ class GitRepository implements GitRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function mkdir(DirectoryPath $relativePath)
+    public function createDirectory(DirectoryPath $relativePath)
     {
         $this->getFileSystem()->mkdir($this->getAbsolutePathString($relativePath), 0755);
     }
@@ -170,7 +170,7 @@ class GitRepository implements GitRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function touch(FilePath $relativePath)
+    public function touchFile(FilePath $relativePath)
     {
         $this->getFileSystem()->touch($this->getAbsolutePathString($relativePath));
     }
@@ -216,14 +216,6 @@ class GitRepository implements GitRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function createFolder(DirectoryPath $path)
-    {
-        $this->getFileSystem()->mkdir($this->getAbsolutePathString($path));
-    }
-
-    /**
      * @return \GitWrapper\GitWorkingCopy
      */
     protected function getWorkingCopy()
@@ -241,7 +233,7 @@ class GitRepository implements GitRepositoryInterface
      */
     protected function getAbsolutePathString(Path $relativePath)
     {
-        return $this->getAbsolutePath($relativePath)->toAbsoluteString(DIRECTORY_SEPARATOR);
+        return $this->getAbsolutePath($relativePath)->toAbsoluteFileSystemString();
     }
 
     /**

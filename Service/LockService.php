@@ -39,11 +39,11 @@ class LockService
         $this->assertUnlocked($user, $relativeLockPath);
 
         if (!$this->gitRepository->exists($relativeLockDir)) {
-            $this->gitRepository->mkdir($relativeLockDir);
+            $this->gitRepository->createDirectory($relativeLockDir);
         }
 
         if ($this->gitRepository->exists($relativeLockPath)) {
-            $this->gitRepository->touch($relativeLockPath);
+            $this->gitRepository->touchFile($relativeLockPath);
         } else {
             $this->gitRepository->putContent($relativeLockPath, $user->getEmail());
         }
@@ -106,7 +106,7 @@ class LockService
         $this->assertUserHasLock($user, $relativeFilePath);
         $lockPath = $this->getLockPath($relativeFilePath);
 
-        $this->gitRepository->touch($lockPath);
+        $this->gitRepository->touchFile($lockPath);
 
         return $this->getLockExpiry($lockPath);
     }

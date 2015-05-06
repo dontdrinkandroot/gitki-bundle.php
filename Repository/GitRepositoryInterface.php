@@ -22,12 +22,12 @@ interface GitRepositoryInterface
     /**
      * @param DirectoryPath $path
      */
-    public function mkdir(DirectoryPath $path);
+    public function createDirectory(DirectoryPath $path);
 
     /**
      * @param FilePath $path
      */
-    public function touch(FilePath $path);
+    public function touchFile(FilePath $path);
 
     /**
      * @param FilePath $path
@@ -90,11 +90,6 @@ interface GitRepositoryInterface
      * @return CommitMetadata[]
      */
     public function getFileHistory(FilePath $path, $maxCount);
-
-    /**
-     * @param DirectoryPath $path
-     */
-    public function createFolder(DirectoryPath $path);
 
     /**
      * @param FilePath $path
