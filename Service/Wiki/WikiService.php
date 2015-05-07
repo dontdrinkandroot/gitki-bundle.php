@@ -3,13 +3,13 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 
+use Dontdrinkandroot\GitkiBundle\Exception\ComitMessageMissingException;
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
-use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
+use Dontdrinkandroot\GitkiBundle\Service\Lock\LockServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
@@ -28,7 +28,7 @@ class WikiService
     protected $gitService;
 
     /**
-     * @var LockService
+     * @var LockServiceInterface
      */
     private $lockService;
 
@@ -38,12 +38,12 @@ class WikiService
     protected $editableExtensions = [];
 
     /**
-     * @param GitServiceInterface $gitService
-     * @param LockService         $lockService
+     * @param GitServiceInterface  $gitService
+     * @param LockServiceInterface $lockService
      */
     public function __construct(
         GitServiceInterface $gitService,
-        LockService $lockService
+        LockServiceInterface $lockService
     ) {
         $this->gitService = $gitService;
         $this->lockService = $lockService;
@@ -137,7 +137,6 @@ class WikiService
      */
     public function deleteDirectory(DirectoryPath $relativeDirectoryPath)
     {
-        $this->assertDirectoryIsEmpty($relativeDirectoryPath);
         $this->gitService->removeDirectory($relativeDirectoryPath);
     }
 
@@ -197,7 +196,7 @@ class WikiService
         }
 
         $this->createLock($user, $relativeFilePath);
-        $this->gitService->addAndCommitUploadedFile($user, $commitMessage, $uploadedFile, $relativeFilePath);
+        $this->gitService->addAndCommitUploadedFile($user, $relativeFilePath, $uploadedFile, $commitMessage);
         $this->removeLock($user, $relativeFilePath);
     }
 
@@ -290,23 +289,7 @@ class WikiService
     protected function assertCommitMessageExists($commitMessage)
     {
         if (empty($commitMessage)) {
-            throw new \Exception('Commit message must not be empty');
-        }
-    }
-
-    /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @throws DirectoryNotEmptyException
-     */
-    protected function assertDirectoryIsEmpty(DirectoryPath $relativeDirectoryPath)
-    {
-        $absoluteDirectoryPath = $this->gitService->getAbsolutePath($relativeDirectoryPath);
-        $finder = new Finder();
-        $finder->in($absoluteDirectoryPath->toAbsoluteString(DIRECTORY_SEPARATOR));
-        $numFiles = $finder->files()->count();
-        if ($numFiles > 0) {
-            throw new DirectoryNotEmptyException($relativeDirectoryPath);
+            throw new ComitMessageMissingException();
         }
     }
 
@@ -318,9 +301,7 @@ class WikiService
     protected function assertFileDoesNotExist(FilePath $relativeNewFilePath)
     {
         if ($this->gitService->exists($relativeNewFilePath)) {
-            throw new FileExistsException(
-                'File ' . $relativeNewFilePath->toRelativeString(DIRECTORY_SEPARATOR) . ' already exists'
-            );
+            throw new FileExistsException($relativeNewFilePath);
         }
     }
 }

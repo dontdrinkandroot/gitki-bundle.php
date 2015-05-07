@@ -8,7 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
-class LockService
+class LockService implements LockServiceInterface
 {
 
     /**
@@ -25,64 +25,54 @@ class LockService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath         $relativeFilePath
-     *
-     * @throws FileLockedException
+     * {@inheritdoc}
      */
-    public function createLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function createLock(GitUserInterface $user, FilePath $filePath)
     {
-        $relativeLockPath = $this->getLockPath($relativeFilePath);
-        $relativeLockDir = $relativeLockPath->getParentPath();
+        $lockPath = $this->getLockPath($filePath);
+        $relativeLockDir = $lockPath->getParentPath();
 
-        $this->assertUnlocked($user, $relativeLockPath);
+        $this->assertUnlocked($user, $lockPath);
 
         if (!$this->fileSystemService->exists($relativeLockDir)) {
             $this->fileSystemService->createDirectory($relativeLockDir);
         }
 
-        if ($this->fileSystemService->exists($relativeLockPath)) {
-            $this->fileSystemService->touchFile($relativeLockPath);
+        if ($this->fileSystemService->exists($lockPath)) {
+            $this->fileSystemService->touchFile($lockPath);
         } else {
-            $this->fileSystemService->putContent($relativeLockPath, $user->getEmail());
+            $this->fileSystemService->putContent($lockPath, $user->getEmail());
         }
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath         $relativeFilePath
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
-    public function removeLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function removeLock(GitUserInterface $user, FilePath $filePath)
     {
-        $relativeLockPath = $this->getLockPath($relativeFilePath);
-        if (!$this->fileSystemService->exists($relativeLockPath)) {
+        $lockPath = $this->getLockPath($filePath);
+        if (!$this->fileSystemService->exists($lockPath)) {
             return;
         }
 
-        if ($this->isLockExpired($relativeLockPath)) {
+        if ($this->isLockExpired($lockPath)) {
             return;
         }
 
-        $lockLogin = $this->getLockLogin($relativeLockPath);
+        $lockLogin = $this->getLockLogin($lockPath);
         if ($lockLogin != $user->getEmail()) {
             throw new \Exception('Cannot remove lock of different user');
         }
 
-        $this->removeLockFile($relativeLockPath);
+        $this->removeLockFile($lockPath);
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath         $relativeFilePath
-     *
-     * @return bool
-     * @throws FileLockExpiredException
+     * {@inheritdoc}
      */
-    public function assertUserHasLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function assertUserHasLock(GitUserInterface $user, FilePath $filePath)
     {
-        $lockPath = $this->getLockPath($relativeFilePath);
+        $lockPath = $this->getLockPath($filePath);
         if ($this->fileSystemService->exists($lockPath) && !$this->isLockExpired($lockPath)) {
             $lockLogin = $this->getLockLogin($lockPath);
             if ($lockLogin == $user->getEmail()) {
@@ -94,16 +84,12 @@ class LockService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath         $relativeFilePath
-     *
-     * @return int
-     * @throws FileLockExpiredException
+     * {@inheritdoc}
      */
-    public function holdLockForUser(GitUserInterface $user, FilePath $relativeFilePath)
+    public function holdLockForUser(GitUserInterface $user, FilePath $filePath)
     {
-        $this->assertUserHasLock($user, $relativeFilePath);
-        $lockPath = $this->getLockPath($relativeFilePath);
+        $this->assertUserHasLock($user, $filePath);
+        $lockPath = $this->getLockPath($filePath);
 
         $this->fileSystemService->touchFile($lockPath);
 
@@ -126,15 +112,15 @@ class LockService
     }
 
     /**
-     * @param FilePath $relativeLockPath
+     * @param FilePath $lockPath
      *
      * @return int
      */
-    protected function getLockExpiry(FilePath $relativeLockPath)
+    protected function getLockExpiry(FilePath $lockPath)
     {
-        $mTime = $this->fileSystemService->getModificationTime($relativeLockPath);
+        $modificationTime = $this->fileSystemService->getModificationTime($lockPath);
 
-        return $mTime + (60);
+        return $modificationTime + (60);
     }
 
     /**
@@ -148,14 +134,14 @@ class LockService
     }
 
     /**
-     * @param FilePath $relativeFilePath
+     * @param FilePath $filePath
      *
      * @return FilePath
      */
-    protected function getLockPath(FilePath $relativeFilePath)
+    protected function getLockPath(FilePath $filePath)
     {
-        $name = $relativeFilePath->getName();
-        $relativeLockPath = $relativeFilePath->getParentPath()->appendFile($name . '.lock');
+        $name = $filePath->getName();
+        $relativeLockPath = $filePath->getParentPath()->appendFile('.' . $name . '.lock');
 
         return $relativeLockPath;
     }
@@ -170,26 +156,26 @@ class LockService
 
     /**
      * @param GitUserInterface $user
-     * @param FilePath         $relativeLockPath
+     * @param FilePath         $lockPath
      *
      * @return bool
      * @throws FileLockedException
      */
-    protected function assertUnlocked(GitUserInterface $user, FilePath $relativeLockPath)
+    protected function assertUnlocked(GitUserInterface $user, FilePath $lockPath)
     {
-        if (!$this->fileSystemService->exists($relativeLockPath)) {
+        if (!$this->fileSystemService->exists($lockPath)) {
             return true;
         }
 
-        if ($this->isLockExpired($relativeLockPath)) {
+        if ($this->isLockExpired($lockPath)) {
             return true;
         }
 
-        $lockLogin = $this->getLockLogin($relativeLockPath);
+        $lockLogin = $this->getLockLogin($lockPath);
         if ($lockLogin == $user->getEmail()) {
             return true;
         }
 
-        throw new FileLockedException($lockLogin, $this->getLockExpiry($relativeLockPath));
+        throw new FileLockedException($lockLogin, $this->getLockExpiry($lockPath));
     }
 }
