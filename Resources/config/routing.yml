@@ -18,10 +18,10 @@ ddr_gitki_file:
     requirements:
         path: .+
 
-ddr_gitki_meta_json_directories:
-    path: /meta/json/directories
-    defaults: { _controller: DdrGitkiBundle:Metadata:jsonDirectories }
+ddr_gitki_meta_directories_json:
+    path: /meta/directories.json
+    defaults: { _controller: DdrGitkiBundle:Metadata:directoriesJson }
 
-ddr_gitki_meta_json_files:
-    path: /meta/json/files
-    defaults: { _controller: DdrGitkiBundle:Metadata:jsonFiles }
+ddr_gitki_meta_files_json:
+    path: /meta/files.json
+    defaults: { _controller: DdrGitkiBundle:Metadata:filesJson }

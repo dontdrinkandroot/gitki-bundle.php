@@ -25,7 +25,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     private $repository;
 
     /**
-     * @var \Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface
+     * @var GitServiceInterface
      */
     private $gitRepository;
 

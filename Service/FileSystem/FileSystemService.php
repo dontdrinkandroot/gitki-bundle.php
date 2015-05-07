@@ -149,11 +149,6 @@ class FileSystemService implements FileSystemServiceInterface
         $directories = [];
 
         if ($includeRoot) {
-            $directories[] = new Directory(
-                $this->getBasePath()->toAbsoluteFileSystemString(),
-                $root->toRelativeFileSystemString(),
-                new DirectoryPath()
-            );
             $directories[] = $this->buildDirectory($root);
         }
 

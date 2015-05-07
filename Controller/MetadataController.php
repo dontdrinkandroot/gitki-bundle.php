@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MetadataController extends BaseController
 {
 
-    public function jsonDirectoriesAction()
+    public function directoriesJsonAction()
     {
         $this->assertWatcher();
         $directoryService = $this->getDirectoryService();
@@ -21,7 +21,7 @@ class MetadataController extends BaseController
         return $response;
     }
 
-    public function jsonFilesAction()
+    public function filesJsonAction()
     {
         $this->assertWatcher();
         $directoryService = $this->getDirectoryService();

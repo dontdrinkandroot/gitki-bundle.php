@@ -93,7 +93,7 @@ class DirectoryService extends AbstractService implements DirectoryServiceInterf
      */
     public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false)
     {
-        return $this->fileSystemService->listDirectories($rootPath, $includeRoot, true, $recursive);
+        return $this->fileSystemService->listDirectories($rootPath, $includeRoot, $recursive);
     }
 
     /**
