@@ -3,6 +3,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\FileSystem;
 
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
@@ -75,7 +77,7 @@ interface FileSystemServiceInterface
      * @param bool          $includeRoot
      * @param bool          $recursive
      *
-     * @return DirectoryPath[]
+     * @return Directory[]
      */
     public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true);
 
@@ -83,7 +85,7 @@ interface FileSystemServiceInterface
      * @param DirectoryPath $root
      * @param bool          $recursive
      *
-     * @return FilePath[]
+     * @return File[]
      */
     public function listFiles(DirectoryPath $root, $recursive = true);
 }

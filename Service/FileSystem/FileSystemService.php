@@ -4,12 +4,15 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\FileSystem;
 
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 use Dontdrinkandroot\Utils\StringUtils;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Performs file system operations relative to a base path.
@@ -142,7 +145,30 @@ class FileSystemService implements FileSystemServiceInterface
      */
     public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true)
     {
-        // TODO: Implement listDirectories() method.
+        /** @var Directory[] $directories */
+        $directories = [];
+
+        if ($includeRoot) {
+            $directories[] = new Directory(
+                $this->getBasePath()->toAbsoluteFileSystemString(),
+                $root->toRelativeFileSystemString(),
+                new DirectoryPath()
+            );
+            $directories = $this->buildDirectory($root);
+        }
+
+        $finder = new Finder();
+        $finder->in($this->getAbsolutePath($root)->toAbsoluteFileSystemString());
+        if (!$recursive) {
+            $finder->depth(0);
+        }
+        $finder->ignoreDotFiles(true);
+
+        foreach ($finder->directories() as $directory) {
+            $directories[] = $this->buildDirectory($root, $directory);
+        }
+
+        return $directories;
     }
 
     /**
@@ -150,7 +176,27 @@ class FileSystemService implements FileSystemServiceInterface
      */
     public function listFiles(DirectoryPath $root, $recursive = true)
     {
-        // TODO: Implement listFiles() method.
+        /* @var File[] $files */
+        $files = [];
+
+        $finder = new Finder();
+        $finder->in($this->getAbsolutePath($root)->toAbsoluteFileSystemString());
+        if (!$recursive) {
+            $finder->depth(0);
+        }
+        $finder->ignoreDotFiles(true);
+
+        foreach ($finder->files() as $splFile) {
+            /** @var SplFileInfo $splFile */
+            $file = new File(
+                $this->getBasePath()->toAbsoluteFileSystemString(),
+                $root->toRelativeFileSystemString(),
+                $splFile->getRelativePathName()
+            );
+            $files[] = $file;
+        }
+
+        return $files;
     }
 
     /**
@@ -177,5 +223,27 @@ class FileSystemService implements FileSystemServiceInterface
         if ($numFiles > 0) {
             throw new DirectoryNotEmptyException($path);
         }
+    }
+
+    /**
+     * @param DirectoryPath $root
+     * @param SplFileInfo   $directory
+     *
+     * @return Directory
+     */
+    protected function buildDirectory(DirectoryPath $root, SplFileInfo $directory = null)
+    {
+        $relativeDirectoryPath = '';
+        if (null !== $directory) {
+            $relativeDirectoryPath = $directory->getRelativePathName();
+        }
+
+        $subDirectory = new Directory(
+            $this->getBasePath()->toAbsoluteFileSystemString(),
+            $root->toRelativeFileSystemString(),
+            $relativeDirectoryPath . DIRECTORY_SEPARATOR
+        );
+
+        return $subDirectory;
     }
 }
