@@ -154,7 +154,7 @@ class FileSystemService implements FileSystemServiceInterface
                 $root->toRelativeFileSystemString(),
                 new DirectoryPath()
             );
-            $directories = $this->buildDirectory($root);
+            $directories[] = $this->buildDirectory($root);
         }
 
         $finder = new Finder();
@@ -227,23 +227,23 @@ class FileSystemService implements FileSystemServiceInterface
 
     /**
      * @param DirectoryPath $root
-     * @param SplFileInfo   $directory
+     * @param SplFileInfo   $splDirectory
      *
      * @return Directory
      */
-    protected function buildDirectory(DirectoryPath $root, SplFileInfo $directory = null)
+    protected function buildDirectory(DirectoryPath $root, SplFileInfo $splDirectory = null)
     {
         $relativeDirectoryPath = '';
-        if (null !== $directory) {
-            $relativeDirectoryPath = $directory->getRelativePathName();
+        if (null !== $splDirectory) {
+            $relativeDirectoryPath = $splDirectory->getRelativePathName();
         }
 
-        $subDirectory = new Directory(
+        $directory = new Directory(
             $this->getBasePath()->toAbsoluteFileSystemString(),
             $root->toRelativeFileSystemString(),
             $relativeDirectoryPath . DIRECTORY_SEPARATOR
         );
 
-        return $subDirectory;
+        return $directory;
     }
 }

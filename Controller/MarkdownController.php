@@ -19,6 +19,7 @@ class MarkdownController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
+        $user = $this->getUser();
 
         $file = null;
         try {
@@ -27,6 +28,7 @@ class MarkdownController extends BaseController
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response->setLastModified($lastModified);
+            $response->setEtag(md5($lastModified->getTimestamp() . $user));
             if ($response->isNotModified($request)) {
                 return $response;
             }
@@ -37,7 +39,7 @@ class MarkdownController extends BaseController
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:Markdown:view.html.twig',
                 [
-                    'path'     => $filePath,
+                    'path' => $filePath,
                     'document'           => $document,
                     'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
                 ]

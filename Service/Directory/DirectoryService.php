@@ -7,38 +7,28 @@ use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
-use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Dontdrinkandroot\Service\AbstractService;
 
-class DirectoryService implements DirectoryServiceInterface
+class DirectoryService extends AbstractService implements DirectoryServiceInterface
 {
 
     /**
      * @var FileSystemServiceInterface
      */
-    private $fileSystemService;
+    protected $fileSystemService;
 
     /** @var string[] */
-    private $indexFiles = [];
-
-    /**
-     * @var ElasticsearchRepositoryInterface
-     */
-    private $elasticsearchRepository;
+    protected $indexFiles = [];
 
     /**
      * @param FileSystemServiceInterface $fileSystemService
-     * @param ElasticsearchRepositoryInterface $elasticsearchRepository
      */
     public function __construct(
-        FileSystemServiceInterface $fileSystemService,
-        ElasticsearchRepositoryInterface $elasticsearchRepository
+        FileSystemServiceInterface $fileSystemService
     ) {
         $this->fileSystemService = $fileSystemService;
-        $this->elasticsearchRepository = $elasticsearchRepository;
     }
 
     /**
@@ -70,7 +60,7 @@ class DirectoryService implements DirectoryServiceInterface
     public function listDirectory(DirectoryPath $relativeDirectoryPath)
     {
         $files = $this->listFiles($relativeDirectoryPath);
-        $subDirectories = $this->listSubdirectories($relativeDirectoryPath);
+        $subDirectories = $this->fileSystemService->listDirectories($relativeDirectoryPath, false, false);
 
         usort(
             $subDirectories,
@@ -82,7 +72,16 @@ class DirectoryService implements DirectoryServiceInterface
         usort(
             $files,
             function (File $a, File $b) {
-                return strcmp($a->getFilename(), $b->getFilename());
+                $titleA = $a->getTitle();
+                if (null === $titleA) {
+                    $titleA = $a->getFilename();
+                }
+                $titleB = $b->getTitle();
+                if (null === $titleB) {
+                    $titleB = $b->getFilename();
+                }
+
+                return strcmp($titleA, $titleB);
             }
         );
 
@@ -90,31 +89,11 @@ class DirectoryService implements DirectoryServiceInterface
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @return Directory[]
+     * {@inheritdoc}
      */
-    protected function listSubdirectories(
-        DirectoryPath $relativeDirectoryPath
-    ) {
-        $subDirectories = [];
-        $finder = new Finder();
-        $finder->in(
-            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteFileSystemString()
-        );
-        $finder->depth(0);
-        $finder->ignoreDotFiles(true);
-        foreach ($finder->directories() as $directory) {
-            /* @var SplFileInfo $directory */
-            $subDirectory = new Directory(
-                $this->fileSystemService->getBasePath()->toAbsoluteFileSystemString(),
-                $relativeDirectoryPath->toRelativeFileSystemString(),
-                $directory->getRelativePathName() . DIRECTORY_SEPARATOR
-            );
-            $subDirectories[] = $subDirectory;
-        }
-
-        return $subDirectories;
+    public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true)
+    {
+        return $this->fileSystemService->listDirectories($rootPath, $includeRoot, true);
     }
 
     /**
@@ -124,55 +103,6 @@ class DirectoryService implements DirectoryServiceInterface
      */
     protected function listFiles(DirectoryPath $relativeDirectoryPath)
     {
-        /* @var File[] $files */
-        $files = [];
-
-        $finder = new Finder();
-        $finder->in(
-            $this->fileSystemService->getAbsolutePath($relativeDirectoryPath)->toAbsoluteFileSystemString()
-        );
-        $finder->depth(0);
-        foreach ($finder->files() as $splFile) {
-            /** @var SplFileInfo $splFile */
-            if ($splFile->getExtension() != 'lock') {
-                $file = new File(
-                    $this->fileSystemService->getBasePath()->toAbsoluteFileSystemString(),
-                    $relativeDirectoryPath->toRelativeFileSystemString(),
-                    $splFile->getRelativePathName()
-                );
-                $title = $this->elasticsearchRepository->findTitle($file->getAbsolutePath());
-                if (null !== $title) {
-                    $file->setTitle($title);
-                }
-                $files[] = $file;
-            }
-        }
-
-        return $files;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true)
-    {
-        $subDirectories = [];
-        if ($includeRoot) {
-            $subDirectories[] = $rootPath;
-        }
-
-        $basePath = $this->fileSystemService->getAbsolutePath($rootPath);
-        $finder = new Finder();
-        $finder->in($basePath->toAbsoluteFileSystemString());
-        foreach ($finder->directories() as $splFile) {
-            /** @var SplFileInfo $splFile */
-            $subDirectory = DirectoryPath::parse(
-                $splFile->getRelativePathname() . DIRECTORY_SEPARATOR,
-                DIRECTORY_SEPARATOR
-            );
-            $subDirectories[] = $subDirectory;
-        }
-
-        return $subDirectories;
+        return $this->fileSystemService->listFiles($relativeDirectoryPath, false);
     }
 }

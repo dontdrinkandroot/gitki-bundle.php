@@ -5,7 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\Path;
 
-abstract class PathAwareFileInfo extends \SplFileInfo
+abstract class AbstractPathAwareFileInfo extends \SplFileInfo
 {
 
     /**

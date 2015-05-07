@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Directory;
 
 use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
+use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
@@ -27,7 +28,7 @@ interface DirectoryServiceInterface
      * @param DirectoryPath $rootPath
      * @param bool          $includeRoot
      *
-     * @return DirectoryPath[]
+     * @return Directory[]
      */
     public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true);
 }

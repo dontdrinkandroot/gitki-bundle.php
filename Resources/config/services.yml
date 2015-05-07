@@ -78,7 +78,7 @@ services:
             - [setAdminRole, ['%ddr_gitki.role.admin%']]
 
     ddr.gitki.service.directory:
-        class: Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService
+        class: Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService
         arguments:
             - @ddr.gitki.service.file_system
             - @ddr.gitki.repository.elasticsearch

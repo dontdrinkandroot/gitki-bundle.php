@@ -19,6 +19,7 @@ class FileController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
+        $user = $this->getGitUser();
 
         $file = $this->getWikiService()->getFile($filePath);
 
@@ -26,6 +27,7 @@ class FileController extends BaseController
         $lastModified = new \DateTime();
         $lastModified->setTimestamp($file->getMTime());
         $response->setLastModified($lastModified);
+        $response->setEtag(md5($lastModified->getTimestamp() . $user));
         if ($response->isNotModified($request)) {
             return $response;
         }
@@ -97,7 +99,8 @@ class FileController extends BaseController
         $directories = $this->getDirectoryService()->findSubDirectories(new DirectoryPath());
         $directoryChoices = [];
         foreach ($directories as $directory) {
-            $directoryChoices[$directory->toAbsoluteString()] = $directory->toAbsoluteString();
+            $directoryString = $directory->getAbsolutePath()->toAbsoluteUrlString();
+            $directoryChoices[$directoryString] = $directoryString;
         }
 
         $form = $this->createFormBuilder()

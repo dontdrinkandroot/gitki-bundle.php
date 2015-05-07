@@ -5,7 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\DirectoryPath;
 
-class Directory extends PathAwareFileInfo
+class Directory extends AbstractPathAwareFileInfo
 {
 
     /**

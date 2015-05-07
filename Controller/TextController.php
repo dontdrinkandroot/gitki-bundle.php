@@ -27,6 +27,7 @@ class TextController extends BaseController
             $response = new Response();
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
+            $response->setEtag(md5($lastModified->getTimestamp() . $user));
             $response->setLastModified($lastModified);
 
             $content = $this->getWikiService()->getContent($filePath);
