@@ -19,7 +19,7 @@ class FileController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->getUser();
 
         $file = $this->getWikiService()->getFile($filePath);
 
@@ -96,7 +96,7 @@ class FileController extends BaseController
             throw new ConflictHttpException($e->getMessage());
         }
 
-        $directories = $this->getDirectoryService()->findSubDirectories(new DirectoryPath());
+        $directories = $this->getDirectoryService()->listDirectories(new DirectoryPath());
         $directoryChoices = [];
         foreach ($directories as $directory) {
             $directoryString = $directory->getAbsolutePath()->toAbsoluteUrlString();

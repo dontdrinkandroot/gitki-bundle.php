@@ -19,7 +19,7 @@ class TextController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->getUser();
 
         $file = null;
         try {
@@ -82,15 +82,15 @@ class TextController extends BaseController
             ->add(
                 'actions',
                 'form_actions',
-                array(
-                    'buttons' => array(
-                        'save'   => array('type' => 'submit', 'options' => array('label' => 'Save')),
-                        'cancel' => array(
+                [
+                    'buttons' => [
+                        'save'   => ['type' => 'submit', 'options' => ['label' => 'Save']],
+                        'cancel' => [
                             'type'    => 'submit',
-                            'options' => array('label' => 'Cancel', 'button_class' => 'default')
-                        ),
-                    )
-                )
+                            'options' => ['label' => 'Cancel', 'button_class' => 'default']
+                        ],
+                    ]
+                ]
             )
             ->getForm();
 

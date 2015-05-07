@@ -5,7 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\FilePath;
 
-class File extends AbstractPathAwareFileInfo
+class File extends AbstractPathAwareFileInfo implements \JsonSerializable
 {
 
     /**
@@ -60,5 +60,18 @@ class File extends AbstractPathAwareFileInfo
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    function jsonSerialize()
+    {
+        $data = [
+            'path'  => $this->getAbsolutePath()->toAbsoluteString(),
+            'title' => $this->getTitle()
+        ];
+
+        return $data;
     }
 }

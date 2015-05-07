@@ -57,7 +57,7 @@ class DirectoryService extends AbstractService implements DirectoryServiceInterf
     /**
      * {@inheritdoc}
      */
-    public function listDirectory(DirectoryPath $relativeDirectoryPath)
+    public function getDirectoryListing(DirectoryPath $relativeDirectoryPath)
     {
         $files = $this->listFiles($relativeDirectoryPath);
         $subDirectories = $this->fileSystemService->listDirectories($relativeDirectoryPath, false, false);
@@ -91,18 +91,16 @@ class DirectoryService extends AbstractService implements DirectoryServiceInterf
     /**
      * {@inheritdoc}
      */
-    public function findSubDirectories(DirectoryPath $rootPath, $includeRoot = true)
+    public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false)
     {
-        return $this->fileSystemService->listDirectories($rootPath, $includeRoot, true);
+        return $this->fileSystemService->listDirectories($rootPath, $includeRoot, true, $recursive);
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @return File[]
+     * {@inheritdoc}
      */
-    protected function listFiles(DirectoryPath $relativeDirectoryPath)
+    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false)
     {
-        return $this->fileSystemService->listFiles($relativeDirectoryPath, false);
+        return $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
     }
 }

@@ -3,7 +3,6 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Directory;
 
-use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
@@ -29,13 +28,11 @@ class ElasticsearchAwareDirectoryService extends DirectoryService
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @return File[]
+     * {@inheritdoc}
      */
-    protected function listFiles(DirectoryPath $relativeDirectoryPath)
+    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false)
     {
-        $files = $this->fileSystemService->listFiles($relativeDirectoryPath, false);
+        $files = $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
         foreach ($files as $file) {
             $title = $this->elasticsearchRepository->findTitle($file->getAbsolutePath());
             if (null !== $title) {
