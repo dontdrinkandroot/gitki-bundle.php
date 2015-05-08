@@ -67,9 +67,12 @@ class File extends AbstractPathAwareFileInfo implements \JsonSerializable
      */
     function jsonSerialize()
     {
+        $absolutePath = $this->getAbsolutePath();
         $data = [
-            'path'  => $this->getAbsolutePath()->toAbsoluteString(),
-            'title' => $this->getTitle()
+            'path'      => $absolutePath->toAbsoluteString(),
+            'name'      => $absolutePath->getFileName(),
+            'extension' => $absolutePath->getExtension(),
+            'title'     => $this->getTitle()
         ];
 
         return $data;

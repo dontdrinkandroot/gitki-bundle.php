@@ -78,3 +78,25 @@
     }
 
 }
+
+#file-suggestions {
+
+    list-style-type: none;
+    padding-left: 0;
+    max-height: 200px;
+    overflow-y: scroll;
+
+    .suggestion {
+        margin-bottom: @line-height-computed / 4;
+    }
+
+    .title {
+        display: block;
+    }
+
+    .path {
+        display: block;
+        color: @gray;
+        font-size: @font-size-small;
+    }
+}

@@ -996,4 +996,7 @@ a[rel="external"]:after{content:"\f08e";font-family:FontAwesome;font-weight:norm
 .wiki .markdown-page{padding-top:20px}.wiki .markdown-page .h1:first-child,.wiki .markdown-page h1:first-child{margin-top:24px;padding-bottom:19px;border-bottom:solid 1px #dedede;margin-bottom:20px}
 .wiki .markdown-page h2:first-child,.wiki .markdown-page .h2:first-child{margin-top:0}
 .wiki a.missing{color:#bf0000}
+#file-suggestions{list-style-type:none;padding-left:0;max-height:200px;overflow-y:scroll}#file-suggestions .suggestion{margin-bottom:5.5px}
+#file-suggestions .title{display:block}
+#file-suggestions .path{display:block;color:#808080;font-size:12px}
 body{padding-top:51px}
