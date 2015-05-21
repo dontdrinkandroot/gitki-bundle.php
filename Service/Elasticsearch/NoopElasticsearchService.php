@@ -43,16 +43,25 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
         /* Noop */
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileChanged(FileChangedEvent $event)
     {
         /* Noop */
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileDeleted(FileDeletedEvent $event)
     {
         /* Noop */
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileMoved(FileMovedEvent $event)
     {
         /* Noop */

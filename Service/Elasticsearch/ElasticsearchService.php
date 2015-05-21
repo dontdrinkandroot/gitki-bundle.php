@@ -75,16 +75,25 @@ class ElasticsearchService implements ElasticsearchServiceInterface
         $this->repository->clear();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileChanged(FileChangedEvent $event)
     {
         $this->indexFile($event->getFile());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileDeleted(FileDeletedEvent $event)
     {
         $this->deleteFile($event->getFile());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onFileMoved(FileMovedEvent $event)
     {
         $this->deleteFile($event->getPreviousFile());

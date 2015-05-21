@@ -3,10 +3,14 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
+use Dontdrinkandroot\GitkiBundle\Event\Listener\FileChangedEventListenerInterface;
+use Dontdrinkandroot\GitkiBundle\Event\Listener\FileDeletedEventListenerInterface;
+use Dontdrinkandroot\GitkiBundle\Event\Listener\FileMovedEventListenerInterface;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 
 interface ElasticsearchServiceInterface
+    extends FileChangedEventListenerInterface, FileMovedEventListenerInterface, FileDeletedEventListenerInterface
 {
 
     /**
