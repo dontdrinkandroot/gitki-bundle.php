@@ -322,9 +322,9 @@ hr{margin-top:22px;margin-bottom:22px;border:0;border-top:1px solid #dedede}
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:inherit;font-weight:600;line-height:1.1;color:inherit}h1 small,h2 small,h3 small,h4 small,h5 small,h6 small,.h1 small,.h2 small,.h3 small,.h4 small,.h5 small,.h6 small,h1 .small,h2 .small,h3 .small,h4 .small,h5 .small,h6 .small,.h1 .small,.h2 .small,.h3 .small,.h4 .small,.h5 .small,.h6 .small{font-weight:normal;line-height:1;color:#bfbfbf}
 h1,.h1,h2,.h2,h3,.h3{margin-top:22px;margin-bottom:11px}h1 small,.h1 small,h2 small,.h2 small,h3 small,.h3 small,h1 .small,.h1 .small,h2 .small,.h2 .small,h3 .small,.h3 .small{font-size:65%}
 h4,.h4,h5,.h5,h6,.h6{margin-top:11px;margin-bottom:11px}h4 small,.h4 small,h5 small,.h5 small,h6 small,.h6 small,h4 .small,.h4 .small,h5 .small,.h5 .small,h6 .small,.h6 .small{font-size:75%}
-h1,.h1{font-size:28px}
-h2,.h2{font-size:21px}
-h3,.h3{font-size:18px}
+h1,.h1{font-size:34px}
+h2,.h2{font-size:26px}
+h3,.h3{font-size:19px}
 h4,.h4{font-size:14px}
 h5,.h5{font-size:14px}
 h6,.h6{font-size:14px}
@@ -351,7 +351,7 @@ mark,.mark{background-color:#fcf8e3;padding:.2em}
 .bg-info{background-color:#d9edf7}a.bg-info:hover{background-color:#afd9ee}
 .bg-warning{background-color:#fcf8e3}a.bg-warning:hover{background-color:#f7ecb5}
 .bg-danger{background-color:#f2dede}a.bg-danger:hover{background-color:#e4b9b9}
-.page-header{padding-bottom:10px;margin:44px 0 22px;border-bottom:1px solid #dedede}
+.page-header{padding-bottom:10px;margin:44px 0 22px;border-bottom:1px solid #bfbfbf}
 ul,ol{margin-top:0;margin-bottom:11px}ul ul,ol ul,ul ol,ol ol{margin-bottom:0}
 .list-unstyled{padding-left:0;list-style:none}
 .list-inline{padding-left:0;list-style:none;margin-left:-5px}.list-inline>li{display:inline-block;padding-left:5px;padding-right:5px}
@@ -974,10 +974,10 @@ button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-ap
 ul{padding-left:33px}
 .page-header{margin-top:0}
 img{max-width:100%}
-h1,.h1{font-weight:bold}
-h2,.h2{margin-top:33px;margin-bottom:13px;padding-bottom:10px;border-bottom:solid 1px #f0f0f0}
-h3,.h3{margin-top:27.5px;margin-bottom:22px}
-h4,.h4{margin-top:22px;margin-bottom:22px}
+h1,.h1{font-weight:700}
+h2,.h2{margin-top:39px;margin-bottom:17px;padding-bottom:8px;border-bottom:solid 1px #dedede}
+h3,.h3{margin-top:28.5px;margin-bottom:19px}
+h4,.h4{margin-top:21px;margin-bottom:14px}
 div.dropdown{display:inline}
 .breadcrumb a{color:#404040}
 .margin-top-none{margin-top:0}
@@ -993,7 +993,8 @@ a[rel="external"]:after{content:"\f08e";font-family:FontAwesome;font-weight:norm
 .wiki.page.edit #preview .loading-indicator{height:27px;text-align:center}.wiki.page.edit #preview .loading-indicator .spinner{color:#bfbfbf;display:none}
 .wiki.page.edit #preview .markdown-html{height:500px;overflow-y:scroll}
 .wiki.directory-listing .item-actions{margin-right:5.5px}
-.wiki .markdown-page{padding-top:20px}.wiki .markdown-page .h1:first-child,.wiki .markdown-page h1:first-child{margin-top:24px;padding-bottom:19px;border-bottom:solid 1px #dedede;margin-bottom:20px}
+.wiki .markdown-page .toc{margin-top:20px}
+.wiki .markdown-page .h1:first-child,.wiki .markdown-page h1:first-child{margin-top:24px;padding-bottom:19px;border-bottom:solid 1px #bfbfbf;margin-bottom:20px}
 .wiki .markdown-page h2:first-child,.wiki .markdown-page .h2:first-child{margin-top:0}
 .wiki a.missing{color:#bf0000}
 #file-suggestions{list-style-type:none;padding-left:0;max-height:200px;overflow-y:scroll}#file-suggestions .suggestion{margin-bottom:5.5px}
