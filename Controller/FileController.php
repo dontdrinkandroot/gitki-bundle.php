@@ -95,7 +95,7 @@ class FileController extends BaseController
             throw new ConflictHttpException($e->getMessage());
         }
 
-        $directories = $this->getDirectoryService()->listDirectories(new DirectoryPath());
+        $directories = $this->getDirectoryService()->listDirectories(new DirectoryPath(), true, true);
         $directoryChoices = [];
         foreach ($directories as $directory) {
             $directoryString = $directory->getAbsolutePath()->toAbsoluteUrlString();
