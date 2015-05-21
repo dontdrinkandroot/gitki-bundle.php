@@ -107,4 +107,15 @@ class BaseController extends Controller
     {
         return $this->get('ddr.gitki.registry.extension');
     }
+
+    protected function generateEtag(\DateTime $timeStamp)
+    {
+        $user = $this->getGitUser();
+        $userString = '';
+        if (null !== $user) {
+            $userString = $user->getUsername();
+        }
+
+        return md5($timeStamp->getTimestamp() . $userString);
+    }
 }

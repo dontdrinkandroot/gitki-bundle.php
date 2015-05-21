@@ -19,7 +19,6 @@ class MarkdownController extends BaseController
         $this->assertWatcher();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getUser();
 
         $file = null;
         try {
@@ -28,7 +27,7 @@ class MarkdownController extends BaseController
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response->setLastModified($lastModified);
-            $response->setEtag(md5($lastModified->getTimestamp() . $user));
+            $response->setEtag($this->generateEtag($lastModified));
             if ($response->isNotModified($request)) {
                 return $response;
             }
