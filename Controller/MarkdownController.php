@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
 use Symfony\Component\Form\SubmitButton;
@@ -177,7 +178,7 @@ class MarkdownController extends BaseController
     }
 
     /**
-     * @return \Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface
+     * @return MarkdownServiceInterface
      */
     protected function getMarkdownService()
     {

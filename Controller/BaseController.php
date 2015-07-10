@@ -9,8 +9,6 @@ use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInte
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class BaseController extends Controller
 {
@@ -18,19 +16,32 @@ class BaseController extends Controller
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     /**
-     * @return GitUserInterface
-     *
-     * @throws \Exception Thrown if the current user is not a GitUser.
+     * @return GitUserInterface|null
      */
-    protected function getGitUser()
+    protected function findGitUser()
     {
         $user = $this->getUser();
         if (null === $user) {
-            throw new \Exception('No user was found');
+            return null;
         }
 
         if (!($user instanceof GitUserInterface)) {
-            throw new \Exception('Unexpected User Class');
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return GitUserInterface
+     *
+     * @throws \Exception Thrown if the current user is not set or not a GitUserInterface.
+     */
+    protected function getGitUser()
+    {
+        $user = $this->findGitUser();
+        if (null === $user) {
+            throw new \Exception('No user was found');
         }
 
         return $user;
@@ -60,11 +71,12 @@ class BaseController extends Controller
         return $this->get('ddr.gitki.service.role');
     }
 
-    protected function assertRole($role)
+    /**
+     * @return ExtensionRegistryInterface
+     */
+    protected function getExtensionRegistry()
     {
-        if (false === $this->get('security.context')->isGranted($role)) {
-            throw new AccessDeniedException();
-        }
+        return $this->get('ddr.gitki.registry.extension');
     }
 
     protected function assertWatcher()
@@ -83,34 +95,15 @@ class BaseController extends Controller
     }
 
     /**
-     * @param string $role
+     * Generate an etag based on the timestamp and the current user.
      *
-     * @return bool
+     * @param \DateTime $timeStamp
+     *
+     * @return string The generated etag.
      */
-    protected function hasRole($role)
-    {
-        return $this->get('security.context')->isGranted($role);
-    }
-
-    protected function getEnvironment()
-    {
-        /** @var Kernel $kernel */
-        $kernel = $this->container->get('kernel');
-
-        return $kernel->getEnvironment();
-    }
-
-    /**
-     * @return ExtensionRegistryInterface
-     */
-    protected function getExtensionRegistry()
-    {
-        return $this->get('ddr.gitki.registry.extension');
-    }
-
     protected function generateEtag(\DateTime $timeStamp)
     {
-        $user = $this->getGitUser();
+        $user = $this->findGitUser();
         $userString = '';
         if (null !== $user) {
             $userString = $user->getUsername();
