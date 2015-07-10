@@ -1,5 +1,5 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block actions %}
+{% block ddr_gitki_actions %}
     <div class="btn-group btn-group-sm pull-right global-actions" role="group">
         <a class="btn btn-default"
            href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'list'}) }}"
@@ -68,4 +68,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock ddr_gitki_actions %}

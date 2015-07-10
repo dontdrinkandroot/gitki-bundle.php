@@ -12,23 +12,23 @@
                href="{{ path('ddr_gitki_directory', {'action': 'index', 'path': '/'}) }}">{{ ddr_gitki_name }}</a>
         </div>
         <div class="collapse navbar-collapse navbar-collapse">
-            {% block navbar_left %}
+            {% block ddr_gitki_navbar_left %}
                 <ul class="nav navbar-nav">
-                    {% block navbar_left_content %}
+                    {% block ddr_gitki_navbar_left_content %}
                         {{ include('DdrGitkiBundle:Navbar:left.partial.html.twig') }}
-                    {% endblock %}
+                    {% endblock ddr_gitki_navbar_left_content %}
                 </ul>
-            {% endblock %}
-            {% block navbar_form %}
+            {% endblock ddr_gitki_navbar_left %}
+            {% block ddr_gitki_navbar_form %}
                 {{ include('DdrGitkiBundle:Navbar:form.partial.html.twig') }}
-            {% endblock %}
-            {% block navbar_right %}
+            {% endblock ddr_gitki_navbar_form %}
+            {% block ddr_gitki_navbar_right %}
                 <ul class="nav navbar-nav navbar-right">
-                    {% block navbar_right_content %}
+                    {% block ddr_gitki_navbar_right_content %}
                         {{ include('DdrGitkiBundle:Navbar:right.partial.html.twig') }}
-                    {% endblock %}
+                    {% endblock ddr_gitki_navbar_right_content %}
                 </ul>
-            {% endblock %}
+            {% endblock ddr_gitki_navbar_right %}
         </div>
     </div>
 </nav>

@@ -1,8 +1,8 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block title %} - {{ path }} - Upload File{% endblock %}
-{% block main_content %}
+{% block ddr_gitki_title %} - {{ path }} - Upload File{% endblock ddr_gitki_title %}
+{% block ddr_gitki_main_content %}
     <div class="page-header">
         <h1>Upload File</h1>
     </div>
     {{ form(form) }}
-{% endblock main_content %}
+{% endblock ddr_gitki_main_content %}

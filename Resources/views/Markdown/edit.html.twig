@@ -1,9 +1,9 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block title %} - {{ path }} - Edit{% endblock %}
-{% block body_class %}wiki edit page{% endblock %}
-{% block actions %}
-{% endblock %}
-{% block main_content %}
+{% block ddr_gitki_title %} - {{ path }} - Edit{% endblock ddr_gitki_ %}
+{% block ddr_gitki_body_class %}wiki edit page{% endblock ddr_gitki_ %}
+{% block ddr_gitki_actions %}
+{% endblock ddr_gitki_ %}
+{% block ddr_gitki_main_content %}
     <div class="markdown-page">
         <div class="row editor">
             <div class="col-md-6">
@@ -53,8 +53,8 @@
             </div>
         </div>
     </div>
-{% endblock main_content %}
-{% block modals %}
+{% endblock ddr_gitki_main_content %}
+{% block ddr_gitki_modals %}
     <div class="modal fade" id="externalLinkModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -113,8 +113,8 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block javascript %}
+{% endblock ddr_gitki_ %}
+{% block ddr_gitki_javascript %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/ddrgitki/js/holdlock.js') }}"></script>
     <script type="text/javascript">
@@ -333,4 +333,4 @@
         }
         new MarkdownEditor();
     </script>
-{% endblock %}
+{% endblock ddr_gitki_javascript %}

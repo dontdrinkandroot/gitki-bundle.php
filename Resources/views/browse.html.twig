@@ -1,18 +1,18 @@
 {% extends 'DdrGitkiBundle::base.html.twig' %}
-{% block title %} - {{ path }}{% endblock %}
-{% block body_class %}wiki{% endblock %}
-{% block header %}
+{% block ddr_gitki_title %} - {{ path }}{% endblock ddr_gitki_title %}
+{% block ddr_gitki_body_class %}wiki{% endblock ddr_gitki_body_class %}
+{% block ddr_gitki_header %}
     <header>
-        {% block header_content %}
+        {% block ddr_gitki_header_content %}
             {% if ddr_gitki_show_breadcrumbs %}
                 <div class="action-bar">
                     <div class="container">
-                        {% block actions %}
-                        {% endblock %}
+                        {% block ddr_gitki_actions %}
+                        {% endblock ddr_gitki_actions %}
                         {{ include('DdrGitkiBundle::breadcrumb.partial.html.twig', {'path' : path}) }}
                     </div>
                 </div>
             {% endif %}
-        {% endblock header_content %}
+        {% endblock ddr_gitki_header_content %}
     </header>
-{% endblock header %}
+{% endblock ddr_gitki_header %}

@@ -1,7 +1,7 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block title %} - {{ path }} - Listing{% endblock %}
-{% block body_class %}wiki directory-listing{% endblock %}
-{% block actions %}
+{% block ddr_gitki_ddr_giki_title %} - {{ path }} - Listing{% endblock ddr_gitki_ddr_giki_title %}
+{% block ddr_gitki_ddr_giki_body_class %}wiki directory-listing{% endblock ddr_gitki_ddr_giki_body_class %}
+{% block ddr_gitki_actions %}
     {% if isGitkiCommitter() %}
         <div class="dropdown pull-right global-actions">
             <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="actions-dropdown"
@@ -34,8 +34,8 @@
             </ul>
         </div>
     {% endif %}
-{% endblock %}
-{% block main_content %}
+{% endblock ddr_gitki_actions %}
+{% block ddr_gitki_main_content %}
 
     <div class="page-header">
         <h1>{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
@@ -119,4 +119,4 @@
         </ul>
     {% endif %}
 
-{% endblock main_content %}
+{% endblock ddr_gitki_main_content %}

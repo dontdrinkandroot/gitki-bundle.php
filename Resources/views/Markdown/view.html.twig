@@ -1,7 +1,7 @@
 {% extends 'DdrGitkiBundle:File:view.html.twig' %}
-{% block title %} - {{ document.title }}{% endblock %}
-{% block body_class %}wiki page show{% endblock %}
-{% block main_content %}
+{% block ddr_gitki_title %} - {{ document.title }}{% endblock ddr_gitki_title %}
+{% block ddr_gitki_body_class %}wiki page show{% endblock ddr_gitki_body_class %}
+{% block ddr_gitki_main_content %}
     <div class="markdown-page">
         {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
             <div class="row">
@@ -18,13 +18,13 @@
             </div>
         {% endif %}
     </div>
-{% endblock main_content %}
-{% block javascript %}
+{% endblock ddr_gitki_main_content %}
+{% block ddr_gitki_javascript %}
     {{ parent() }}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-{% endblock %}
-{% block stylesheet %}
+{% endblock ddr_gitki_javascript %}
+{% block ddr_gitki_stylesheet %}
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
     {{ parent() }}
-{% endblock %}
+{% endblock ddr_gitki_stylesheet %}

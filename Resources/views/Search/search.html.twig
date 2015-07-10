@@ -1,7 +1,7 @@
 {% extends 'DdrGitkiBundle::base.html.twig' %}
-{% block title %} - Search - {{ searchString }}{% endblock %}
-{% block navbar_form %}{% endblock %}
-{% block main_content %}
+{% block ddr_gitki_title %} - Search - {{ searchString }}{% endblock ddr_gitki_title %}
+{% block ddr_gitki_navbar_form %}{% endblock ddr_gitki_navbar_form %}
+{% block ddr_gitki_main_content %}
 
     <div class="page-header">
         <h1>Search</h1>
@@ -23,4 +23,4 @@
             </li>
         {% endfor %}
     </ul>
-{% endblock main_content %}
+{% endblock ddr_gitki_main_content %}
