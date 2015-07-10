@@ -3,6 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 
+use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\BootstrapTableRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlBlockRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\EscapingHtmlInlineRenderer;
 use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\FileSystemAwareLinkRenderer;
@@ -48,6 +49,7 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new TableExtension());
+        $environment->addBlockRenderer('Webuni\CommonMark\TableExtension\Table', new BootstrapTableRenderer());
         $environment->addInlineRenderer('League\CommonMark\Inline\Element\Link', $linkRenderer);
         $environment->addBlockRenderer('League\CommonMark\Block\Element\Header', $headerRenderer);
 
