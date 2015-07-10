@@ -1,12 +1,12 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block ddr_gitki_ddr_giki_title %} - {{ path }} - Add Page{% endblock ddr_gitki_ddr_giki_title %}
-{% block ddr_gitki_ddr_giki_main_content %}
+{% block ddr_gitki_title %} - {{ path }} - Add Page{% endblock ddr_gitki_title %}
+{% block ddr_gitki_main_content %}
     <div class="page-header">
         <h1>Add Folder</h1>
     </div>
     {{ form(form) }}
 {% endblock ddr_gitki_main_content %}
-{% block ddr_gitki_ddr_giki_javascript %}
+{% block ddr_gitki_javascript %}
     {{ parent() }}
     <script type="text/javascript">
 
@@ -23,4 +23,4 @@
         });
 
     </script>
-{% endblock ddr_gitki_ddr_giki_javascript %}
+{% endblock ddr_gitki_javascript %}

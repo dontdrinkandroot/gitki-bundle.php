@@ -35,8 +35,9 @@ class TextController extends BaseController
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:Text:view.html.twig',
                 [
-                    'path'    => $filePath,
-                    'content' => $content
+                    'path'               => $filePath,
+                    'content'            => $content,
+                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
                 ]
             );
 
@@ -77,7 +78,7 @@ class TextController extends BaseController
         }
 
         $form = $this->createFormBuilder()
-            ->add('content', 'textarea')
+            ->add('content', 'textarea', ['attr' => ['rows' => 15]])
             ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
             ->add(
                 'actions',

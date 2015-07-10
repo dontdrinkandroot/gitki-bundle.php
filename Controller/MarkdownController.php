@@ -94,7 +94,7 @@ class MarkdownController extends BaseController
         }
 
         $form = $this->createFormBuilder()
-            ->add('content', 'textarea')
+            ->add('content', 'textarea', ['attr' => ['rows' => 15]])
             ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
             ->add(
                 'actions',

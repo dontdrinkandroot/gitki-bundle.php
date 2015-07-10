@@ -1,10 +1,13 @@
 {% extends 'DdrGitkiBundle::browse.html.twig' %}
-{% block ddr_gitki_title %} - {{ path }} - Edit{% endblock ddr_gitki_ %}
-{% block ddr_gitki_body_class %}wiki edit page{% endblock ddr_gitki_ %}
+{% block ddr_gitki_title %} - {{ path }} - Edit{% endblock ddr_gitki_title %}
+{% block ddr_gitki_body_class %}wiki edit page{% endblock ddr_gitki_body_class %}
 {% block ddr_gitki_actions %}
-{% endblock ddr_gitki_ %}
+{% endblock ddr_gitki_actions %}
 {% block ddr_gitki_main_content %}
     <div class="markdown-page">
+        <div class="page-header">
+            <h1>Edit markdown file</h1>
+        </div>
         <div class="row editor">
             <div class="col-md-6">
                 <div class="btn-toolbar edit-actions" role="toolbar" aria-label="Toolbar with button groups">
@@ -113,7 +116,7 @@
             </div>
         </div>
     </div>
-{% endblock ddr_gitki_ %}
+{% endblock ddr_gitki_modals %}
 {% block ddr_gitki_javascript %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/ddrgitki/js/holdlock.js') }}"></script>
