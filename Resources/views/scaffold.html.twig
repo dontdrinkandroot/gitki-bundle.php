@@ -5,12 +5,13 @@
     <title>{{ ddr_gitki_name }}{% block ddr_gitki_title %}{% endblock ddr_gitki_title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block ddr_gitki_stylesheet %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/style.css') }}"
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/gitki_screen.css') }}"
               media="screen" />
         <link rel="stylesheet" type="text/css"
               href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
               media="screen" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/print.css') }}" media="print" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/ddrgitki/css/gitki_print.css') }}"
+              media="print" />
     {% endblock ddr_gitki_stylesheet %}
 </head>
 <body class="{% block ddr_gitki_body_class %}{% endblock ddr_gitki_body_class %}">
