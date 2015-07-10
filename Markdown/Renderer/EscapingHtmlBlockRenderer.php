@@ -10,11 +10,7 @@ use League\CommonMark\HtmlRendererInterface;
 class EscapingHtmlBlockRenderer implements BlockRendererInterface
 {
     /**
-     * @param AbstractBlock         $block
-     * @param HtmlRendererInterface $htmlRenderer
-     * @param bool                  $inTightList
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function render(AbstractBlock $block, HtmlRendererInterface $htmlRenderer, $inTightList = false)
     {

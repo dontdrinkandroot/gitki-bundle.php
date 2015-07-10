@@ -10,10 +10,7 @@ use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 class EscapingHtmlInlineRenderer implements InlineRendererInterface
 {
     /**
-     * @param AbstractInline        $inline
-     * @param HtmlRendererInterface $htmlRenderer
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function render(AbstractInline $inline, HtmlRendererInterface $htmlRenderer)
     {

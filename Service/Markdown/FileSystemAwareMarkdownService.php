@@ -13,6 +13,7 @@ use Dontdrinkandroot\Path\FilePath;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
+use Webuni\CommonMark\TableExtension\TableExtension;
 
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
@@ -38,10 +39,7 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
     }
 
     /**
-     * @param string   $content
-     * @param FilePath $path
-     *
-     * @return ParsedMarkdownDocument
+     * {@inheritdoc}
      */
     public function parse($content, FilePath $path)
     {
@@ -49,6 +47,7 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
         $headerRenderer = new TocBuildingHeaderRenderer();
 
         $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new TableExtension());
         $environment->addInlineRenderer('League\CommonMark\Inline\Element\Link', $linkRenderer);
         $environment->addBlockRenderer('League\CommonMark\Block\Element\Header', $headerRenderer);
 

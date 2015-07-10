@@ -6,7 +6,6 @@ namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Header;
 use League\CommonMark\Block\Renderer\HeaderRenderer;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\AbstractInlineContainer;
@@ -24,11 +23,7 @@ class TocBuildingHeaderRenderer extends HeaderRenderer
     private $current = [];
 
     /**
-     * @param AbstractBlock         $block
-     * @param HtmlRendererInterface $htmlRenderer
-     * @param bool                  $inTightList
-     *
-     * @return HtmlElement
+     * {@inheritdoc}
      */
     public function render(AbstractBlock $block, HtmlRendererInterface $htmlRenderer, $inTightList = false)
     {
