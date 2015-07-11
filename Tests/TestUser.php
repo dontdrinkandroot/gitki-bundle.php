@@ -4,8 +4,10 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class TestUser implements GitUserInterface
+class TestUser implements GitUserInterface, UserInterface
+
 {
 
     /**
@@ -32,7 +34,7 @@ class TestUser implements GitUserInterface
     /**
      * @return string
      */
-    public function getUsername()
+    public function getGitUserName()
     {
         return $this->username;
     }
@@ -40,7 +42,7 @@ class TestUser implements GitUserInterface
     /**
      * @return string
      */
-    public function getEmail()
+    public function getGitUserEmail()
     {
         return $this->email;
     }
@@ -59,5 +61,10 @@ class TestUser implements GitUserInterface
 
     public function eraseCredentials()
     {
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 }

@@ -197,7 +197,7 @@ class GitService implements GitServiceInterface
      */
     protected function getAuthorString(GitUserInterface $user)
     {
-        return sprintf('"%s <%s>"', $user->getUsername(), $user->getEmail());
+        return sprintf('"%s <%s>"', $user->getGitUserName(), $user->getGitUserEmail());
     }
 
     /**

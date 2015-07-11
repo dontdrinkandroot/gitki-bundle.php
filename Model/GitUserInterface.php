@@ -2,17 +2,19 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-
-interface GitUserInterface extends UserInterface
+interface GitUserInterface
 {
     /**
+     * Get the full user name that is to be displayed in commits.
+     *
      * @return string
      */
-    public function getUsername();
+    public function getGitUserName();
 
     /**
+     * Get the email address that is to be displayed in commits.
+     *
      * @return string
      */
-    public function getEmail();
+    public function getGitUserEmail();
 }

@@ -106,7 +106,7 @@ class BaseController extends Controller
         $user = $this->findGitUser();
         $userString = '';
         if (null !== $user) {
-            $userString = $user->getUsername();
+            $userString = $user->getGitUserName();
         }
 
         return md5($timeStamp->getTimestamp() . $userString);

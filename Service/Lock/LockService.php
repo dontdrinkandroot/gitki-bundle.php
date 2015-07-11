@@ -41,7 +41,7 @@ class LockService implements LockServiceInterface
         if ($this->fileSystemService->exists($lockPath)) {
             $this->fileSystemService->touchFile($lockPath);
         } else {
-            $this->fileSystemService->putContent($lockPath, $user->getEmail());
+            $this->fileSystemService->putContent($lockPath, $user->getGitUserEmail());
         }
     }
 
@@ -60,7 +60,7 @@ class LockService implements LockServiceInterface
         }
 
         $lockLogin = $this->getLockLogin($lockPath);
-        if ($lockLogin != $user->getEmail()) {
+        if ($lockLogin != $user->getGitUserEmail()) {
             throw new \Exception('Cannot remove lock of different user');
         }
 
@@ -75,7 +75,7 @@ class LockService implements LockServiceInterface
         $lockPath = $this->getLockPath($filePath);
         if ($this->fileSystemService->exists($lockPath) && !$this->isLockExpired($lockPath)) {
             $lockLogin = $this->getLockLogin($lockPath);
-            if ($lockLogin == $user->getEmail()) {
+            if ($lockLogin == $user->getGitUserEmail()) {
                 return true;
             }
         }
@@ -172,7 +172,7 @@ class LockService implements LockServiceInterface
         }
 
         $lockLogin = $this->getLockLogin($lockPath);
-        if ($lockLogin == $user->getEmail()) {
+        if ($lockLogin == $user->getGitUserEmail()) {
             return true;
         }
 
