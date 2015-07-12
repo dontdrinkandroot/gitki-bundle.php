@@ -42,81 +42,96 @@
     </div>
 
     {% if directoryListing.subDirectories is not empty %}
-        <h2>Directories</h2>
-        <ul class="list-unstyled">
-            {% for dir in directoryListing.subDirectories %}
-                <li>
-                    <div class="dropdown item-actions">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Directories</h2>
+            </div>
+            <table class="table">
+                {% for dir in directoryListing.subDirectories %}
+                    <tr>
+                        <td class="ddr-gitki-icon-actions">
+                            <div class="dropdown">
                         <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
                               data-toggle="dropdown">
-                            <span class="fa fa-fw fa-folder-o"></span>
+                            <span class="fa fa-fw fa-folder-o"></span> <b class="caret"></b>
                         </span>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            {% if isGitkiCommitter() %}
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'delete'}) }}"
-                                       title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">{{ dir.filename|dirTitle }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    {% if isGitkiCommitter() %}
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1"
+                                               href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'delete'}) }}"
+                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        <td class="ddr-gitki-name">
+                            <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">{{ dir.filename|dirTitle }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
 
     {% if directoryListing.files is not empty %}
-        <h2>Files</h2>
-        <ul class="list-unstyled">
-            {% for file in directoryListing.files %}
-                <li>
-                    <div class="dropdown item-actions">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Files</h2>
+            </div>
+            <table class="table">
+                {% for file in directoryListing.files %}
+                    <tr>
+                        <td class="ddr-gitki-icon-actions">
+                            <div class="dropdown">
                         <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
                               data-toggle="dropdown">
-                            <span class="fa fa-fw fa-file-o"></span>
+                            <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
                         </span>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            {% if isGitkiCommitter() %}
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" title="Edit"
-                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'edit'}) }}">
-                                        <span class="fa fa-fw fa-pencil"></span> Edit
-                                    </a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'move'}) }}"
-                                       title="Rename"><span class="fa fa-fw fa-arrows-h"></span> Move
-                                    </a>
-                                </li>
-                                <li role="presentation">
-                                    <a role="menuitem" tabindex="-1"
-                                       href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'delete'}) }}"
-                                       title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
-                                    </a>
-                                </li>
-                            {% endif %}
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1"
-                                   href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'history'}) }}"
-                                   title="History"><span class="fa fa-fw fa-history"></span> History
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
-                        {% if file.title is not empty %}
-                            {{ file.title }} <span class="text-muted">{{ file.filename }}</span>
-                        {% else %}
-                            {{ file.filename }}
-                        {% endif %}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    {% if isGitkiCommitter() %}
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1" title="Edit"
+                                               href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'edit'}) }}">
+                                                <span class="fa fa-fw fa-pencil"></span> Edit
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1"
+                                               href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'move'}) }}"
+                                               title="Rename"><span class="fa fa-fw fa-arrows-h"></span> Move
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1"
+                                               href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'delete'}) }}"
+                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1"
+                                           href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'history'}) }}"
+                                           title="History"><span class="fa fa-fw fa-history"></span> History
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td class="ddr-gitki-name">
+                            <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
+                                {% if file.title is not empty %}
+                                    {{ file.title }} <span class="text-muted">{{ file.filename }}</span>
+                                {% else %}
+                                    {{ file.filename }}
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
 
 {% endblock ddr_gitki_main_content %}
