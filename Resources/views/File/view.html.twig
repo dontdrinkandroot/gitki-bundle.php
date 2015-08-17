@@ -51,14 +51,14 @@
                         </a>
                     </li>
                     <li role="presentation">
-                        <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'upload'}) }}"
+                        <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.upload'}) }}"
                            role="menuitem" tabindex="-1" title="Upload File to containing folder">
                             <span class="fa fa-fw fa-upload"></span> Upload file
                         </a>
                     </li>
                     {% for extension,name in editableExtensions %}
                         <li role="presentation">
-                            <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'createfile', 'extension': extension}) }}"
+                            <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.create', 'extension': extension}) }}"
                                role="menuitem" tabindex="-1" title="Create {{ name }} file">
                                 <span class="fa fa-fw fa-file-o"></span> Create {{ name }} file
                             </a>
