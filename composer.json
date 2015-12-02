@@ -23,7 +23,7 @@
         "symfony/form": "~2.6",
         "symfony/framework-bundle": "~2.6",
         "symfony/twig-bundle": "~2.6",
-        "dontdrinkandroot/utils": "0.3.x-dev",
+        "dontdrinkandroot/utils": "0.3.1",
         "cpliakas/git-wrapper": "~1.0",
         "league/commonmark": "0.9.0",
         "webuni/commonmark-table-extension": "0.1.0"
