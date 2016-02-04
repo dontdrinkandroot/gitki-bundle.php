@@ -1,7 +1,7 @@
 <?php namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Eko\FeedBundle\Item\Writer\RoutedItemInterface;
+
 
 /**
 * @ORM\Entity(repositoryClass="App\Entity\WorkEntryRepository")
@@ -287,53 +287,5 @@ class WorkEntry extends Entity implements RoutedItemInterface {
 		}
 		return $openContribs;
 	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemTitle() {
-		return implode(' — ', array_filter([$this->getTitle(), $this->getAuthor()]));
-	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemDescription() {
-		$comment = nl2br($this->getComment());
-		return <<<DESC
-$comment
-<ul>
-	<li>Заглавие: {$this->getTitle()}</li>
-	<li>Автор: {$this->getAuthor()}</li>
-	<li>Издател: {$this->getPublisher()}</li>
-	<li>Година: {$this->getPubYear()}</li>
-	<li>Отговорник: {$this->getUser()->getUsername()}</li>
-	<li>Етап: {$this->getStatusName()}</li>
-</ul>
-DESC;
-	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemPubDate() {
-		return $this->getDate();
-	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemRouteName() {
-		return 'workroom_entry_edit';
-	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemRouteParameters() {
-		return ['id' => $this->getId()];
-	}
-
-	/** {@inheritdoc} */
-	public function getFeedItemUrlAnchor() {
-		return '';
-	}
-
-	public function getFeedItemCreator() {
-		return $this->getUser()->getUsername();
-	}
-
-	public function getFeedItemGuid() {
-		return "chitanka-work-entry-{$this->getId()}-{$this->getStatus()}-{$this->getProgress()}";
-	}
 }
+	/** {@inheritdoc} */

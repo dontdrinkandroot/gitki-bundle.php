@@ -30,7 +30,6 @@ abstract class Controller extends SymfonyController {
 		$params += [
 			'page' => $page,
 			'navlinks' => $this->renderLayoutComponent('sidebar-menu', 'App::navlinks.html.twig'),
-			'footer_links' => $this->renderLayoutComponent('footer-menu', 'App::footer_links.html.twig'),
 			'current_route' => $this->get('request')->attributes->get('_route'),
 			'environment' => $this->container->get('kernel')->getEnvironment(),
 			'ajax' => $this->get('request')->isXmlHttpRequest(),

@@ -1,7 +1,5 @@
 <?php namespace App\Controller;
 
-use App\Feed\ForumFeed;
-use App\Feed\LiternewsFeed;
 use App\Service\ReviewService;
 
 class MainController extends Controller {
@@ -23,8 +21,7 @@ class MainController extends Controller {
 			'latest_texts' => $this->em()->getTextRevisionRepository()->getLatest(self::LATEST_TEXTS_LIMIT, 1, false),
 			'latest_searches' => $this->em()->getSearchStringRepository()->getLatest(self::LATEST_SEARCHES_LIMIT),
 			'latest_comments' => $this->em()->getTextCommentRepository()->getLatest(self::LATEST_COMMENTS_LIMIT),
-			'latest_liternews' => LiternewsFeed::fetchLatest(self::LATEST_LITERNEWS_LIMIT),
-			'latest_forum_posts' => ForumFeed::fetchLatest(self::LATEST_FORUM_POSTS_LIMIT),
+
 			'_cache' => 600,
 		];
 	}

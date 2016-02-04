@@ -63,12 +63,12 @@
 	<div class="separator"></div>
 
 	<section id="mp-liternews" class="box liternewsbox">
-		<h2><a href="http://planet.bookshelf.local/">От литературните блогове</a></h2>
-		{% if not latest_liternews.empty %}
+		<h2><a href="http://blog.bookshelf.local/">От литературните блогове</a></h2>
+{#		{% if not latest_liternews.empty %}
 			{{ latest_liternews|raw }}
 		{% else %}
 			<p class="error">Неуспех при вземането на последните литературни новини.</p>
-		{% endif %}
+		{% endif %}#}
 	</section>
 
 	<section id="mp-search" class="box box3">
@@ -85,11 +85,11 @@
 	</section>
 	<section id="mp-forum-posts" class="box box2 forumbox">
 		<h2><a href="http://forum.bookshelf.local">От форума</a></h2>
-		{% if not latest_forum_posts.empty %}
+{#		{% if not latest_forum_posts.empty %}
 			{{ latest_forum_posts|raw }}
 		{% else %}
 			<p class="error">Неуспех при вземането на последните форумни съобщения.</p>
-		{% endif %}
+		{% endif %}#}
 	</section>
 	<div class="separator"></div>
 {% endblock %}

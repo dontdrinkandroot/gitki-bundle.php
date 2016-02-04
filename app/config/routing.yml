@@ -367,9 +367,9 @@ sandbox:
     pattern:   /sandbox
     defaults: { _controller: App:Sandbox:index }
 
-feedback:
-    pattern:   /feedback
-    defaults: { _controller: App:Feedback:index }
+#feedback:
+#    pattern:   /feedback
+#    defaults: { _controller: App:Feedback:index }
 
 statistics:
     pattern:   /statistics

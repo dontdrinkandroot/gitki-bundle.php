@@ -206,15 +206,6 @@ fos_comment:
             edit:   ROLE_ADMIN
             delete: ROLE_ADMIN
 
-eko_feed:
-    feeds:
-        workroom:
-            title:       Работно ателие — Моята библиотека
-            description: Универсална електронна библиотека
-            link:        http://bookshelf.local
-            encoding:    utf-8
-            #author:     Моята библиотека
-
 parameters:
     # Облици
     skins:

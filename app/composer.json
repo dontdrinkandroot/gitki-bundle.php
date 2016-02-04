@@ -30,7 +30,8 @@
 		"fortawesome/font-awesome": "v4.3.0",
 		"michelf/php-markdown": "1.4.0",
 		"cypresslab/gitelephant": "v1.0.6",
-		"eko/feedbundle": "1.1.*"
+		
+                "eko/feedbundle": "1.1.*"
 	},
 	"require-dev": {
 		"sensio/generator-bundle": "~2.3",

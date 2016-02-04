@@ -31,7 +31,7 @@ class AppKernel extends Kernel {
 			new FOS\RestBundle\FOSRestBundle(),
 			new FOS\CommentBundle\FOSCommentBundle(),
 			new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
-			new Eko\FeedBundle\EkoFeedBundle(),
+			
 			new App\App(),
 		]);
 	}
