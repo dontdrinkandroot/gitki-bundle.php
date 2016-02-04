@@ -1,0 +1,16 @@
+{% import 'App::text.html.twig' as text_lister %}
+	<h2>
+		{% if series.slug is defined %}
+			<a href="{{ path('series_show', {'slug': series.slug}) }}">{{ series.name }}</a>
+			{% if series.orig_name is not empty %}
+				({{ series.orig_name }})
+			{% endif %}
+		{% else %}
+			{{ ('text.type.plular.'~series.name) | trans }}
+		{% endif %}
+	</h2>
+	{{ text_lister.text_list(texts) }}
+	{% if texts|length > 1 %}
+		{% set filename = person.slug ~'_'~ ( series.slug is defined ? series.slug : ('text.type.plular.'~series.name) | trans ) %}
+		{% include 'App:Text:multi_download_form.html.twig' with {'filename': filename~''} %}
+	{% endif %}

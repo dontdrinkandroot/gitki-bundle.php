@@ -1,0 +1,19 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title %}
+	<a class="selflink" itemprop="name" data-edit="{{ path('admin_sequence_edit', {id: sequence.id}) }}">{{ sequence.name }}</a>
+{% endset %}
+{% set subtitle = 'издателска поредица' %}
+{% block content %}
+	<ul class="breadcrumb" itemprop="breadcrumb">
+		<li><a href="{{ path('sequences') }}">Издателски поредици</a></li>
+		<li><a href="{{ path('sequences_by_alpha', {'letter': sequence.name|first_char}) }}">{{ sequence.name|first_char }}</a></li>
+		<li class="active">{{ sequence.name }}
+			{% if sequence.publisher %}
+				({{ sequence.publisher }})
+			{% endif %}
+			<span class="badge">{{ sequence.nrOfBooks }}</span>
+		</li>
+	</ul>
+	{% include 'App:Book:list.html.twig' %}
+{% endblock %}

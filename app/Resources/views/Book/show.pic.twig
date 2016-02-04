@@ -1,0 +1,50 @@
+{% extends 'App:Book:show.html.twig' %}
+
+{% block content %}
+
+{% include 'App:Book:_breadcrumb_sequences.html.twig' %}
+
+{% if info %}
+	<ul class="nav nav-tabs book-tabs">
+		<li><a href="#book-extra-info" data-toggle="tab">Информация</a></li>
+	</ul>
+	<div class="tab-content text-content">
+		{{ info|raw }}
+	</div>
+{% endif %}
+
+<div id="help-instructions"></div>
+
+<div id="gallery-wrapper">
+	<div id="gallery" class="gal-content">
+		<div id="com-loading" class="loader"></div>
+		<div id="com-slideshow" class="slideshow"></div>
+		<div id="com-controls" class="controls"></div>
+	</div>
+
+	<div id="comics" class="gal-navigation">
+		{% include 'App:Book:pic_list.html.twig' %}
+	</div>
+</div>
+
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+<p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><p>&#160;</p>
+{% endblock %}
+
+{% set css_extra = ['css/pic.css'] %}
+{% set js_extra = ['vendor/js/jquery-migrate-1.2.1', 'vendor/js/jquery-galleriffic', 'vendor/js/jquery-hotkeys', 'pic'] %}
+{% set inline_js %}
+	$("#help-instructions").html("\
+		<p>Разглеждането на изображенията може да се управлява и чрез клавиатурата:</p>\
+		<ul>\
+			<li>CTRL + дясна стрелка — едно напред</li>\
+			<li>CTRL + лява стрелка — едно назад</li>\
+			<li><b>f</b> — включване/изключване на режим „Пълен екран“</li>\
+		</ul>");
+{% endset %}

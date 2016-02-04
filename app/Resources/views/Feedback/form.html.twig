@@ -1,0 +1,52 @@
+{{ form_start(form, { action: path('feedback'), attr: {class: 'form-horizontal', onsubmit: 'return validateFeedbackForm(this)'} }) }}
+	{{ form_errors(form) }}
+
+	<div class="form-group">
+		{{ form_label(form.comment, 'Kоментар', { label_attr: {class: 'col-sm-2 control-label'} }) }}
+		<div class="col-sm-10">
+			{{ form_errors(form.comment) }}
+			{{ form_widget(form.comment, { attr: {class: 'form-control'} }) }}
+		</div>
+	</div>
+	<div class="form-group">
+		{{ form_label(form.subject, 'Тема', { label_attr: {class: 'col-sm-2 control-label'} }) }}
+		<div class="col-sm-10">
+			{{ form_errors(form.subject) }}
+			{{ form_widget(form.subject, { attr: {class: 'form-control'} }) }}
+		</div>
+	</div>
+	<div class="form-group">
+		{{ form_label(form.name, 'Име', { label_attr: {class: 'col-sm-2 control-label'} }) }}
+		<div class="col-sm-10">
+			{{ form_errors(form.name) }}
+			{{ form_widget(form.name, { attr: {class: 'form-control'} }) }}
+		</div>
+	</div>
+	<div class="form-group">
+		{{ form_label(form.email, 'Е-поща', { label_attr: {class: 'col-sm-2 control-label'} }) }}
+		<div class="col-sm-10">
+			{{ form_errors(form.email) }}
+			{{ form_widget(form.email, { attr: {class: 'form-control'} }) }}
+		</div>
+	</div>
+
+	<div class="form-submit">
+		<button class="btn btn-primary" type="submit">Пращане</button>
+	</div>
+{{ form_end(form) }}
+<script>
+var validateFeedbackForm = (function() {
+	var hasNotice = false;
+
+	return (function(form) {
+		if (form.elements['feedback[email]'].value == "" && ! hasNotice) {
+			alert("Не сте посочили електронна поща и заради това няма да можем да ви отговорим. (Това съобщение няма да ви бъде показвано повече.)");
+			hasNotice = true;
+
+			return false;
+		}
+
+		return true;
+	});
+})();
+</script>

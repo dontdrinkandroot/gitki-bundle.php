@@ -1,0 +1,8 @@
+{% extends 'App::layout.opds.twig' %}
+{% import 'App::helper.opds.twig' as helper %}
+
+{% set link_self = helper.url(current_route, {'slug': person.slug}) %}
+{% set title = person.name ~ ' (автор)' %}
+{% block content %}
+	{% include 'App:Text:list.opds.twig' with {'texts': texts} %}
+{% endblock %}

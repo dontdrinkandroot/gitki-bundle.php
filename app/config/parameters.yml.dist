@@ -1,0 +1,66 @@
+# Indentation: 4 spaces, NO tabs
+# Comments start with #
+# Empty values are indicated with ~
+
+# These parameters can be imported into other config files
+# by enclosing the key with % (like %database_user%)
+parameters:
+    database_host:      localhost
+    database_name:      chitanka
+    database_user:      root
+    database_password:  ~
+    database_driver:    pdo_mysql
+    database_port:      ~
+
+    mailer_transport:  smtp
+    mailer_host:       localhost
+    mailer_user:       ~
+    mailer_password:   ~
+
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    locale: bg
+
+    assets_base_urls: ~
+    style_url:  /css/?
+
+    use_http_cache: false
+    allow_removed_notice: false
+
+    # Следните променливи се ползват при пращането на електронна поща
+    admin:              Администратор
+    admin_email:        { admin@localhost: Администратор }
+    site_email:         admin@localhost
+    work_email:         admin@localhost
+
+    # Път до библиотеката jQuery. По подразбиране false.
+    # При false, се ползва локалното копие
+    script_library: false
+
+    update_db_url: http://api.bookshelf.local/db
+
+    admin_max_per_page: 15
+
+    sitename:    Моята библиотека
+
+    webroot: ~
+    docroot: ~
+
+    # This must be a valid timezone constant
+    # See “List of Supported Timezones” [http://php.net/manual/en/timezones.php]
+    default_timezone: Europe/Sofia
+
+    download_formats: [txt.zip, fb2.zip, epub, sfb.zip]
+    download_file: AUTHOR - SERIES - SERNO. TITLE-ID
+
+    workroom_remote: false
+    workroom_root: ~
+    workroom_url: http://workroom.bookshelf.local
+
+    wiki_url: http://wiki.bookshelf.local/$1
+
+    mirror_sites: ~
+
+    global_info_message: ~
+    analytics_snippet: ~
+    dev.web_profiler_toolbar: false

@@ -1,0 +1,10 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Серии' %}
+{% block head %}
+	{{ parent() }}
+	<link rel="search" type="application/opensearchdescription+xml" href="{{ path('series_search', {'_format': 'osd'}) }}" title="Търсене по серии в Моята библиотека" />
+{% endblock %}
+{% block content %}
+	{% include 'App:Series:navigation.html.twig' with {'letter': ''} %}
+{% endblock %}

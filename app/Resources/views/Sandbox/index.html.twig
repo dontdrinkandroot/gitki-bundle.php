@@ -1,0 +1,71 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Пясъчник' %}
+{% set css %}
+	em {
+		color: black;
+		background-color: white;
+		font-style: normal;
+		border-bottom: 1px solid black;
+	}
+	strong {
+		color: brown;
+		background-color: white;
+		letter-spacing: 1px;
+		font-weight: normal;
+		border-bottom: 4px double black;
+	}
+	.epigraph em,
+	.dedication em,
+	.letter em,
+	.cite em,
+	.poem em {
+		color: red;
+		background-color: white;
+	}
+{% endset %}
+
+{% block content %}
+
+{% if html_content is defined %}
+	<div class="text-content text-content-main">
+		{{ html_content|raw }}
+	</div>
+	<hr style="clear:both">
+{% endif %}
+
+<p>Тук може да изпробвате как ще се покаже в библиотеката даден текст във формат SFB.</p>
+<form action="{{ path('sandbox') }}" method="post">
+	<div>
+		<label for="image_dir">Път за картинките:</label>
+		<input type="text" name="image_dir" id="image_dir" size="60" maxlength="255" value="{{ image_dir }}" />
+	</div>
+	<div>
+		<label for="content">Съдържание:</label>
+		<textarea name="content" id="content" cols="80" rows="30" tabindex="0" style="width: 95%">{{ content }}</textarea>
+	</div>
+
+	<div><input type="submit" value="Преглед"></div>
+</form>
+
+<table class="content">
+	<caption>Легенда на форматирането</caption>
+	<tr>
+		<th>SFB</th>
+		<th>Изглед</th>
+	</tr>
+	<tr>
+		<td>_акцентиран текст_</td>
+		<td><em>акцентиран текст</em></td>
+	</tr>
+	<tr>
+		<td>__силно акцентиран текст__</td>
+		<td><strong>силно акцентиран текст</strong></td>
+	</tr>
+	<tr>
+		<td>_акцентиран текст в стихотворение_</td>
+		<td><q class="poem"><em>акцентиран текст в стихотворение</em></q></td>
+	</tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% if pager is defined and pager.show %}
+	{% set route = route|default(current_route) %}
+	{% set route_params = route_params|default({}) %}
+	<nav class="text-center">
+	<ul class="pagination">
+		{% if pager.has_prev %}
+			<li class="prev"><a href="{{ path(route, route_params|merge({'page': pager.prev})) }}">Предишна</a></li>
+		{% endif %}
+
+		{% set prev_page = 0 %}
+		{% for page, is_active in pager.pages %}
+			{% if prev_page < page - 1 %}
+				<li class="elipsis disabled"><span>…</span></li>
+			{% endif %}
+
+			<li {% if is_active %}class="active"{% endif %}><a href="{{ path(route, route_params|merge({'page': page})) }}">{{ page }}</a></li>
+			{% set prev_page = page %}
+		{% endfor %}
+
+		{% if pager.has_next %}
+			<li class="next"><a href="{{ path(route, route_params|merge({'page': pager.next})) }}">Следваща</a></li>
+		{% endif %}
+	</ul>
+	</nav>
+{% endif %}

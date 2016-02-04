@@ -1,0 +1,18 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Книги' %}
+{% if letter != '-' %}
+	{% set subtitle = letter %}
+{% endif %}
+{% block content %}
+
+	<ul class="breadcrumb" itemprop="breadcrumb">
+		<li><a href="{{ path('books') }}">Книги</a></li>
+		<li class="active">{{ letter == '-' ? 'Всички' : letter }}</li>
+	</ul>
+
+	{% include 'App:Book:navigation.html.twig' with {'letter': letter} %}
+	{% include 'App:Book:list.html.twig' %}
+	{% include 'App::pager.html.twig' %}
+
+{% endblock %}

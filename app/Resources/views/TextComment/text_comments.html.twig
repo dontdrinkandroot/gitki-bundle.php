@@ -1,0 +1,17 @@
+{% extends ajax ? 'App::layout.js.twig' : 'App::layout.html.twig' %}
+
+{% set title = 'Читателски коментари' %}
+{% set subtitle %}
+	{% import 'App::text.html.twig' as texttools %}
+	за {{ texttools.text_title_with_author(text) }}
+{% endset %}
+
+{% block content %}
+	{{ page.getFullContent()|raw }}
+	{#
+	{% for comment in comments %}
+		{% include 'App:TextComment:comment.html.twig' with {'standalone': false} %}
+	{% endfor %}
+	{% include 'App:TextComment:comment_form.html.twig' %}
+	#}
+{% endblock %}

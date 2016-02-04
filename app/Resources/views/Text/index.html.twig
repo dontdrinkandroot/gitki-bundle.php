@@ -1,0 +1,19 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Произведения' %}
+{% block head %}
+	{{ parent() }}
+	<link rel="search" type="application/opensearchdescription+xml" href="{{ path('texts_search', {'_format': 'osd'}) }}" title="Търсене по произведения в Моята библиотека" />
+{% endblock %}
+{% block content %}
+	<h2>По азбучен ред</h2>
+	{% include 'App:Text:navigation.html.twig' with {'letter': ''} %}
+
+	{% for labelGroup, labelsInGroup in labels %}
+		<h2>{{ ('labels.'~labelGroup)|trans }}</h2>
+		{% include 'App:Text:label_tree.html.twig' with {labels: labelsInGroup} %}
+	{% endfor %}
+
+	<h2>По форма</h2>
+	{% include 'App:Text:type_list.html.twig' %}
+{% endblock %}

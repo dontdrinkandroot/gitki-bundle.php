@@ -1,0 +1,10 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Издателски поредици: ' ~ (letter == '-' ? 'Всички' : letter) %}
+{% block content %}
+
+	{% include 'App:Sequence:navigation.html.twig' with {'letter': letter} %}
+	{% include 'App:Sequence:list.html.twig' %}
+	{% include 'App::pager.html.twig' %}
+
+{% endblock %}

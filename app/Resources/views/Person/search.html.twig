@@ -1,0 +1,14 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Търсене' ~ (query ? ' на „'~query.text|e~'“' : '') ~ ' в личности' %}
+{% block content %}
+
+	{% if persons|length %}
+		{% include 'App:Author:list_with_country.html.twig' with {'authors': persons} %}
+	{% endif %}
+
+	{% if not found %}
+		<p class="no-items">Не открихме никакви личности.</p>
+	{% endif %}
+
+{% endblock %}

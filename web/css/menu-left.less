@@ -1,0 +1,35 @@
+#main-content {
+	margin: 0 0 0 @contentMarginSide;
+	&.no-sidebar {
+		margin-left: 0;
+	}
+}
+#navigation {
+	margin: 0 0 1em -100%;
+}
+#user-tools {
+	right: @contentSpacingSide;
+	text-align: right;
+	.dropdown {
+		text-align: left;
+	}
+}
+#search {
+	left: @contentMarginSide + @contentSpacingSide;
+	text-align: left;
+}
+.sidebar-toggle {
+	left: @contentSpacingSide;
+}
+@media screen and (max-width: 50em) {
+	@contentSpacingSide: 0.5rem;
+	.sidebar-toggle {
+		left: @contentSpacingSide;
+	}
+	#search {
+		left: @contentSpacingSide + 2rem;
+	}
+	#user-tools {
+		right: @contentSpacingSide;
+	}
+}

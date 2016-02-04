@@ -1,0 +1,11 @@
+<div class="dropdown navbar-right" role="navigation">
+	<a data-toggle="dropdown" href="#">
+		<span class="fa fa-calendar"></span>
+		По месец <span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu" role="menu">
+	{% for date in dates %}
+		<li><a href="{{ path(route, {'year': date.year, 'month': date.month}) }}">{{ ('month.'~date.month) | trans }} {{ date.year }} ({{ date.count }})</a></li>
+	{% endfor %}
+	</ul>
+</div>

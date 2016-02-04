@@ -1,0 +1,8 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Нови произведения' %}
+{% set page_feed = {'url': path('new_texts', {'_format': 'rss'})} %}
+{% block content %}
+	{% include 'App:History:toc.html.twig' with {'route': 'new_texts_by_month'} %}
+	{% include 'App:History:texts_list.html.twig' %}
+{% endblock %}

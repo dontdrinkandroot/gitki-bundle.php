@@ -1,0 +1,12 @@
+{% import 'App::text.html.twig' as texttools %}
+{% import 'App::link.html.twig' as link %}
+<ul class="superlist fa-ul">
+{% for revision in text_revisions %}
+	<li class="title t-{{ revision.text.type }}">
+		<dl>
+			<dt><span class="fa-li fa fa-folder" title="{{ ('text.type.singular.'~revision.text.type)|trans }}"></span>{{ link.text(revision.text) }}</dt>
+			<dd class="tauthor">{{ texttools.author_list(revision.text.authors) }}</dd>
+		</dl>
+	</li>
+{% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+{% import 'App::book.html.twig' as booktools %}
+
+{% for book in books %}
+	<div class="booklist">
+		<div class="col-md-6 col-book">
+			{{ booktools.book(book) }}
+		</div>
+	</div>
+{% else %}
+	<div class="no-items">
+		{% import 'App::helper.html.twig' as helper %}
+		{{ helper.not_found('Няма намерени книги.') }}
+	</div>
+{% endfor %}

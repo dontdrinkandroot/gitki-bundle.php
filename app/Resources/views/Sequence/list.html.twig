@@ -1,0 +1,21 @@
+{% macro list_item(sequence) %}
+	<dl itemscope itemtype="http://schema.org/CreativeWork">
+		<dt>
+			<a href="{{ path('sequence_show', {'slug': sequence.slug}) }}" itemprop="name">{{ sequence.name }}</a>
+		</dt>
+		<dd itemprop="author" itemscope itemtype="http://schema.org/Organization">
+			<span itemprop="name">{{ sequence.publisher }}</span>
+		</dd>
+	</dl>
+{% endmacro %}
+
+<ul class="superlist sequence-list">
+{% for sequence in sequences %}
+	<li>{{ _self.list_item(sequence) }}</li>
+{% else %}
+	<li class="no-items">
+		{% import 'App::helper.html.twig' as helper %}
+		{{ helper.not_found('Няма намерени поредици.') }}
+	</li>
+{% endfor %}
+</ul>

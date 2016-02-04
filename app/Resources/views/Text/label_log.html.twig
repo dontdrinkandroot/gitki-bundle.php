@@ -1,0 +1,43 @@
+{% extends 'App::layout.html.twig' %}
+
+{% import 'App::link.html.twig' as link %}
+{% set title = "Дневник на етикетите" %}
+{% if text is defined %}
+	{% set subtitle %}
+		{% import 'App::text.html.twig' as texttools %}
+		за {{ texttools.text_title_with_author(text) }}
+	{% endset %}
+{% endif %}
+
+{% block content %}
+	<table class="table table-condensed table-hover">
+		<thead>
+			<tr>
+				<th>Дата</th>
+				{% if text is not defined %}
+					<th>Произведение</th>
+				{% endif %}
+				<th>Етикет</th>
+				<th>Потребител</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for log_item in log %}
+			<tr>
+				<td>{{ log_item.date|humandate }}</td>
+				{% if text is not defined %}
+					<td>{{ link.text(log_item.text) }}</td>
+				{% endif %}
+				<td>
+					<span class="fa {{ log_item.action == "+" ? "fa-plus-square action-add" : "fa-minus-square action-remove" }}"></span>
+					{{ link.label(log_item.label) }}
+				</td>
+				<td>{{ link.user_with_email(log_item.user) }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% if pager is defined %}
+		{% include 'App::pager.html.twig' %}
+	{% endif %}
+{% endblock %}

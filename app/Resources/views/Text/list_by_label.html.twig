@@ -1,0 +1,37 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Произведения' %}
+{% set subtitle = label.name %}
+{% block content %}
+
+	{% if texts is empty %}
+
+		<p class="no-items">
+			{% import 'App::helper.html.twig' as helper %}
+			{{ helper.not_found('Няма намерени произведения.') }}
+		</p>
+
+	{% else %}
+
+		<ul class="breadcrumb" itemprop="breadcrumb">
+			<li><a href="{{ path('texts') }}">Произведения</a></li>
+			{% for parent in parents %}
+				<li><a href="{{ path('texts_by_label', {'slug': parent.slug}) }}">{{ parent.name }}</a></li>
+			{% endfor %}
+			<li class="active">
+				{{ subtitle }}
+				<span class="badge">{{ label.nrOfTexts }}</span>
+			</li>
+		</ul>
+
+		<div class="superlist">
+			{% include 'App:Text:list.html.twig' %}
+			{% include 'App:Text:multi_download_form.html.twig' with { filename: 'label-'~label.name~'_'~pager.page } %}
+		</div>
+		{% include 'App::pager.html.twig' %}
+
+	{% endif %}
+
+	{#% include 'App::color_legend.html.twig' %#}
+
+{% endblock %}

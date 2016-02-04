@@ -1,0 +1,69 @@
+{% import 'App::book.html.twig' as booktools %}
+
+{% if book.titleextra %}
+	<div class="subheader">{{ book.titleextra|nl2br|raw }}</div>
+{% endif %}
+
+{% if book.removedNotice is not empty %}
+	<div class="removed-notice">{{ book.removedNotice|raw }}</div>
+{% else %}
+
+	<div class="media book-media book-media-single" itemscope itemtype="http://schema.org/Book">
+		<div class="pull-left">
+			{{ booktools.cover_div(book, 250) }}
+		</div>
+		<div class="media-body">
+			{% if book.hasAnno %}
+				<div class="text-content book-anno">
+					{{ book.annotationAsXhtml|replace({'IMG_DIR_PREFIX': asset('/')})|raw }}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+
+	<ul class="nav nav-tabs book-tabs">
+		{% if template != "" %}
+			<li><a href="#book-content" data-toggle="tab"><span class="fa fa-book"></span> Съдържание</a></li>
+		{% endif %}
+		{% if info %}
+			<li><a href="#book-extra-info" data-toggle="tab"><span class="fa fa-tag"></span> Информация</a></li>
+		{% endif %}
+		<li><a href="#book-links" data-toggle="tab"><span class="fa fa-download"></span> Сваляне / Връзки</a></li>
+	</ul>
+	<div class="tab-content">
+		{% if template != "" %}
+			<div class="book-content superlist tab-pane" id="book-content">
+				{% import 'App::text.html.twig' as texttools %}
+				{# TODO refactor and improve this template expansion #}
+				{% set options = {'title': 'TEXT_TITLE'} %}
+				{% for text in book.texts %}
+					{% set template = template|put_text_in_template(text, (book.isFromSameAuthor(text) ? texttools.text(text, options) : texttools.text_with_author(text, options))) %}
+				{% endfor %}
+
+				{{ template|join_lists|replace({'IMG_DIR_PREFIX': asset('/')})|raw }}
+			</div>
+		{% endif %}
+
+		{% if info %}
+			<div class="tab-pane text-content book-extra-info" id="book-extra-info">
+				{{ info|raw }}
+			</div>
+		{% endif %}
+
+		<div class="tab-pane expanded-links" id="book-links">
+			{{ booktools.qrcode(book) }}
+			Книгата във формат:
+			{{ booktools.download_links(book) }}
+			{% if book.links|length %}
+				<div class="menu">
+					<p>Тази книга в други сайтове:</p>
+					<ul>
+						{% for link in book.links %}
+							<li><a href="{{ link.url }}" class="btn btn-default">{{ link.site.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}

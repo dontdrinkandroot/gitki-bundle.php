@@ -1,0 +1,56 @@
+{% macro urn(route, params) %}
+urn:x-chitanka:{{ route }}{% if params is not empty %}:{{ params|join('-')|url_encode }}{% endif %}
+{% endmacro %}
+
+{% macro url(route, params) %}{{ url(route, params|default({})|merge({'_format': 'opds'}), true) }}{% endmacro %}
+
+{% macro path(route, params) %}{{ path(route, params|default({})|merge({'_format': 'opds'})) }}{% endmacro %}
+
+{% macro id(id) %}
+	<id>{{ id }}</id>
+{% endmacro %}
+
+{% macro link(url, relation) %}{#rel="{{ relation|default('subsection') }}"#}
+	<link  href="{{ url }}" type="application/atom+xml; profile=opds-catalog; kind=navigation"/>
+{% endmacro %}
+
+{% macro link_and_id(route, params) %}
+	{% set url = _self.url(route, params) %}
+	{{ _self.id(url) }}
+	{{ _self.link(url) }}
+{% endmacro %}
+
+{% macro updated(updatedAt) %}
+	<updated>{{ updatedAt|date('c') }}</updated>
+{% endmacro %}
+
+{% macro letter_links(route, params) %}
+	{% set letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ю', 'Я', '-'] %}
+	{% for letter in letters %}
+		{% set text = letter == '-' ? 'Всички' : letter %}
+		{% set defparams = {'letter': letter, '_format': 'opds'} %}
+		{% if params is empty %}
+			{% set params = defparams %}
+		{% else %}
+			{% set params = params|merge(defparams) %}
+		{% endif %}
+		<entry>
+			<title>{{ text }}</title>
+			{% set url = url(route, params, true) %}
+			{{ _self.id(url) }}
+			{{ _self.link(url) }}
+			<content type="text">{{ letter == '-' ? 'Всички' : 'Започващи с „'~letter~'“' }}</content>
+		</entry>
+	{% endfor %}
+{% endmacro %}
+
+{% macro navi_entry(title, updated_at, route, params, description) %}
+	<entry>
+		<title>{{ title }}</title>
+		{{ _self.link_and_id(route, params) }}
+		{{ _self.updated(updated_at) }}
+		{% if description is not empty  %}
+			<content type="text">{{ description }}</content>
+		{% endif %}
+	</entry>
+{% endmacro %}

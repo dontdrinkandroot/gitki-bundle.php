@@ -1,0 +1,14 @@
+/* one of two boxes in a row */
+.box2 {
+	width: 100%;
+}
+.liternewsbox {
+	width: 100%;
+}
+.p_homepage .textbox dt,
+.p_homepage .textbox dd {
+	max-width: none;
+}
+.insidenews {
+	width: 100%;
+}

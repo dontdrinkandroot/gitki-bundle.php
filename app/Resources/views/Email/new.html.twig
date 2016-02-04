@@ -1,0 +1,12 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Пращане на писмо на потребител' %}
+{% block content %}
+
+	{% if message is defined %}
+		{% include 'App:Email:_'~message~'.html.twig' %}
+	{% else %}
+		{% include 'App:Email:_form.html.twig' %}
+	{% endif %}
+
+{% endblock %}

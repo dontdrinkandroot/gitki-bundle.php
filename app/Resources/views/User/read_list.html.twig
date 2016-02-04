@@ -1,0 +1,7 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Прочетени произведения от ' ~ user.username %}
+{% block content %}
+	{% include 'App:User:read_texts_list.html.twig' %}
+	{% include 'App::pager.html.twig' %}
+{% endblock %}

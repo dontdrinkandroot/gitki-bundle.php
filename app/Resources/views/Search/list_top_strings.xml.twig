@@ -1,0 +1,19 @@
+{% extends 'App::layout.xml.twig' %}
+{% block body %}
+<queries>
+	<top>
+		{% for string in top_strings %}
+			<query>
+				{% include 'App:SearchString:item.xml.twig' %}
+			</query>
+		{% endfor %}
+	</top>
+	<latest>
+		{% for string in latest_strings %}
+			<query>
+				{% include 'App:SearchString:item.xml.twig' %}
+			</query>
+		{% endfor %}
+	</latest>
+</queries>
+{% endblock %}

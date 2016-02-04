@@ -1,0 +1,14 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Търсене' ~ (query ? ' на „'~query.text|e~'“' : '') ~ ' в произведенията' %}
+{% block content %}
+
+	{% if texts|length %}
+		{% include 'App:Text:list.html.twig' %}
+	{% endif %}
+
+	{% if not found %}
+		<p class="no-items">Не открихме никакви произведения.</p>
+	{% endif %}
+
+{% endblock %}

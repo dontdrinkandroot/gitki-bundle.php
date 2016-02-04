@@ -1,0 +1,56 @@
+{% import 'App::helper.opds.twig' as helper %}
+
+{% macro download_link(book, format, mimetype) %}
+	<link rel="http://opds-spec.org/acquisition" href="{{ path('book_show', {'id': book.id, '_format': format}) }}" type="{{ mimetype }}"/>
+{% endmacro %}
+<entry>
+	<title>
+		{{ book.title }}
+		{% if book.subtitle is not empty %}
+			({{ book.subtitle }})
+		{% endif %}
+	</title>
+	<id>{{ helper.urn('book', book.id) }}</id>
+	<updated>{{ book.createdAt|date('c') }}</updated>{# TODO #}
+	{% for person in book.authors %}
+		<author>
+			<name>{{ person.name }}</name>
+			<uri>{{ helper.url('person_show', {'slug': person.slug}) }}</uri>
+		</author>
+	{% endfor %}
+	<dc:language>{{ book.lang }}</dc:language>
+	{% if book.transYear is not empty %}
+		<dc:issued>{{ book.transYear }}</dc:issued>
+	{% elseif book.year is not empty %}
+		<dc:issued>{{ book.year }}</dc:issued>
+	{% endif %}
+	{#
+	{% for category in book.categories %}
+		<category term="{{ label.slug }}" label="{{ label.name }}"/>
+	{% endfor %}
+	#}
+
+	{{ _self.download_link(book, 'epub', 'application/epub+zip') }}
+	{{ _self.download_link(book, 'fb2.zip', 'application/x-fictionbook+xml') }}
+	{{ _self.download_link(book, 'txt.zip', 'application/zip') }}
+	{{ _self.download_link(book, 'sfb.zip', 'application/zip') }}
+
+	{% set cover_format = book.hasCover ? 'jpeg' : 'png' %}
+	<link rel="http://opds-spec.org/image"
+		href="{{ asset(book.hasCover ? cover(book.id, 1000) : cover(0, 600, 'png')) }}"
+		type="image/{{ cover_format }}"/>
+	<link rel="http://opds-spec.org/image/thumbnail"
+		href="{{ asset(book.hasCover ? cover(book.id, 200) : cover(0, 200, 'png')) }}"
+		type="image/{{ cover_format }}"/>
+	{#<link href="{{ helper.url('book_show', {'id': book.id}) }}" type="application/atom+xml; type=entry" rel="alternate" title="Подробна информация"/>#}
+
+	<rights>
+		{% if book.transLicense is defined %}
+			{{ book.transLicense.fullname }}
+		{% elseif book.origLicense is defined %}
+			{{ book.origLicense.fullname }}
+		{% endif %}
+	</rights>
+
+	{#<content type="text"></content>#}
+</entry>

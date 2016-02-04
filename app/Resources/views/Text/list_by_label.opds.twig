@@ -1,0 +1,10 @@
+{% extends 'App::layout.opds.twig' %}
+{% import 'App::helper.opds.twig' as helper %}
+
+{% set title = 'Произведения по етикет' %}
+{% set subtitle = label.name %}
+{% set link_self = helper.url(current_route, {'slug': label.slug}) %}
+{% block content %}
+	{% include 'App:Text:list.opds.twig' %}
+	{% include 'App::pager.opds.twig' %}
+{% endblock %}

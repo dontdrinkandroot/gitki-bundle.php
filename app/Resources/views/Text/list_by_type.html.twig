@@ -1,0 +1,28 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set title = 'Произведения' %}
+{% set subtitle %}{{ ('text.type.plular.'~type) | trans }}{% endset %}
+{% block content %}
+
+	{% if texts is empty %}
+
+		<p class="no-items">
+			{% import 'App::helper.html.twig' as helper %}
+			{{ helper.not_found('Няма намерени произведения.') }}
+		</p>
+
+	{% else %}
+
+		<ul class="breadcrumb" itemprop="breadcrumb">
+			<li><a href="{{ path('texts') }}">Произведения</a></li>
+			<li class="active">{{ subtitle }}</li>
+		</ul>
+
+		{% include 'App:Text:list.html.twig' %}
+		{% include 'App::pager.html.twig' %}
+
+	{% endif %}
+
+	{#% include 'App::color_legend.html.twig' %#}
+
+{% endblock %}

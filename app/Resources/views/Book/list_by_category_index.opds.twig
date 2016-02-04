@@ -1,0 +1,14 @@
+{% extends 'App::layout.opds.twig' %}
+{% import 'App::helper.opds.twig' as helper %}
+
+{% macro description(category) %}
+	Книги в категория „{{ category.name }}“. Общо: {{ category.nrOfBooks }}
+{% endmacro %}
+
+{% set link_self = helper.url(current_route) %}
+{% set title = 'Книги по категория' %}
+{% block content %}
+	{% for category in categories %}
+		{{ helper.navi_entry(category.name, updated_at, 'books_by_category', {'slug': category.slug}) }}
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'App::layout.html.twig' %}
+
+{% set itemtype = "Book" %}
+{% set title %}
+	{% if authors|length %}
+		{% import 'App::link.html.twig' as link %}
+		{{ link.persons_comma(authors) }}<br>
+	{% endif %}
+	<a class="selflink" itemprop="name" data-edit="{{ path('admin_book_edit', {'id': book.id}) }}">{{ book.title|dot2br|raw }}</a>
+{% endset %}
+{% if book.subtitle %}
+	{% set subtitle = book.subtitle %}
+{% endif %}
+
+{% block content %}
+
+	{% include 'App:Book:_breadcrumb_sequences.html.twig' %}
+
+	{% include 'App:Book:show_text.html.twig' %}
+
+{% endblock %}
+
+{% block inline_js %}
+	$(".book-tabs").find("a:first").tab('show');
+	{% if book.withAutohide() %}
+		$(":header.inline-text").parent().addClass("collapsed").boxcollapse(false);
+	{% endif %}
+{% endblock %}

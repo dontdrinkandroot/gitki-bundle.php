@@ -1,0 +1,39 @@
+<td class="date" title="{{ entry.date|humandate }}">{{ entry.date.format('d.m.Y') }}</td>
+<td>
+	<span class="{{ entry.type == 1 ? 'multiuser' : 'singleuser' }}"><span>{{ ('workroom.type.'~entry.type) | trans }}</span></span>
+</td>
+<td>
+	{% if entry.comment %}
+		<span class="popover-trigger" data-content="{{ entry.comment }}"><span class="fa fa-info-circle"></span><span class="sr-only">Инфо</span></span>
+	{% endif %}
+</td>
+<td>
+	{% if entry.tmpfiles %}
+		<a href="{{ entry.tmpfiles }}" class="save"><span>Файл</span></a>
+	{% endif %}
+</td>
+<td><a href="{{ path('workroom_entry_edit', {'id': entry.id}) }}"><i>{{ entry.title }}</i></a></td>
+<td>{{ entry.author }}</td>
+<td>
+	{% if entry.progress %}
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="{{ entry.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ entry.progress }}%;">
+				<span>{{ entry.progress }}%</span>
+			</div>
+		</div>
+	{% else %}
+		<span class="progress progress-{{ entry.status }}">{{ ('workroom.status.'~entry.status) | trans }}</span>
+	{% endif %}
+	{% if entry.isFrozen %}
+		<span title="Подготовката е замразена">(замразена)</span>
+	{% endif %}
+</td>
+<td>
+	{% import 'App::link.html.twig' as link %}
+	<ul class="simplelist">
+		<li>{{ link.user_with_email(entry.user) }}</li>
+		{% for contrib in entry.contribs %}
+			<li>{{ link.user_with_email(contrib.user) }}<span class="popover-trigger" data-content="{{ contrib.comment }}"><span class="fa fa-info-circle"></span><span class="sr-only">Инфо</span></span></li>
+		{% endfor %}
+	</ul>
+</td>

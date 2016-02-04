@@ -1,0 +1,22 @@
+.git
+.gitignore
+tmp/*
+app/config/parameters.yml
+var/cache/*
+var/log/*
+web/content
+web/cache/*
+web/tor/*
+web/todo/*
+app/config/config_temp.yml
+web/index_temp.php
+*.php~
+.last
+.lock
+update/*/*
+var/spool/*
+.DS_Store
+.exclude
+.include
+# for BC
+app/console

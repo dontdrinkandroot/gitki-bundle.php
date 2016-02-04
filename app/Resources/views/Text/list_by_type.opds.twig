@@ -1,0 +1,10 @@
+{% extends 'App::layout.opds.twig' %}
+{% import 'App::helper.opds.twig' as helper %}
+
+{% set title = 'Произведения по форма' %}
+{% set subtitle %}{{ ('text.type.plular.'~type) | trans }}{% endset %}
+{% set link_self = helper.url(current_route, {'type': type}) %}
+{% block content %}
+	{% include 'App:Text:list.opds.twig' %}
+	{% include 'App::pager.opds.twig' %}
+{% endblock %}

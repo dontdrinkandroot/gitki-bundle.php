@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/Main/index.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Feed/FeedResponse.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/search_form.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/routing.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppKernel.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/Main/last_texts.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/Series/index.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/projects_toolbar.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/Main/last_books.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/book.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/Book/navigation.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/composer.json</file>
+        </group>
+    </open-files>
+</project-private>

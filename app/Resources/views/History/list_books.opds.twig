@@ -1,0 +1,11 @@
+{% extends 'App::layout.opds.twig' %}
+{% import 'App::helper.opds.twig' as helper %}
+
+{% set link_self = helper.url(current_route, {'page': pager.page}) %}
+{% set title = 'Нови книги' %}
+{% block content %}
+	{% for book_revision in book_revisions %}
+		{% include 'App:Book:item.opds.twig' with {'book': book_revision.book} %}
+	{% endfor %}
+	{% include 'App::pager.opds.twig' %}
+{% endblock %}
