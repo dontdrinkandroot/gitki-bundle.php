@@ -1,0 +1,375 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="bg" datatype="plaintext" original="SonataAdminBundle.en.xliff" >
+        <body>
+            <trans-unit id="action_delete">
+                <source>action_delete</source>
+                <target>Удалеие</target>
+            </trans-unit>
+            <trans-unit id="btn_batch">
+                <source>btn_batch</source>
+                <target>Выполнение</target>
+            </trans-unit>
+            <trans-unit id="btn_create">
+                <source>btn_create</source>
+                <target>Создать</target>
+            </trans-unit>
+            <trans-unit id="btn_create_and_edit_again">
+                <source>btn_create_and_edit_again</source>
+                <target>Создать</target>
+            </trans-unit>
+            <trans-unit id="btn_create_and_create_a_new_one">
+                <source>btn_create_and_create_a_new_one</source>
+                <target>Создать и добавить новый элемент</target>
+            </trans-unit>
+            <trans-unit id="btn_create_and_return_to_list">
+                <source>btn_create_and_return_to_list</source>
+                <target>Создать и вернуться к списку</target>
+            </trans-unit>
+            <trans-unit id="btn_filter">
+                <source>btn_filter</source>
+                <target>Фильтр</target>
+            </trans-unit>
+            <trans-unit id="btn_update">
+                <source>btn_update</source>
+                <target>Обновить</target>
+            </trans-unit>
+            <trans-unit id="btn_update_and_edit_again">
+                <source>btn_update_and_edit_again</source>
+                <target>Обновить и продолжить редактирование</target>
+            </trans-unit>
+            <trans-unit id="btn_update_and_return_to_list">
+                <source>btn_update_and_return_to_list</source>
+                <target>Обновить и вернуться к списку</target>
+            </trans-unit>
+            <trans-unit id="link_delete">
+                <source>link_delete</source>
+                <target>Удалить</target>
+            </trans-unit>
+            <trans-unit id="link_action_create">
+                <source>link_action_create</source>
+                <target>Новый элемент</target>
+            </trans-unit>
+            <trans-unit id="link_action_list">
+                <source>link_action_list</source>
+                <target>К списку</target>
+            </trans-unit>
+            <trans-unit id="link_action_show">
+                <source>link_action_show</source>
+                <target>Показать</target>
+            </trans-unit>
+            <trans-unit id="link_action_edit">
+                <source>link_action_edit</source>
+                <target>Редактировать</target>
+            </trans-unit>
+            <trans-unit id="link_add">
+                <source>link_add</source>
+                <target>Добавить</target>
+            </trans-unit>
+            <trans-unit id="link_list">
+                <source>link_list</source>
+                <target>Показать</target>
+            </trans-unit>
+            <trans-unit id="link_reset_filter">
+                <source>link_reset_filter</source>
+                <target>Отмена</target>
+            </trans-unit>
+            <trans-unit id="title_create">
+                <source>title_create</source>
+                <target>Добавить заголовок</target>
+            </trans-unit>
+            <trans-unit id="title_dashboard">
+                <source>title_dashboard</source>
+                <target>Главная страница</target>
+            </trans-unit>
+            <trans-unit id="title_edit">
+                <source>title_edit</source>
+                <target>Редактировать „%name%“</target>
+            </trans-unit>
+            <trans-unit id="title_list">
+                <source>title_list</source>
+                <target>Список</target>
+            </trans-unit>
+            <trans-unit id="link_next_pager">
+                <source>link_next_pager</source>
+                <target>Следущая страница</target>
+            </trans-unit>
+            <trans-unit id="link_previous_pager">
+                <source>link_previous_pager</source>
+                <target>Предыдущая страница</target>
+            </trans-unit>
+            <trans-unit id="link_first_pager">
+                <source>link_first_pager</source>
+                <target>Первая страница</target>
+            </trans-unit>
+            <trans-unit id="link_last_pager">
+                <source>link_last_pager</source>
+                <target>Последняя страница</target>
+            </trans-unit>
+            <trans-unit id="Admin">
+                <source>Admin</source>
+                <target>Администратор</target>
+            </trans-unit>
+            <trans-unit id="link_expand">
+                <source>link_expand</source>
+                <target>+/–</target>
+            </trans-unit>
+            <trans-unit id="no_result">
+                <source>no_result</source>
+                <target>Нет результатов</target>
+            </trans-unit>
+            <trans-unit id="confirm_msg">
+                <source>confirm_msg</source>
+                <target>Подтвердить</target>
+            </trans-unit>
+            <trans-unit id="action_edit">
+                <source>action_edit</source>
+                <target>Редактировать</target>
+            </trans-unit>
+            <trans-unit id="action_show">
+                <source>action_show</source>
+                <target>Показать</target>
+            </trans-unit>
+            <trans-unit id="all_elements">
+                <source>all_elements</source>
+                <target>Все элементы</target>
+            </trans-unit>
+            <trans-unit id='flash_batch_empty'>
+                <source>flash_batch_empty</source>
+                <target>Действие было прервано. Искомые элементы не найдены.</target>
+            </trans-unit>
+            <trans-unit id='flash_create_success'>
+                <source>flash_create_success</source>
+                <target>Элемент был создан.</target>
+            </trans-unit>
+            <trans-unit id='flash_create_error'>
+                <source>flash_create_error</source>
+                <target>Ошибка записи.</target>
+            </trans-unit>
+            <trans-unit id='flash_edit_success'>
+                <source>flash_edit_success</source>
+                <target>Элемент обновлён.</target>
+            </trans-unit>
+            <trans-unit id='flash_edit_error'>
+                <source>flash_edit_error</source>
+                <target>Ошибка записи.</target>
+            </trans-unit>
+            <trans-unit id='flash_batch_delete_success'>
+                <source>flash_batch_delete_success</source>
+                <target>Элемент удалён.</target>
+            </trans-unit>
+            <trans-unit id='flash_batch_delete_error'>
+                <source>flash_batch_delete_error</source>
+                <target>Не удалось удалиь элемент.</target>
+            </trans-unit>
+            <trans-unit id='flash_delete_error'>
+                <source>flash_delete_error</source>
+                <target>Не удалось удалиь элемент.</target>
+            </trans-unit>
+            <trans-unit id='flash_delete_success'>
+                <source>flash_delete_success</source>
+                <target>Элемент удалён.</target>
+            </trans-unit>
+            <trans-unit id="link_breadcrumb_dashboard">
+                <source>breadcrumb.link_dashboard</source>
+                <target>Начальная страница</target>
+            </trans-unit>
+            <trans-unit id="title_delete">
+                <source>title_delete</source>
+                <target>Заголовок удалён</target>
+            </trans-unit>
+            <trans-unit id="message_delete_confirmation">
+                <source>message_delete_confirmation</source>
+                <target>Вы уверены что хотите удалить элемент?</target>
+            </trans-unit>
+            <trans-unit id="btn_delete">
+                <source>btn_delete</source>
+                <target>Удалить</target>
+            </trans-unit>
+            <trans-unit id="title_batch_confirmation">
+                <source>title_batch_confirmation</source>
+                <target>Подтвердить</target>
+            </trans-unit>
+            <trans-unit id="message_batch_confirmation">
+                <source>message_batch_confirmation</source>
+                <target>Вы действительно хотите выполнить действие с элементом?|Вы действительно хотите выполнить действие с %count% элементами?</target>
+            </trans-unit>
+            <trans-unit id="message_batch_all_confirmation">
+                <source>message_batch_all_confirmation</source>
+                <target>Вы действительно хотите, выполнить действие со всеми элементами?</target>
+            </trans-unit>
+            <trans-unit id="btn_execute_batch_action">
+                <source>btn_execute_batch_action</source>
+                <target>Да</target>
+            </trans-unit>
+            <trans-unit id="label_type_yes">
+                <source>label_type_yes</source>
+                <target>да</target>
+            </trans-unit>
+            <trans-unit id="label_type_no">
+                <source>label_type_no</source>
+                <target>нет</target>
+            </trans-unit>
+            <trans-unit id="label_type_contains">
+                <source>label_type_contains</source>
+                <target>есть</target>
+            </trans-unit>
+            <trans-unit id="label_type_not_contains">
+                <source>label_type_not_contains</source>
+                <target>нет</target>
+            </trans-unit>
+            <trans-unit id="label_type_equals">
+                <source>label_type_equals</source>
+                <target>совпадает с</target>
+            </trans-unit>
+            <trans-unit id="label_type_not_equals">
+                <source>label_type_not_equals</source>
+                <target>не совпадает с</target>
+            </trans-unit>
+            <trans-unit id="label_type_equal">
+                <source>label_type_equal</source>
+                <target>=</target>
+            </trans-unit>
+            <trans-unit id="label_type_greater_equal">
+                <source>label_type_greater_equal</source>
+                <target>&gt;=</target>
+            </trans-unit>
+            <trans-unit id="label_type_greater_than">
+                <source>label_type_greater_than</source>
+                <target>&gt;</target>
+            </trans-unit>
+            <trans-unit id="label_type_less_equal">
+                <source>label_type_less_equal</source>
+                <target>&lt;=</target>
+            </trans-unit>
+            <trans-unit id="label_type_less_than">
+                <source>label_type_less_than</source>
+                <target>&lt;</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_equal">
+                <source>label_date_type_equal</source>
+                <target>=</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_greater_equal">
+                <source>label_date_type_greater_equal</source>
+                <target>&gt;=</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_greater_than">
+                <source>label_date_type_greater_than</source>
+                <target>&gt;</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_less_equal">
+                <source>label_date_type_less_equal</source>
+                <target>&lt;=</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_less_than">
+                <source>label_date_type_less_than</source>
+                <target>&lt;</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_null">
+                <source>label_date_type_null</source>
+                <target>пусто</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_not_null">
+                <source>label_date_type_not_null</source>
+                <target>не пусто</target>
+            </trans-unit>
+            <trans-unit id="label_date_type_between">
+                <source>label_date_type_between</source>
+                <target>между</target>
+            </trans-unit>
+            <trans-unit id="label_date_not_between">
+                <source>label_date_type_not_between</source>
+                <target>не между</target>
+            </trans-unit>
+            <trans-unit id="label_filters">
+                <source>label_filters</source>
+                <target>Филтр</target>
+            </trans-unit>
+            <trans-unit id="delete_or">
+                <source>delete_or</source>
+                <target>или</target>
+            </trans-unit>
+            <trans-unit id="link_action_history">
+                <source>link_action_history</source>
+                <target>Версии</target>
+            </trans-unit>
+            <trans-unit id="td_action">
+                <source>td_action</source>
+                <target>Действие</target>
+            </trans-unit>
+            <trans-unit id="td_revision">
+                <source>td_revision</source>
+                <target>Версии</target>
+            </trans-unit>
+            <trans-unit id="td_timestamp">
+                <source>td_timestamp</source>
+                <target>Дата</target>
+            </trans-unit>
+            <trans-unit id="td_username">
+                <source>td_username</source>
+                <target>Автор</target>
+            </trans-unit>
+            <trans-unit id="label_view_revision">
+                <source>label_view_revision</source>
+                <target>Версия</target>
+            </trans-unit>
+            <trans-unit id="list_results_count">
+                <source>list_results_count</source>
+                <target>Резултат|%count% результатов</target>
+            </trans-unit>
+            <trans-unit id="label_export_download">
+                <source>label_export_download</source>
+                <target>Скачать: </target>
+            </trans-unit>
+            <trans-unit id="loading_information">
+                <source>loading_information</source>
+                <target>ЗЗагрузка данных…</target>
+            </trans-unit>
+            <trans-unit id="btn_preview">
+                <source>btn_preview</source>
+                <target>Предварительный просмотр</target>
+            </trans-unit>
+            <trans-unit id="btn_preview_approve">
+                <source>btn_preview_approve</source>
+                <target>Принять</target>
+            </trans-unit>
+            <trans-unit id="btn_preview_decline">
+                <source>btn_preview_decline</source>
+                <target>Отмена</target>
+            </trans-unit>
+            <trans-unit id="label_per_page">
+                <source>label_per_page</source>
+                <target>На странице</target>
+            </trans-unit>
+            <trans-unit id="list_select">
+              <source>list_select</source>
+              <target>Выбор</target>
+            </trans-unit>
+            <trans-unit id="confirm_exit">
+                <source>confirm_exit</source>
+                <target>Вы не сохранили изменения.</target>
+            </trans-unit>
+            <trans-unit id="link_edit_acl">
+              <source>link_edit_acl</source>
+              <target>Редактировать ACL</target>
+            </trans-unit>
+            <trans-unit id="btn_update_acl">
+              <source>btn_update_acl</source>
+              <target>Обновить ACL</target>
+            </trans-unit>
+            <trans-unit id="flash_acl_update_success">
+                <source>flash_acl_edit_success</source>
+                <target>Списки ACL были обновлены.</target>
+            </trans-unit>
+            <trans-unit id="link_action_acl">
+                <source>link_action_acl</source>
+                <target>ACL</target>
+            </trans-unit>
+            <trans-unit id="short_object_description_placeholder">
+              <source>short_object_description_placeholder</source>
+              <target>Ничего не выбрано</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

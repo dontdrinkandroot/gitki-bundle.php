@@ -1,0 +1,28 @@
+fos_comment_comment_new_headline_first:       Добавить комментарий
+fos_comment_comment_new_headline:             Добавить комментарий
+fos_comment_comment_new_submit:               Отправить
+fos_comment_comment_new_cancel:               Отмена
+
+fos_comment_comment_reply_reply_to:           Ответ на %name%
+fos_comment_comment_reply_cancel:             Отмена
+
+fos_comment_comment_show_by:                  От
+fos_comment_comment_show_voteup:              Вверх
+fos_comment_comment_show_votedown:            Вниз
+fos_comment_comment_show_reply:               Ответ
+
+fos_comment_comment_vote_score:               "Резултат: "
+
+fos_comment_comment_tree_load_more:           Показать больше комментариев
+
+Showing %num% comment|Showing %num% comments: Комментарий|%num% комментариев
+
+fos_comment_rss_feed:                         На RSS
+
+fos_comment_thread_close:                     Закрыть тему
+fos_comment_thread_open:                      Открыть тему
+fos_comment_thread_comment_count:             Комментарий|%count% комментариев
+fos_comment_comment_edit:                     Редактировать
+fos_comment_comment_delete:                   Удалить комментарий
+fos_comment_comment_undelete:                 Восстановить комментарий
+fos_comment_comment_deleted:                  "[удалён]"
