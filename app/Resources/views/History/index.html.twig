@@ -1,17 +1,17 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = 'Ново в библиотеката' %}
+{% set title = 'Новое в библиотеката' %}
 {% block content %}
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="#new-books" data-toggle="tab"><span class="fa fa-book"></span> Нови книги</a></li>
-		<li><a href="#new-texts" data-toggle="tab"><span class="fa fa-folder-open"></span> Нови произведения</a></li>
+		<li class="active"><a href="#new-books" data-toggle="tab"><span class="fa fa-book"></span> Новые книги</a></li>
+		<li><a href="#new-texts" data-toggle="tab"><span class="fa fa-folder-open"></span> Новые произведения</a></li>
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane active" id="new-books">
 			{% include 'App:History:books_list.html.twig' %}
 			<nav>
 				<ul class="pager">
-					<li class="next more"><a href="{{ path('new_books', {page: 2}) }}">Още нови книги</a></li>
+					<li class="next more"><a href="{{ path('new_books', {page: 2}) }}">Ещё новые книги</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -19,7 +19,7 @@
 			{% include 'App:History:texts_list.html.twig' %}
 			<nav>
 				<ul class="pager">
-					<li class="next more"><a href="{{ path('new_texts', {page: 2}) }}">Още нови произведения</a></li>
+					<li class="next more"><a href="{{ path('new_texts', {page: 2}) }}">Ещё новые произведения</a></li>
 				</ul>
 			</nav>
 		</div>

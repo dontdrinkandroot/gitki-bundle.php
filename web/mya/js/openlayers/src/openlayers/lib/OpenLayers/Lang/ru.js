@@ -25,7 +25,7 @@ OpenLayers.Lang["ru"] = OpenLayers.Util.applyDefaults({
 
     'baseLayer': "Основной слой",
 
-    'sameProjection': "Обзорная карта работает только тогда, когда имеет ту же проекцию, что и основная",
+    'sameProjection': "Обзорная карта работает только тогда, когда Имяет ту же проекцию, что и основная",
 
     'readNotImplemented': "Чтение не реализовано.",
 

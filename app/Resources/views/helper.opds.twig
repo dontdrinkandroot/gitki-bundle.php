@@ -27,7 +27,7 @@ urn:x-chitanka:{{ route }}{% if params is not empty %}:{{ params|join('-')|url_e
 {% macro letter_links(route, params) %}
 	{% set letters = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ю', 'Я', '-'] %}
 	{% for letter in letters %}
-		{% set text = letter == '-' ? 'Всички' : letter %}
+		{% set text = letter == '-' ? 'Всё' : letter %}
 		{% set defparams = {'letter': letter, '_format': 'opds'} %}
 		{% if params is empty %}
 			{% set params = defparams %}
@@ -39,7 +39,7 @@ urn:x-chitanka:{{ route }}{% if params is not empty %}:{{ params|join('-')|url_e
 			{% set url = url(route, params, true) %}
 			{{ _self.id(url) }}
 			{{ _self.link(url) }}
-			<content type="text">{{ letter == '-' ? 'Всички' : 'Започващи с „'~letter~'“' }}</content>
+			<content type="text">{{ letter == '-' ? 'Всё' : 'Начиная с „'~letter~'“' }}</content>
 		</entry>
 	{% endfor %}
 {% endmacro %}

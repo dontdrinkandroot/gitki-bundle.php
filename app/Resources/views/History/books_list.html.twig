@@ -1,5 +1,5 @@
 <div class="feed-standalone">
-	<a href="{{ path('new_books', {'_format': 'rss'}) }}" title="RSS 2.0 — нови книги" rel="feed"><span class="fa fa-rss"></span> RSS</a>
+	<a href="{{ path('new_books', {'_format': 'rss'}) }}" title="RSS 2.0 — Новые книги" rel="feed"><span class="fa fa-rss"></span> RSS</a>
 </div>
 {% import 'App::book.html.twig' as booktools %}
 {% for day, revisions in book_revisions_by_date %}
@@ -14,7 +14,7 @@
 {% else %}
 	<p class="no-items">
 		{% import 'App::helper.html.twig' as helper %}
-		{{ helper.not_found('Няма намерени книги.') }}
+		{{ helper.not_found('Книга не найдена.') }}
 	</p>
 {% endfor %}
 {% include 'App::pager.html.twig' %}

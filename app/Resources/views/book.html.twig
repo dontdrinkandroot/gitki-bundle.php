@@ -11,7 +11,7 @@
 				<i itemprop="name">{{ book.title }}</i>
 			</a>
 			{% if book.hasAnno %}
-				<a class="book-clue" data-href="{{ path('book_show', {'id': book.id, '_format': 'clue'}) }}"><i class="fa fa-info-circle" title="Анотация"></i></a>
+				<a class="book-clue" data-href="{{ path('book_show', {'id': book.id, '_format': 'clue'}) }}"><i class="fa fa-info-circle" title="Аннотация"></i></a>
 			{% endif %}
 			{% if book.subtitle is not empty %}
 				<div itemprop="alternativeHeadline">{{ book.subtitle|replace({'\\n': '<br>'})|raw }}</div>
@@ -36,7 +36,7 @@
 
 {% macro download_link(book, format, title) %}
 	{% spaceless %}
-	<a href="{{ path('book_show', {'id': book.id ~'-'~ book.slug, '_format': format}) }}" title="{{title|default('Сваляне във формат '~format)}}" class="btn btn-default dl dl-{{ format|replace({'.zip': ''}) }} action"><span class="sr-only">{{ format }}</span></a>
+	<a href="{{ path('book_show', {'id': book.id ~'-'~ book.slug, '_format': format}) }}" title="{{title|default('Формат '~format)}}" class="btn btn-default dl dl-{{ format|replace({'.zip': ''}) }} action"><span class="sr-only">{{ format }}</span></a>
 	{% endspaceless %}
 {% endmacro %}
 
@@ -55,30 +55,26 @@
 			{{ _self.download_link(book, "pdf") }}
 		{% endif %}
 		{% if "pic" in book.formats %}
-			{{ _self.download_link(book, "pic", "Преглед в галерия") }}
+			{{ _self.download_link(book, "pic", "Посмотреть галерею") }}
 		{% endif %}
 	</div>
 {% endmacro %}
 
 {% macro cover(book, width) %}
 	<div class="cover thumbnail" style="width: {{ width + 10 }}px">
-		<img class="media-object" src="{{ asset(book.hasCover ? cover(book.id, width) : cover(0, width, 'png')) }}" alt="Корица" itemprop="image" width="{{ width }}">
+		<img class="media-object" src="{{ asset(book.hasCover ? cover(book.id, width) : cover(0, width, 'png')) }}" alt="Обложка" itemprop="image" width="{{ width }}">
 	</div>
 {% endmacro %}
 
 {% macro cover_div(book, width) %}
 	<div class="cover thumbnail" style="width: {{ width + 10 }}px">
 		{% if book.hasCover %}
-			<a href="{{ asset(cover(book.id, 'max')) }}"><img class="media-object" src="{{ asset(cover(book.id, width)) }}" alt="Корица" itemprop="image" width="{{ width }}"></a>
+			<a href="{{ asset(cover(book.id, 'max')) }}"><img class="media-object" src="{{ asset(cover(book.id, width)) }}" alt="Обложка" itemprop="image" width="{{ width }}"></a>
 		{% else %}
-			<img class="media-object" src="{{ asset(cover(0, width, 'png')) }}" alt="Корица" itemprop="image" width="{{ width }}">
+			<img class="media-object" src="{{ asset(cover(0, width, 'png')) }}" alt="Обложка" itemprop="image" width="{{ width }}">
 		{% endif %}
 		{% if book.removedNotice is empty %}
 			<div class="download-links">{{ _self.download_links(book) }}</div>
 		{% endif %}
 	</div>
-{% endmacro %}
-
-{% macro qrcode(book) %}
-	<a href="http://bg.wikipedia.org/wiki/QR_%D0%BA%D0%BE%D0%B4" class="qrcode"><img src="{{ url('book_show', {'id': book.id ~'-'~ book.slug})|qrcode }}"></a>
 {% endmacro %}

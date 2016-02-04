@@ -101,7 +101,7 @@ class PersonRepository extends EntityRepository {
 
 	private $typeList = [
 		'p' => 'Псевдоним',
-		'r' => 'Истинско име',
+		'r' => 'Истинско Имя',
 		'a' => 'Алтернативно изписване',
 	];
 

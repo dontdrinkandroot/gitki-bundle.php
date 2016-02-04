@@ -8,7 +8,7 @@
 
 	<ul class="breadcrumb" itemprop="breadcrumb">
 		<li><a href="{{ path('books') }}">Книги</a></li>
-		<li class="active">{{ letter == '-' ? 'Всички' : letter }}</li>
+		<li class="active">{{ letter == '-' ? 'Все' : letter }}</li>
 	</ul>
 
 	{% include 'App:Book:navigation.html.twig' with {'letter': letter} %}

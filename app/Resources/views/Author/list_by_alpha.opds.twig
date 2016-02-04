@@ -2,7 +2,7 @@
 {% import 'App::helper.opds.twig' as helper %}
 
 {% set link_self = helper.url('authors_by_alpha', {'by': by, 'letter': letter}) %}
-{% set title = ('authors.by.'~by)|trans ~': '~ (letter == '-' ? 'Всички' : letter) %}
+{% set title = ('authors.by.'~by)|trans ~': '~ (letter == '-' ? 'Все' : letter) %}
 {% block content %}
 
 	{% include 'App:Author:list.opds.twig' %}

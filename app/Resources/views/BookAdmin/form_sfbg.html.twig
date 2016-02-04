@@ -10,7 +10,7 @@ function searchSfbg(title)
 	var sfbgUrl = "http://www.sfbg.us/search?type=book&query="+ title;
 	$.get("/proxy.php?url="+ encodeURIComponent(sfbgUrl), function(response){
 		if (response == "error") {
-			$("#sfbg-content").html("Не присъства в SFBG.");
+			$("#sfbg-content").html("Нет в SFBG.");
 		} else {
 			var matches = response.replace(/\n/g, " ").match(/<table class="lst">.+<\/table>/);
 			var content = matches[0];

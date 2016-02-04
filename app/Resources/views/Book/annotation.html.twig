@@ -1,10 +1,10 @@
 {# not used #}
 <fieldset id="annotation">
-	<legend>Анотация</legend>
+	<legend>Аннотация</legend>
 
 	{% if book.hasAnno %}
 		{{ book.annotationhtml(asset('/'))|raw }}
 	{% else %}
-		<p class="standalone"><a href="{{ path('book_suggest_info', {'id': book.id, 'object': 'annotation'}) }}">Предложете анотация на произведението!</a></p>
+		<p class="standalone"><a href="{{ path('book_suggest_info', {'id': book.id, 'object': 'annotation'}) }}">Напишите аннотацию</a></p>
 	{% endif %}
 </fieldset>

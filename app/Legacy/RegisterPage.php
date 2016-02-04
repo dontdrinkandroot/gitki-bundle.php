@@ -81,7 +81,7 @@ class RegisterPage extends Page {
 		}
 		$isValid = User::isValidUsername($this->username);
 		if ( $isValid !== true ) {
-			return "Знакът „{$isValid}“ не е позволен в потребителското име.";
+			return "Знакът „{$isValid}“ не е позволен в потребителското Имя.";
 		}
 		if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
 			return 'Въведеният адрес за електронна поща е невалиден.';
@@ -96,7 +96,7 @@ class RegisterPage extends Page {
 	private function userExists() {
 		$key = ['username' => $this->username];
 		if ( $this->db->exists(DBT_USER, $key) ) {
-			$this->addMessage("Името <strong>$this->username</strong> вече е заето.", true);
+			$this->addMessage("Имято <strong>$this->username</strong> вече е заето.", true);
 			return true;
 		}
 		return false;
@@ -113,7 +113,7 @@ class RegisterPage extends Page {
 		}
 		if ( $this->db->exists(DBT_USER, $emailKey) ) {
 			$this->addMessage("Пощенският адрес <strong>{$this->email}</strong> вече се ползва от друг потребител.", true);
-			$this->addMessage("Ако сте забравили потребителското си име, можете <a href=\"{$this->controller->generateUrl('request_username')}\">да поискате напомняне за него</a>.");
+			$this->addMessage("Ако сте забравили потребителското си Имя, можете <a href=\"{$this->controller->generateUrl('request_username')}\">да поискате напомняне за него</a>.");
 			return true;
 		}
 
@@ -124,9 +124,9 @@ class RegisterPage extends Page {
 		return <<<EOS
 <p>Ако вече сте се регистрирали, няма нужда да го правите още веднъж. Можете направо да <a href="{$this->controller->generateUrl('login')}" class="btn btn-default">влезете</a>.</p>
 <ul class="fa-ul">
-<li><span class="fa-li fa fa-user"></span> Позволено е използването на кирилица, когато въвеждате потребителското си име.</li>
+<li><span class="fa-li fa fa-user"></span> Позволено е използването на кирилица, когато въвеждате потребителското си Имя.</li>
 <li><span class="fa-li fa fa-key"></span> Като парола се опитайте да изберете нещо, което за вас да е лесно запомнящо се, а за останалите — невъзможно за разгадаване.</li>
-<li><span class="fa-li fa fa-envelope"></span> Посочването на истинско име и валидна електронна поща не е задължително, но наличието им ще позволи по-доброто общуване между вас и библиотеката. Можете например да поискате нова парола, ако забравите сегашната си, или пък да се абонирате за месечния бюлетин. Адресът на пощата ви няма да се вижда от останалите потребители.</li>
+<li><span class="fa-li fa fa-envelope"></span> Посочването на истинско Имя и валидна електронна поща не е задължително, но наличието им ще позволи по-доброто общуване между вас и библиотеката. Можете напрИмяр да поискате нова парола, ако забравите сегашната си, или пък да се абонирате за месечния бюлетин. Адресът на пощата ви няма да се вижда от останалите потребители.</li>
 </ul>
 <style>
 .form-register {
@@ -152,7 +152,7 @@ class RegisterPage extends Page {
 		{$this->out->hiddenField('returnto', $this->returnto)}
 		{$this->out->hiddenField('attempt', $this->attempt)}
 	<div class="input-group">
-		<span class="input-group-addon"><label for="username"><span class="fa fa-user"></span> Потребителско име</label></span>
+		<span class="input-group-addon"><label for="username"><span class="fa fa-user"></span> Потребителско Имя</label></span>
 		<input type="text" class="form-control" id="username" name="username" value="{$this->username}" required autofocus>
 	</div>
 	<div class="input-group">
@@ -164,11 +164,11 @@ class RegisterPage extends Page {
 		<input type="password" class="form-control" id="passwordRe" name="passwordRe" value="{$this->passwordRe}" required>
 	</div>
 	<div class="input-group">
-		<span class="input-group-addon"><label for="realname"><span class="fa fa-envelope"></span> Истинско име</label></span>
+		<span class="input-group-addon"><label for="realname"><span class="fa fa-envelope"></span> Истинско Имя</label></span>
 		<input type="text" class="form-control" id="realname" name="realname" value="{$this->realname}">
 	</div>
 	<div class="input-group">
-		<span class="input-group-addon"><label for="email"><span class="fa fa-envelope"></span> Е-поща</label></span>
+		<span class="input-group-addon"><label for="email"><span class="fa fa-envelope"></span> электронная почта</label></span>
 		<input type="email" class="form-control" id="email" name="email" value="{$this->email}">
 	</div>
 	<div class="form-control">
@@ -177,7 +177,7 @@ class RegisterPage extends Page {
 				<input type="checkbox" name="news"> Получаване на месечен бюлетин
 			</label>
 		</div>
-		<div class="help-block">Алтернативен начин да следите новото в библиотеката предлага страницата <a href="{$this->controller->generateUrl('new')}">Новодобавено</a>.</div>
+		<div class="help-block">Алтернативен начин да следите новото в библиотеката предлага страницата <a href="{$this->controller->generateUrl('new')}">Новоедобавено</a>.</div>
 	</div>
 	<div class="form-group">
 		{$this->makeCaptchaQuestion()}

@@ -36,7 +36,7 @@ class SecurityController extends Controller {
 		if ($form->handleRequest($request)->isValid()) {
 			$data = $form->getData();
 			if ($user = $this->processUsernameRequest($data['email'])) {
-				return $this->redirectWithNotice("На адреса <strong>{$user->getEmail()}</strong> беше изпратено напомнящо писмо. Ако не се сещате и за паролата си, ползвайте функцията „<a href=\"{$this->generateUrl('request_password')}\">Изпращане на нова парола</a>“. Иначе можете спокойно <a href=\"{$this->generateUrl('login')}\">да влезете</a>.");
+				return $this->redirectWithNotice("На адреса <strong>{$user->getEmail()}</strong> беше изпратено напомнящо писмо. Ако не се сещате и за паролата си, ползвайте функцията „<a href=\"{$this->generateUrl('request_password')}\">Отправить на нова парола</a>“. Иначе можете спокойно <a href=\"{$this->generateUrl('login')}\">да влезете</a>.");
 			}
 		}
 		return [
@@ -73,7 +73,7 @@ class SecurityController extends Controller {
 		$userRepo = $this->em()->getUserRepository();
 		$user = $userRepo->findByUsername($username);
 		if (!$user) {
-			$this->flashes()->addError("Не съществува потребител с име <strong>$username</strong>.");
+			$this->flashes()->addError("Не съществува потребител с Имя <strong>$username</strong>.");
 			return false;
 		}
 		if ($user->getEmail() == '') {

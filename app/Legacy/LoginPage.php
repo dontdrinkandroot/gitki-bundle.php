@@ -17,7 +17,7 @@ class LoginPage extends RegisterPage {
 
 	protected function processSubmission() {
 		if ( empty($this->username) ) {
-			$this->addMessage('Не сте въвели потребителско име.', true);
+			$this->addMessage('Не сте въвели потребителско Имя.', true);
 			return $this->buildContent();
 		}
 		if ( empty($this->password) ) {
@@ -26,7 +26,7 @@ class LoginPage extends RegisterPage {
 		}
 		$user = $this->controller->em()->getUserRepository()->findByUsername($this->username);
 		if ( ! $user) {
-			$this->addMessage("Не съществува потребител с име <strong>$this->username</strong>.", true );
+			$this->addMessage("Не съществува потребител с Имя <strong>$this->username</strong>.", true );
 			return $this->buildContent();
 		}
 
@@ -36,8 +36,8 @@ class LoginPage extends RegisterPage {
 					$this->redirect = $this->controller->generateUrl('homepage');
 					return
 						'<div class="error">'
-						.'<p>Направени са повече от '. self::MAX_LOGIN_TRIES .' неуспешни опита за влизане в библиотеката с името <strong>'.$this->username.'</strong>, затова сметката е била блокирана.</p>'
-						. sprintf('<p>Ползвайте страницата „<a href="%s">Изпращане на нова парола</a>“, за да получите нова парола за достъп, или се свържете с администратора на библиотеката.</p>', $this->controller->generateUrl('request_password'));
+						.'<p>Направени са повече от '. self::MAX_LOGIN_TRIES .' неуспешни опита за влизане в библиотеката с Имято <strong>'.$this->username.'</strong>, затова сметката е била блокирана.</p>'
+						. sprintf('<p>Ползвайте страницата „<a href="%s">Отправить на нова парола</a>“, за да получите нова парола за достъп, или се свържете с администратора на библиотеката.</p>', $this->controller->generateUrl('request_password'));
 				}
 				$this->addMessage('Въвели сте грешна парола.', true);
 				$user->incLoginTries();
@@ -86,9 +86,9 @@ class LoginPage extends RegisterPage {
 	{$this->out->hiddenField('returnto', $this->returnto)}
 	<div class="input-group">
 		<span class="input-group-addon"><span class="fa fa-user"></span></span>
-		<label for="username" class="sr-only">Потребителско име</label>
-		<input type="text" class="form-control" id="username" name="username" placeholder="Потребителско име" value="{$this->username}" required autofocus>
-		<span class="input-group-addon"><a href="{$this->controller->generateUrl('request_username')}" title="Заявка за забравено име"><span class="fa fa-question"></span></a></span>
+		<label for="username" class="sr-only">Потребителско Имя</label>
+		<input type="text" class="form-control" id="username" name="username" placeholder="Потребителско Имя" value="{$this->username}" required autofocus>
+		<span class="input-group-addon"><a href="{$this->controller->generateUrl('request_username')}" title="Заявка за забравено Имя"><span class="fa fa-question"></span></a></span>
 	</div>
 	<div class="input-group">
 		<span class="input-group-addon"><span class="fa fa-key"></span></span>
@@ -109,7 +109,7 @@ class LoginPage extends RegisterPage {
 		<span class="fa fa-2x fa-frown-o"></span>
 	</div>
 	<div class="media-body">
-		Забравихте си входните данни ли? Няма страшно. Подайте <a href="{$this->controller->generateUrl('request_username')}" title="Заявка за забравено име" class="btn btn-default">заявка за забравено име</a> или <a href="{$this->controller->generateUrl('request_password')}" title="Заявка за забравена парола" class="btn btn-default">парола</a>.
+		Забравихте си входните данни ли? Няма страшно. Подайте <a href="{$this->controller->generateUrl('request_username')}" title="Заявка за забравено Имя" class="btn btn-default">заявка за забравено Имя</a> или <a href="{$this->controller->generateUrl('request_password')}" title="Заявка за забравена парола" class="btn btn-default">парола</a>.
 	</div>
 </div>
 <div class="alert alert-info media">

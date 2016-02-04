@@ -1,6 +1,6 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = 'Нови произведения за ' ~ ('month.'~month)|trans ~' '~ year %}
+{% set title = 'Новые произведения за ' ~ ('month.'~month)|trans ~' '~ year %}
 {% block content %}
 	{% include 'App:History:toc.html.twig' with {'route': 'new_texts_by_month'} %}
 	{% include 'App:History:texts_list.html.twig' %}

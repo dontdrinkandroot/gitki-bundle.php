@@ -1,6 +1,6 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = ('authors.by.'~by)|trans ~': '~ (letter == '-' ? 'Всички' : letter) %}
+{% set title = ('authors.by.'~by)|trans ~': '~ (letter == '-' ? 'Все' : letter) %}
 {% block content %}
 
 	{% include 'App:Author:navigation.html.twig' %}

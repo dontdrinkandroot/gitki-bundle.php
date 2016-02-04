@@ -2,7 +2,7 @@
 {% import 'App::helper.opds.twig' as helper %}
 
 {% set link_self = helper.url(current_route, {'page': pager.page}) %}
-{% set title = 'Нови книги' %}
+{% set title = 'Новые книги' %}
 {% block content %}
 	{% for book_revision in book_revisions %}
 		{% include 'App:Book:item.opds.twig' with {'book': book_revision.book} %}

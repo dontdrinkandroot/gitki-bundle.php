@@ -1,4 +1,4 @@
-<p>Чрез долния формуляр можете да пратите писмо на потребител по електронната поща. Адресът, записан в <a href="{{ path('user_edit', {username: sender.username}) }}">настройките ви</a>, ще се появи в полето „От“ на изпратеното писмо, така че получателят ще е в състояние да ви отговори.</p>
+<p>Вы можете отправить сообщение пользователю по электронной почте. Адрес записывается в <a href="{{ path('user_edit', {username: sender.username}) }}">настройки</a>, появится в поле "Входящие" отправляемого письма, так что получатель сможет ответить вам.</p>
 
 {{ form_start(form, { attr: {class: "form-horizontal"} }) }}
 
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	<div class="form-submit">
-		{{ form_widget(form.save, { attr: {class: 'btn btn-primary'} , label: 'Изпращане на писмото' }) }}
+		{{ form_widget(form.save, { attr: {class: 'btn btn-primary'} , label: 'Отправить на писмото' }) }}
 	</div>
 
 {{ form_end(form) }}

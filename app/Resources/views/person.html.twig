@@ -2,6 +2,6 @@
 	{% for person in persons %}
 		{{ person.name }}{{ loop.last ? '' : ',' }}
 	{% else %}
-		Неизвестен автор
+		Неизвестный автор
 	{% endfor %}
 {% endmacro %}

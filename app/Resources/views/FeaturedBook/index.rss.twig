@@ -1,6 +1,6 @@
 {% extends 'App::layout.rss.twig' %}
 
-{% block title 'Препоръчани книги' %}
+{% block title 'Рекомендуемые книги' %}
 {% block content %}
 	{% for book in books %}
 		{% include 'App:FeaturedBook:book.rss.twig' %}

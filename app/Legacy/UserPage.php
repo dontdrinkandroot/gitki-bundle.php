@@ -65,7 +65,7 @@ class UserPage extends Page {
 		$res = $this->db->select(DBT_USER, $key, $sel);
 		$data = $this->db->fetchAssoc($res);
 		if ( empty($data) ) {
-			$this->addMessage('Няма потребител с име <strong>' .String::myhtmlspecialchars($this->username) . '</strong>.', true);
+			$this->addMessage('Няма потребител с Имя <strong>' .String::myhtmlspecialchars($this->username) . '</strong>.', true);
 			$this->userId = 0;
 			$this->userpage = '';
 			return false;
@@ -123,11 +123,11 @@ EOS;
 		<td>$this->userId</td>
 	</tr>
 	<tr>
-		<th>Истинско име</th>
+		<th>Истинско Имя</th>
 		<td>$this->realname</td>
 	</tr>
 	<tr>
-		<th>Е-поща</th>
+		<th>электронная почта</th>
 		<td>$this->email</td>
 	</tr>
 	<tr>

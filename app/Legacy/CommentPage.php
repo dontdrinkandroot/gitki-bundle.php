@@ -296,7 +296,7 @@ EOS;
 		$chunkId = $this->out->hiddenField('chunkId', $this->chunkId);
 		$replyto = $this->out->hiddenField('replyto', $this->replyto);
 		$reader = $this->user->isAnonymous()
-			? '<div class="form-group"><label for="reader">Име: </label>' . $this->out->textField('reader', '', $this->reader, 40, 160, null, '', ['class' => 'form-control']) . '</div>'
+			? '<div class="form-group"><label for="reader">Имя: </label>' . $this->out->textField('reader', '', $this->reader, 40, 160, null, '', ['class' => 'form-control']) . '</div>'
 			: '';
 		$comment = $this->out->textarea('commenttext', '', $this->comment, 10, 77,
 			null, ['onkeypress' => 'postform_changed = true', 'class' => 'form-control']);
@@ -343,7 +343,7 @@ JS;
 <form action="$postUrl" method="post" id="postform" class="form-horizontal">
 <fieldset style="margin-top:2em">
 <div class="writingrules">
-<p>Уважаеми посетители на сайта, всеки е добре дошъл да изкаже мнението си относно дадено произведение. Имайте предвид, че модераторите ще изтрият коментара или част от него, ако той съдържа обидни и груби нападки към другите, както и ако рекламира собствени възгледи, които не са в контекста на произведението. Ако сте съгласни с това условие, моля, продължете към изпращането на коментара си.</p>
+<p>Уважаеми посетители на сайта, всеки е добре дошъл да изкаже мнението си относно дадено произведение. Имайте предвид, че модераторите ще изтрият коментара или част от него, ако той съдържа обидни и груби нападки към другите, както и ако рекламира собствени възгледи, които не са в контекста на произведението. Ако сте съгласни с това условие, моля, продължете към Отправитьто на коментара си.</p>
 
 <p>Задължително е попълването на всички полета, както и писането с кирилица. Коментарите с латиница най-вероятно ще бъдат изтрити.</p>
 <p>Спазвайте елементарни правописни правила:</p>

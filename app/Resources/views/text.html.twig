@@ -24,7 +24,7 @@
 			({{ text.origSubtitle }})
 		{% endif %}
 	{% else %}
-		[не е въведено; <a href="{{ path('suggest_info', {'id': text.id, 'type': 'orig_title'}) }}">помогнете</a> за добавянето му]
+		[не введено; <a href="{{ path('suggest_info', {'id': text.id, 'type': 'orig_title'}) }}"></a> добавьте себе]
 	{% endif %}
 	{% endspaceless %}
 {% endmacro %}
@@ -37,7 +37,7 @@
 		{{ link.persons(text.translators) }}
 		</span>
 	{% else %}
-		[Няма данни за преводача; <a href="{{ path('suggest_info', {'id': text.id, 'type': 'translator'}) }}">помогнете</a> за добавянето му]
+		[Нет переводчика; <a href="{{ path('suggest_info', {'id': text.id, 'type': 'translator'}) }}"></a> добавьте себе]
 	{% endif %}
 	{% endspaceless %}
 {% endmacro %}

@@ -731,7 +731,7 @@ HTML;
 		if ( $this->thisUserCanDeleteEntry() ) {
 			$title = $this->out->textField('title', '', $this->btitle, 50, 255, null, '', ['class' => 'form-control']);
 			$author = $this->out->textField('author', '', $this->author, 50, 255,
-				0, 'Ако авторите са няколко, ги разделете със запетаи', ['class' => 'form-control']);
+				0, 'Ако Авторыте са няколко, ги разделете със запетаи', ['class' => 'form-control']);
 			$publisher = $this->out->textField('publisher', '', $this->publisher, 50, 255, 0, null, ['class' => 'form-control']);
 			$pubYear = $this->out->textField('pubYear', '', $this->pubYear, 50, 255, 0, null, ['class' => 'form-control']);
 			$comment = $this->out->textarea($this->FF_COMMENT, '', $this->comment, 10, 80, null, ['class' => 'form-control']);
@@ -1286,7 +1286,7 @@ EOS;
 		<span class="fa fa-warning"></span>
 	</div>
 	<div class="media-body">
-		Разрешено е да се добавят само книги, издадени на български преди 2013 г. Изключение се прави за онези текстове, които са пратени от авторите си, както и за фен-преводи.
+		Разрешено е да се добавят само книги, издадени на български преди 2013 г. Изключение се прави за онези текстове, които са пратени от Авторыте си, както и за фен-преводи.
 	</div>
 </div>
 EOS;

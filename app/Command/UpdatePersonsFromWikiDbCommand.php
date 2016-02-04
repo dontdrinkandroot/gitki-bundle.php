@@ -25,7 +25,7 @@ class UpdatePersonsFromWikiDbCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->output = $output;
 		$this->errors = [];
-		$this->processWikiPage('Работно ателие/Нови автори');
+		$this->processWikiPage('Работно ателие/Нови Авторы');
 		$output->writeln('Done.');
 	}
 
@@ -35,12 +35,12 @@ class UpdatePersonsFromWikiDbCommand extends Command {
 	private function processWikiPage($pageName) {
 		$this->output->writeln('Fetching and processing wiki content...');
 		$wikiPage = $this->wikiBot()->fetch_page($pageName);
-		if (preg_match('/== Готови автори ==(.+)== За попълване ==/ms', $wikiPage->text, $m)) {
+		if (preg_match('/== Готови Авторы ==(.+)== За попълване ==/ms', $wikiPage->text, $m)) {
 			$personTemplates = trim($m[1]);
 			if ($personTemplates && $this->updatePersons($personTemplates)) {
 				$errors = implode("\n\n", $this->errors);
-				$wikiPage->text = preg_replace('/(== Готови автори ==\n).+(\n== За попълване ==)/ms', "$1$errors\n$2", $wikiPage->text);
-				$this->wikiBot()->submit_page($wikiPage, '/* Готови автори */ пренасяне в базата на библиотеката');
+				$wikiPage->text = preg_replace('/(== Готови Авторы ==\n).+(\n== За попълване ==)/ms', "$1$errors\n$2", $wikiPage->text);
+				$this->wikiBot()->submit_page($wikiPage, '/* Готови Авторы */ пренасяне в базата на библиотеката');
 			}
 		}
 	}
@@ -119,10 +119,10 @@ class UpdatePersonsFromWikiDbCommand extends Command {
 		$wikiVars = $this->getPersonVarsFromWikiContent($template);
 		return [
 			'slug'       => @$wikiVars['идентификатор'],
-			'name'       => @$wikiVars['име'],
-			'orig_name'  => @$wikiVars['оригинално име'],
-			'real_name'  => @$wikiVars['истинско име'],
-			'oreal_name' => @$wikiVars['оригинално истинско име'],
+			'name'       => @$wikiVars['Имя'],
+			'orig_name'  => @$wikiVars['оригинално Имя'],
+			'real_name'  => @$wikiVars['истинско Имя'],
+			'oreal_name' => @$wikiVars['оригинално истинско Имя'],
 			'country'    => @$wikiVars['държава'],
 			'info'       => str_replace('_', ' ', @$wikiVars['уики']),
 		];

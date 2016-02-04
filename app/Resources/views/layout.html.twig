@@ -31,7 +31,7 @@
 {% endblock %}
 
 {% block head %}
-	<meta name="description" content="Универсална библиотека, предлагаща електронни книги и текстове на български език. Над 3000 автори. Поддръжка на свободни формати като FictionBook (FB2), EPUB и TXT.">
+	<meta name="description" content="Универсална библиотека, предлагаща електронни книги и текстове на български език. Над 3000 Авторы. Поддръжка на свободни формати като FictionBook (FB2), EPUB и TXT.">
 	<meta name="viewport" content="initial-scale=1.0, width=device-width">
 	{% if page_feed is defined %}
 		<link rel="alternate" type="application/rss+xml" title="RSS 2.0 — {{ page_feed.title is defined ? page_feed.title : block('title') }}" href="{{ page_feed.url }}">
@@ -95,7 +95,7 @@
 			<h2 class="sr-only">Навигация</h2>
 
 			<div id="logo" role="banner">
-				<a href="{{ path('homepage') }}" title="Към началната страница"><span class="text-hide">Моята библиотека</span><span></span></a>
+				<a href="{{ path('homepage') }}" title="В начало"><span class="text-hide">Teralit.ru</span><span></span></a>
 			</div>
 
 			{% block personal_tools %}
@@ -123,12 +123,12 @@
 
 	<div id="footer" role="contentinfo">
 	{% block footer %}
-		<h2 class="sr-only">Допълнителна информация</h2>
+		<h2 class="sr-only">Дополнительная информация</h2>
 		{#{{ footer_links|raw }}#}
 	{% endblock %}
 	</div>
 
-	<a href="#main-content" id="goto-top-link" title="Към началото на страницата"><span class="fa fa-chevron-circle-up"></span><span class="sr-only">Към началото на страницата</span></a>
+	<a href="#main-content" id="goto-top-link" title="В начало страницы"><span class="fa fa-chevron-circle-up"></span><span class="sr-only">В начало страницы</span></a>
 
 	<div id="env-{{ environment }}"></div>
 {% endblock body %}

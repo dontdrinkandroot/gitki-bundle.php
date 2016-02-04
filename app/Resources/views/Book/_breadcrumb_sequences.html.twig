@@ -1,6 +1,6 @@
 {% if book.sequence %}
 	<ol class="breadcrumb" itemprop="breadcrumb">
-		<li><a href="{{ path('sequences') }}">Поредици</a></li>
+		<li><a href="{{ path('sequences') }}">Связки</a></li>
 		{% import 'App::link.html.twig' as link %}
 		<li>{{ link.sequence(book.sequence) }}</li>
 	</ol>

@@ -2,8 +2,8 @@
 {% import 'App::helper.opds.twig' as helper %}
 
 {% set link_self = helper.url('translators') %}
-{% set title = 'Преводачи' %}
+{% set title = 'Переводчики' %}
 {% block content %}
-	{{ helper.navi_entry('По малко име', updated_at, 'translators_by_alpha_index', {'by': 'first-name'}, 'Списък на преводачите по малко име') }}
+	{{ helper.navi_entry('По малко Имя', updated_at, 'translators_by_alpha_index', {'by': 'first-name'}, 'Списък на преводачите по малко Имя') }}
 	{{ helper.navi_entry('По фамилия', updated_at, 'translators_by_alpha_index', {'by': 'last-name'}, 'Списък на преводачите по фамилия') }}
 {% endblock %}

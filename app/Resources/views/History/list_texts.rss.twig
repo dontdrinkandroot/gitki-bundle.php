@@ -1,6 +1,6 @@
 {% extends 'App::layout.rss.twig' %}
 
-{% block title 'Нови произведения' %}
+{% block title 'Новые произведения' %}
 {% block content %}
 	{% macro download_link(text, format) %}
 		<a href="{{ url('text_show', {'id': text.id, '_format': format}) }}">{{ format }}</a>

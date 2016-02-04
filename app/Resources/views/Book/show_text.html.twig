@@ -23,12 +23,12 @@
 
 	<ul class="nav nav-tabs book-tabs">
 		{% if template != "" %}
-			<li><a href="#book-content" data-toggle="tab"><span class="fa fa-book"></span> Съдържание</a></li>
+			<li><a href="#book-content" data-toggle="tab"><span class="fa fa-book"></span> Содержание</a></li>
 		{% endif %}
 		{% if info %}
 			<li><a href="#book-extra-info" data-toggle="tab"><span class="fa fa-tag"></span> Информация</a></li>
 		{% endif %}
-		<li><a href="#book-links" data-toggle="tab"><span class="fa fa-download"></span> Сваляне / Връзки</a></li>
+		<li><a href="#book-links" data-toggle="tab"><span class="fa fa-download"></span> Ссылки</a></li>
 	</ul>
 	<div class="tab-content">
 		{% if template != "" %}
@@ -56,7 +56,7 @@
 			{{ booktools.download_links(book) }}
 			{% if book.links|length %}
 				<div class="menu">
-					<p>Тази книга в други сайтове:</p>
+                                            <p>Эта книга на других сайтах:</p>
 					<ul>
 						{% for link in book.links %}
 							<li><a href="{{ link.url }}" class="btn btn-default">{{ link.site.name }}</a></li>

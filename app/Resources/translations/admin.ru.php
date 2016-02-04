@@ -221,7 +221,7 @@ return [
 		'text.sernr2' => 'Вторая часть серии („3“ при 2.3)',
 		'wiki_article' => 'Ссылка на статью wiki сайта',
 		'wikisite.code' => 'Ссылка на личность(автора) в wiki сайте',
-		'wikisite.intro' => '$1 замена имени объекта статьи',
+		'wikisite.intro' => '$1 замена Имяни объекта статьи',
 		'wikisite.url' => '$1 замена ссылки на wiki сайт',
 	],
 	'library_link_action_show' => 'Посмотреть библиотеку',

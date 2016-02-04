@@ -3,12 +3,12 @@
 {% set title = 'Книги' %}
 {% block head %}
 	{{ parent() }}
-	<link rel="search" type="application/opensearchdescription+xml" href="{{ path('books_search', {'_format': 'osd'}) }}" title="Търсене по книги в Моята библиотека" />
+	<link rel="search" type="application/opensearchdescription+xml" href="{{ path('books_search', {'_format': 'osd'}) }}" title="Поиск книги" />
 {% endblock %}
 {% block content %}
-	<h2>По азбучен ред</h2>
+	<h2>В алфавитном порядке</h2>
 	{% include 'App:Book:navigation.html.twig' with {'letter': ''} %}
 
-	<h2>По категория</h2>
+	<h2>По категориям</h2>
 	{% include 'App:Book:category_tree.html.twig' with {'level': 0} %}
 {% endblock %}

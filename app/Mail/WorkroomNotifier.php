@@ -45,7 +45,7 @@ BODY;
 	public function sendMailByOldWorkEntry(WorkEntry $workEntry) {
 		$recipient = $workEntry->getUser();
 		if ($recipient->canReceiveEmail()) {
-			$sender = ['no-reply@bookshelf.local' => 'Ателие (Моята библиотека)'];
+			$sender = ['no-reply@bookshelf.local' => 'Магазин (Моята библиотека)'];
 			$message = Swift_Message::newInstance('Стар запис — '.$workEntry->getTitle());
 			$message->setFrom($sender);
 			$message->setBody($this->createMailBodyByOldWorkEntry($workEntry));
@@ -69,7 +69,7 @@ BODY;
 		$recipient = $contrib->getUser();
 		if ($recipient->canReceiveEmail()) {
 			$workEntry = $contrib->getEntry();
-			$sender = ['no-reply@bookshelf.local' => 'Ателие (Моята библиотека)'];
+			$sender = ['no-reply@bookshelf.local' => 'Магазин (Моята библиотека)'];
 			$message = Swift_Message::newInstance('Стар запис — '.$workEntry->getTitle());
 			$message->setFrom($sender);
 			$message->setBody($this->createMailBodyByOldWorkContrib($contrib));

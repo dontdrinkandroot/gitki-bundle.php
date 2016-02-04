@@ -2,10 +2,10 @@
 {% import 'App::helper.opds.twig' as helper %}
 
 {% set link_self = helper.url('authors') %}
-{% set title = 'Автори' %}
+{% set title = 'Авторы' %}
 {% block content %}
-	{{ helper.navi_entry('По малко име', updated_at, 'authors_by_alpha_index', {'by': 'first-name'}, 'Списък на авторите по малко име') }}
-	{{ helper.navi_entry('По фамилия', updated_at, 'authors_by_alpha_index', {'by': 'last-name'}, 'Списък на авторите по фамилия') }}
-	{{ helper.navi_entry('По държава (по малко име)', updated_at, 'authors_by_country_index', {'by': 'first-name'}, 'Списък на авторите по държава, сортирани по малко име') }}
-	{{ helper.navi_entry('По държава (по фамилия)', updated_at, 'authors_by_country_index', {'by': 'last-name'}, 'Списък на авторите по държава, сортирани по фамилия') }}
+	{{ helper.navi_entry('По Имяни', updated_at, 'authors_by_alpha_index', {'by': 'first-name'}, 'Список авторов по Имяни') }}
+	{{ helper.navi_entry('По фамилии', updated_at, 'authors_by_alpha_index', {'by': 'last-name'}, 'Список авторов по фамилии') }}
+	{{ helper.navi_entry('По стране (и по Имяни)', updated_at, 'authors_by_country_index', {'by': 'first-name'}, 'Список авторов по стране, отсортировано по Имяни') }}
+	{{ helper.navi_entry('По стране (и по фамилии)', updated_at, 'authors_by_country_index', {'by': 'last-name'}, 'Список авторов по стране, отсортировано по фамилии') }}
 {% endblock %}

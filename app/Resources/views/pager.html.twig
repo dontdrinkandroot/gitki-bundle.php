@@ -4,7 +4,7 @@
 	<nav class="text-center">
 	<ul class="pagination">
 		{% if pager.has_prev %}
-			<li class="prev"><a href="{{ path(route, route_params|merge({'page': pager.prev})) }}">Предишна</a></li>
+			<li class="prev"><a href="{{ path(route, route_params|merge({'page': pager.prev})) }}">Предыдущий</a></li>
 		{% endif %}
 
 		{% set prev_page = 0 %}
@@ -18,7 +18,7 @@
 		{% endfor %}
 
 		{% if pager.has_next %}
-			<li class="next"><a href="{{ path(route, route_params|merge({'page': pager.next})) }}">Следваща</a></li>
+			<li class="next"><a href="{{ path(route, route_params|merge({'page': pager.next})) }}">Следующий</a></li>
 		{% endif %}
 	</ul>
 	</nav>

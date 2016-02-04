@@ -1,9 +1,9 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = 'Книги без корица' %}
+{% set title = 'Книги без обложки' %}
 {% block content %}
 
-	<div class="well">Има {{ pager.total }} книги без корица.</div>
+	<div class="well">Имя {{ pager.total }} книги без обложки.</div>
 	{% include 'App:Book:list.html.twig' %}
 	{% include 'App::pager.html.twig' %}
 

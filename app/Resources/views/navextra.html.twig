@@ -1,15 +1,15 @@
 <div id="nav-extra-books" class="navbody">
-	<h3>Препоръчано</h3>
+	<h3>Зарегистрированно</h3>
 	<div class="navcontent">
 		{{ render(controller('App:FeaturedBook:book')) }}
 	</div>
-	<div class="navfooter"><a href="{{ path('featured_books') }}">още четива »</a></div>
+	<div class="navfooter"><a href="{{ path('featured_books') }}">Читать дальше »</a></div>
 </div>
 
 <div id="nav-extra-links" class="navbody">
-	<h3>Из Мрежата</h3>
+	<h3>Из интернета</h3>
 	<div class="navcontent">
 		{{ render(controller('App:Main:sitebox')) }}
 	</div>
-	<div class="navfooter"><a href="{{ path('wiki', {page: 'links'}) }}">още връзки »</a></div>
+	<div class="navfooter"><a href="{{ path('wiki', {page: 'links'}) }}">ещё ссылки »</a></div>
 </div>

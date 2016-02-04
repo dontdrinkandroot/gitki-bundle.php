@@ -7,7 +7,7 @@
 
 {% macro description(translator, by) %}
 	{% if translator.orig_name is not empty %}
-		оригинално име: {{ translator.orig_name|name_format(by)|striptags }};
+		оригинално Имя: {{ translator.orig_name|name_format(by)|striptags }};
 	{% endif %}
 	държава: {{ ('country.'~translator.country)|trans }}
 {% endmacro %}

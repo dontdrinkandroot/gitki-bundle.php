@@ -1,6 +1,6 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = 'Търсене' ~ (query ? ' на „'~query.text|e~'“' : '') ~ ' в книгите' %}
+{% set title = 'Поиск' ~ (query ? ' на „'~query.text|e~'“' : '') ~ ' в книге' %}
 {% block content %}
 
 	{% if books|length %}
@@ -8,7 +8,7 @@
 	{% endif %}
 
 	{% if not found %}
-		<p class="no-items">Не открихме никакви книги.</p>
+		<p class="no-items">Мы не нашли ни одной книги.</p>
 	{% endif %}
 
 {% endblock %}

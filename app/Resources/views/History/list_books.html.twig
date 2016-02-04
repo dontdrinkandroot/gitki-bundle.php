@@ -1,6 +1,6 @@
 {% extends 'App::layout.html.twig' %}
 
-{% set title = 'Нови книги' %}
+{% set title = 'Новые книги' %}
 {% set page_feed = {'url': path('new_books', {'_format': 'rss'})} %}
 {% block content %}
 	{% include 'App:History:toc.html.twig' with {'route': 'new_books_by_month'} %}

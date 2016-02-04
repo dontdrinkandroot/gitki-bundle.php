@@ -2,7 +2,7 @@
 {% import 'App::helper.opds.twig' as helper %}
 
 {% set link_self = helper.url(current_route, {'page': pager.page}) %}
-{% set title = 'Нови произведения' %}
+{% set title = 'Новые произведения' %}
 {% block content %}
 	{% for text_revision in text_revisions %}
 		{% include 'App:Text:item.opds.twig' with {'text': text_revision.text} %}
