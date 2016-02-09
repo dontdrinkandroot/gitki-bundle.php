@@ -342,25 +342,25 @@ return [
 		'декември'
 	],
 
-	'authors' => 'Авторы',
+	'authors' => 'Автори',
 	'authors.by' => [
-		'first-name' => 'Авторы',
-		'last-name' => 'Авторы по фамилия',
+		'first-name' => 'Автори',
+		'last-name' => 'Автори по фамилия',
 		'country' => [
-			'first-name' => 'Авторы по държава',
-			'last-name' => 'Авторы по държава (по фамилия)',
+			'first-name' => 'Автори по държава',
+			'last-name' => 'Автори по държава (по фамилия)',
 		],
 	],
 
-	'translators' => 'Переводчики',
+	'translators' => 'Преводачи',
 	'translators.by' => [
-		'first-name' => 'Переводчики',
-		'last-name' => 'Переводчики по фамилия',
+		'first-name' => 'Преводачи',
+		'last-name' => 'Преводачи по фамилия',
 	],
 
 	'person.alt' => [
 		'p' => '%current% е псевдоним на %target%.',
-		'r' => '%current% е истинското Имя на %target%.',
+		'r' => '%current% е истинското име на %target%.',
 		'a' => '%current% е алтернативно изписване за %target%.',
 	],
 

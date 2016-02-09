@@ -8,36 +8,10 @@ class AppKernel extends Kernel {
 	protected $rootDir = __DIR__;
 
 	/** {@inheritdoc} */
-	public function registerBundles() {
-		switch ($this->getEnvironment()) {
-			case 'prod':
-				return $this->getBundlesForProduction();
-			default:
-				return $this->getBundlesForDevelopment();
-		}
-	}
 
-	protected function getBundlesForProduction() {
-		return array_merge($this->getCoreBundles(), [
-			//new FOS\UserBundle\FOSUserBundle(),
-			new Sonata\CoreBundle\SonataCoreBundle(),
-			new Sonata\AdminBundle\SonataAdminBundle(),
-			new Sonata\BlockBundle\SonataBlockBundle(),
-			//new Sonata\CacheBundle\SonataCacheBundle(),
-			new Sonata\jQueryBundle\SonatajQueryBundle(),
-			new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-			//new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-			new JMS\SerializerBundle\JMSSerializerBundle(),
-			new FOS\RestBundle\FOSRestBundle(),
-			new FOS\CommentBundle\FOSCommentBundle(),
-			new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
-			
-			new App\App(),
-		]);
-	}
-
-	protected function getCoreBundles() {
-		return [
+    public function registerBundles()
+    {
+        	$bundles = array(
 			new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
 			new Symfony\Bundle\SecurityBundle\SecurityBundle(),
 			new Symfony\Bundle\TwigBundle\TwigBundle(),
@@ -46,14 +20,31 @@ class AppKernel extends Kernel {
 			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
 			new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 			new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-		];
-	}
 
-	protected function getBundlesForDevelopment() {
-		return array_merge($this->getBundlesForProduction(), [
-			new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
-		]);
-	}
+           		//new FOS\UserBundle\FOSUserBundle(),
+			new Sonata\CoreBundle\SonataCoreBundle(),
+			new Sonata\AdminBundle\SonataAdminBundle(),
+			new Sonata\BlockBundle\SonataBlockBundle(),
+			//new Sonata\CacheBundle\SonataCacheBundle(),
+			new Sonata\jQueryBundle\SonatajQueryBundle(),
+			new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+			new JMS\SerializerBundle\JMSSerializerBundle(),
+			new FOS\RestBundle\FOSRestBundle(),
+			new FOS\CommentBundle\FOSCommentBundle(),
+			new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
+			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+			
+			new App\App(),
+        	);
+		if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+           		$bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
+        	}
+
+        	return $bundles;
+	}	
+
+
+
 
 	/** {@inheritdoc} */
 	public function registerContainerConfiguration(LoaderInterface $loader)	{

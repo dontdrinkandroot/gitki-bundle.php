@@ -106,7 +106,7 @@ class SettingsPage extends RegisterPage {
 
 <form action="" method="post" class="form-horizontal" role="form">
 	<div class="form-group">
-		<label for="username" class="col-sm-4 control-label">Потребителско Имя:</label>
+		<label for="username" class="col-sm-4 control-label">Потребителско име:</label>
 		<div class="col-sm-8">
 			$username
 		</div>
@@ -123,13 +123,13 @@ class SettingsPage extends RegisterPage {
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="realname" class="col-sm-4 control-label">Истинско Имя:</label>
+		<label for="realname" class="col-sm-4 control-label">Истинско име:</label>
 		<div class="col-sm-8">
 			$realname
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="email" class="col-sm-4 control-label">электронная почта:</label>
+		<label for="email" class="col-sm-4 control-label">Е-поща:</label>
 		<div class="col-sm-8">
 			$email
 		</div>
@@ -149,7 +149,7 @@ class SettingsPage extends RegisterPage {
 					$news Получаване на месечен бюлетин
 				</label>
 			</div>
-			<span class="help-block">Алтернативен начин да следите новото в библиотеката предлага страницата <a href="$historyLink">Новоедобавено</a>.</span>
+			<span class="help-block">Алтернативен начин да следите новото в библиотеката предлага страницата <a href="$historyLink">Новодобавено</a>.</span>
 		</div>
 	</div>
 	$customInput

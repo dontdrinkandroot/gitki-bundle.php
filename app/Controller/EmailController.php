@@ -18,7 +18,7 @@ class EmailController extends Controller {
 
 		$recipientUser = $this->em()->getUserRepository()->findByUsername($username);
 		if (!$recipientUser) {
-			throw $this->createNotFoundException("Не съществува потребител с Имя $username.");
+			throw $this->createNotFoundException("Не съществува потребител с име $username.");
 		}
 		if (!$recipientUser->isEmailValid()) {
 			return ['message' => 'stop_email_not_valid', 'recipient' => $recipientUser];

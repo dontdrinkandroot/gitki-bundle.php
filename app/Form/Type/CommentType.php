@@ -14,7 +14,7 @@ class CommentType extends BaseCommentType {
 			'required' => false,
 			'label' => 'Уведомяване на', // TODO move to translation
 			'attr' => [
-				'title' => 'Няколко Имяна се разделят със запетаи, напр. „Иванчо, Марийка, Гошко“',
+				'title' => 'Няколко имена се разделят със запетаи, напр. „Иванчо, Марийка, Гошко“',
 			]
 		]);
 	}

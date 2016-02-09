@@ -21,16 +21,17 @@
 		"incenteev/composer-parameter-handler": "~2.0",
 		"sonata-project/admin-bundle": "2.2.*@dev",
 		"sonata-project/doctrine-orm-admin-bundle": "2.2.*@dev",
-		"sonata-project/easy-extends-bundle": "dev-master",
-		"sonata-project/intl-bundle": "dev-master",
-		"friendsofsymfony/comment-bundle": "dev-master",
+		"sonata-project/easy-extends-bundle": "~2.1",
+		"sonata-project/intl-bundle": "~2.2",
+		"friendsofsymfony/comment-bundle": "~2.0",
 		"chitanka/sfb-converter": "dev-master",
 		"twbs/bootstrap": "3.3.*",
 		"oyejorge/less.php": "1.7.*@dev",
 		"fortawesome/font-awesome": "v4.3.0",
 		"michelf/php-markdown": "1.4.0",
 		"cypresslab/gitelephant": "v1.0.6",
-		"eko/feedbundle": "1.1.*"
+		"eko/feedbundle": "1.1.*",
+		"knplabs/knp-menu-bundle": "^2.0"
 	},
 	"require-dev": {
 		"sensio/generator-bundle": "~2.3",

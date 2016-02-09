@@ -202,7 +202,7 @@ abstract class Page {
 	protected function makeUserLinkWithEmail($username, $email, $allowemail) {
 		$mlink = '';
 		if ( ! empty($email) && $allowemail) {
-			$mlink = sprintf('<a href="%s" title="Пращане на писмо на %s"><span class="fa fa-envelope-o"></span><span class="sr-only">электронная почта</span></a>',
+			$mlink = sprintf('<a href="%s" title="Пращане на писмо на %s"><span class="fa fa-envelope-o"></span><span class="sr-only">Е-поща</span></a>',
 				$this->controller->generateUrl('email_user', ['username' => $username]),
 				String::myhtmlentities($username));
 		}
