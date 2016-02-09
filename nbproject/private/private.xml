@@ -3,11 +3,59 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/translations/messages.ru.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/list.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookmarkFolderRepository.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookIsbn.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Controller/Admin/CRUDController.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Form/Type/EmailType.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BaseWork.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/BookAdmin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Form/Type/InfoSuggestionType.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Form/Type/CommentType.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/BookAuthorAdmin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Bookmark.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/item.xml.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Generator/BookFb2Generator.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/translations/SonataAdminBundle.ru.xliff</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/vendor/doctrine/doctrine-bundle/DependencyInjection/Configuration.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookSite.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/UserAdmin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Legacy/WorkPage.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/User.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkEntry.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/translations/messages.bg.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppCache.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Book.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/BookIsbnAdmin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkContrib.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppKernel.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Listener/KernelListener.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Category.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/vendor/doctrine/doctrine-cache-bundle/Doctrine/Bundle/DoctrineCacheBundle/DependencyInjection/DoctrineCacheExtension.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Legacy/UserPage.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookIsbnRepository.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkContribRepository.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Listener/CommentListener.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/list.xml.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/latest.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/parameters.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookText.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/security.yml</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/routing.yml</file>
-            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppKernel.php</file>
-            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config.yml</file>
-            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/composer.json</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Listener/DoctrineListener.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkEntryRepository.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/item.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config_prod.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/projects_toolbar.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/services.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/Admin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Generator/DownloadFile.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookRevision.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Content/BookTemplate.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookmarkFolder.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Label.php</file>
         </group>
     </open-files>
 </project-private>

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 *		@ORM\Index(name="date_idx", columns={"date"})}
 * )
 */
-class WorkEntry extends Entity implements RoutedItemInterface {
+class WorkEntry extends Entity {
 
 	const STATUS_0 = 0;
 	const STATUS_1 = 1;

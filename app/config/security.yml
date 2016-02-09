@@ -13,11 +13,13 @@ security:
     providers:
         main:
             entity: { class: App\Entity\User, property: username }
-        test:
+
+        in_memory:
             memory:
                 users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                    hitakiri:
+                        password: 19880701
+                        roles: 'ROLE_ADMIN'
 
     firewalls:
         dev:
@@ -27,6 +29,10 @@ security:
         login:
             pattern:  ^/login$
             security: false
+            
+        secured_area:
+            pattern: ^/
+            anonymous: ~
 
 #        backend:
 #            pattern:    ^/admin/
@@ -54,6 +60,7 @@ security:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/_internal, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
         - { path: ^/_internal, roles: ROLE_NO_ACCESS }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
 #        - { path: /.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
 

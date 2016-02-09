@@ -91,7 +91,7 @@ sensio_framework_extra:
 
 
 sonata_admin:
-    title:      Администрация на Моята библиотека
+    title:      Админка
     #title_logo:
     templates:
         # default global templates
