@@ -15,19 +15,19 @@ services:
         factory_method: getRepository
         arguments: [App:Text]
 
-    repository.wiki_site:
-        class: App\Entity\WikiSiteRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
-        arguments: [App:WikiSite]
-
-    wiki_reader:
-        class: App\Service\WikiReader
-        arguments: [@mediawiki_client, @repository.wiki_site]
-
-    mediawiki_client:
-        class: App\Service\MediawikiClient
-        arguments: [@buzz]
+#    repository.wiki_site:
+#        class: App\Entity\WikiSiteRepository
+#        factory_service: doctrine.orm.entity_manager
+#        factory_method: getRepository
+#        arguments: [App:WikiSite]
+#
+#    wiki_reader:
+#        class: App\Service\WikiReader
+#        arguments: [@mediawiki_client, @repository.wiki_site]
+#
+#    mediawiki_client:
+#        class: App\Service\MediawikiClient
+#        arguments: [@buzz]
 
     admin.person:
         class: App\Admin\PersonAdmin
@@ -135,13 +135,13 @@ services:
         calls:
             - [setMaxPerPage, [%admin_max_per_page%]]
 
-    admin.wiki_site:
-        class: App\Admin\WikiSiteAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: library_secondary, label: admin.wiki_site }
-        arguments: [null, App\Entity\WikiSite, App:Admin\WikiSite]
-        calls:
-            - [setMaxPerPage, [%admin_max_per_page%]]
+#    admin.wiki_site:
+#        class: App\Admin\WikiSiteAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: library_secondary, label: admin.wiki_site }
+#        arguments: [null, App\Entity\WikiSite, App:Admin\WikiSite]
+#        calls:
+#            - [setMaxPerPage, [%admin_max_per_page%]]
 
     admin.question:
         class: App\Admin\QuestionAdmin

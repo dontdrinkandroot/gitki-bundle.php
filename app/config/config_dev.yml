@@ -6,8 +6,8 @@ framework:
     profiler: { only_exceptions: false }
 
 web_profiler:
-    toolbar: %dev.web_profiler_toolbar%
-    intercept_redirects: false
+    toolbar: %debug_toolbar%
+    intercept_redirects: %debug_redirects%
 
 monolog:
     handlers:

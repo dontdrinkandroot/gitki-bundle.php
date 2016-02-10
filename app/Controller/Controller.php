@@ -108,7 +108,7 @@ abstract class Controller extends SymfonyController {
 	 */
 	protected function redirectWithNotice($notice) {
 		$this->flashes()->addNotice($notice);
-		return $this->redirectToRoute('message');
+		return $this->redirectToSbsRoute('message');
 	}
 
 	/** @return \App\Service\FlashService */
@@ -124,7 +124,7 @@ abstract class Controller extends SymfonyController {
 	 *
 	 * @return Response A Response instance
 	 */
-	public function redirectToRoute($route, array $parameters = []) {
+	public function redirectToSbsRoute($route, array $parameters = []) {
 		$parameters['_format'] = $this->get('request')->getRequestFormat();
 		return $this->redirect($this->generateUrl($route, $parameters));
 	}

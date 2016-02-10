@@ -5,6 +5,7 @@
         <group>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/translations/messages.ru.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/list.html.twig</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/.gitignore</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookmarkFolderRepository.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/BookIsbn.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Controller/Admin/CRUDController.php</file>
@@ -28,6 +29,7 @@
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppCache.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/Book.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/BookIsbnAdmin.php</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config_dev.yml</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkContrib.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/AppKernel.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Listener/KernelListener.php</file>
@@ -48,6 +50,7 @@
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Entity/WorkEntryRepository.php</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/WorkEntry/item.html.twig</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/config_prod.yml</file>
+            <file>file:/E:/SERVER/OpenServer/domains/bookshelf/composer.json</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Resources/views/projects_toolbar.html.twig</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/config/services.yml</file>
             <file>file:/E:/SERVER/OpenServer/domains/bookshelf/app/Admin/Admin.php</file>

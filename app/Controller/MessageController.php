@@ -8,6 +8,6 @@ class MessageController extends Controller {
 				'_cache' => 0,
 			];
 		}
-		return $this->redirectToRoute('homepage');
+		return $this->redirectToSbsRoute('homepage');
 	}
 }

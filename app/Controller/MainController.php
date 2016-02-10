@@ -31,7 +31,7 @@ class MainController extends Controller {
 	}
 
 	public function redirectAction($route) {
-		return $this->redirectToRoute($route, [], true);
+		return $this->redirectToSbsRoute($route, [], true);
 	}
 
 	public function siteboxAction() {

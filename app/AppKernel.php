@@ -31,7 +31,7 @@ class AppKernel extends Kernel {
 			new JMS\SerializerBundle\JMSSerializerBundle(),
 			new FOS\RestBundle\FOSRestBundle(),
 			new FOS\CommentBundle\FOSCommentBundle(),
-			new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
+			//new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
 			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			
 			new App\App(),
