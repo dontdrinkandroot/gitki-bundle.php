@@ -27,7 +27,7 @@ abstract class BaseWork extends Entity {
 	protected $hasTitleNote = false;
 
 	public function getDocId() {
-		return 'http://bookshelf.local';
+		return 'http://chitanka.info';
 	}
 
 	public function getType() {

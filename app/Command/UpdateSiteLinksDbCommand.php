@@ -46,7 +46,7 @@ class UpdateSiteLinksDbCommand extends Command {
 	private function fetchWikiContent(OutputInterface $output) {
 		$output->writeln('Fetching wiki content...');
 		$mwClient = new MediawikiClient($this->getContainer()->get('buzz'));
-		return $mwClient->fetchContent('http://wiki.bookshelf.local/Links', 0);
+		return $mwClient->fetchContent('http://wiki.chitanka.info/Links', 0);
 	}
 
 	/**

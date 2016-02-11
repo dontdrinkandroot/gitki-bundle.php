@@ -66,7 +66,7 @@ class GenerateNewsletterCommand extends Command {
 			}
 			$bookKey = $revision['book']['title'] . $revision['book']['subtitle'];
 			$cat = $revision['book']['category']['name'];
-			$booksByCat[$cat][$bookKey] = sprintf('* „%s“%s%s — http://bookshelf.local/book/%d',
+			$booksByCat[$cat][$bookKey] = sprintf('* „%s“%s%s — http://chitanka.info/book/%d',
 				$revision['book']['title'],
 				($revision['book']['subtitle'] ? " ({$revision['book']['subtitle']})" : ''),
 				($authors ? ' от ' . implode(', ', $authors) : ''),
@@ -86,7 +86,7 @@ class GenerateNewsletterCommand extends Command {
 				$authors[] = $author['name'];
 			}
 			$key = $revision['text']['title'] . $revision['text']['subtitle'];
-			$texts[$key] = sprintf('* „%s“%s%s — http://bookshelf.local/text/%d',
+			$texts[$key] = sprintf('* „%s“%s%s — http://chitanka.info/text/%d',
 				$revision['text']['title'],
 				($revision['text']['subtitle'] ? " ({$revision['text']['subtitle']})" : ''),
 				($authors ? ' от ' . implode(', ', $authors) : ''),

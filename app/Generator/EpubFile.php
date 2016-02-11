@@ -165,7 +165,7 @@ class EpubFile {
 	}
 
 	private function getPublisher() {
-		return 'Моята библиотека (http://bookshelf.local)';
+		return 'Моята библиотека (http://chitanka.info)';
 	}
 
 	private function getAuthorTags() {
@@ -528,7 +528,7 @@ class EpubFile {
 	 * @return string
 	 */
 	private function fixChitankaLinks($content) {
-		return preg_replace('/href="(\d+)"/', 'href="http://bookshelf.local/text/$1"', $content);
+		return preg_replace('/href="(\d+)"/', 'href="http://chitanka.info/text/$1"', $content);
 	}
 
 	/**

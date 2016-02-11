@@ -10,7 +10,7 @@ class HttpAgent {
 			CURLOPT_HEADER          => true,
 			// Wikimedia requires a proper user-agent string
 			// http://mediawiki.org/wiki/API:Quick_start_guide#Identifying_your_client
-			CURLOPT_USERAGENT       => 'User-Agent: PHP (bookshelf.local link checker, http://bookshelf.local/feedback)',
+			CURLOPT_USERAGENT       => 'User-Agent: PHP (chitanka.info link checker, http://chitanka.info/feedback)',
 		]);
 		$res = curl_exec($c);
 		curl_close($c);

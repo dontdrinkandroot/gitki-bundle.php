@@ -6,7 +6,7 @@ use Buzz\Browser;
 class MediawikiClient {
 
 	private $browser;
-	private $userAgentString = 'Mylib (http://bookshelf.local)';
+	private $userAgentString = 'Mylib (http://chitanka.info)';
 
 	public function __construct(Browser $browser) {
 		$this->browser = $browser;

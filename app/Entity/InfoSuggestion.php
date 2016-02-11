@@ -42,7 +42,7 @@ class InfoSuggestion extends MailSource {
 		return <<<EOS
 Произведение: „{$this->text->getTitle()}“
 
-http://bookshelf.local/admin/text/{$this->text->getId()}/edit
+http://chitanka.info/admin/text/{$this->text->getId()}/edit
 
 $this->info
 EOS;

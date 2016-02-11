@@ -1,7 +1,8 @@
 <?php namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-
+use Eko\FeedBundle\Item\Writer\RoutedItemInterface;
 
 /**
 * @ORM\Entity(repositoryClass="App\Entity\WorkEntryRepository")
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 *		@ORM\Index(name="date_idx", columns={"date"})}
 * )
 */
-class WorkEntry extends Entity {
+class WorkEntry extends Entity implements RoutedItemInterface {
 
 	const STATUS_0 = 0;
 	const STATUS_1 = 1;
@@ -88,7 +89,7 @@ class WorkEntry extends Entity {
 	private $comment;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime")
 	 */
 	private $date;
@@ -112,6 +113,13 @@ class WorkEntry extends Entity {
 	private $isFrozen = false;
 
 	/**
+	 * If set, the entry files will be available for the public at the given date.
+	 * @var DateTime
+	 * @ORM\Column(type="date")
+	 */
+	private $availableAt;
+
+	/**
 	 * @var string
 	 * @ORM\Column(type="string", length=255, nullable=true)
 	 */
@@ -132,7 +140,7 @@ class WorkEntry extends Entity {
 	/**
 	 * Every user gets an automatic e-mail if his entry reaches some predefined
 	 * period without updates. Here we track the date of the most recent notification.
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	private $lastNotificationDate;
@@ -152,7 +160,7 @@ class WorkEntry extends Entity {
 	private $adminComment;
 
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	private $deletedAt;
@@ -213,6 +221,31 @@ class WorkEntry extends Entity {
 	public function setIsFrozen($isFrozen) { $this->isFrozen = $isFrozen; }
 	public function getIsFrozen() { return $this->isFrozen; }
 
+	public function getAvailableAt($format = null) {
+		if ($format !== null && $this->availableAt instanceof DateTime) {
+			return $this->availableAt->format($format);
+		}
+		return $this->availableAt;
+	}
+	public function setAvailableAt($availableAt) {
+		if (!$availableAt instanceof DateTime) {
+			if (is_numeric($availableAt)) {
+				$availableAt .= '-01-01';
+			}
+			$availableAt = new DateTime($availableAt);
+		}
+		$this->availableAt = $availableAt;
+	}
+
+	public function isAvailable($date = null) {
+		if ($date === null) {
+			$date = new DateTime();
+		} else if (!$date instanceof DateTime) {
+			$date = new DateTime($date);
+		}
+		return $this->getAvailableAt() <= $date;
+	}
+
 	public function setTmpfiles($tmpfiles) { $this->tmpfiles = $tmpfiles; }
 	public function getTmpfiles() { return $this->tmpfiles; }
 
@@ -223,7 +256,7 @@ class WorkEntry extends Entity {
 	public function getUplfile() { return $this->uplfile; }
 
 	/**
-	 * @param \DateTime $date
+	 * @param DateTime $date
 	 */
 	public function setLastNotificationDate($date) { $this->lastNotificationDate = $date; }
 	public function getLastNotificationDate() { return $this->lastNotificationDate; }
@@ -238,7 +271,7 @@ class WorkEntry extends Entity {
 		if ($this->getLastNotificationDate() === null) {
 			return false;
 		}
-		return $this->getLastNotificationDate() > new \DateTime("-$interval");
+		return $this->getLastNotificationDate() > new DateTime("-$interval");
 	}
 
 	public function setCommentThread(Thread $thread) {
@@ -250,11 +283,11 @@ class WorkEntry extends Entity {
 	public function getDeletedAt() { return $this->deletedAt; }
 
 	/**
-	 * @param \DateTime $deletedAt
+	 * @param DateTime $deletedAt
 	 */
 	public function setDeletedAt($deletedAt) { $this->deletedAt = $deletedAt; }
 	public function delete() {
-		$this->setDeletedAt(new \DateTime);
+		$this->setDeletedAt(new DateTime);
 	}
 	public function isDeleted() {
 		return $this->deletedAt !== null;
@@ -287,5 +320,53 @@ class WorkEntry extends Entity {
 		}
 		return $openContribs;
 	}
-}
+
 	/** {@inheritdoc} */
+	public function getFeedItemTitle() {
+		return implode(' — ', array_filter([$this->getTitle(), $this->getAuthor()]));
+	}
+
+	/** {@inheritdoc} */
+	public function getFeedItemDescription() {
+		$comment = nl2br($this->getComment());
+		return <<<DESC
+$comment
+<ul>
+	<li>Заглавие: {$this->getTitle()}</li>
+	<li>Автор: {$this->getAuthor()}</li>
+	<li>Издател: {$this->getPublisher()}</li>
+	<li>Година: {$this->getPubYear()}</li>
+	<li>Отговорник: {$this->getUser()->getUsername()}</li>
+	<li>Етап: {$this->getStatusName()}</li>
+</ul>
+DESC;
+	}
+
+	/** {@inheritdoc} */
+	public function getFeedItemPubDate() {
+		return $this->getDate();
+	}
+
+	/** {@inheritdoc} */
+	public function getFeedItemRouteName() {
+		return 'workroom_entry_edit';
+	}
+
+	/** {@inheritdoc} */
+	public function getFeedItemRouteParameters() {
+		return ['id' => $this->getId()];
+	}
+
+	/** {@inheritdoc} */
+	public function getFeedItemUrlAnchor() {
+		return '';
+	}
+
+	public function getFeedItemCreator() {
+		return $this->getUser()->getUsername();
+	}
+
+	public function getFeedItemGuid() {
+		return "chitanka-work-entry-{$this->getId()}-{$this->getStatus()}-{$this->getProgress()}";
+	}
+}

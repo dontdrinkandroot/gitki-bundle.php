@@ -26,28 +26,28 @@ class WorkPage extends Page {
 	protected $defListLimit = 50;
 	protected $maxListLimit = 500;
 
-	private $tabs = ['Подготовленно одним пользователем', 'Подготовленно командой'];
+	private $tabs = ['Самостоятелна подготовка', 'Работа в екип'];
 	private $tabImgs = ['fa fa-user singleuser', 'fa fa-users multiuser'];
-	private $tabImgAlts = ['Подготовленно одним пользователем', 'Подготовленно командой'];
+	private $tabImgAlts = ['сам', 'екип'];
 	private $statuses = [
-		WorkEntry::STATUS_0 => 'запланированный',
-		WorkEntry::STATUS_1 => 'скан документа',
-		WorkEntry::STATUS_2 => 'этап коррекции',
-		WorkEntry::STATUS_3 => 'регулировка',
-		WorkEntry::STATUS_4 => 'искать в SFB',
-		WorkEntry::STATUS_5 => 'ожидает проверки',
-		WorkEntry::STATUS_6 => 'проверен',
-		WorkEntry::STATUS_7 => 'добавлен',
+		WorkEntry::STATUS_0 => 'Планира се',
+		WorkEntry::STATUS_1 => 'Сканира се',
+		WorkEntry::STATUS_2 => 'За корекция',
+		WorkEntry::STATUS_3 => 'Коригира се',
+		WorkEntry::STATUS_4 => 'Иска се SFB',
+		WorkEntry::STATUS_5 => 'Чака проверка',
+		WorkEntry::STATUS_6 => 'Проверен',
+		WorkEntry::STATUS_7 => 'За добавяне',
 	];
 	private $viewLists = [
-		'work' => 'Перечень работ по подготовке документа',
-		'contrib' => 'список помошников',
+		'work' => 'списъка на подготвяните произведения',
+		'contrib' => 'списъка на помощниците',
 		'listonly' => '',
 	];
 	private $viewTypes = [
-		'all' => 'Все',
-		'my' => 'Моё участие',
-		'waiting' => 'Требует корректировки',
+		'all' => 'Всички',
+		'my' => 'Мое участие',
+		'waiting' => 'Търси се коректор',
 	];
 	private $statusClasses = [
 		WorkEntry::STATUS_0 => 'fa fa-square-o status-plan',
@@ -84,6 +84,7 @@ class WorkPage extends Page {
 	private $status;
 	private $progress;
 	private $isFrozen;
+	private $availableAt;
 	private $delete;
 	private $scanuser;
 	private $scanuser_view;
@@ -104,7 +105,7 @@ class WorkPage extends Page {
 
 	public function __construct($fields) {
 		parent::__construct($fields);
-		$this->title = 'Рабочая страница';
+		$this->title = 'Работно ателие';
 
 		$this->tmpDir = 'todo';
 		$this->absTmpDir = $this->container->getParameter('kernel.root_dir') . "/../web/{$this->tmpDir}";
@@ -120,6 +121,7 @@ class WorkPage extends Page {
 		$this->status = (int) $this->request->value('entry_status');
 		$this->progress = Number::normInt($this->request->value('progress'), 100, 0);
 		$this->isFrozen = $this->request->checkbox('isFrozen');
+		$this->availableAt = $this->request->value('availableAt');
 		$this->delete = $this->request->checkbox('delete');
 		$this->scanuser = (int) $this->request->value('user', $this->user->getId());
 		$this->scanuser_view = $this->request->value('user');
@@ -161,13 +163,13 @@ class WorkPage extends Page {
 
 	protected function processSubmission() {
 		if ( !empty($this->entryId) && !$this->thisUserCanEditEntry($this->entryId, $this->workType) ) {
-			$this->addMessage('Вы не авторизованы для редактирования.', true);
+			$this->addMessage('Нямате права да редактирате този запис.', true);
 
 			return $this->makeLists();
 		}
 		if ($this->uplfile && ! File::hasValidExtension($this->uplfile, $this->fileWhiteList)) {
 			$formatList = implode(', ', $this->fileWhiteList);
-			$this->addMessage("Файл не соответствует нужному формату: $formatList", true);
+			$this->addMessage("Файлът не е в един от разрешените формати: $formatList", true);
 
 			return $this->makeLists();
 		}
@@ -180,8 +182,11 @@ class WorkPage extends Page {
 
 	private function updateMainUserData() {
 		if ( empty($this->btitle) ) {
-			$this->addMessage('Вы не указали название произведения.', true);
-
+			$this->addMessage('Не сте посочили заглавие.', true);
+			return $this->makeForm();
+		}
+		if ( empty($this->pubYear) ) {
+			$this->addMessage('Не сте посочили година на издаване.', true);
 			return $this->makeForm();
 		}
 		$this->btitle = String::my_replace($this->btitle);
@@ -194,10 +199,10 @@ class WorkPage extends Page {
 				foreach ($texts as $text) {
 					if ($text->getAuthorNames() == $this->author) {
 						$wl = $this->makeSimpleTextLink($text->getTitle(), $text->getId());
-						$this->addMessage('Такой документ уже существует'.
+						$this->addMessage('В библиотеката вече съществува произведение'.
 							$this->makeFromAuthorSuffix($text) .
-							" Название: <div class='standalone'>$wl.</div>", true);
-						$this->addMessage('Повторно добавить.');
+							" със същото заглавие: <div class='standalone'>$wl.</div>", true);
+						$this->addMessage('Повторното съхраняване ще добави вашия запис въпреки горното предупреждение.');
 						$this->bypassExisting = 1;
 
 						return $this->makeForm();
@@ -205,8 +210,8 @@ class WorkPage extends Page {
 				}
 				$key = ['title' => $this->btitle, 'deleted_at IS NULL'];
 				if ($this->db->exists(self::DB_TABLE, $key)) {
-					$this->addMessage('Уже ведутся работы над документом с таким названием', true);
-					$this->addMessage('Повторно добавить.');
+					$this->addMessage('Вече се подготвя произведение със същото заглавие', true);
+					$this->addMessage('Повторното съхраняване ще добави вашия запис въпреки горното предупреждение.');
 					$this->bypassExisting = 1;
 
 					return $this->makeWorkList(0, 0, false, $key) . $this->makeForm();
@@ -217,8 +222,13 @@ class WorkPage extends Page {
 		if ( $this->entryId == 0 ) {
 			$id = $this->controller->em()->getNextIdRepository()->findNextId('App:WorkEntry')->getValue();
 			$this->uplfile = preg_replace('/^0-/', "$id-", $this->uplfile);
+			$entry = new WorkEntry();
 		} else {
 			$id = $this->entryId;
+			$entry = $this->repo()->find($this->entryId);
+		}
+		if ($this->availableAt) {
+			$entry->setAvailableAt($this->availableAt);
 		}
 		$set = [
 			'id' => $id,
@@ -231,6 +241,7 @@ class WorkPage extends Page {
 			'comment' => $this->pretifyComment($this->comment),
 			'date'=>$this->date,
 			'is_frozen' => $this->isFrozen,
+			'available_at' => $entry->getAvailableAt('Y-m-d'),
 			'status'=>$this->status,
 			'progress' => $this->progress,
 			'tmpfiles' => self::rawurlencode($this->tmpfiles),
@@ -249,7 +260,7 @@ class WorkPage extends Page {
 			if ( $this->isMultiUser($this->workType) ) {
 				$this->controller->em()->getConnection()->update(self::DB_TABLE2, ['deleted_at' => $curDate->format('Y-m-d H:i:s')], ['entry_id' => $this->entryId]);
 			}
-			$this->addMessage("Документ „{$this->btitle}“ был удалён и списка.");
+			$this->addMessage("Произведението „{$this->btitle}“ беше премахнато от списъка.");
 			$this->deleteEntryFiles($this->entryId);
 			$this->scanuser_view = null;
 
@@ -263,10 +274,10 @@ class WorkPage extends Page {
 		}
 		if ($this->entryId) {
 			$this->controller->em()->getConnection()->update(self::DB_TABLE, $set, ['id' => $this->entryId]);
-			$msg = 'Данные для документа были обновлены.';
+			$msg = 'Данните за произведението бяха обновени.';
 		} else {
 			$this->controller->em()->getConnection()->insert(self::DB_TABLE, $set);
-			$msg = 'Документ был добавлен ​​к списку подготовки.';
+			$msg = 'Произведението беше добавено в списъка с подготвяните.';
 		}
 		$this->scanuser_view = 0;
 		$this->addMessage($msg);
@@ -286,7 +297,7 @@ class WorkPage extends Page {
 		$pkey = ['id' => $this->entryId];
 		$key = ['entry_id' => $this->entryId, 'user_id' => $this->user->getId()];
 		if ( empty($this->editComment) ) {
-			$this->addMessage('Введите комментарий.', true);
+			$this->addMessage('Въвеждането на коментар е задължително.', true);
 
 			return $this->buildContent();
 		}
@@ -309,11 +320,11 @@ class WorkPage extends Page {
 		}
 		if ($this->db->exists(self::DB_TABLE2, $key)) {
 			$this->controller->em()->getConnection()->update(self::DB_TABLE2, $set, $key);
-			$msg = 'Данные были обновлены.';
+			$msg = 'Данните бяха обновени.';
 		} else {
 			$set['id'] = $this->controller->em()->getNextIdRepository()->findNextId('App:WorkContrib')->getValue();
 			$this->controller->em()->getConnection()->insert(self::DB_TABLE2, $set);
-			$msg = 'Просто присоединяйтесь к подготовке работы.';
+			$msg = 'Току-що се включихте в подготовката на произведението.';
 			$this->informScanUser($this->entryId);
 		}
 		$this->addMessage($msg);
@@ -339,7 +350,8 @@ class WorkPage extends Page {
 			rename($dest, $dest .'-'. time());
 		}
 		if ( !move_uploaded_file($tmpfile, $dest) ) {
-			$this->addMessage("Файл не может быть загружен . Попробуйте еще ​​раз!", true);
+			$this->addMessage("Файлът не успя да бъде качен. Опитайте пак!", true);
+
 			return false;
 		}
 
@@ -349,7 +361,7 @@ class WorkPage extends Page {
 			shell_exec($com);
 		}
 
-		$this->addMessage("Файл был загружен . Спасибо за работу !");
+		$this->addMessage("Файлът беше качен. Благодарим ви за положения труд!");
 
 		return true;
 	}
@@ -388,7 +400,7 @@ class WorkPage extends Page {
 	}
 
 	private function makeUserGuideLink() {
-		return '<div class="float-right"><a href="http://wiki.bookshelf.local/Workroom" title="Справочник"><span class="fa fa-info-circle"></span>Справочник</a></div>';
+		return '<div class="float-right"><a href="http://wiki.chitanka.info/Workroom" title="Наръчник за работното ателие"><span class="fa fa-info-circle"></span> Наръчник за работното ателие</a></div>';
 	}
 
 	private function makeLists() {
@@ -414,11 +426,11 @@ class WorkPage extends Page {
 <form action="$action" method="get" class="form-inline standalone" role="form">
 	{$this->makeViewWorksLinks()}
 	<div class="form-group">
-		<label for="$id" class="sr-only">Поиск: </label>
+		<label for="$id" class="sr-only">Търсене на: </label>
 		<div class="input-group">
-			<input type="text" class="form-control" title="Поиск подготовительных работ" maxlength="100" size="50" id="$id" name="$id">
+			<input type="text" class="form-control" title="Търсене из подготвяните произведения" maxlength="100" size="50" id="$id" name="$id">
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="submit"><span class="fa fa-search"></span><span class="sr-only">Поиск</span></button>
+				<button class="btn btn-default" type="submit"><span class="fa fa-search"></span><span class="sr-only">Търсене</span></button>
 			</span>
 		</div>
 	</div>
@@ -430,7 +442,7 @@ EOS;
 		$sql = $this->makeSqlQuery($limit, $offset, $where);
 		$results = $this->controller->em()->getConnection()->executeQuery($sql)->fetchAll();
 		if ( empty($results) ) {
-			return '<p class="standalone emptylist"><strong>Нет подготовительных работ.</strong></p>';
+			return '<p class="standalone emptylist"><strong>Няма подготвящи се произведения.</strong></p>';
 		}
 		$table = '';
 		foreach ($results as $result) {
@@ -454,7 +466,7 @@ EOS;
 		} else {
 			$pagelinks = '';
 		}
-		$adminStatus = $this->userIsAdmin() ? '<th title="Статус администратор"></th>' : '';
+		$adminStatus = $this->userIsAdmin() ? '<th title="Администраторски статус"></th>' : '';
 
 		return <<<EOS
 <table class="table table-striped table-condensed table-bordered">
@@ -462,14 +474,14 @@ EOS;
 	<tr>
 		<th>Дата</th>
 		$adminStatus
-		<th title="Тип записи"></th>
+		<th title="Тип на записа"></th>
 		<th title="Информация"></th>
-		<th title="Комментарии"></th>
+		<th title="Коментари към записа"></th>
 		<th title="Файл"></th>
-		<th style="width: 25%">Название</th>
+		<th style="width: 25%">Заглавие</th>
 		<th>Автор</th>
-		<th>Этап работы</th>
-		<th>Пользователь</th>
+		<th>Етап на работата</th>
+		<th>Потребител</th>
 	</tr>
 </thead>
 <tbody>
@@ -536,21 +548,26 @@ EOS;
 		$info = $this->makeWorkEntryInfo($dbrow);
 		$title = "<i>$dbrow[title]</i>";
 		$file = '';
-		if ( ! empty($dbrow['tmpfiles']) ) {
-			$file = $this->makeFileLink($dbrow['tmpfiles']);
-		} else if ( ! empty($dbrow['uplfile']) ) {
-			$file = $this->makeFileLink($dbrow['uplfile']);
+		if ($entry->isAvailable()) {
+			if ( ! empty($dbrow['tmpfiles']) ) {
+				$file = $this->makeFileLink($dbrow['tmpfiles']);
+			} else if ( ! empty($dbrow['uplfile']) ) {
+				$file = $this->makeFileLink($dbrow['uplfile']);
+			}
 		}
 		$entryLink = $this->controller->generateUrl('workroom_entry_edit', ['id' => $dbrow['id']]);
-		$commentsLink = $dbrow['num_comments'] ? sprintf('<a href="%s#fos_comment_thread" title="Комментарии"><span class="fa fa-comments-o"></span>%s</a>', $entryLink, $dbrow['num_comments']) : '';
-		$title = sprintf('<a href="%s" title="К странице редактирования">%s</a>', $entryLink, $title);
+		$commentsLink = $dbrow['num_comments'] ? sprintf('<a href="%s#fos_comment_thread" title="Коментари"><span class="fa fa-comments-o"></span>%s</a>', $entryLink, $dbrow['num_comments']) : '';
+		$title = sprintf('<a href="%s" title="Към страницата за преглед">%s</a>', $entryLink, $title);
+		if (!$entry->isAvailable()) {
+			$title = '<span class="fa fa-ban" title="Дата на достъп: '.$entry->getAvailableAt('d.m.Y').'"></span> ' . $title;
+		}
 		$this->rowclass = $this->nextRowClass($this->rowclass);
 		$st = $dbrow['progress'] > 0
 			? $this->makeProgressBar($dbrow['progress'])
 			: $this->makeStatus($dbrow['status']);
 		$extraclass = $this->user->getId() == $dbrow['user_id'] ? ' hilite' : '';
 		if ($dbrow['is_frozen']) {
-			$sisFrozen = '<span title="Подготовка документа остановлена">(Подготовка документа остановлена)</span>';
+			$sisFrozen = '<span title="Подготовката е замразена">(замразена)</span>';
 			$extraclass .= ' is_frozen';
 		} else {
 			$sisFrozen = '';
@@ -559,7 +576,7 @@ EOS;
 			$musers = '';
 			foreach ($entry->getContribs() as $contrib) {
 				$uinfo = $this->makeExtraInfo("{$contrib->getComment()} ({$contrib->getProgress()}%)");
-				$ufile = $contrib->getUplfile() == ''
+				$ufile = $contrib->getUplfile() == '' || !$entry->isAvailable()
 					? ''
 					: $this->makeFileLink($contrib->getUplfile(), $contrib->getUser()->getUsername());
 				if ($contrib->getUser()->getId() == $dbrow['user_id']) {
@@ -577,17 +594,18 @@ EOS;
 			if ( !empty($musers) ) {
 				$userlink = "<ul class='simplelist'>\n\t<li>$userlink</li>$musers</ul>";
 			} else if ( $dbrow['status'] == self::MAX_SCAN_STATUS ) {
-				$userlink .= ' (<strong>Ожидаются, корректоры</strong>)';
+				$userlink .= ' (<strong>очакват се коректори</strong>)';
 			}
 		}
 		$umarker = $this->getUserTypeMarker($dbrow['type']);
 
 		$adminFields = $this->userIsAdmin() ? $this->makeAdminFieldsForTable($dbrow) : '';
+		$humanDate = (new \DateTime($dbrow['ddate']))->format('d.m.Y');
 
 		return <<<EOS
 
 	<tr class="$this->rowclass$extraclass" id="e$dbrow[id]">
-		<td class="date" title="$dbrow[date]">$dbrow[ddate]</td>
+		<td class="date" title="$dbrow[date]">$humanDate</td>
 		$adminFields
 		<td>$umarker</td>
 		<td>$info</td>
@@ -627,10 +645,13 @@ HTML;
 	private function makeWorkEntryInfo($dbrow) {
 		$lines = [];
 		if ($dbrow['publisher']) {
-			$lines[] = '<b>Издатель:</b> ' . $dbrow['publisher'];
+			$lines[] = '<b>Издател:</b> ' . $dbrow['publisher'];
 		}
 		if ($dbrow['pub_year']) {
-			$lines[] = '<b>Год:</b> ' . $dbrow['pub_year'];
+			$lines[] = '<b>Година:</b> ' . $dbrow['pub_year'];
+		}
+		if ($dbrow['available_at']) {
+			$lines[] = '<b>Дата на достъп:</b> ' . (new \DateTime($dbrow['available_at']))->format('d.m.Y');
 		}
 		$lines[] = $dbrow['comment'];
 		return $this->makeExtraInfo(implode("\n", $lines));
@@ -664,7 +685,7 @@ HTML;
 			return '';
 		}
 
-		return sprintf('<a href="%s" class="btn btn-primary"><span class="fa fa-plus"></span> Добавить документ</a>',
+		return sprintf('<a href="%s" class="btn btn-primary"><span class="fa fa-plus"></span> Добавяне на нов запис</a>',
 			$this->controller->generateUrl('workroom_entry_new'));
 
 	}
@@ -673,7 +694,7 @@ HTML;
 		$links = [];
 		foreach ($this->viewTypes as $type => $title) {
 			$class = $this->subaction == $type ? 'selected' : '';
-			$links[] = sprintf('<li><a href="%s" class="%s" title="Посмотреть работы по критерию „%s“">%s %s</a></li>',
+			$links[] = sprintf('<li><a href="%s" class="%s" title="Преглед на произведенията по критерий „%s“">%s %s</a></li>',
 				$this->controller->generateUrl('workroom', [
 					$this->FF_SUBACTION => $type
 				]),
@@ -683,7 +704,7 @@ HTML;
 		foreach ($this->statuses as $code => $statusTitle) {
 			$type = "st-$code";
 			$class = $this->subaction == $type ? 'selected' : '';
-			$links[] = sprintf('<li><a href="%s" class="%s" title="Посмотреть работы по критерию „%s“">%s %s</a></li>',
+			$links[] = sprintf('<li><a href="%s" class="%s" title="Преглед на произведенията по критерий „%s“">%s %s</a></li>',
 				$this->controller->generateUrl('workroom', [
 					$this->FF_SUBACTION => $type
 				]),
@@ -691,16 +712,20 @@ HTML;
 		}
 
 		$links[] = '<li role="presentation" class="divider"></li>';
-		$links[] = sprintf('<li><a href="%s">Участники:</a></li>', $this->controller->generateUrl('workroom_contrib'));
+		$links[] = sprintf('<li><a href="%s">Списък на помощниците</a></li>', $this->controller->generateUrl('workroom_contrib'));
 
 		return '<div class="btn-group">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Обзор <span class="caret"></span></button>
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Преглед <span class="caret"></span></button>
 			<ul class="dropdown-menu" role="menu">'. implode("\n", $links) .'</ul>
 			</div>';
 	}
 
 	private function makeForm() {
-		$this->title .= ' — '.(empty($this->entryId) ? 'Добавить' : 'Редактировать');
+		if (isset($this->entry) && !$this->entry->isAvailable() && !$this->thisUserCanDeleteEntry()) {
+			return '<div class="alert alert-danger">Този запис ще бъде наличен след '.$this->entry->getAvailableAt('d.m.Y').'.</div>';
+		}
+
+		$this->title .= ' — '.(empty($this->entryId) ? 'Добавяне' : 'Редактиране');
 		$helpTop = empty($this->entryId) ? $this->makeAddEntryHelp() : '';
 		$tabs = '';
 		foreach ($this->tabs as $type => $text) {
@@ -730,14 +755,14 @@ HTML;
 		if ( $this->thisUserCanDeleteEntry() ) {
 			$title = $this->out->textField('title', '', $this->btitle, 50, 255, null, '', ['class' => 'form-control']);
 			$author = $this->out->textField('author', '', $this->author, 50, 255,
-				0, 'Если у документа несколько авторов, то разделите их запятыми', ['class' => 'form-control']);
+				0, 'Ако авторите са няколко, ги разделете със запетаи', ['class' => 'form-control']);
 			$publisher = $this->out->textField('publisher', '', $this->publisher, 50, 255, 0, null, ['class' => 'form-control']);
 			$pubYear = $this->out->textField('pubYear', '', $this->pubYear, 50, 255, 0, null, ['class' => 'form-control']);
 			$comment = $this->out->textarea($this->FF_COMMENT, '', $this->comment, 10, 80, null, ['class' => 'form-control']);
 			$delete = empty($this->entryId) || !$this->userIsAdmin() ? ''
 				: '<div class="error" style="margin-bottom:1em">'.
-				$this->out->checkbox('delete', '', false, 'Удалить запись') .
-				' (например, если продукт был добавлен в библиотеку)</div>';
+				$this->out->checkbox('delete', '', false, 'Изтриване на записа') .
+				' (напр., ако произведението вече е добавено в библиотеката)</div>';
 			$button = $this->makeSubmitButton();
 			if ($this->status == WorkEntry::STATUS_7 && !$this->userCanSetStatus(WorkEntry::STATUS_7)) {
 				$button = $delete = '';
@@ -751,7 +776,7 @@ HTML;
 			$button = $delete = '';
 		}
 
-		$alertIfDeleted = isset($this->entry) && $this->entry->isDeleted() ? '<div class="alert alert-danger">Эта запись была удалена.</div>' : '';
+		$alertIfDeleted = isset($this->entry) && $this->entry->isDeleted() ? '<div class="alert alert-danger">Този запис е изтрит.</div>' : '';
 		$helpBot = $this->isSingleUser($this->workType) ? $this->makeSingleUserHelp() : '';
 		$scanuser = $this->out->hiddenField('user', $this->scanuser);
 		$entry = $this->out->hiddenField('id', $this->entryId);
@@ -782,7 +807,7 @@ $helpTop
 			$workType
 			$bypass
 			<div class="form-group">
-				<label class="col-sm-2 control-label">Ответственное лицо:</label>
+				<label class="col-sm-2 control-label">Отговорник:</label>
 				<div class="col-sm-10">
 					<div class="form-control">
 						$ulink
@@ -790,7 +815,7 @@ $helpTop
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="title" class="col-sm-2 control-label">Название:</label>
+				<label for="title" class="col-sm-2 control-label">Заглавие:</label>
 				<div class="col-sm-10">
 					$title
 				</div>
@@ -802,19 +827,19 @@ $helpTop
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="publisher" class="col-sm-2 control-label">Издатель:</label>
+				<label for="publisher" class="col-sm-2 control-label">Издател:</label>
 				<div class="col-sm-10">
 					$publisher
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="pubYear" class="col-sm-2 control-label">Год издания:</label>
+				<label for="pubYear" class="col-sm-2 control-label">Година на издаване:</label>
 				<div class="col-sm-10">
 					$pubYear
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="$this->FF_COMMENT" class="col-sm-2 control-label">Комментарий:</label>
+				<label for="$this->FF_COMMENT" class="col-sm-2 control-label">Коментар:</label>
 				<div class="col-sm-10">
 					$comment
 				</div>
@@ -843,12 +868,12 @@ EOS;
 			return '';
 		}
 		// same domain as main site - for ajax
-		$newFile = str_replace('http://static.bookshelf.local', '', $this->tmpfiles);
+		$newFile = str_replace('http://static.chitanka.info', '', $this->tmpfiles);
 		$dmpPath = $this->container->getParameter('assets_base_urls') . '/vendor/js/diff_match_patch.js';
 		return <<<CORRECTIONS
 <fieldset>
-	<legend>Корекция</legend>
-	<button onclick="jQuery(this).hide(); showWorkroomDiff('#corrections')">Показать</button>
+	<legend>Корекции</legend>
+	<button onclick="jQuery(this).hide(); showWorkroomDiff('#corrections')">Показване</button>
 	<pre id="corrections" style="display: none; white-space: pre-wrap; /* css-3 */ white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */ white-space: -pre-wrap; /* Opera 4-6 */ white-space: -o-pre-wrap; /* Opera 7 */ word-wrap: break-word; /* Internet Explorer 5.5+ */">
 	Зареждане...
 	</pre>
@@ -887,14 +912,14 @@ function showWorkroomDiff(target) {
 	$(target).show();
     $.get('$newFile', function(newContent) {
 		// TODO find a better way to find the current text source
-		var m = newContent.match(/(http:\/\/bookshelf.local\/(book|text)\/\d+)/);
+		var m = newContent.match(/(http:\/\/chitanka.info\/(book|text)\/\d+)/);
 		if (m) {
 			var curContentUrl = m[1]+'.sfb';
 			$.get(curContentUrl, function(curContent){
 				doDiff(curContent, newContent);
 			});
 		} else {
-			$(target).text('Содержимое источника не открыто.');
+			$(target).text('Съдържанието на източника не беше открито.');
 		}
 	});
 }
@@ -953,13 +978,13 @@ JS;
 
 	private function canShowCorrections() {
 		return strpos($this->btitle, '(корекция)') !== false
-			&& strpos($this->tmpfiles, 'bookshelf.local') !== false
+			&& strpos($this->tmpfiles, 'chitanka.info') !== false
 			&& File::isSFB($this->absTmpDir.'/'.basename($this->tmpfiles));
 	}
 
 	private function makeSubmitButton() {
-		$submit = $this->out->submitButton('Запись', '', null, true, ['class' => 'btn btn-primary']);
-		$cancel = sprintf('<a href="%s" title="Отмена">Отмена</a>', $this->controller->generateUrl('workroom'));
+		$submit = $this->out->submitButton('Запис', '', null, true, ['class' => 'btn btn-primary']);
+		$cancel = sprintf('<a href="%s" title="Към основния списък">Отказ</a>', $this->controller->generateUrl('workroom'));
 
 		return $submit .' &#160; '. $cancel;
 	}
@@ -968,7 +993,7 @@ JS;
 		$status = $this->getStatusSelectField($this->status);
 		$progress = $this->out->textField('progress', '', $this->progress, 2, 3);
 		$isFrozen = $this->out->checkbox('isFrozen', '', $this->isFrozen,
-			'Подкатовка остановлена на некоторое время');
+			'Подготовката е спряна за известно време');
 		$file = $this->out->fileField('file', '');
 		$maxFileSize = $this->out->makeMaxFileSizeField();
 		$maxUploadSizeInMiB = Legacy::getMaxUploadSizeInMiB();
@@ -976,7 +1001,7 @@ JS;
 		$tmpfiles = $this->out->textField('tmpfiles', '', rawurldecode($this->tmpfiles), 50, 255)
 			. ' &#160; '.$this->out->label('Размер: ', 'tfsize') .
 				$this->out->textField('tfsize', '', $this->tfsize, 2, 4) .
-				'<abbr title="Мегабайт">MB</abbr>';
+				'<abbr title="Мебибайта">MiB</abbr>';
 
 		$flink = $this->tmpfiles == self::DEF_TMPFILE ? ''
 			: $this->out->link( $this->makeTmpFilePath($this->tmpfiles), String::limitLength($this->tmpfiles)) .
@@ -984,7 +1009,7 @@ JS;
 
 		return <<<EOS
 	<div class="form-group">
-		<label for="entry_status" class="col-sm-2 control-label">Этап:</label>
+		<label for="entry_status" class="col-sm-2 control-label">Етап:</label>
 		<div class="col-sm-10">
 			<select name="entry_status" id="entry_status">$status</select>
 			&#160; или &#160;
@@ -993,11 +1018,17 @@ JS;
 		</div>
 	</div>
 	<div class="form-group">
+		<label for="availableAt" class="col-sm-2 control-label">Дата на достъп:</label>
+		<div class="col-sm-10">
+			<input type="date" name="availableAt" id="availableAt" class="form-control" value="$this->availableAt">
+		</div>
+	</div>
+	<div class="form-group">
 		<label for="file" class="col-sm-2 control-label">Файл:</label>
 		<div class="col-sm-10">
 			<div>
 				$maxFileSize
-				$file (макс. $maxUploadSizeInMiB MB)
+				$file (макс. $maxUploadSizeInMiB MiB)
 			</div>
 			<p>или</p>
 			<div>
@@ -1023,7 +1054,7 @@ EOS;
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="adminComment" class="col-sm-2 control-label">Админ.&nbsp;комментарий:</label>
+		<label for="adminComment" class="col-sm-2 control-label">Админ.&nbsp;коментар:</label>
 		<div class="col-sm-10">
 			$comment
 		</div>
@@ -1053,7 +1084,7 @@ FIELDS;
 	}
 
 	private function makeMultiScanInput() {
-		$isFrozenLabel = 'Подкатовка остановлена на некоторое время';
+		$isFrozenLabel = 'Подготовката е спряна за известно време';
 		$cstatus = $this->status > self::MAX_SCAN_STATUS
 			? self::MAX_SCAN_STATUS
 			: $this->status;
@@ -1072,7 +1103,7 @@ FIELDS;
 			$tmpfiles = $this->out->textField('tmpfiles', '', rawurldecode($this->tmpfiles), 50, 255);
 			$tmpfiles .= ' &#160; '.$this->out->label('Размер: ', 'tfsize') .
 				$this->out->textField('tfsize', '', $this->tfsize, 2, 4) .
-				'<abbr title="Мегабайта">MB</abbr>';
+				'<abbr title="Мебибайта">MiB</abbr>';
 		} else {
 			$status = $this->statuses[$cstatus];
 			$isFrozen = $this->isFrozen ? "($isFrozenLabel)" : '';
@@ -1088,10 +1119,16 @@ FIELDS;
 
 		return <<<EOS
 	<div class="form-group">
-		<label for="entry_status" class="col-sm-2 control-label">Этап:</label>
+		<label for="entry_status" class="col-sm-2 control-label">Етап:</label>
 		<div class="col-sm-10">
 			$status
 			$isFrozen
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="availableAt" class="col-sm-2 control-label">Дата на достъп:</label>
+		<div class="col-sm-10">
+			<input type="date" name="availableAt" id="availableAt" class="form-control" value="$this->availableAt">
 		</div>
 	</div>
 	<div class="form-group">
@@ -1099,7 +1136,7 @@ FIELDS;
 		<div class="col-sm-10">
 			<div>
 				$maxFileSize
-				$file (макс. $maxUploadSizeInMiB MB)
+				$file (макс. $maxUploadSizeInMiB MiB)
 			</div>
 			<p>или</p>
 			<div>
@@ -1116,7 +1153,7 @@ EOS;
 		$myContrib = $this->isMyContribAllowed() ? $this->makeMultiEditMyInput() : '';
 
 		return <<<EOS
-		<h3>Коррекция</h3>
+		<h3>Коригиране</h3>
 		$editorList
 		$myContrib
 EOS;
@@ -1140,7 +1177,7 @@ EOS;
 		if ( empty($this->multidata[$this->user->getId()]) ) {
 			$comment = $progress = $uplfile = $filesize = '';
 			$isFrozen = false;
-			$msg = '<p>Кроме того, можно участвовать в подготовке документа</p>';
+			$msg = '<p>Вие също може да се включите в подготовката на текста.</p>';
 		} else {
 			$contrib = $this->multidata[$this->user->getId()];
 			$comment = $contrib->getComment();
@@ -1158,23 +1195,23 @@ EOS;
 		$subaction = $this->out->hiddenField($this->FF_SUBACTION, $this->subaction);
 		$comment = $this->out->textarea($this->FF_EDIT_COMMENT, '', $comment, 10, 80, null, ['class' => 'form-control']);
 		$progress = $this->out->textField('progress', '', $progress, 2, 3, null, '', ['class' => 'form-control']);
-		$isFrozen = $this->out->checkbox('isFrozen', 'isFrozen_e', $isFrozen, 'Коррекция остановлена на некоторое время');
+		$isFrozen = $this->out->checkbox('isFrozen', 'isFrozen_e', $isFrozen, 'Корекцията е спряна за известно време');
 		$file = $this->out->fileField('file', 'file2');
 		$readytogo = $this->userCanMarkAsReady()
-			? $this->out->checkbox('ready', 'ready', false, 'Добавить')
+			? $this->out->checkbox('ready', 'ready', false, 'Готово е за добавяне')
 			: '';
 		$action = $this->controller->generateUrl('workroom');
 
 		$remoteFile = $this->out->textField('uplfile', 'uplfile2', rawurldecode($uplfile), 50, 255)
 			. ' &#160; '.$this->out->label('Размер: ', 'filesize2') .
 				$this->out->textField('filesize', 'filesize2', $filesize, 2, 4) .
-				'<abbr title="Мегабайта">MB</abbr>';
+				'<abbr title="Мебибайта">MiB</abbr>';
 
 		return <<<EOS
 
 <form action="$action" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
 	<fieldset>
-		<legend>Мой вклад ($ulink)</legend>
+		<legend>Моят принос ($ulink)</legend>
 		$msg
 	$scanuser
 	$entry
@@ -1182,13 +1219,13 @@ EOS;
 	$form
 	$subaction
 	<div class="form-group">
-		<label for="$this->FF_EDIT_COMMENT" class="col-sm-2 control-label">Комментарий:</label>
+		<label for="$this->FF_EDIT_COMMENT" class="col-sm-2 control-label">Коментар:</label>
 		<div class="col-sm-10">
 			$comment
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="progress" class="col-sm-2 control-label">Прогресс:</label>
+		<label for="progress" class="col-sm-2 control-label">Напредък:</label>
 		<div class="col-sm-10">
 			<div class="input-group">
 				$progress
@@ -1204,7 +1241,7 @@ EOS;
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="uplfile2" class="col-sm-2 control-label">Внешний файл:</label>
+		<label for="uplfile2" class="col-sm-2 control-label">Външен файл:</label>
 		<div class="col-sm-10">
 			$remoteFile
 		</div>
@@ -1224,7 +1261,7 @@ EOS;
 
 	private function makeEditorList() {
 		if ( empty($this->multidata) ) {
-			return '<p>Никто не присоединился к коррекции текста.</p>';
+			return '<p>Все още никой не се е включил в корекцията на текста.</p>';
 		}
 		$l = $class = '';
 		foreach ($this->multidata as $contrib) {
@@ -1237,7 +1274,7 @@ EOS;
 			$progressbar = $this->makeProgressBar($contrib->getProgress());
 			if ($contrib->isFrozen()) {
 				$class .= ' isFrozen';
-				$progressbar .= ' (остановленно)';
+				$progressbar .= ' (замразена)';
 			}
 			$deleteForm = $this->controller->renderView('App:Workroom:contrib_delete_form.html.twig', ['contrib' => ['id' => $contrib->getId()]]);
 			$date = $contrib->getDate()->format('d.m.Y');
@@ -1255,13 +1292,13 @@ EOS;
 		return <<<EOS
 
 	<table class="content">
-	<caption>Следующие пользователи обрабатывали текст:</caption>
+	<caption>Следните потребители обработват текста:</caption>
 	<thead>
 	<tr>
 		<th>Дата</th>
-		<th>Пользователь</th>
-		<th>Комментарий</th>
-		<th>Прогресс</th>
+		<th>Потребител</th>
+		<th>Коментар</th>
+		<th>Напредък</th>
 	</tr>
 	</thead>
 	<tbody>$l
@@ -1272,17 +1309,21 @@ EOS;
 
 	private function makePageHelp() {
 		$regUrl = $this->controller->generateUrl('register');
-		$ext = $this->user->isAnonymous() ? "это необходимо в первую очередь<a href=\"$regUrl\">перейти</a> (не волнуйтесь , это займет не более 10-20 секунд). Затем вернитесь на эту страницу" : '';
+		$ext = $this->user->isAnonymous() ? "е необходимо първо да се <a href=\"$regUrl\">регистрирате</a> (не се притеснявайте, ще ви отнеме най-много 10–20 секунди, колкото и бавно да пишете). След това се върнете на тази страница и" : '';
 		$umarker = $this->getUserTypeMarker(1);
+		$banYearThreshold = $this->container->getParameter('workroom_ban_year_threshold');
 
 		return <<<EOS
 
-<p>Здесь Вы можете увидеть список документов, которые готовятся , чтобы добавить в библиотеку.</p>
-<p>Чтобы начать подготовку нового текста, $ext перейдите по ссылке "Добавить новую запись" . Если вы не имеете возможность сканировать тексты могут присоединиться коррекция названий отмечены следующим образом: $umarker.</p>
-<p>Скорость добавления новых текстов в библиотеке зависит от количества ошибок , оставшихся после сканирования и их обнаружения.</p>
+<p>Тук може да разгледате списък на произведенията, които се подготвят за добавяне в библиотеката.</p>
+<p>За да започнете подготовката на нов текст, $ext последвайте връзката „Добавяне на нов запис“. В случай че нямате възможност сами да сканирате текстове, може да се присъедините към коригирането на заглавията, отбелязани ето така: $umarker.</p>
+<p>Бързината на добавянето на нови текстове в библиотеката зависи както от броя на грешките, останали след сканирането и разпознаването, така и от форма&#768;та на текста. Най-бързо ще бъдат добавяни отлично коригирани текстове, правилно преобразувани във <a href="http://wiki.chitanka.info/SFB">формат SFB</a>.</p>
 <div class="alert alert-danger error newbooks-notice media" style="margin:1em 0">
 	<div class="pull-left">
 		<span class="fa fa-warning"></span>
+	</div>
+	<div class="media-body">
+		Разрешено е да се добавят само книги, издадени на български преди $banYearThreshold г. Изключение се прави за онези текстове, които са пратени от авторите си, както и за фен-преводи.
 	</div>
 </div>
 EOS;
@@ -1293,17 +1334,19 @@ EOS;
 
 		return <<<EOS
 
-<p>Через форму ниже, можно добавить новый документ <a href="$mainlink">список</a>.</p>
-<p>Вы можете выбирать между „{$this->tabs[0]}“ (сами обрабатывать весь текст) или „{$this->tabs[1]}“ (другие пользователи тоже могут вносить правки).</p>
-<p>Введите название и автора , и, наконец, указать на какой стадии находится подготовка . Если вы еще не начали сканирование , выберите „{$this->statuses[WorkEntry::STATUS_0]}“.</p>
+<p>Чрез долния формуляр може да добавите ново произведение към <a href="$mainlink">списъка с подготвяните</a>.</p>
+<p>Имате възможност за избор между „{$this->tabs[0]}“ (сами ще обработите целия текст) или „{$this->tabs[1]}“ (вие ще сканирате текста, а други потребители ще имат възможността да се включат в коригирането му).</p>
+<p>Въведете заглавието и автора и накрая посочете на какъв етап се намира подготовката. Ако още не сте започнали сканирането, изберете „{$this->statuses[WorkEntry::STATUS_0]}“.</p>
+<p>През следващите дни винаги може да промените етапа, на който се намира подготовката на произведението. За тази цел, в основния списък, заглавието ще представлява връзка към страницата за редактиране.</p>
 EOS;
 	}
 
 	private function makeSingleUserHelp() {
 		return <<<EOS
 
-<p>На этой странице вы можете изменить данные для работы.</p>
-<p>Если обработка документа останавливается, то лучше на это указать, установив флажок "Подготовка остановлена на некотороге время".</p>
+<p>На тази страница може да променяте данните за произведението.
+Най-често ще се налага да обновявате етапа, на който се намира подготовката. Възможно е да посочите напредъка на подготовката и чрез процент, в случай че операциите сканиране, разпознаване и коригиране се извършват едновременно.</p>
+<p>Ако подготовката на произведението е замразена, това може да се посочи, като се отметне полето „Подготовката е спряна за известно време“.</p>
 EOS;
 	}
 
@@ -1338,13 +1381,13 @@ HTML;
 		return <<<EOS
 
 	<table class="table table-striped table-condensed table-bordered" style="margin: 0 auto; max-width: 30em">
-	<caption>Следующие пользователи отсканировали или вносили правки в документы библиотеки:</caption>
+	<caption>Следните потребители са сканирали или коригирали текстове за библиотеката:</caption>
 	<thead>
 	<tr>
 		<th>№</th>
-		<th>Пользователь:</th>
-		<th class="text-right" title="Количество обработанных работ ">Количество обработанных работ (в <abbr title="Килобайт">KB</abbr>)</th>
-		<th class="text-right" title="Количество обрабатываемых работ">Количество обрабатываемых работ</th>
+		<th>Потребител</th>
+		<th class="text-right" title="Размер на обработените произведения в мебибайта">Размер (в <abbr title="Кибибайта">KiB</abbr>)</th>
+		<th class="text-right" title="Брой на обработените произведения">Брой</th>
 	</tr>
 	</thead>
 	<tbody>$list
@@ -1356,10 +1399,10 @@ EOS;
 	private function initData($id) {
 		$entry = $this->repo()->find($id);
 		if (!$entry) {
-			throw new NotFoundHttpException("Нет записи $id.");
+			throw new NotFoundHttpException("Няма запис с номер $id.");
 		}
 		if ($entry->isDeleted() && !$this->userIsAdmin()) {
-			throw new NotFoundHttpException("Удалить запись.");
+			throw new NotFoundHttpException("Изтрит запис.");
 		}
 		$this->btitle = $entry->getTitle();
 		$this->author = $entry->getAuthor();
@@ -1371,6 +1414,7 @@ EOS;
 		$this->status = $entry->getStatus();
 		$this->progress = $entry->getProgress();
 		$this->isFrozen = $entry->getIsFrozen();
+		$this->availableAt = $entry->getAvailableAt('Y-m-d');
 		$this->tmpfiles = $entry->getTmpfiles();
 		$this->tfsize = $entry->getTfsize();
 		if ( !$this->thisUserCanDeleteEntry() || $this->request->value('workType', null, 3) === null ) {
@@ -1469,8 +1513,8 @@ $editLink
 
 Моята библиотека
 EOS;
-		$message = \Swift_Message::newInstance("Teralit: Новый корректор на документ");
-		$message->setFrom($this->container->getParameter('work_email'), 'Teralit');
+		$message = \Swift_Message::newInstance("Моята библиотека: Нов коректор на ваш текст");
+		$message->setFrom($this->container->getParameter('work_email'), 'Моята библиотека');
 		$message->setTo($entry->getUser()->getEmail(), $entry->getUser()->getUsername());
 		$message->setBody($messageBody);
 
@@ -1488,9 +1532,9 @@ EOS;
 	private function makeFileLink($file, $username = '', $filesize = null) {
 		$title = empty($username)
 			? $file
-			: "Загруженный файл из $username — $file";
+			: "Качен файл от $username — $file";
 		if ($filesize) {
-			$title .= " ($filesize MB)";
+			$title .= " ($filesize MiB)";
 		}
 
 		return $this->out->link_raw(

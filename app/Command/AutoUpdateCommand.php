@@ -116,7 +116,7 @@ class AutoUpdateCommand extends Command {
 	 * @return boolean
 	 */
 	private function executeContentUpdate($contentDir, $contentUrls, $git, $rsync) {
-		shell_exec("$rsync -avz --delete rsync.bookshelf.local::content/ $contentDir");
+		shell_exec("$rsync -avz --delete rsync.chitanka.info::content/ $contentDir");
 //		if (file_exists("$contentDir/text/.git")) {
 //			foreach (glob("$contentDir/*", GLOB_ONLYDIR) as $dir) {
 //				chdir($dir);
@@ -232,7 +232,7 @@ class AutoUpdateCommand extends Command {
 		$browser->setClient($client);
 		$browser->addListener($client);
 
-		return $browser->get($url, ['User-Agent: Mylib (http://bookshelf.local)']);
+		return $browser->get($url, ['User-Agent: Mylib (http://chitanka.info)']);
 	}
 
 	/**

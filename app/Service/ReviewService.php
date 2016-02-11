@@ -10,7 +10,7 @@ class ReviewService {
 	 */
 	public static function getReviews($limit = null, $random = false) {
 		$reviews = [];
-		$feedUrl = 'http://blog.bookshelf.local/section/reviews/feed';
+		$feedUrl = 'http://blog.chitanka.info/section/reviews/feed';
 		$feed = Legacy::getFromUrlOrCache($feedUrl, $days = 0.02);
 		if (empty($feed) || strpos($feed, '<atom') === false) {
 			return $reviews;

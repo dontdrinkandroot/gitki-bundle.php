@@ -108,8 +108,8 @@ class CommentPage extends Page {
 
 			// TODO rewrite
 			if (!preg_match('/^(127|192)/', $comment->getIp())) {
-				$chatMsg = sprintf('Нов [url=http://bookshelf.local/text/%d/comments#e%d]читателски коментар[/url] от [b]%s[/b] за „%s“', $this->textId, $comment->getId(), $this->reader, $this->work->getTitle());
-				Legacy::getFromUrl('http://forum.bookshelf.local/chat/post.php', ['m' => $chatMsg]);
+				$chatMsg = sprintf('Нов [url=http://chitanka.info/text/%d/comments#e%d]читателски коментар[/url] от [b]%s[/b] за „%s“', $this->textId, $comment->getId(), $this->reader, $this->work->getTitle());
+				Legacy::getFromUrl('http://forum.chitanka.info/chat/post.php', ['m' => $chatMsg]);
 			}
 		}
 		if (!$this->sfrequest->isXmlHttpRequest()) {

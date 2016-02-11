@@ -416,7 +416,7 @@ class Book extends BaseWork {
 	protected $covers = [];
 
 	public function getDocId() {
-		return 'http://bookshelf.local/book/' . $this->id;
+		return 'http://chitanka.info/book/' . $this->id;
 	}
 
 	public function getAuthor() {

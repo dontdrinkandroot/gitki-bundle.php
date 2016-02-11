@@ -65,7 +65,7 @@ class UserPage extends Page {
 		$res = $this->db->select(DBT_USER, $key, $sel);
 		$data = $this->db->fetchAssoc($res);
 		if ( empty($data) ) {
-			$this->addMessage('Няма потребител с Имя <strong>' .String::myhtmlspecialchars($this->username) . '</strong>.', true);
+			$this->addMessage('Няма потребител с име <strong>' .String::myhtmlspecialchars($this->username) . '</strong>.', true);
 			$this->userId = 0;
 			$this->userpage = '';
 			return false;
@@ -123,11 +123,11 @@ EOS;
 		<td>$this->userId</td>
 	</tr>
 	<tr>
-		<th>Истинско Имя</th>
+		<th>Истинско име</th>
 		<td>$this->realname</td>
 	</tr>
 	<tr>
-		<th>электронная почта</th>
+		<th>Е-поща</th>
 		<td>$this->email</td>
 	</tr>
 	<tr>
@@ -190,13 +190,13 @@ EOS;
 	}
 
 	protected function makeCurrentContribList() {
-		//$listUrl = sprintf('%s/workroom/list.htmlx?user=%s', $this->container->getParameter('workroom_url'), $this->username);
-		//$response = $this->container->get('buzz')->get($listUrl);
-//		if ( !$response->isOk() || strpos($response->getContent(), 'emptylist') !== false ) {
-//			return '';
-//		}
+		$listUrl = sprintf('%s/workroom/list.htmlx?user=%s', $this->container->getParameter('workroom_url'), $this->username);
+		$response = $this->container->get('buzz')->get($listUrl);
+		if ( !$response->isOk() || strpos($response->getContent(), 'emptylist') !== false ) {
+			return '';
+		}
 
-		return '<h2>Подготвяни текстове</h2>';
+		return '<h2>Подготвяни текстове</h2>'. $response->getContent();
 	}
 
 	protected function getContribCount() {

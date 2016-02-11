@@ -1,120 +1,108 @@
 {% extends 'App::layout.html.twig' %}
-
+{#Ещё одна находка! Выводит юзер меню и поиск#}
 {% block navigation %}
-	{{ render_esi(controller('App:User:personalTools')) }}
-	{% include 'App::search_form.html.twig' %}
+    {{ render_esi(controller('App:User:personalTools')) }}
+    {% include 'App::search_form.html.twig' %}
 {% endblock %}
 
 {% block site_notice %}{% endblock %}
 
 {% block content %}
-	<h1 class="welcome">Добро пожаловать на <em>Teralit.ru</em>!</h1>
+    {#Опять нотисы#}
+    {% for siteNotice in siteNotices %}
+        <div class="alert alert-info site-notice" style="{{ siteNotice.style }}">
+            {{ siteNotice.content|raw }}
+        </div>
+    {% endfor %}
 
-	{% for siteNotice in siteNotices %}
-		<div class="alert alert-info site-notice" style="{{ siteNotice.style }}">
-			{{ siteNotice.content|raw }}
-		</div>
-	{% endfor %}
-
-	<div class="dashboard">
-		<ul>
-			<li class="dashboard-author"><span class="light-flash"></span><a href="{{ path('authors') }}"><span class="fa fa-users"></span><br>Авторы</a></li>
-			<li class="dashboard-translator"><span class="light-flash"></span><a href="{{ path('translators') }}"><span class="fa fa-edit"></span><br>Переводчики</a></li>
-			<li class="dashboard-book"><span class="light-flash"></span><a href="{{ path('books') }}"><span class="fa fa-book"></span><br>Книги</a></li>
-			<li class="dashboard-title"><span class="light-flash"></span><a href="{{ path('texts') }}"><span class="fa fa-folder-open"></span><br>Произведения</a></li>
-			<li class="dashboard-series"><span class="light-flash"></span><a href="{{ path('series') }}"><span class="fa fa-sitemap"></span><br>Серии</a></li>
-			<li class="dashboard-history"><span class="light-flash"></span><a href="{{ path('new') }}"><span class="fa fa-calendar"></span><br>Новое</a></li>
-			<li class="dashboard-workroom"><span class="light-flash"></span><a href="{{ path('workroom') }}"><span class="fa fa-table"></span><br>Магазин</a></li>
-		</ul>
-	</div>
-
-	<div class="special-books">
-		{% if review is not empty %}
-			<section id="mp-review" class="box box3 bookbox">
-				<h2><a href="{{ path('reviews') }}">Открытие</a></h2>
-				{% include 'App:FeaturedBook:book.html.twig' with {book: review} %}
-			</section>
-		{% endif %}
-		<section id="mp-foreign-book" class="box box3 bookbox">
-			<h2><a href="{{ path('foreign_books') }}">Купить</a></h2>
-			{% include 'App:ForeignBook:book.html.twig' with {book: foreign_book} %}
-		</section>
-		<section id="mp-featured-book" class="box box3 bookbox">
-			<h2><a href="{{ path('featured_books') }}">Читать</a></h2>
-			{% include 'App:FeaturedBook:book.html.twig' with {book: featured_book} %}
-		</section>
-	</div>
-	<div class="separator"></div>
+    <div class="row">
+        <ul class="nav nav-pills center-block">
+            <li class="nav-item">
+                {#<span class="fa fa-users"></span>#}
+                <a class="nav-link" href="{{ path('authors') }}">Авторы</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-edit"></span>#}
+                <a class="nav-link" href="{{ path('translators') }}">Переводчики</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-book"></span>#}
+                <a class="nav-link" href="{{ path('books') }}">Книги</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-folder-open"></span>#}
+                <a class="nav-link" href="{{ path('texts') }}">Произведения</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-sitemap"></span>#}
+                <a class="nav-link" href="{{ path('series') }}">Серии</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-calendar"></span>#}
+                <a class="nav-link" href="{{ path('new') }}">Новое</a>
+            </li>
+            <li class="nav-item">
+{#                <span class="fa fa-table"></span>#}
+                <a class="nav-link" href="{{ path('workroom') }}">Заказы</a>
+            </li>
+        </ul>
+    </div>
+        
+    {#Пока ненужный функционал, возможно пригодится, хотя навряд#}
+    {#<div class="special-books">
+        {% if review is not empty %}
+                <section id="mp-review" class="box box3 bookbox">
+                        <h2><a href="{{ path('reviews') }}">Открытие</a></h2>
+                        {% include 'App:FeaturedBook:book.html.twig' with {book: review} %}
+                </section>
+        {% endif %}
+            <section id="mp-foreign-book" class="box box3 bookbox">
+                    <h2><a href="{{ path('foreign_books') }}">Купить</a></h2>
+                    {% include 'App:ForeignBook:book.html.twig' with {book: foreign_book} %}
+            </section>
+            <section id="mp-featured-book" class="box box3 bookbox">
+                    <h2><a href="{{ path('featured_books') }}">Читать</a></h2>
+                    {% include 'App:FeaturedBook:book.html.twig' with {book: featured_book} %}
+            </section>
+    </div>
+    <div class="separator"></div>#}
 
 	<section id="mp-new-books" class="box box2">
-		<h2><a href="{{ path('new_books') }}">Новые книги</a></h2>
-		<div class="well">
-			{% include 'App:Main:last_books.html.twig' with {book_revisions: latest_books} %}
-			<div class="more"><a href="{{ path('new_books') }}">Ещё Новые книги</a></div>
-		</div>
+            <h2><a href="{{ path('new_books') }}">Новые книги</a></h2>
+            <div class="well">
+                {% include 'App:Main:last_books.html.twig' with {book_revisions: books} %}
+                <div class="more"><a href="{{ path('new_books') }}">Ещё Новые книги</a></div>
+            </div>
 	</section>
-	<section id="mp-new-texts" class="box box2 textbox">
+            <hr>
+{#Новые произведения - функционал пока не действует#}
+	{#<section id="mp-new-texts" class="box box2 textbox">
 		<h2><a href="{{ path('new_texts') }}">Новые произведения</a></h2>
 		<div class="well">
 			{% include 'App:Main:last_texts.html.twig' with {text_revisions: latest_texts} %}
 			<div class="more"><a href="{{ path('new_texts') }}">Ещё Новые произведения</a></div>
 		</div>
-	</section>
-	<div class="separator"></div>
-
-	<section id="mp-liternews" class="box liternewsbox">
+	</section>#}
+{#Блог - функционал пока не действует#}
+	{#<section id="mp-liternews" class="box liternewsbox">
 		<h2><a href="http://blog.bookshelf.local/">Блог</a></h2>
-{#		{% if not latest_liternews.empty %}
+                {% if not latest_liternews.empty %}
 			{{ latest_liternews|raw }}
 		{% else %}
 			<p class="error">Неуспех при вземането на последните литературни новини.</p>
-		{% endif %}#}
-	</section>
-
-	<section id="mp-search" class="box box3">
-		<h2><a href="{{ path('search') }}">Искать</a></h2>
-		<div class="well">
-			{% include 'App:Search:top_strings.html.twig' with {strings: latest_searches} %}
-		</div>
-	</section>
-	<div class="separator"></div>
+		{% endif %}
+	</section>#}
 
 	<section id="mp-reader-comments" class="box box2 commentbox">
-		<h2><a href="{{ path('texts_comments') }}">Учителя говорят</a></h2>
-		{% include 'App:TextComment:latest_comments.html.twig' with {comments: latest_comments} %}
+		<h2><a href="{{ path('texts_comments') }}">Посследние комментарии</a></h2>
+		{% include 'App:TextComment:latest_comments.html.twig' with {comments: comments} %}
 	</section>
 	<section id="mp-forum-posts" class="box box2 forumbox">
 		<h2><a href="http://forum.bookshelf.local">Форум</a></h2>
-{#		{% if not latest_forum_posts.empty %}
+                {#{% if not latest_forum_posts.empty %}
 			{{ latest_forum_posts|raw }}
 		{% else %}
 			<p class="error">Неуспех при вземането на последните форумни съобщения.</p>
 		{% endif %}#}
 	</section>
-	<div class="separator"></div>
-{% endblock %}
-{% block inline_js %}
-(function(){
-	var expander = '<button class="expander btn btn-default" role="button"><span>показать ещё</span> <span class="fa fa-angle-double-down"></span></button>';
-	var hideCss = {"overflow": "hidden"};
-	var showCss = {"height": "auto", "overflow": "visible"};
-
-	var adjustHeight = function(elm, height){
-		if ($(elm).height() > height){
-			$(elm).height(height).addClass("collapsed").css(hideCss).after(expander).click(function(){
-				$(this).css(showCss).next(".expander").remove();
-			});
-		}
-	};
-
-	$(".commentbox article, .forumbox article").each(function(){
-		adjustHeight(this, 220);
-	});
-	$(".liternewsbox article, .insidenews article").each(function(){
-		adjustHeight(this, 450);
-	});
-	$(".page-content").on("click", "button.expander", function(){
-		$(this).prev().removeClass("collapsed").css(showCss).end().remove();
-	});
-})();
 {% endblock %}

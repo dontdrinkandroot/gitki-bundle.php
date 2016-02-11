@@ -12,7 +12,7 @@ class WorkroomNotifier extends Notifier {
 		if (empty($recipients)) {
 			return;
 		}
-		$sender = ['NO_REPLY_I_REPEAT_NO_REPLY@bookshelf.local' => $comment->getAuthorName().' (Моята библиотека)'];
+		$sender = ['NO_REPLY_I_REPEAT_NO_REPLY@chitanka.info' => $comment->getAuthorName().' (Моята библиотека)'];
 		$message = Swift_Message::newInstance('Коментар в ателието — '.$workEntry->getTitle());
 		$message->setFrom($sender);
 		$message->setBody($this->createMailBodyByNewWorkroomComment($comment, $workEntry));
@@ -45,7 +45,7 @@ BODY;
 	public function sendMailByOldWorkEntry(WorkEntry $workEntry) {
 		$recipient = $workEntry->getUser();
 		if ($recipient->canReceiveEmail()) {
-			$sender = ['no-reply@bookshelf.local' => 'Ателие (Моята библиотека)'];
+			$sender = ['no-reply@chitanka.info' => 'Ателие (Моята библиотека)'];
 			$message = Swift_Message::newInstance('Стар запис — '.$workEntry->getTitle());
 			$message->setFrom($sender);
 			$message->setBody($this->createMailBodyByOldWorkEntry($workEntry));
@@ -69,7 +69,7 @@ BODY;
 		$recipient = $contrib->getUser();
 		if ($recipient->canReceiveEmail()) {
 			$workEntry = $contrib->getEntry();
-			$sender = ['no-reply@bookshelf.local' => 'Ателие (Моята библиотека)'];
+			$sender = ['no-reply@chitanka.info' => 'Ателие (Моята библиотека)'];
 			$message = Swift_Message::newInstance('Стар запис — '.$workEntry->getTitle());
 			$message->setFrom($sender);
 			$message->setBody($this->createMailBodyByOldWorkContrib($contrib));
@@ -91,7 +91,7 @@ BODY;
 
 В работното ателие на Моята библиотека има ваш запис, който не е бил обновяван от дълго време. Става дума за „{$workEntry->getTitle()}“ ({$workEntry->getAuthor()}).
 
-http://bookshelf.local/workroom/entry/{$workEntry->getId()}
+http://chitanka.info/workroom/entry/{$workEntry->getId()}
 
 Посетете ателието и отбележете текущото състояние на подготовката. В случай че нямате възможност да довършите обработката, качете готовото дотук и запишете, че е нужно някой друг да поеме работата.
 _______________________________________________________________________________
@@ -107,7 +107,7 @@ BODY;
 
 В работното ателие на Моята библиотека има запис, към който сте се включили, който не е бил обновяван от дълго време. Става дума за „{$workEntry->getTitle()}“ ({$workEntry->getAuthor()}).
 
-http://bookshelf.local/workroom/entry/{$workEntry->getId()}
+http://chitanka.info/workroom/entry/{$workEntry->getId()}
 
 Посетете ателието и отбележете текущото състояние на подготовката в полето „Напредък“. В случай че нямате възможност да довършите обработката, качете готовото дотук и запишете, че е нужно някой друг да поеме работата.
 _______________________________________________________________________________

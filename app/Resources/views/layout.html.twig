@@ -4,7 +4,7 @@
 	{% set suffix = 'страница '~pager.page %}
 	{% set subtitle = subtitle is defined ? subtitle ~' — '~ suffix : suffix %}
 {% endif %}
-
+{#Заполняем тег <title>#}
 {% block title %}
 	{% if title is defined %}
 		{{ title|doctitle }}
@@ -17,121 +17,99 @@
 	{% endif %}
 {% endblock %}
 
-{% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
-	{{ render_esi(controller('App:User:stylesheet')) }}
-	{% if css_extra is defined %}
-		{% for extra_stylesheet in css_extra %}
-			<link rel="stylesheet" href="{{ asset(extra_stylesheet) }}">
-		{% endfor %}
-	{% endif %}
-	{% if css is defined %}
-		<style>{{ css|raw }}</style>
-	{% endif %}
-{% endblock %}
+{% block head %}<meta name="description" content="Литературный сборник">{% endblock %}
 
-{% block head %}
-	<meta name="description" content="Универсална библиотека, предлагаща електронни книги и текстове на български език. Над 3000 Авторы. Поддръжка на свободни формати като FictionBook (FB2), EPUB и TXT.">
-	<meta name="viewport" content="initial-scale=1.0, width=device-width">
-	{% if page_feed is defined %}
-		<link rel="alternate" type="application/rss+xml" title="RSS 2.0 — {{ page_feed.title is defined ? page_feed.title : block('title') }}" href="{{ page_feed.url }}">
-	{% endif %}
-	<link rel="related" type="application/atom+xml;profile=opds-catalog" href="{{ path('catalog', {'_format': 'opds'}) }}" title="Каталог на Моята библиотека чрез OPDS" />
-	{#<link rel="search" type="application/opensearchdescription+xml" href="{{ path('search', {'_format': 'osd'}) }}" title="Търсене в Моята библиотека" />#}
-{% endblock %}
-
-{% block body_class %}
-	page-{{ current_route }}
-{% endblock %}
+{# Добавляет в элементу <body> класс вида class="page-($current_route) #}
+{#{% block body_class %}page-{{ current_route }}{% endblock %}#}
 
 {% block body %}
+        
+    {#Выводит всплывающее окно, где формируется пока хз#}
+    {% if global_info_message is not empty %}
+	<div id="global-info-message">
+            <span class="fa fa-warning"></span>
+            {{ global_info_message|raw }}
+	</div>
+    {% endif %}
+    {#выводим верхнее меню#}
+    {% include 'App::nav_header.html.twig' %}
 
-	{% include 'App::jumpto_links.html.twig' %}
+    <div class="container wrapper">
+            {#Неводомое доколе сообщение, откуда брать пока ...#}
+            {% block site_notice %}
+                {{ render(controller('App:SiteNotice:stripe')) }}
+            {% endblock %}
+            
+            {#'Гениальное' решение подстановки группы хедеров прям в главном шаблоне#}
+             <header id="main-content" role="main">
+            {% if subtitle is defined %}
+                <div id="first-heading">
+                    <hgroup>
+                        <h1>{{ title|raw }}</h1>
+                        <h2><span>({{ subtitle|trim|raw }})</span></h2>
+                    </hgroup>
+                </div>
+            {% elseif title is defined %}
+                <div id="first-heading">
+                    <h1>{{ title|raw }}</h1>
+                </div>
+            {% endif %}
+            </header>
+            <main class="page-content">
+                {#Как бы вывод ошибок ... О чём ... Зачем..#}
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="messages error alert alert-error">{{ flashMessage|raw }}</div>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="messages alert alert-info">{{ flashMessage|raw }}</div>
+                {% endfor %}
 
-	{% if global_info_message is not empty %}
-		<div id="global-info-message">
-			<span class="fa fa-warning"></span>
-			{{ global_info_message|raw }}
+                {#А вот и основной контент#}
+                {% block content '' %}
+            </main>
+
+        {#Сайдбар#}
+        <sidebar id="navigation" role="navigation">
+            {% block navigation %}
+		<h2 class="sr-only">Навигация</h2>
+                <div id="logo" role="banner">
+                    <a href="{{ path('homepage') }}" title="В начало"><span class="text-hide">Teralit.ru</span><span></span></a>
 		</div>
-	{% endif %}
 
-	{% include 'App::projects_toolbar.html.twig' %}
+                {% block personal_tools %}{{ render_esi(controller('App:User:personalTools')) }}{% endblock %}
 
-	<div id="content-wrapper" class="clearfix p_{{ current_route }}">
+		{% block navlinks %}<div class="sidebar-menu">{{ navlinks|raw }}</div>{% endblock %}
 
-		<div id="main-content-wrapper">
-			<div id="main-content" role="main" itemscope itemtype="http://schema.org/{{ itemtype|default('WebPage') }}">
-				{% block site_notice %}
-					{{ render(controller('App:SiteNotice:stripe')) }}
-				{% endblock %}
-
-				<div id="first-heading">
-					{% if subtitle is defined %}
-						<hgroup>
-							<h1>{{ title|raw }}</h1>
-							<h2><span>({{ subtitle|trim|raw }})</span></h2>
-						</hgroup>
-					{% elseif title is defined %}
-						<h1>{{ title|raw }}</h1>
-					{% endif %}
-				</div>
-
-				<div class="page-content">
-					{% for flashMessage in app.session.flashbag.get('error') %}
-						<div class="messages error alert alert-error">{{ flashMessage|raw }}</div>
-					{% endfor %}
-					{% for flashMessage in app.session.flashbag.get('notice') %}
-						<div class="messages alert alert-info">{{ flashMessage|raw }}</div>
-					{% endfor %}
-
-					{% block content '' %}
-				</div>
-			</div>
-		</div>
-
-
-		<div id="navigation" role="navigation">
-		{% block navigation %}
-			<h2 class="sr-only">Навигация</h2>
-
-			<div id="logo" role="banner">
-				<a href="{{ path('homepage') }}" title="В начало"><span class="text-hide">Teralit.ru</span><span></span></a>
-			</div>
-
-			{% block personal_tools %}
-				{{ render_esi(controller('App:User:personalTools')) }}
-			{% endblock %}
-
-			{% block navlinks %}
-				<div class="sidebar-menu">
-				{{ navlinks|raw }}
-				</div>
-			{% endblock %}
-
-			{% block search_form %}
-				{% include 'App::search_form.html.twig' %}
-			{% endblock %}
-
-			{% block navextra %}
-				{% include 'App::navextra.html.twig' %}
-			{% endblock %}
-
+		{% block search_form %}
+                    {% include 'App::search_form.html.twig' %}
 		{% endblock %}
-		</div>
 
-	</div>
+		{% block navextra %}
+                    {% include 'App::navextra.html.twig' %}
+		{% endblock %}
 
-	<div id="footer" role="contentinfo">
+            {% endblock %}
+	</sidebar>
+    </div>
+
+    <footer role="contentinfo">
 	{% block footer %}
-		<h2 class="sr-only">Дополнительная информация</h2>
-		{#{{ footer_links|raw }}#}
+            <h2 class="sr-only">Дополнительная информация</h2>
+            {#{{ footer_links|raw }}#}
 	{% endblock %}
-	</div>
+    </footer>
 
-	<a href="#main-content" id="goto-top-link" title="В начало страницы"><span class="fa fa-chevron-circle-up"></span><span class="sr-only">В начало страницы</span></a>
+    <a href="#main-content" id="goto-top-link" title="В начало страницы"><span class="fa fa-chevron-circle-up"></span><span class="sr-only">В начало страницы</span></a>
 
-	<div id="env-{{ environment }}"></div>
+    {#Неведомый блок#}
+    <div id="env-{{ environment }}"></div>
 {% endblock body %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+	<link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/main.css">
+{% endblock %}
 
 {% block javascripts %}
 	<script>
@@ -139,7 +117,10 @@
 			scriptname: "{{ path('homepage') }}"
 		};
 	</script>
-	{% set scripts = [] %}
+        <script src="js/jq.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="js/collapse.js"></script>
+{#	{% set scripts = [] %}
 	{% if script_library %}
 		<script src="{{ script_library }}"></script>
 	{% else %}
@@ -161,5 +142,5 @@
 			func();
 		});
 	</script>
-	{{ analytics_snippet|raw }}
+	{{ analytics_snippet|raw }}#}
 {% endblock %}

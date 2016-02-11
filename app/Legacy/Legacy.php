@@ -88,7 +88,7 @@ class Legacy {
 			CURLOPT_HEADER         => false,   // don't return headers
 			CURLOPT_CONNECTTIMEOUT => 30,      // timeout on connect
 			CURLOPT_TIMEOUT        => 60,      // timeout on response
-			CURLOPT_USERAGENT      => 'Mylib (http://bookshelf.local)',
+			CURLOPT_USERAGENT      => 'Mylib (http://chitanka.info)',
 			CURLOPT_FOLLOWLOCATION => true,
 		];
 		if ( ! empty($postData)) {

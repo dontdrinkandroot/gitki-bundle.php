@@ -54,7 +54,7 @@ class EditUserPagePage extends UserPage {
 
 		return <<<EOS
 
-<p>За въвеждане на съдържанието се ползва <a href="http://wiki.bookshelf.local/SFB">форматът SFB</a> — същият формат, в който са съхранени текстовете на библиотеката.</p>
+<p>За въвеждане на съдържанието се ползва <a href="http://wiki.chitanka.info/SFB">форматът SFB</a> — същият формат, в който са съхранени текстовете на библиотеката.</p>
 <form action="" method="post"><div>
 	$username
 	<label for="userpage">Съдържание:</label><br>

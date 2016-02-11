@@ -46,7 +46,7 @@ class Email extends MailSource {
 $this->message
 
 ----
-Това писмо е изпратено от {$this->getSenderName()} <{$this->getSenderEmail()}> чрез Моята библиотека (http://bookshelf.local).
+Това писмо е изпратено от {$this->getSenderName()} <{$this->getSenderEmail()}> чрез Моята библиотека (http://chitanka.info).
 EOS;
 	}
 

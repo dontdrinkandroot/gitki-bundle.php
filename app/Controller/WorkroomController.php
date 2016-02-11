@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-
+use Eko\FeedBundle\Field\Item\ItemField;
 
 class WorkroomController extends Controller {
 
@@ -86,4 +86,15 @@ class WorkroomController extends Controller {
 	 * @param int $limit
 	 * Cache(maxage="60", public=true) - disabled
 	 */
+	public function rssAction($limit) {
+		$entries = $this->em()->getWorkEntryRepository()->findLatest(min($limit, self::$feedListLimit));
+
+		$feed = $this->get('eko_feed.feed.manager')->get('workroom');
+		//$feed->addItemField(new ItemField('dc:creator', 'getFeedItemCreator'));
+		$feed->addItemField(new ItemField('guid', 'getFeedItemGuid'));
+		$feed->addFromArray($entries);
+
+		return new Response($feed->render('rss'));
+	}
+
 }

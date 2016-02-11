@@ -583,7 +583,7 @@ class Text extends BaseWork {
 	protected static $infoDir = 'text-info';
 
 	public function getDocId() {
-		return 'http://bookshelf.local/text/' . $this->getId();
+		return 'http://chitanka.info/text/' . $this->getId();
 	}
 
 	public function getYearHuman() {
