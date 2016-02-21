@@ -1,6 +1,6 @@
 {
     "name": "dontdrinkandroot/gitki-bundle",
-    "description": "Symfony Bundle that allows you to easily integrate a git based wiki into you project",
+    "description": "Symfony Bundle that allows you to easily integrate a git based wiki into your project",
     "keywords": [
         "git",
         "wiki",
@@ -14,7 +14,7 @@
         {
             "name": "Philip Washington Sorst",
             "email": "philip@sorst.net",
-            "homepage": "http://sorst.net"
+            "homepage": "https://sorst.net"
         }
     ],
     "require": {
