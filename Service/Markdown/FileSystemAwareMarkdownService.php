@@ -20,6 +20,7 @@ use League\CommonMark\HtmlRenderer;
 use League\CommonMark\Inline\Element\Html;
 use League\CommonMark\Inline\Element\HtmlInline;
 use League\CommonMark\Inline\Element\Link;
+use Webuni\CommonMark\TableExtension\Table;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
@@ -55,7 +56,7 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 
         $environment = Environment::createCommonMarkEnvironment();
         $environment->addExtension(new TableExtension());
-        $environment->addBlockRenderer(TableExtension::class, new BootstrapTableRenderer());
+        $environment->addBlockRenderer(Table::class, new BootstrapTableRenderer());
         $environment->addInlineRenderer(Link::class, $linkRenderer);
         $environment->addBlockRenderer(Heading::class, $headerRenderer);
 

@@ -10,9 +10,9 @@ use League\CommonMark\Block\Renderer\HeaderRenderer;
 use League\CommonMark\Block\Renderer\HeadingRenderer;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\AbstractInlineContainer;
 use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\Node\Node;
 
 class TocBuildingHeaderRenderer extends HeadingRenderer
 {
@@ -38,7 +38,7 @@ class TocBuildingHeaderRenderer extends HeadingRenderer
 
         $id = 'heading' . $this->count;
         $level = $block->getLevel();
-        $text = $this->getPlainText($block);
+        $text = $this->getBlockTextContent($block);
 
         $htmlElement->setAttribute('id', $id);
         if (null === $this->title && $level == 1) {
@@ -86,35 +86,35 @@ class TocBuildingHeaderRenderer extends HeadingRenderer
     }
 
     /**
-     * @param Header $header
+     * @param AbstractBlock $header
      *
      * @return string
      */
-    private function getPlainText(Header $header)
+    private function getBlockTextContent(AbstractBlock $header)
     {
         $text = '';
-        foreach ($header->getInlines() as $inline) {
-            $text .= $this->getPlainInlineText($inline);
+        foreach ($header->children() as $node) {
+            $text .= $this->getNodeTextContent($node);
         }
 
         return $text;
     }
 
     /**
-     * @param AbstractInline $inline
+     * @param Node $node
      *
      * @return string
      */
-    private function getPlainInlineText(AbstractInline $inline)
+    private function getNodeTextContent(Node $node)
     {
-        if ($inline instanceof Text) {
-            return $inline->getContent();
+        if ($node instanceof Text) {
+            return $node->getContent();
         }
 
-        if ($inline instanceof AbstractInlineContainer) {
+        if ($node instanceof AbstractInlineContainer) {
             $text = '';
-            foreach ($inline->getChildren() as $child) {
-                $text .= $this->getPlainInlineText($child);
+            foreach ($node->children() as $child) {
+                $text .= $this->getNodeTextContent($child);
             }
 
             return $text;
