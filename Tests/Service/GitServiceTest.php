@@ -25,7 +25,7 @@ class GitServiceTest extends GitRepositoryTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::TEST_PATH);
+        $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::GIT_REPOSITORY_PATH);
         $this->gitService = new GitService($this->fileSystemService);
     }
 

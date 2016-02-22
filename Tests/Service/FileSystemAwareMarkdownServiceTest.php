@@ -40,7 +40,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
     {
         parent::setUp();
 
-        $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::TEST_PATH);
+        $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::GIT_REPOSITORY_PATH);
         $this->gitService = new GitService($this->fileSystemService);
         $this->user = new TestUser('Tester', 'test@example.com');
 

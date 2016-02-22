@@ -2,27 +2,27 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
-use GitWrapper\GitWrapper;
-use Symfony\Component\Filesystem\Filesystem;
-
 class GitRepositoryTestCase extends \PHPUnit_Framework_TestCase
 {
+    const GIT_REPOSITORY_PATH = '/tmp/gitkitest/';
 
-    const TEST_PATH = '/tmp/gittest/';
+    use GitRepositoryTestTrait;
 
     public function setUp()
     {
-        $fileSystem = new Filesystem();
-        $fileSystem->remove(self::TEST_PATH);
-
-        $fileSystem->mkdir(self::TEST_PATH);
-        $git = new GitWrapper();
-        $git->init(self::TEST_PATH);
+        $this->setUpRepo();
     }
 
     public function tearDown()
     {
-        $fileSystem = new Filesystem();
-        $fileSystem->remove(self::TEST_PATH);
+        $this->tearDownRepo();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRepositoryTargetPath()
+    {
+        return self::GIT_REPOSITORY_PATH;
     }
 }
