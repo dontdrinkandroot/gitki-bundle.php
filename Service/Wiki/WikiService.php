@@ -121,8 +121,22 @@ class WikiService
      * @param string           $commitMessage
      *
      * @throws \Exception
+     *
+     * @deprecated Use removeFile instead
      */
     public function deleteFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
+    {
+        $this->removeFile($user, $relativeFilePath, $commitMessage);
+    }
+
+    /**
+     * @param GitUserInterface $user
+     * @param FilePath         $relativeFilePath
+     * @param string           $commitMessage
+     *
+     * @throws \Exception
+     */
+    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->createLock($user, $relativeFilePath);
@@ -134,10 +148,52 @@ class WikiService
      * @param DirectoryPath $relativeDirectoryPath
      *
      * @throws DirectoryNotEmptyException
+     *
+     * @deprecated Use removeDirectory instead
      */
     public function deleteDirectory(DirectoryPath $relativeDirectoryPath)
     {
+        $this->removeDirectory($relativeDirectoryPath);
+    }
+
+    /**
+     * @param DirectoryPath $relativeDirectoryPath
+     *
+     * @throws DirectoryNotEmptyException
+     */
+    public function removeDirectory(DirectoryPath $relativeDirectoryPath)
+    {
         $this->gitService->removeDirectory($relativeDirectoryPath);
+    }
+
+    /**
+     * @param GitUserInterface $user
+     * @param DirectoryPath    $relativeDirectoryPath
+     * @param string           $commitMessage
+     */
+    public function removeDirectoryRecursively(
+        GitUserInterface $user,
+        DirectoryPath $relativeDirectoryPath,
+        $commitMessage
+    ) {
+        $files = $this->findAllFiles($relativeDirectoryPath);
+
+        /* No files contained, just delete */
+        if (0 === count($files)) {
+            $this->removeDirectory($relativeDirectoryPath);
+
+            return;
+        }
+
+        foreach ($files as $file) {
+            $this->createLock($user, $file);
+        }
+
+        $this->gitService->removeAndCommit($user, $files, $commitMessage);
+
+        foreach ($files as $file) {
+            $this->removeLock($user, $file);
+        }
     }
 
     /**
@@ -201,18 +257,26 @@ class WikiService
     }
 
     /**
+     * @param DirectoryPath $path
+     *
      * @return FilePath[]
      */
-    public function findAllFiles()
+    public function findAllFiles(DirectoryPath $path = null)
     {
+        if (null === $path) {
+            $path = new DirectoryPath();
+        }
+
         $finder = new Finder();
-        $finder->in($this->gitService->getRepositoryPath()->toAbsoluteString(DIRECTORY_SEPARATOR));
+        $searchPath = $path->prepend($this->gitService->getRepositoryPath());
+
+        $finder->in($searchPath->toAbsoluteString(DIRECTORY_SEPARATOR));
 
         $filePaths = [];
 
         foreach ($finder->files() as $file) {
             /** @var SplFileInfo $file */
-            $filePaths[] = FilePath::parse('/' . $file->getRelativePathname());
+            $filePaths[] = FilePath::parse('/' . $file->getRelativePathname())->prepend($path);
         }
 
         return $filePaths;
