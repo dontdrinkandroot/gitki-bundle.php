@@ -44,7 +44,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $this->gitService = new GitService($this->fileSystemService);
         $this->user = new TestUser('Tester', 'test@example.com');
 
-        $this->tocTestContent = file_get_contents(__DIR__ . '/../Data/toc.md');
+        $this->tocTestContent = file_get_contents(__DIR__ . '/../Data/repo/examples/toc-example.md');
         $this->tocTestPath = new FilePath('toc.md');
 
         $this->gitService->putAndCommitFile($this->user, $this->tocTestPath, $this->tocTestContent, 'Adding tocTest');
@@ -55,7 +55,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
         $parsedMarkdownDocument = $markdownService->parse($this->tocTestContent, $this->tocTestPath);
 
-        $this->assertEquals('The Document Title', $parsedMarkdownDocument->getTitle());
+        $this->assertEquals('TOC Example', $parsedMarkdownDocument->getTitle());
 
         $toc = $parsedMarkdownDocument->getToc();
         $this->assertEquals(

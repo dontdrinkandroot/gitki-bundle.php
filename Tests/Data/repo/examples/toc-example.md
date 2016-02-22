@@ -1,13 +1,12 @@
 TOC Example
 ===========
 
-Heading 1
----------
+First Subheading
+----------------
 
-### Subheading 1.1
+### Third level heading
 
-### Subheading 1.2
+### Second third level heading
 
-[Heading with link](http://example.com)
----------------------------------------
-
+Second Subheading with a [**li**nk](http://example.com)
+-------------------------------------------------------
