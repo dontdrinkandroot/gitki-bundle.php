@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInte
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class BaseController extends Controller
 {
@@ -81,17 +82,23 @@ class BaseController extends Controller
 
     protected function assertWatcher()
     {
-        $this->denyAccessUnlessGranted($this->getRoleServie()->getWatcherRole());
+        if (!$this->isGranted($this->getRoleServie()->getWatcherRole())) {
+            throw new AuthenticationException();
+        }
     }
 
     protected function assertCommitter()
     {
-        $this->denyAccessUnlessGranted($this->getRoleServie()->getCommitterRole());
+        if (!$this->isGranted($this->getRoleServie()->getCommitterRole())) {
+            throw new AuthenticationException();
+        }
     }
 
     protected function assertAdmin()
     {
-        $this->denyAccessUnlessGranted($this->getRoleServie()->getAdminRole());
+        if (!$this->isGranted($this->getRoleServie()->getAdminRole())) {
+            throw new AuthenticationException();
+        }
     }
 
     /**
