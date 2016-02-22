@@ -194,6 +194,8 @@ class WikiService
         foreach ($files as $file) {
             $this->removeLock($user, $file);
         }
+
+        $this->removeDirectory($relativeDirectoryPath);
     }
 
     /**

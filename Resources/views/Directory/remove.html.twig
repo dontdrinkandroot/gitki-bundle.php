@@ -1,0 +1,27 @@
+{% extends 'DdrGitkiBundle::browse.html.twig' %}
+{% block ddr_gitki_title %} - {{ path }} - Remove{% endblock ddr_gitki_title %}
+{% block ddr_gitki_main_content %}
+    <div class="page-header">
+        <h1>Remove Directory</h1>
+    </div>
+
+    <div class="alert alert-warning">
+        The directory you want to remove is not empty. Please review your choice.
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Files</h2>
+        </div>
+        <ul class="list-group">
+            {% for file in files %}
+                <li class="list-group-item">{{ file }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_rest(form) }}
+    <button type="submit" class="btn btn-primary">Remove all files</button>
+    {{ form_end(form) }}
+{% endblock ddr_gitki_main_content %}

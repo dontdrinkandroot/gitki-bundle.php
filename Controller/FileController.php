@@ -37,7 +37,7 @@ class FileController extends BaseController
         return $response;
     }
 
-    public function deleteAction($path)
+    public function removeAction($path)
     {
         $this->assertCommitter();
 
@@ -45,7 +45,7 @@ class FileController extends BaseController
         $user = $this->getGitUser();
 
         $commitMessage = 'Removing ' . $filePath->toAbsoluteString();
-        $this->getWikiService()->deleteFile($user, $filePath, $commitMessage);
+        $this->getWikiService()->removeFile($user, $filePath, $commitMessage);
 
         return $this->redirectToRoute(
             'ddr_gitki_directory',

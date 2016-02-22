@@ -4,6 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\Path\DirectoryPath;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,7 +58,7 @@ class DirectoryController extends BaseController
         $form = $this->createFormBuilder()
             ->add(
                 'dirname',
-                'text',
+                TextType::class,
                 [
                     'label'    => 'Foldername',
                     'required' => true,
@@ -100,7 +102,7 @@ class DirectoryController extends BaseController
         $form = $this->createFormBuilder()
             ->add(
                 'filename',
-                'text',
+                TextType::class,
                 [
                     'label'    => 'Filename',
                     'required' => true,
@@ -134,21 +136,41 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function deleteAction($path)
+    public function removeAction(Request $request, $path)
     {
         $this->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
-        $this->getWikiService()->deleteDirectory($directoryPath);
-
+        $wikiService = $this->getWikiService();
+        $files = $wikiService->findAllFiles($directoryPath);
         $parentDirPath = $directoryPath->getParentPath()->toAbsoluteString();
 
-        return $this->redirect(
-            $this->generateUrl(
-                'ddr_gitki_directory',
-                ['path' => $parentDirPath]
-            )
+        if (0 === count($files)) {
+            $wikiService->removeDirectory($directoryPath);
+
+            return $this->redirect($this->generateUrl('ddr_gitki_directory', ['path' => $parentDirPath]));
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('commitMessage', TextType::class, ['label' => 'Commit Message', 'required' => true])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $commitMessage = $form->get('commitMessage')->getData();
+            $wikiService->removeDirectoryRecursively($this->getGitUser(), $directoryPath, $commitMessage);
+
+            return $this->redirect($this->generateUrl('ddr_gitki_directory', ['path' => $parentDirPath]));
+        }
+
+        if (!$form->isSubmitted()) {
+            $form->setData(['commitMessage' => 'Removing ' . $directoryPath->toAbsoluteString()]);
+        }
+
+        return $this->render(
+            'DdrGitkiBundle:Directory:remove.html.twig',
+            ['form' => $form->createView(), 'path' => $directoryPath, 'files' => $files]
         );
     }
 
@@ -160,8 +182,8 @@ class DirectoryController extends BaseController
         $user = $this->getGitUser();
 
         $form = $this->createFormBuilder()
-            ->add('uploadedFile', 'file', array('label' => 'File'))
-            ->add('uploadedFileName', 'text', array('label' => 'Filename (if other)', 'required' => false))
+            ->add('uploadedFile', FileType::class, array('label' => 'File'))
+            ->add('uploadedFileName', TextType::class, array('label' => 'Filename (if other)', 'required' => false))
             ->add('Upload', 'submit')
             ->getForm();
 

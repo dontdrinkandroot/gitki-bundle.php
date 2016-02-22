@@ -33,7 +33,7 @@ services:
         calls:
             - [registerFileAction, ['DdrGitkiBundle:File:serve']]
             - [registerFileAction, ['DdrGitkiBundle:File:serve', 'raw']]
-            - [registerFileAction, ['DdrGitkiBundle:File:delete', 'delete']]
+            - [registerFileAction, ['DdrGitkiBundle:File:remove', 'remove']]
             - [registerFileAction, ['DdrGitkiBundle:File:holdLock', 'holdlock']]
             - [registerFileAction, ['DdrGitkiBundle:File:history', 'history']]
             - [registerFileAction, ['DdrGitkiBundle:File:move', 'move']]
@@ -43,7 +43,7 @@ services:
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:index', 'index']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createSubdirectory', 'subdirectory.create']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:createFile', 'file.create']]
-            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:delete', 'delete']]
+            - [registerDirectoryAction, ['DdrGitkiBundle:Directory:remove', 'remove']]
             - [registerDirectoryAction, ['DdrGitkiBundle:Directory:uploadFile', 'file.upload']]
             - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]

@@ -24,6 +24,8 @@ trait GitRepositoryTestTrait
 
         $git = new GitWrapper();
         $workingCopy = $git->init($this->getRepositoryTargetPath());
+        $workingCopy->config('user.email', 'gitki@example.com');
+        $workingCopy->config('user.name', 'Gitki');
         $this->initRepository($workingCopy);
     }
 

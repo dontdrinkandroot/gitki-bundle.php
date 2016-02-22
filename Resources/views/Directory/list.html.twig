@@ -59,8 +59,8 @@
                                     {% if isGitkiCommitter() %}
                                         <li role="presentation">
                                             <a role="menuitem" tabindex="-1"
-                                               href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'delete'}) }}"
-                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
+                                               href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'remove'}) }}"
+                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Remove
                                             </a>
                                         </li>
                                     {% endif %}
@@ -105,8 +105,8 @@
                                         </li>
                                         <li role="presentation">
                                             <a role="menuitem" tabindex="-1"
-                                               href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'delete'}) }}"
-                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Delete
+                                               href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'remove'}) }}"
+                                               title="Delete"><span class="fa fa-fw fa-trash-o"></span> Remove
                                             </a>
                                         </li>
                                     {% endif %}

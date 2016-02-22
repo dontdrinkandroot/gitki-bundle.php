@@ -121,12 +121,7 @@ class MarkdownController extends BaseController
         if ($cancelButton->isClicked()) {
             $this->getWikiService()->removeLock($user, $filePath);
 
-            return $this->redirect(
-                $this->generateUrl(
-                    'ddr_gitki_file',
-                    array('path' => $filePath)
-                )
-            );
+            return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
         }
 
         if ($form->isValid()) {
@@ -136,12 +131,7 @@ class MarkdownController extends BaseController
                 $this->getWikiService()->saveFile($user, $filePath, $content, $commitMessage);
                 $this->getWikiService()->removeLock($user, $filePath);
 
-                return $this->redirect(
-                    $this->generateUrl(
-                        'ddr_gitki_file',
-                        array('path' => $filePath)
-                    )
-                );
+                return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
             } catch (GitException $e) {
                 throw $e;
             }
