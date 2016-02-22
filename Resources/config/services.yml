@@ -22,9 +22,9 @@ services:
     ddr.gitki.twig.gitki_extension:
         class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
         arguments:
-            - @security.context
-            - @ddr.gitki.service.role
-            - @ddr.gitki.registry.extension
+            - '@security.context'
+            - '@ddr.gitki.service.role'
+            - '@ddr.gitki.registry.extension'
         tags:
             - { name: twig.extension }
 
@@ -50,17 +50,19 @@ services:
 
     ddr.gitki.service.file_system:
         class: Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService
-        arguments: [%ddr_gitki.repository_path%]
+        arguments:
+            - '%ddr_gitki.repository_path%'
 
     ddr.gitki.service.git:
         class: Dontdrinkandroot\GitkiBundle\Service\Git\GitService
-        arguments: [@ddr.gitki.service.file_system]
+        arguments:
+            - '@ddr.gitki.service.file_system'
 
     ddr.gitki.service.elasticsearch:
         class: Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService
         arguments:
-            - @ddr.gitki.service.git
-            - @ddr.gitki.repository.elasticsearch
+            - '@ddr.gitki.service.git'
+            - '@ddr.gitki.repository.elasticsearch'
         tags:
             - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
             - { name: kernel.event_listener, event: ddr.gitki.file.deleted, method: onFileDeleted }
@@ -68,7 +70,7 @@ services:
 
     ddr.gitki.service.lock:
         class: Dontdrinkandroot\GitkiBundle\Service\Lock\LockService
-        arguments: [@ddr.gitki.service.file_system]
+        arguments: ['@ddr.gitki.service.file_system']
 
     ddr.gitki.service.role:
         class: Dontdrinkandroot\GitkiBundle\Service\Role\RoleService
@@ -80,20 +82,20 @@ services:
     ddr.gitki.service.directory:
         class: Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService
         arguments:
-            - @ddr.gitki.service.file_system
-            - @ddr.gitki.repository.elasticsearch
+            - '@ddr.gitki.service.file_system'
+            - '@ddr.gitki.repository.elasticsearch'
         calls:
             - [setIndexFiles, ['%ddr_gitki.index_files%']]
 
     ddr.gitki.service.wiki:
         class: Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService
         arguments:
-            - @ddr.gitki.service.git
-            - @ddr.gitki.service.lock
-            - @event_dispatcher
+            - '@ddr.gitki.service.git'
+            - '@ddr.gitki.service.lock'
+            - '@event_dispatcher'
 
     ddr.gitki.service.markdown:
         class: Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService
         arguments:
-            - @ddr.gitki.service.file_system
+            - '@ddr.gitki.service.file_system'
             - '%ddr_gitki_markdown.allow_html%'
