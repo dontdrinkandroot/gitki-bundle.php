@@ -5,13 +5,16 @@ namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Header;
+use League\CommonMark\Block\Element\Heading;
 use League\CommonMark\Block\Renderer\HeaderRenderer;
+use League\CommonMark\Block\Renderer\HeadingRenderer;
+use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\AbstractInlineContainer;
 use League\CommonMark\Inline\Element\Text;
 
-class TocBuildingHeaderRenderer extends HeaderRenderer
+class TocBuildingHeaderRenderer extends HeadingRenderer
 {
 
     private $toc = [];
@@ -25,9 +28,9 @@ class TocBuildingHeaderRenderer extends HeaderRenderer
     /**
      * {@inheritdoc}
      */
-    public function render(AbstractBlock $block, HtmlRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
     {
-        if (!($block instanceof Header)) {
+        if (!($block instanceof Heading)) {
             throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
         }
 

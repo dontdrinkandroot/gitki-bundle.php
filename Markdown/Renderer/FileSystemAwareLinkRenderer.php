@@ -5,6 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
+use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
@@ -33,12 +34,9 @@ class FileSystemAwareLinkRenderer extends LinkRenderer
     }
 
     /**
-     * @param AbstractInline        $inline
-     * @param HtmlRendererInterface $htmlRenderer
-     *
-     * @return HtmlElement
+     * {@inheritdoc}
      */
-    public function render(AbstractInline $inline, HtmlRendererInterface $htmlRenderer)
+    public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
     {
         if (!($inline instanceof Link)) {
             throw new \InvalidArgumentException('Incompatible inline type: ' . get_class($inline));
