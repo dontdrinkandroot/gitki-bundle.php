@@ -4,7 +4,7 @@
 {% block ddr_gitki_actions %}
 {% endblock ddr_gitki_actions %}
 {% block ddr_gitki_main_content %}
-    <div class="markdown-page">
+    <div>
         <div class="page-header">
             <h1>Edit markdown file</h1>
         </div>
@@ -45,7 +45,7 @@
                 {{ form(form, { 'attr': {'class' : 'edit' }}) }}
             </div>
             <div class="col-md-6">
-                <div id="preview">
+                <div id="preview" class="markdown-page">
                     <div class="loading-indicator">
                         <div class="spinner">
                             <span class="fa fa-refresh fa-spin"></span>
