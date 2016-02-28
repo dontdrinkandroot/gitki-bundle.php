@@ -1,0 +1,37 @@
+{% if directoryListing.files is not empty %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Files</h2>
+        </div>
+        <ul class="list-group">
+            {% for file in directoryListing.files %}
+                <li class="list-group-item">
+                    <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
+                        {% if file.title is not empty %}
+                            {{ file.title }}
+                        {% else %}
+                            {{ file.filename }}
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+{% if directoryListing.subDirectories is not empty %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Folders</h2>
+        </div>
+        <ul class="list-group">
+            {% for dir in directoryListing.subDirectories %}
+                <li class="list-group-item">
+                    <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">
+                        {{ dir.filename|dirTitle }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

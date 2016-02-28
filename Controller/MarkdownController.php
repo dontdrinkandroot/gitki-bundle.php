@@ -19,35 +19,39 @@ class MarkdownController extends BaseController
     {
         $this->assertWatcher();
 
+        $showDirectoryContents = $this->getParameter('ddr_gitki.show_directory_contents');
         $filePath = FilePath::parse($path);
+        $directoryListing = null;
 
-        $file = null;
         try {
             $file = $this->getWikiService()->getFile($filePath);
             $response = new Response();
-            $lastModified = new \DateTime();
-            $lastModified->setTimestamp($file->getMTime());
-            $response->setLastModified($lastModified);
-            $response->setEtag($this->generateEtag($lastModified));
-            if ($response->isNotModified($request)) {
-                return $response;
+            if (!$showDirectoryContents) {
+                $lastModified = new \DateTime();
+                $lastModified->setTimestamp($file->getMTime());
+                $response->setLastModified($lastModified);
+                $response->setEtag($this->generateEtag($lastModified));
+                if ($response->isNotModified($request)) {
+                    return $response;
+                }
+            } else {
+                $directoryPath = $filePath->getParentPath();
+                $directoryListing = $this->getDirectoryService()->getDirectoryListing($directoryPath);
             }
 
             $content = $this->getWikiService()->getContent($filePath);
             $document = $this->getMarkdownService()->parse($content, $filePath);
 
-            $renderedView = $this->renderView(
+            return $this->render(
                 'DdrGitkiBundle:Markdown:view.html.twig',
                 [
-                    'path' => $filePath,
+                    'path'               => $filePath,
                     'document'           => $document,
-                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
-                ]
+                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions(),
+                    'directoryListing'   => $directoryListing
+                ],
+                $response
             );
-
-            $response->setContent($renderedView);
-
-            return $response;
         } catch (FileNotFoundException $e) {
 
             if (null === $this->getUser()) {

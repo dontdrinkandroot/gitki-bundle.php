@@ -23,11 +23,12 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 
         $twigConfig = [
             'globals' => [
-                'ddr_gitki_name'                   => $config['name'],
-                'ddr_gitki_show_breadcrumbs'       => $config['show_breadcrumbs'],
-                'ddr_gitki_elasticsearch_enabled'  => isset($config['elasticsearch']),
-                'ddr_gitki_markdown_show_toc'      => $config['markdown']['toc']['enabled'],
-                'ddr_gitki_markdown_toc_max_level' => $config['markdown']['toc']['max_level']
+                'ddr_gitki_name'                    => $config['name'],
+                'ddr_gitki_show_breadcrumbs'        => $config['show_breadcrumbs'],
+                'ddr_gitki_show_directory_contents' => $config['show_directory_contents'],
+                'ddr_gitki_elasticsearch_enabled'   => isset($config['elasticsearch']),
+                'ddr_gitki_markdown_show_toc'       => $config['markdown']['toc']['enabled'],
+                'ddr_gitki_markdown_toc_max_level'  => $config['markdown']['toc']['max_level']
             ]
         ];
 
@@ -48,6 +49,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ddr_gitki.repository_path', $config['repository_path']);
         $container->setParameter('ddr_gitki.name', $config['name']);
         $container->setParameter('ddr_gitki_markdown.allow_html', $config['markdown']['allow_html']);
+        $container->setParameter('ddr_gitki.show_directory_contents', $config['show_directory_contents']);
         $container->setParameter('ddr_gitki.index_files', $config['index_files']);
 
         if (isset($config['elasticsearch'])) {

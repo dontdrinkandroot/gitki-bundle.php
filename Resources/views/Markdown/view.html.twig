@@ -3,13 +3,18 @@
 {% block ddr_gitki_body_class %}wiki page show{% endblock ddr_gitki_body_class %}
 {% block ddr_gitki_main_content %}
     <div class="markdown-page">
-        {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
+        {% if (ddr_gitki_markdown_show_toc and document.toc is not empty) or ddr_gitki_show_directory_contents %}
             <div class="row">
-                <div class="col-md-4 col-md-push-8 hidden-sm hidden-xs">
-                    {{ include('DdrGitkiBundle:Markdown:toc.partial.html.twig') }}
-                </div>
-                <div class="markdown-html col-md-8 col-md-pull-4">
+                <div class="markdown-html col-md-8">
                     {{ document.html|raw }}
+                </div>
+                <div class="col-md-4 margin-top-1x-md">
+                    {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
+                        {{ include('DdrGitkiBundle:Markdown:toc.partial.html.twig') }}
+                    {% endif %}
+                    {% if ddr_gitki_show_directory_contents %}
+                        {{ include('DdrGitkiBundle:File:directory.contents.partial.html.twig') }}
+                    {% endif %}
                 </div>
             </div>
         {% else %}
