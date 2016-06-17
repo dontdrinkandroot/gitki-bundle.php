@@ -23,9 +23,9 @@
         "symfony/form": "~2.6",
         "symfony/framework-bundle": "~2.6",
         "symfony/twig-bundle": "~2.6",
-        "dontdrinkandroot/utils": "0.4.*",
+        "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
         "cpliakas/git-wrapper": "~1.0",
-        "league/commonmark": "0.13.0",
+        "league/commonmark": "0.13.4",
         "webuni/commonmark-table-extension": "0.4.3"
     },
     "require-dev": {
