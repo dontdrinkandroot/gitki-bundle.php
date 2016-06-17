@@ -325,7 +325,7 @@
                     var selection = getSelection();
                     var path = $('#internal-link-file').val();
                     var text = $('#internal-link-text').val();
-                    var newMarkDown = selection.before + '[' + text + '](' + path + ')' + selection.after;
+                    var newMarkDown = selection.before + '[' + text + '](' + encodeURI(path) + ')' + selection.after;
                     $editArea.val(newMarkDown);
                     $('#internalLinkModal').modal('hide');
                     $('#external-link-file').val('');

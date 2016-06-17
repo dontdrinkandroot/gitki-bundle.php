@@ -6,7 +6,6 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Link;
@@ -90,6 +89,9 @@ class FileSystemAwareLinkRenderer extends LinkRenderer
                 /* Absolute paths won't work */
                 return false;
             }
+
+            $urlPath = urldecode($urlPath);
+
             $currentDirectoryPath = $this->currentFilePath->getParentPath();
             $path = $currentDirectoryPath->appendPathString($urlPath);
             $fileExists = $this->fileSystemService->exists($path);
