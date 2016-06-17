@@ -6942,6 +6942,10 @@ a[rel="external"]:after {
 .hljs {
   background: #f8f8f8;
 }
+
+.panel-body > :last-child {
+  margin-bottom: 0;
+}
 .wiki .action-bar {
   border-bottom: 1px solid #dedede;
   background-color: #f8f8f8;
@@ -6990,6 +6994,16 @@ a[rel="external"]:after {
 }
 .wiki a.missing {
   color: #bf0000;
+}
+
+#ddr-gitki-toc .panel-body {
+  line-height: 1.1;
+  margin-bottom: -5.5px;
+}
+
+#ddr-gitki-toc .panel-body li > a {
+  display: block;
+  margin-bottom: 5.5px;
 }
 #file-suggestions {
   list-style-type: none;

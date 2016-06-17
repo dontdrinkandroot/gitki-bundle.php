@@ -72,7 +72,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
                             'children' => []
                         ],
                         [
-                            'text'     => 'Second third level heading',
+                            'text'     => 'Second third level heading which is very long so it will wrap around to muliple lines',
                             'id'       => 'heading3',
                             'level'    => 3,
                             'children' => []
@@ -82,6 +82,12 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
                 [
                     'text'     => 'Second Subheading with a link',
                     'id'       => 'heading4',
+                    'level'    => 2,
+                    'children' => []
+                ],
+                [
+                    'text'     => 'Third Subheading which is very long so it will wrap around to muliple lines',
+                    'id'       => 'heading5',
                     'level'    => 2,
                     'children' => []
                 ]
