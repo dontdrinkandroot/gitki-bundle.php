@@ -6931,7 +6931,7 @@ div.dropdown {
 }
 a[rel="external"]:after {
   content: "\f08e";
-  font-family: FontAwesome;
+  font-family: 'FontAwesome';
   font-weight: normal;
   font-style: normal;
   display: inline-block;
@@ -6998,6 +6998,7 @@ a[rel="external"]:after {
   overflow-y: scroll;
 }
 #file-suggestions .suggestion {
+  cursor: pointer;
   margin-bottom: 5.5px;
 }
 #file-suggestions .title {
