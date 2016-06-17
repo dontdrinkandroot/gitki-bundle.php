@@ -243,7 +243,7 @@ class GitService implements GitServiceInterface
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
-            $workingCopy->add($path->toRelativeFileSystemString());
+            $workingCopy->add($this->escapePath($path));
         }
     }
 
@@ -254,7 +254,7 @@ class GitService implements GitServiceInterface
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
-            $workingCopy->rm($path->toRelativeFileSystemString());
+            $workingCopy->rm($this->escapePath($path));
         }
     }
 
@@ -267,5 +267,15 @@ class GitService implements GitServiceInterface
     {
         $this->add([$path]);
         $this->commit($author, $commitMessage);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return mixed
+     */
+    protected function escapePath(Path $path)
+    {
+        return str_replace(" ", "\\ ", $path->toRelativeFileSystemString());
     }
 }
