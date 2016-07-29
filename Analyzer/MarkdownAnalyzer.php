@@ -2,14 +2,12 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 
-use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzedFile;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
 class MarkdownAnalyzer implements AnalyzerInterface
 {
-
     /**
      * @var MarkdownServiceInterface
      */

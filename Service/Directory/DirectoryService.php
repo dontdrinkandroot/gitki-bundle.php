@@ -6,14 +6,12 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
-use Dontdrinkandroot\GitkiBundle\Model\FileInfo\PageFile;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Service\AbstractService;
 
 class DirectoryService extends AbstractService implements DirectoryServiceInterface
 {
-
     /**
      * @var FileSystemServiceInterface
      */

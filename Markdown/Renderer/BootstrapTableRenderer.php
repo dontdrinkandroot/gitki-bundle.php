@@ -5,12 +5,10 @@ namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlRendererInterface;
 use Webuni\CommonMark\TableExtension\TableRenderer;
 
 class BootstrapTableRenderer extends TableRenderer
 {
-
     /**
      * {@inheritdoc}
      */

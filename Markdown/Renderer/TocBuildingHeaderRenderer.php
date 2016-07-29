@@ -4,19 +4,15 @@
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\Header;
 use League\CommonMark\Block\Element\Heading;
-use League\CommonMark\Block\Renderer\HeaderRenderer;
 use League\CommonMark\Block\Renderer\HeadingRenderer;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInlineContainer;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Node\Node;
 
 class TocBuildingHeaderRenderer extends HeadingRenderer
 {
-
     private $toc = [];
 
     private $title = null;

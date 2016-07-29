@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class RepositoryController extends BaseController
 {
-
     const REQUEST_PARAMETER_ACTION = 'action';
 
     /**

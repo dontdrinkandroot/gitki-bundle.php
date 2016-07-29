@@ -3,9 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Html;
 use League\CommonMark\Inline\Element\HtmlInline;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 

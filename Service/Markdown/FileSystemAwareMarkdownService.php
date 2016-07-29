@@ -11,13 +11,11 @@ use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
-use League\CommonMark\Block\Element\Header;
 use League\CommonMark\Block\Element\Heading;
 use League\CommonMark\Block\Element\HtmlBlock;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use League\CommonMark\HtmlRenderer;
-use League\CommonMark\Inline\Element\Html;
 use League\CommonMark\Inline\Element\HtmlInline;
 use League\CommonMark\Inline\Element\Link;
 use Webuni\CommonMark\TableExtension\Table;
@@ -25,7 +23,6 @@ use Webuni\CommonMark\TableExtension\TableExtension;
 
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
-
     /**
      * @var FileSystemServiceInterface
      */

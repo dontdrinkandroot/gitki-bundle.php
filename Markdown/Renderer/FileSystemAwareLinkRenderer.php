@@ -6,14 +6,12 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Renderer\LinkRenderer;
 
 class FileSystemAwareLinkRenderer extends LinkRenderer
 {
-
     /**
      * @var FileSystemServiceInterface
      */

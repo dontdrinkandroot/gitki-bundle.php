@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MarkdownController extends BaseController
 {
-
     public function viewAction(Request $request, $path)
     {
         $this->assertWatcher();
