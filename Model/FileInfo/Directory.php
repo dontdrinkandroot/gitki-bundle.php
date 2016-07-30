@@ -7,7 +7,6 @@ use Dontdrinkandroot\Path\DirectoryPath;
 
 class Directory extends AbstractPathAwareFileInfo implements \JsonSerializable
 {
-
     /**
      * @var DirectoryPath
      */
@@ -44,7 +43,7 @@ class Directory extends AbstractPathAwareFileInfo implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return [
             'path' => $this->getAbsolutePath()->toAbsoluteString()

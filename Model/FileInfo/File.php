@@ -7,7 +7,6 @@ use Dontdrinkandroot\Path\FilePath;
 
 class File extends AbstractPathAwareFileInfo implements \JsonSerializable
 {
-
     /**
      * @var FilePath
      */
@@ -65,7 +64,7 @@ class File extends AbstractPathAwareFileInfo implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         $absolutePath = $this->getAbsolutePath();
         $data = [
