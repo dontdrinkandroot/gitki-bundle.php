@@ -42,7 +42,11 @@
                         </button>
                     </div>
                 </div>
-                {{ form(form, { 'attr': {'class' : 'edit' }}) }}
+                {{ form_start(form, { 'attr': {'class' : 'edit' }}) }}
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'cancel'}) }}" class="btn btn-default">Cancel</a>
+                {{ form_end(form) }}
             </div>
             <div class="col-md-6">
                 <div id="preview" class="markdown-page">

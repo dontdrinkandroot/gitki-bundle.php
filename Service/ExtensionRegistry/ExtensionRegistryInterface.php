@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
 interface ExtensionRegistryInterface
 {
-
     /**
      * @param string $extension
      *

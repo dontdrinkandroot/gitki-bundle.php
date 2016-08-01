@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ExtensionRegistry implements ExtensionRegistryInterface
 {
-
     const ACTION_VIEW = '';
 
     const ACTION_EDIT = 'edit';

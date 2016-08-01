@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
@@ -13,7 +12,6 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class FileController extends BaseController
 {
-
     public function serveAction(Request $request, $path)
     {
         $this->assertWatcher();
@@ -144,6 +142,23 @@ class FileController extends BaseController
             'DdrGitkiBundle:File:move.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
+    }
+
+    /**
+     * Cancels editing.
+     *
+     * @param string $path
+     *
+     * @return Response
+     */
+    public function cancelAction($path)
+    {
+        $this->assertCommitter();
+        $filePath = FilePath::parse($path);
+        $user = $this->getGitUser();
+        $this->getWikiService()->removeLock($user, $filePath);
+
+        return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
     }
 
     /**

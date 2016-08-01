@@ -3,10 +3,10 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Form\Type\MarkdownEditType;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,36 +96,9 @@ class MarkdownController extends BaseController
             return new Response($renderedView, Response::HTTP_LOCKED);
         }
 
-        $form = $this->createFormBuilder()
-            ->add('content', 'textarea', ['attr' => ['rows' => 15], 'label' => false])
-            ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
-            ->add(
-                'actions',
-                'form_actions',
-                [
-                    'buttons' => [
-                        'save'   => [
-                            'type'    => 'submit',
-                            'options' => ['label' => 'Save']
-                        ],
-                        'cancel' => [
-                            'type'    => 'submit',
-                            'options' => ['label' => 'Cancel', 'button_class' => 'default']
-                        ],
-                    ]
-                ]
-            )
-            ->getForm();
+        $form = $this->createForm(MarkdownEditType::class);
 
         $form->handleRequest($request);
-
-        /** @var SubmitButton $cancelButton */
-        $cancelButton = $form->get('actions')->get('cancel');
-        if ($cancelButton->isClicked()) {
-            $this->getWikiService()->removeLock($user, $filePath);
-
-            return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
-        }
 
         if ($form->isValid()) {
             $content = $form->get('content')->getData();
