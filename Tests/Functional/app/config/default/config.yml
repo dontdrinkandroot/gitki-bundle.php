@@ -1,0 +1,7 @@
+imports:
+    - { resource: ../config.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/default/routing.yml"
+        strict_requirements:
