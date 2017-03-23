@@ -5,6 +5,9 @@ namespace Dontdrinkandroot\GitkiBundle\Repository;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
     /**

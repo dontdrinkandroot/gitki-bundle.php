@@ -5,9 +5,11 @@ namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface AnalyzerInterface
 {
-
     /**
      * @return string[]
      */

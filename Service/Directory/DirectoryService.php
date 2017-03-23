@@ -10,6 +10,9 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Service\AbstractService;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class DirectoryService extends AbstractService implements DirectoryServiceInterface
 {
     /**

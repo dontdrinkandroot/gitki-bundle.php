@@ -9,9 +9,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class DirectoryController extends BaseController
 {
-
     public function listAction($path)
     {
         $this->assertWatcher();

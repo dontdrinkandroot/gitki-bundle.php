@@ -7,9 +7,11 @@ use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class ElasticsearchAwareDirectoryService extends DirectoryService
 {
-
     /**
      * @var ElasticsearchRepositoryInterface
      */

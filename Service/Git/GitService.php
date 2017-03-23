@@ -13,9 +13,11 @@ use Dontdrinkandroot\Path\Path;
 use GitWrapper\GitWrapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class GitService implements GitServiceInterface
 {
-
     /**
      * @var FileSystemServiceInterface
      */

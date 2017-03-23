@@ -8,9 +8,11 @@ use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\QuestionHelper;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 abstract class GitkiContainerAwareCommand extends ContainerAwareCommand
 {
-
     /**
      * @return WikiService
      */

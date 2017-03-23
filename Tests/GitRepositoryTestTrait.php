@@ -7,9 +7,11 @@ use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 trait GitRepositoryTestTrait
 {
-
     /**
      * Init the git repository used for the tests.
      */

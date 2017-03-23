@@ -1,15 +1,15 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class TestUser implements GitUserInterface, UserInterface
-
 {
-
     /**
      * @var string
      */

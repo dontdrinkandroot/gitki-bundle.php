@@ -7,9 +7,11 @@ use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface LockServiceInterface
 {
-
     /**
      * @param GitUserInterface $user
      * @param FilePath         $path

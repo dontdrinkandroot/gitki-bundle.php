@@ -9,9 +9,11 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 {
-
     /**
      * {@inheritdoc}
      */

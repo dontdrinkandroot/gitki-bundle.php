@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class RepositoryController extends BaseController
 {
     const REQUEST_PARAMETER_ACTION = 'action';

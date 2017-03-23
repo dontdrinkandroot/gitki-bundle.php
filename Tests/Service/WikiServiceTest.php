@@ -14,9 +14,11 @@ use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class WikiServiceTest extends GitRepositoryTestCase
 {
-
     /**
      * @var FileSystemService
      */

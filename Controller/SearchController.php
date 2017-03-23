@@ -6,9 +6,11 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class SearchController extends BaseController
 {
-
     public function searchAction(Request $request)
     {
         $this->assertWatcher();

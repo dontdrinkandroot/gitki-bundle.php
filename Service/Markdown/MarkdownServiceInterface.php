@@ -6,6 +6,9 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Markdown;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface MarkdownServiceInterface
 {
 

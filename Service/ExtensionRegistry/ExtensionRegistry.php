@@ -4,6 +4,9 @@ namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class ExtensionRegistry implements ExtensionRegistryInterface
 {
     const ACTION_VIEW = '';

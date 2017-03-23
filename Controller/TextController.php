@@ -11,9 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class TextController extends BaseController
 {
-
     public function viewAction($path)
     {
         $this->assertWatcher();

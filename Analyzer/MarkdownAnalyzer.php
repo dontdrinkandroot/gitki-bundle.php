@@ -6,6 +6,9 @@ use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class MarkdownAnalyzer implements AnalyzerInterface
 {
     /**

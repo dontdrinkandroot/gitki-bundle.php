@@ -2,6 +2,9 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface ExtensionRegistryInterface
 {
     /**

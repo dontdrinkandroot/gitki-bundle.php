@@ -11,9 +11,11 @@ use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class ElasticsearchService implements ElasticsearchServiceInterface
 {
-
     /**
      * @var AnalyzerInterface[];
      */

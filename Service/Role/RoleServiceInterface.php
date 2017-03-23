@@ -3,9 +3,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Role;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface RoleServiceInterface
 {
-
     /**
      * @return string
      */

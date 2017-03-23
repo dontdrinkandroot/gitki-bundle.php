@@ -7,6 +7,9 @@ use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\ElementRendererInterface;
 use Webuni\CommonMark\TableExtension\TableRenderer;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class BootstrapTableRenderer extends TableRenderer
 {
     /**

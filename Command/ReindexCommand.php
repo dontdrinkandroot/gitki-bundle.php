@@ -7,9 +7,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class ReindexCommand extends GitkiContainerAwareCommand
 {
-
     protected function configure()
     {
         $this->setName('gitki:reindex')

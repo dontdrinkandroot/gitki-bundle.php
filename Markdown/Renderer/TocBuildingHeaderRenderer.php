@@ -11,6 +11,9 @@ use League\CommonMark\Inline\Element\AbstractInlineContainer;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Node\Node;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class TocBuildingHeaderRenderer extends HeadingRenderer
 {
     private $toc = [];

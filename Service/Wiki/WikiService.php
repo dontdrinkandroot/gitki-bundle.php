@@ -19,9 +19,11 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class WikiService
 {
-
     /**
      * @var GitServiceInterface
      */

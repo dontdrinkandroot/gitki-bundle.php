@@ -21,6 +21,9 @@ use League\CommonMark\Inline\Element\Link;
 use Webuni\CommonMark\TableExtension\Table;
 use Webuni\CommonMark\TableExtension\TableExtension;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
     /**

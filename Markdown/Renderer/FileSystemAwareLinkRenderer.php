@@ -10,6 +10,9 @@ use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Link;
 use League\CommonMark\Inline\Renderer\LinkRenderer;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class FileSystemAwareLinkRenderer extends LinkRenderer
 {
     /**

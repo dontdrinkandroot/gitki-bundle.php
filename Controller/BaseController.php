@@ -11,9 +11,11 @@ use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class BaseController extends Controller
 {
-
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     /**

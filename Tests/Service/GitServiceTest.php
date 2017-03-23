@@ -9,9 +9,11 @@ use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class GitServiceTest extends GitRepositoryTestCase
 {
-
     /**
      * @var FileSystemService
      */

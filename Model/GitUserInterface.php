@@ -2,6 +2,9 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface GitUserInterface
 {
     /**

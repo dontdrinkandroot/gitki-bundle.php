@@ -11,9 +11,11 @@ use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 {
-
     /**
      * @var GitServiceInterface
      */
@@ -25,7 +27,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
     protected $user;
 
     /**
-     * @var
+     * @var FileSystemService
      */
     protected $fileSystemService;
 

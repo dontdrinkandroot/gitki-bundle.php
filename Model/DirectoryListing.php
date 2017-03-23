@@ -7,6 +7,9 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\Path\DirectoryPath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class DirectoryListing
 {
     /**

@@ -9,6 +9,9 @@ use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
 

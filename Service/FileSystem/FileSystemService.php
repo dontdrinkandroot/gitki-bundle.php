@@ -19,7 +19,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * All paths passed to the functions have to be relative to the base path.
  *
- * @package Dontdrinkandroot\GitkiBundle\Service\FileSystem
+ * @author Philip Washington Sorst <philip@sorst.net>
  */
 class FileSystemService implements FileSystemServiceInterface
 {

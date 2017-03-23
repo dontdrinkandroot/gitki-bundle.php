@@ -2,9 +2,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class AnalyzedDocument extends Document
 {
-
     /**
      * @var string
      */

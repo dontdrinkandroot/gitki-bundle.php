@@ -8,9 +8,11 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class LockService implements LockServiceInterface
 {
-
     /**
      * @var FileSystemServiceInterface
      */

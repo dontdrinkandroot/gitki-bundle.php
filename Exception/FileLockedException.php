@@ -3,9 +3,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Exception;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class FileLockedException extends \Exception
 {
-
     /**
      * @var string
      */

@@ -7,6 +7,9 @@ use League\CommonMark\Block\Element\HtmlBlock;
 use League\CommonMark\Block\Renderer\BlockRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class EscapingHtmlBlockRenderer implements BlockRendererInterface
 {
     /**

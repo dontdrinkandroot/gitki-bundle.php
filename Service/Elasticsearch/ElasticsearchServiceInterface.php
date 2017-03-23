@@ -9,6 +9,9 @@ use Dontdrinkandroot\GitkiBundle\Event\Listener\FileMovedEventListenerInterface;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface ElasticsearchServiceInterface
     extends FileChangedEventListenerInterface, FileMovedEventListenerInterface, FileDeletedEventListenerInterface
 {

@@ -3,9 +3,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class LogParser
 {
-
     const COMMIT_BEGIN = 'commit_begin';
     const COMMIT_END = 'commit_end';
     const HASH_BEGIN = 'hash_begin';

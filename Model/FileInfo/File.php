@@ -5,6 +5,9 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class File extends AbstractPathAwareFileInfo implements \JsonSerializable
 {
     /**

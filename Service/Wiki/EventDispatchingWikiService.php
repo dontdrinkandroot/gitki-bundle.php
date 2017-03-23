@@ -11,9 +11,11 @@ use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class EventDispatchingWikiService extends WikiService
 {
-
     /**
      * @var EventDispatcherInterface
      */

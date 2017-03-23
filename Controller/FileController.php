@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class FileController extends BaseController
 {
     public function serveAction(Request $request, $path)

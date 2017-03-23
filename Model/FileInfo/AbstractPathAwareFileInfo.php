@@ -5,9 +5,11 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\Path;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 abstract class AbstractPathAwareFileInfo extends \SplFileInfo
 {
-
     /**
      * @return Path
      */

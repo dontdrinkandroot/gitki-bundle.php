@@ -10,9 +10,11 @@ use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface GitServiceInterface
 {
-
     /**
      * @param Path $path
      *

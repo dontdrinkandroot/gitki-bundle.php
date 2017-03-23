@@ -7,6 +7,9 @@ use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\HtmlInline;
 use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class EscapingHtmlInlineRenderer implements InlineRendererInterface
 {
     /**

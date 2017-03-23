@@ -6,9 +6,11 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class AbstractFileEvent extends Event
 {
-
     /**
      * @var GitUserInterface
      */

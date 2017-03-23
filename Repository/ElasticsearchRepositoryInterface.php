@@ -6,9 +6,11 @@ use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 interface ElasticsearchRepositoryInterface
 {
-
     /**
      * @param $searchString
      *

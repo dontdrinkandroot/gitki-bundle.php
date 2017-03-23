@@ -3,14 +3,15 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class SearchResultDocument extends Document
 {
-
     /**
      * @var float
      */
     private $score;
-
 
     /**
      * @param float $score
