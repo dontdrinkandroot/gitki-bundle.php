@@ -1,21 +1,20 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * @author Philip Washington Sorst <philip@sorst.net>
+ */
 class GitkiExtension extends \Twig_Extension
 {
-
-
-
     /**
-     * @var SecurityContextInterface
+     * @var AuthorizationCheckerInterface
      */
-    private $securityContext;
+    private $authorizationChecker;
 
     /**
      * @var ExtensionRegistryInterface
@@ -28,11 +27,11 @@ class GitkiExtension extends \Twig_Extension
     private $roleService;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        AuthorizationCheckerInterface $authorizationChecker,
         RoleServiceInterface $roleService,
         ExtensionRegistryInterface $extensionRegistry
     ) {
-        $this->securityContext = $securityContext;
+        $this->authorizationChecker = $authorizationChecker;
         $this->extensionRegistry = $extensionRegistry;
         $this->roleService = $roleService;
     }
@@ -97,7 +96,7 @@ class GitkiExtension extends \Twig_Extension
 
     public function hasRole($role)
     {
-        return $this->securityContext->isGranted($role);
+        return $this->authorizationChecker->isGranted($role);
     }
 
     public function isEditable($extension)

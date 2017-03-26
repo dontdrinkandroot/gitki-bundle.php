@@ -22,7 +22,7 @@ services:
     ddr.gitki.twig.gitki_extension:
         class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
         arguments:
-            - '@security.context'
+            - '@security.authorization_checker'
             - '@ddr.gitki.service.role'
             - '@ddr.gitki.registry.extension'
         tags:

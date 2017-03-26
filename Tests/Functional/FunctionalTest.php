@@ -4,17 +4,24 @@ namespace Dontdrinkandroot\GitkiBundle\Tests\Functional;
 
 use Dontdrinkandroot\GitkiBundle\Tests\Functional\app\AppKernel;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestTrait;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class FunctionalTest extends WebTestCase
 {
+    use GitRepositoryTestTrait;
+
     const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
-    use GitRepositoryTestTrait;
+    /**
+     * @var Client
+     */
+    protected $client;
 
     public function setUp()
     {
         $this->setUpRepo();
+        $this->client = static::createClient(['environment' => $this->getEnvironment()]);
     }
 
     public function tearDown()
@@ -37,4 +44,6 @@ abstract class FunctionalTest extends WebTestCase
     {
         return AppKernel::class;
     }
+
+    abstract protected function getEnvironment(): string;
 }

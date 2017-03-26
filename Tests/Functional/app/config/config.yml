@@ -1,6 +1,8 @@
 framework:
     secret: 'test'
     test: ~
+    templating:
+        engines: ['twig']
 
 security:
 

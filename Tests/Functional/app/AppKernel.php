@@ -8,22 +8,11 @@ use Symfony\Component\HttpKernel\Kernel;
 class AppKernel extends Kernel
 {
     /**
-     * @var array
-     */
-    private $bundleClasses;
-
-    public function __construct($environment, $debug, $bundleClasses = [])
-    {
-        parent::__construct($environment, $debug);
-        $this->bundleClasses = $bundleClasses;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function registerBundles()
     {
-        $bundlesFile = $this->getRootDir() . '/config/' . $this->getEnvironment() . '/bundles.php';
+        $bundlesFile = $this->getEnvConfigDir() . '/bundles.php';
         if (!file_exists($bundlesFile)) {
             throw new \RuntimeException($bundlesFile . ' is missing');
         }
@@ -31,22 +20,36 @@ class AppKernel extends Kernel
         return include $bundlesFile;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $resource = $this->getEnvConfigDir() . '/config.yml';
+        $loader->load($resource);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCacheDir()
     {
         return sys_get_temp_dir() . '/gitkitest/cache/';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getLogDir()
     {
         return sys_get_temp_dir() . '/gitkitest/logs';
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function getEnvConfigDir(): string
     {
-        $resource = $this->getRootDir() . '/config/' . $this->getEnvironment() . '/config.yml';
-        $loader->load($resource);
+        return $this->getRootDir() . '/config/' . $this->getEnvironment();
     }
 }
