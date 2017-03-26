@@ -10,6 +10,7 @@ class WikiTest extends FunctionalTest
 
     public function testBrowseRedirect()
     {
+        $this->client->followRedirects(false);
         $crawler = $this->client->request(Request::METHOD_GET, '/browse/');
 //        $routes = $this->client->getContainer()->get('router')->getRouteCollection();
 //        foreach ($routes as $route) {

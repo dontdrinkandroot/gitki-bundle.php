@@ -3,6 +3,7 @@ framework:
     test: ~
     templating:
         engines: ['twig']
+    assets: ~
 
 security:
 
