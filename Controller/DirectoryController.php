@@ -1,10 +1,10 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,25 +66,23 @@ class DirectoryController extends BaseController
                     'required' => true,
                 ]
             )
-            ->add('create', 'submit')
+            ->add('create', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $dirname = $form->get('dirname')->getData();
-                $subDirPath = $path->appendDirectory($dirname);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dirname = $form->get('dirname')->getData();
+            $subDirPath = $path->appendDirectory($dirname);
 
-                $this->getWikiService()->createFolder($subDirPath);
+            $this->getWikiService()->createFolder($subDirPath);
 
-                return $this->redirect(
-                    $this->generateUrl(
-                        'ddr_gitki_directory',
-                        ['path' => $subDirPath->toAbsoluteString()]
-                    )
-                );
-            }
+            return $this->redirect(
+                $this->generateUrl(
+                    'ddr_gitki_directory',
+                    ['path' => $subDirPath->toAbsoluteString()]
+                )
+            );
         }
 
         return $this->render(
@@ -113,23 +111,21 @@ class DirectoryController extends BaseController
                     ]
                 ]
             )
-            ->add('create', 'submit')
+            ->add('create', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $filename = $form->get('filename')->getData() . '.' . $extension;
-                $filePath = $directoryPath->appendFile($filename);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filename = $form->get('filename')->getData() . '.' . $extension;
+            $filePath = $directoryPath->appendFile($filename);
 
-                return $this->redirect(
-                    $this->generateUrl(
-                        'ddr_gitki_file',
-                        ['path' => $filePath->toAbsoluteString(), 'action' => 'edit']
-                    )
-                );
-            }
+            return $this->redirect(
+                $this->generateUrl(
+                    'ddr_gitki_file',
+                    ['path' => $filePath->toAbsoluteString(), 'action' => 'edit']
+                )
+            );
         }
 
         return $this->render(
@@ -186,34 +182,32 @@ class DirectoryController extends BaseController
         $form = $this->createFormBuilder()
             ->add('uploadedFile', FileType::class, array('label' => 'File'))
             ->add('uploadedFileName', TextType::class, array('label' => 'Filename (if other)', 'required' => false))
-            ->add('Upload', 'submit')
+            ->add('Upload', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                /* @var UploadedFile $uploadedFile */
-                $uploadedFile = $form->get('uploadedFile')->getData();
-                $uploadedFileName = $form->get('uploadedFileName')->getData();
-                if (null === $uploadedFileName || trim($uploadedFileName) === '') {
-                    $uploadedFileName = $uploadedFile->getClientOriginalName();
-                }
-                $filePath = $directoryPath->appendFile($uploadedFileName);
-                $this->getWikiService()->addFile(
-                    $user,
-                    $filePath,
-                    $uploadedFile,
-                    'Adding ' . $filePath
-                );
-
-                return $this->redirect(
-                    $this->generateUrl(
-                        'ddr_gitki_directory',
-                        ['path' => $directoryPath->toAbsoluteString()]
-                    )
-                );
+        if ($form->isSubmitted() && $form->isValid()) {
+            /* @var UploadedFile $uploadedFile */
+            $uploadedFile = $form->get('uploadedFile')->getData();
+            $uploadedFileName = $form->get('uploadedFileName')->getData();
+            if (null === $uploadedFileName || trim($uploadedFileName) === '') {
+                $uploadedFileName = $uploadedFile->getClientOriginalName();
             }
+            $filePath = $directoryPath->appendFile($uploadedFileName);
+            $this->getWikiService()->addFile(
+                $user,
+                $filePath,
+                $uploadedFile,
+                'Adding ' . $filePath
+            );
+
+            return $this->redirect(
+                $this->generateUrl(
+                    'ddr_gitki_directory',
+                    ['path' => $directoryPath->toAbsoluteString()]
+                )
+            );
         }
 
         return $this->render(

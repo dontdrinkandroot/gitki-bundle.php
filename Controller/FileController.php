@@ -5,6 +5,9 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,39 +109,37 @@ class FileController extends BaseController
         $form = $this->createFormBuilder()
             ->add(
                 'directory',
-                'choice',
+                ChoiceType::class,
                 [
                     'choices'  => $directoryChoices,
                     'required' => true,
                     'data'     => $filePath->getParentPath()->toAbsoluteString()
                 ]
             )
-            ->add('name', 'text', ['required' => true, 'data' => $filePath->getName()])
-            ->add('move', 'submit')
+            ->add('name', TextType::class, ['required' => true, 'data' => $filePath->getName()])
+            ->add('move', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $newDirectory = DirectoryPath::parse($form->get('directory')->getData());
-                $newName = $form->get('name')->getData();
-                $newPath = $newDirectory->appendFile($newName);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newDirectory = DirectoryPath::parse($form->get('directory')->getData());
+            $newName = $form->get('name')->getData();
+            $newPath = $newDirectory->appendFile($newName);
 
-                $this->getWikiService()->renameFile(
-                    $user,
-                    $filePath,
-                    $newPath,
-                    sprintf('Moving %s to %s', $filePath->toAbsoluteString(), $newPath->toAbsoluteString())
-                );
+            $this->getWikiService()->renameFile(
+                $user,
+                $filePath,
+                $newPath,
+                sprintf('Moving %s to %s', $filePath->toAbsoluteString(), $newPath->toAbsoluteString())
+            );
 
-                return $this->redirect(
-                    $this->generateUrl(
-                        'ddr_gitki_directory',
-                        ['path' => $newPath->getParentPath()->toAbsoluteString()]
-                    )
-                );
-            }
+            return $this->redirect(
+                $this->generateUrl(
+                    'ddr_gitki_directory',
+                    ['path' => $newPath->getParentPath()->toAbsoluteString()]
+                )
+            );
         }
 
         return $this->render(
