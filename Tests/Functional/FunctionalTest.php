@@ -45,5 +45,10 @@ abstract class FunctionalTest extends WebTestCase
         return AppKernel::class;
     }
 
+    protected function assertStatusCode(int $expectedCode)
+    {
+        $this->assertEquals($expectedCode, $this->client->getResponse()->getStatusCode());
+    }
+
     abstract protected function getEnvironment(): string;
 }

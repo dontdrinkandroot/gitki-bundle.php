@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Functional;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class WikiTest extends FunctionalTest
 {
@@ -12,12 +13,32 @@ class WikiTest extends FunctionalTest
     {
         $this->client->followRedirects(false);
         $crawler = $this->client->request(Request::METHOD_GET, '/browse/');
-//        $routes = $this->client->getContainer()->get('router')->getRouteCollection();
-//        foreach ($routes as $route) {
-//            echo $route->getPath() . "\n";
-//        }
-        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+        $this->assertStatusCode(Response::HTTP_FOUND);
         $this->assertEquals('/browse/index.md', $this->client->getResponse()->headers->get('location'));
+    }
+
+    public function testExampleAFilenameWithSpaces()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/a%20filename%20with%20spaces.md');
+        $this->assertStatusCode(Response::HTTP_OK);
+    }
+
+    public function testExampleLinkExample()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/link-example.md');
+        $this->assertStatusCode(Response::HTTP_OK);
+    }
+
+    public function testExampleTableExample()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/table-example.md');
+        $this->assertStatusCode(Response::HTTP_OK);
+    }
+
+    public function testExampleTocExample()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/toc-example.md');
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     /**
