@@ -25,6 +25,8 @@
         "symfony/twig-bundle": "^3.0",
         "symfony/asset": "^3.0",
         "symfony/templating": "^3.0",
+        "symfony/translation": "^3.0",
+        "symfony/validator": "^3.0",
         "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
         "cpliakas/git-wrapper": "^1.2",
         "league/commonmark": "^0.15",
@@ -37,7 +39,7 @@
         "symfony/css-selector": "^3.0",
         "phpunit/phpunit": "^5.0",
         "twbs/bootstrap": "^3.3",
-        "elasticsearch/elasticsearch": "^1.3",
+        "elasticsearch/elasticsearch": "^2.0",
         "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^1.7"
     },

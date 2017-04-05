@@ -9,7 +9,7 @@
     {{ form(form) }}
     <hr/>
     <h2>Documents containing "{{ searchString }}"</h2>
-    <ul>
+    <ul class="results">
         {% for result in results %}
             <li>
                 [{{ result.score|number_format(2) }}] <a

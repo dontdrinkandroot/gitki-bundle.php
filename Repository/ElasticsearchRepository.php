@@ -7,6 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 /**
@@ -14,7 +15,6 @@ use Elasticsearch\Common\Exceptions\Missing404Exception;
  */
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-
     /**
      * @var Client
      */
@@ -35,8 +35,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $this->index = strtolower($index);
 
         $params = [];
-        $params['hosts'] = [$host . ':' . $port];
-        $this->client = new Client($params);
+        $params['hosts'] = [];
+
+        $this->client = ClientBuilder::create()->setHosts([$host . ':' . $port])->build();
     }
 
     /**

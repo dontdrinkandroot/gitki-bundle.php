@@ -1,0 +1,10 @@
+imports:
+    - { resource: ../config.yml }
+
+framework:
+    router:
+        resource: "%kernel.root_dir%/config/elasticsearch/routing.yml"
+
+ddr_gitki:
+    elasticsearch:
+        index_name: gitki_test

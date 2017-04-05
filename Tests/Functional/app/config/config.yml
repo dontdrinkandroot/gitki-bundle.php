@@ -4,6 +4,7 @@ framework:
     templating:
         engines: ['twig']
     assets: ~
+    form: ~
 
 security:
 
