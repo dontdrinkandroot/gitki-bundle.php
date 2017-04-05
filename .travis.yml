@@ -9,6 +9,9 @@ matrix:
             php: 7.1
             env: dependencies=highest
 
+services:
+  - elasticsearch
+
 cache:
     directories:
         - $HOME/.composer/cache
@@ -21,6 +24,7 @@ before_script:
     - composer install
     - git config --global user.email "gitki@dontdrinkandroot.net"
     - git config --global user.name "GitKi"
+    - sleep 10
 
 script:
     - (export SYMFONY_DEPRECATIONS_HELPER="weak" && vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover)
