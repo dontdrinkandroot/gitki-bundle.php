@@ -27,8 +27,8 @@
         "symfony/templating": "^3.0",
         "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
         "cpliakas/git-wrapper": "^1.2",
-        "league/commonmark": "0.13.4",
-        "webuni/commonmark-table-extension": "0.4.3"
+        "league/commonmark": "^0.15",
+        "webuni/commonmark-table-extension": "^0.6"
     },
     "require-dev": {
         "symfony/console": "^3.0",
