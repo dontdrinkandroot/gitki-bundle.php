@@ -24,7 +24,7 @@ interface FileSystemServiceInterface
      *
      * @return bool
      */
-    public function exists(Path $path);
+    public function exists(Path $path): bool;
 
     /**
      * @param DirectoryPath $path

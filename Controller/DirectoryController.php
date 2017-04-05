@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -19,6 +20,9 @@ class DirectoryController extends BaseController
         $this->assertWatcher();
 
         $directoryPath = DirectoryPath::parse($path);
+        if (!$this->getFileSystemService()->exists($directoryPath)) {
+            throw new NotFoundHttpException();
+        }
 
         $directoryListing = $this->getDirectoryService()->getDirectoryListing($directoryPath);
 
@@ -37,6 +41,9 @@ class DirectoryController extends BaseController
         $this->assertWatcher();
 
         $directoryPath = DirectoryPath::parse($path);
+        if (!$this->getFileSystemService()->exists($directoryPath)) {
+            throw new NotFoundHttpException();
+        }
 
         $indexFilePath = $this->getDirectoryService()->resolveIndexFile($directoryPath);
         if (null !== $indexFilePath) {

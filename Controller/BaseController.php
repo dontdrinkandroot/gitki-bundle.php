@@ -1,11 +1,11 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -80,6 +80,14 @@ class BaseController extends Controller
     protected function getExtensionRegistry()
     {
         return $this->get('ddr.gitki.registry.extension');
+    }
+
+    /**
+     * @return FileSystemServiceInterface
+     */
+    protected function getFileSystemService()
+    {
+        return $this->get('ddr.gitki.service.file_system');
     }
 
     protected function assertWatcher()

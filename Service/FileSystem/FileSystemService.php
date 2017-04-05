@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\FileSystem;
 
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
@@ -23,7 +22,6 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class FileSystemService implements FileSystemServiceInterface
 {
-
     /**
      * @var DirectoryPath
      */
@@ -66,7 +64,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function exists(Path $path)
+    public function exists(Path $path): bool
     {
         return $this->fileSystem->exists($this->getAbsolutePathString($path));
     }

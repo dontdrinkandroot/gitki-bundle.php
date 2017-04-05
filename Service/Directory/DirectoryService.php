@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\Directory;
 
 use Dontdrinkandroot\GitkiBundle\Model\DirectoryListing;
@@ -26,9 +25,8 @@ class DirectoryService extends AbstractService implements DirectoryServiceInterf
     /**
      * @param FileSystemServiceInterface $fileSystemService
      */
-    public function __construct(
-        FileSystemServiceInterface $fileSystemService
-    ) {
+    public function __construct(FileSystemServiceInterface $fileSystemService)
+    {
         $this->fileSystemService = $fileSystemService;
     }
 

@@ -53,6 +53,18 @@ class WikiTest extends FunctionalTest
         $this->assertStatusCode(Response::HTTP_OK);
     }
 
+    public function testNonExistingFile()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/not-existing.md');
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testNonExistingDirectory()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/not-existing/');
+        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
+    }
+
     /**
      * {@inheritdoc}
      */
