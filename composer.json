@@ -33,6 +33,7 @@
     "require-dev": {
         "symfony/console": "^3.0",
         "symfony/security-bundle": "^3.0",
+        "symfony/css-selector": "^3.0",
         "phpunit/phpunit": "^5.0",
         "twbs/bootstrap": "^3.3",
         "elasticsearch/elasticsearch": "^1.3",

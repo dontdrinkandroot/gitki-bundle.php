@@ -27,6 +27,18 @@ class WikiTest extends FunctionalTest
     {
         $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/link-example.md');
         $this->assertStatusCode(Response::HTTP_OK);
+
+        $link = $crawler->filter('a[href="./table-example.md"]');
+        $this->assertCount(1, $link);
+        $this->assertNull($link->attr('class'));
+
+        $link = $crawler->filter('a[href="./missing.md"]');
+        $this->assertCount(1, $link);
+        $this->assertEquals('missing', $link->attr('class'));
+
+        $link = $crawler->filter('a[href="./a%20filename%20with%20spaces.md"]');
+        $this->assertCount(1, $link);
+        $this->assertNull($link->attr('class'));
     }
 
     public function testExampleTableExample()
