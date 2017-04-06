@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">7.1",
+        "php": ">=7.1",
         "symfony/finder": "^3.0",
         "symfony/form": "^3.0",
         "symfony/framework-bundle": "^3.0",
@@ -44,7 +44,8 @@
         "liip/functional-test-bundle": "^1.7"
     },
     "suggest": {
-        "elasticsearch/elasticsearch": "Include this if you want the wiki to be searchable"
+        "elasticsearch/elasticsearch": "Include this if you want the wiki to be searchable",
+        "braincrafted/bootstrap-bundle": "Style forms in a bootstrap compatible style"
     },
     "autoload": {
         "psr-4": {
