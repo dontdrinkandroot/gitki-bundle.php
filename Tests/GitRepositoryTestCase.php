@@ -7,7 +7,7 @@ namespace Dontdrinkandroot\GitkiBundle\Tests;
  */
 class GitRepositoryTestCase extends \PHPUnit_Framework_TestCase
 {
-    const GIT_REPOSITORY_PATH = '/tmp/gitkitest/';
+    const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
     use GitRepositoryTestTrait;
 

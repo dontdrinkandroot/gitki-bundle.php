@@ -170,13 +170,13 @@
             this.update();
         }
 
-        var preview = new Preview($("#form_content"), $("#preview .markdown-html"));
+        var preview = new Preview($("#markdown_edit_content"), $("#preview .markdown-html"));
     </script>
     <script type="text/javascript">
         function MarkdownEditor() {
 
             var markdownEditor = this;
-            var $editArea = $("#form_content");
+            var $editArea = $("#markdown_edit_content");
             var filesUrl = "{{ path('ddr_gitki_meta_files_json', {'currentpath':app.request.attributes.get('path')}) }}";
             var currentPath = "{{ app.request.attributes.get('path') }}";
             var files = null;

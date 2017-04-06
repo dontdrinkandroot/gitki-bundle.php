@@ -12,9 +12,15 @@ class WikiTest extends FunctionalTest
     public function testBrowseRedirect()
     {
         $this->client->followRedirects(false);
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/');
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/');
         $this->assertStatusCode(Response::HTTP_FOUND);
         $this->assertEquals('/browse/index.md', $this->client->getResponse()->headers->get('location'));
+    }
+
+    public function testHistory()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'history');
+        $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testExampleAFilenameWithSpaces()
