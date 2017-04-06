@@ -46,16 +46,16 @@
             <div class="panel-heading">
                 <h2 class="panel-title">Folders</h2>
             </div>
-            <table class="table">
+            <div class="list-group">
                 {% for dir in directoryListing.subDirectories %}
-                    <tr>
-                        <td class="ddr-gitki-icon-actions">
+                    <div class="list-group-item">
+                        <div class="ddr-gitki-icon-actions">
                             <div class="dropdown">
-                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
+                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
                               data-toggle="dropdown">
                             <span class="fa fa-fw fa-folder-o"></span> <b class="caret"></b>
                         </span>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
                                     {% if isGitkiCommitter() %}
                                         <li role="presentation">
                                             <a role="menuitem" tabindex="-1"
@@ -66,12 +66,13 @@
                                     {% endif %}
                                 </ul>
                             </div>
-                        <td class="ddr-gitki-name">
+                        </div>
+                        <div class="ddr-gitki-name">
                             <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">{{ dir.filename|dirTitle }}</a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 {% endfor %}
-            </table>
+            </div>
         </div>
     {% endif %}
 
@@ -80,16 +81,16 @@
             <div class="panel-heading">
                 <h2 class="panel-title">Files</h2>
             </div>
-            <table class="table">
+            <div class="list-group">
                 {% for file in directoryListing.files %}
-                    <tr>
-                        <td class="ddr-gitki-icon-actions">
+                    <div class="list-group-item">
+                        <div class="ddr-gitki-icon-actions">
                             <div class="dropdown">
-                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="dropdownMenu1"
+                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="directorydropdown{{ loop.index }}"
                               data-toggle="dropdown">
                             <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
                         </span>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="directorydropdown{{ loop.index }}">
                                     {% if isGitkiCommitter() %}
                                         <li role="presentation">
                                             <a role="menuitem" tabindex="-1" title="Edit"
@@ -118,8 +119,8 @@
                                     </li>
                                 </ul>
                             </div>
-                        </td>
-                        <td class="ddr-gitki-name">
+                        </div>
+                        <div class="ddr-gitki-name">
                             <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
                                 {% if file.title is not empty %}
                                     {{ file.title }} <span class="text-muted">{{ file.filename }}</span>
@@ -127,10 +128,10 @@
                                     {{ file.filename }}
                                 {% endif %}
                             </a>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 {% endfor %}
-            </table>
+            </div>
         </div>
     {% endif %}
 

@@ -7,3 +7,6 @@ HTTPDUSER=`ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]gin
 sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX /tmp/gitkitest/
 sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX /tmp/gitkitest/
 Tests/console --env=$SYMFONY_ENV assets:install Tests/Functional/web/
+if [ $SYMFONY_ENV = "elasticsearch" ]; then
+    Tests/console --env=$SYMFONY_ENV gitki:reindex
+fi

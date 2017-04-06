@@ -38,7 +38,6 @@
         "symfony/dom-crawler": "^3.0",
         "symfony/css-selector": "^3.0",
         "phpunit/phpunit": "^5.0",
-        "twbs/bootstrap": "^3.3",
         "elasticsearch/elasticsearch": "^2.0",
         "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^1.7"
