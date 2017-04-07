@@ -41,13 +41,26 @@ class DirectoryController extends BaseController
         $this->assertWatcher();
 
         $directoryPath = DirectoryPath::parse($path);
-        if (!$this->getFileSystemService()->exists($directoryPath)) {
-            throw new NotFoundHttpException();
-        }
 
-        $indexFilePath = $this->getDirectoryService()->resolveIndexFile($directoryPath);
+        $indexFilePath = $this->getDirectoryService()->resolveExistingIndexFile($directoryPath);
         if (null !== $indexFilePath) {
             return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
+        }
+
+        if (!$this->getFileSystemService()->exists($directoryPath)) {
+            if (!$this->isCommitter()) {
+                throw new NotFoundHttpException();
+            }
+
+            $indexFilePath = $this->getDirectoryService()->getPrimaryIndexFile($directoryPath);
+            if (null === $indexFilePath) {
+                throw new NotFoundHttpException();
+            }
+
+            return $this->redirectToRoute(
+                'ddr_gitki_file',
+                ['path' => $indexFilePath->toAbsoluteString()]
+            );
         }
 
         return $this->redirectToRoute(

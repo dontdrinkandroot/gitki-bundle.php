@@ -13,12 +13,14 @@ use Dontdrinkandroot\Path\FilePath;
  */
 interface DirectoryServiceInterface
 {
+    public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath;
+
     /**
      * @param DirectoryPath $directoryPath
      *
      * @return FilePath|null
      */
-    public function resolveIndexFile(DirectoryPath $directoryPath);
+    public function resolveExistingIndexFile(DirectoryPath $directoryPath);
 
     /**
      * @param DirectoryPath $relativeDirectoryPath

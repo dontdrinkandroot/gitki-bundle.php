@@ -1,3 +1,7 @@
+services:
+    ddr_gitki_test.user_provider:
+        class: Dontdrinkandroot\GitkiBundle\Tests\Functional\Helpers\StaticUserProvider
+
 framework:
     secret: 'test'
     test: ~
@@ -8,9 +12,12 @@ framework:
 
 security:
 
+    encoders:
+        Dontdrinkandroot\GitkiBundle\Tests\Functional\Helpers\User: plaintext
+
     providers:
-        in_memory:
-            memory: ~
+        static:
+            id: ddr_gitki_test.user_provider
 
     firewalls:
         dev:
@@ -19,6 +26,7 @@ security:
 
         default:
             anonymous: ~
+            http_basic: ~
 
 ddr_gitki:
     repository_path: '/tmp/gitkitest/repo/'

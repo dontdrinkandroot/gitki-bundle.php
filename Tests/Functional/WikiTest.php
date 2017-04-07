@@ -65,10 +65,46 @@ class WikiTest extends FunctionalTest
         $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
-    public function testNonExistingDirectory()
+    public function testNonExistingDirectoryWatcher()
     {
         $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/not-existing/');
         $this->assertStatusCode(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testNonExistingDirectoryCommitter()
+    {
+        $this->client->followRedirects(false);
+        $crawler = $this->client->request(
+            Request::METHOD_GET,
+            'browse/examples/not-existing/',
+            [],
+            [],
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/examples/not-existing/index.md',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(
+            Request::METHOD_GET,
+            $this->client->getResponse()->headers->get('location'),
+            [],
+            [],
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/examples/not-existing/index.md?action=edit',
+            $this->client->getResponse()->headers->get('location')
+        );
     }
 
     /**

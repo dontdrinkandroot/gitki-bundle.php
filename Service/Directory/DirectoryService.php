@@ -7,6 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
+use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Service\AbstractService;
 
 /**
@@ -41,7 +42,19 @@ class DirectoryService extends AbstractService implements DirectoryServiceInterf
     /**
      * {@inheritdoc}
      */
-    public function resolveIndexFile(DirectoryPath $directoryPath)
+    public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath
+    {
+        foreach ($this->indexFiles as $indexFile) {
+            return $directoryPath->appendFile($indexFile);
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function resolveExistingIndexFile(DirectoryPath $directoryPath)
     {
         foreach ($this->indexFiles as $indexFile) {
             $filePath = $directoryPath->appendFile($indexFile);

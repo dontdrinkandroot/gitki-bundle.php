@@ -97,9 +97,14 @@ class BaseController extends Controller
         }
     }
 
+    protected function isCommitter(): bool
+    {
+        return $this->isGranted($this->getRoleServie()->getCommitterRole());
+    }
+
     protected function assertCommitter()
     {
-        if (!$this->isGranted($this->getRoleServie()->getCommitterRole())) {
+        if (!$this->isCommitter()) {
             throw new AuthenticationException();
         }
     }
