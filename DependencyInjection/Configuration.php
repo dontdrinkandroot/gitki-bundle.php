@@ -26,7 +26,6 @@ class Configuration implements ConfigurationInterface
                     ->info('The path to the git repository containing the wiki files. Must end with slash.')
                     ->isRequired()
                 ->end()
-                ->scalarNode('name')->defaultValue('GitKi')->end()
                 ->booleanNode('show_breadcrumbs')->defaultTrue()->end()
                 ->booleanNode('show_directory_contents')->defaultTrue()->end()
             ->end();

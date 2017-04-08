@@ -1,13 +1,13 @@
 <?php
 
-use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\app\AppKernel;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\Application\app\AppKernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @var Composer\Autoload\ClassLoader $loader
  */
-$loader = require __DIR__ . '/../../../vendor/autoload.php';
+$loader = require __DIR__ . '/../../../../vendor/autoload.php';
 Debug::enable();
 
 $kernel = new AppKernel('default', true);
