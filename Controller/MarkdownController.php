@@ -103,7 +103,7 @@ class MarkdownController extends BaseController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $content = $form->get('content')->getData();
             $commitMessage = $form->get('commitMessage')->getData();
             try {

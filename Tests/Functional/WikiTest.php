@@ -186,7 +186,7 @@ class WikiTest extends FunctionalTest
         $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
         $this->assertStatusCode(Response::HTTP_OK);
 
-        $form = $crawler->selectButton('form_submit')->form(
+        $form = $crawler->selectButton('save')->form(
             [
                 'form[content]' => 'This is the changed content'
             ]
@@ -246,6 +246,59 @@ class WikiTest extends FunctionalTest
         $this->assertEquals(
             '/browse/examples/textfile.txt?action=edit',
             $this->client->getResponse()->headers->get('location')
+        );
+    }
+
+    public function testEditMarkdownFileUnauthenticated()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testEditMarkdownFile()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $form = $crawler->selectButton('save')->form(
+            [
+                'markdown_edit[content]' => 'This is the changed content'
+            ]
+        );
+        $crawler = $this->client->submit($form);
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/index.md',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $content = $crawler->filter('.markdown-html p');
+        $this->assertCount(1, $content);
+
+        $this->assertEquals('This is the changed content', $content->text());
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=history');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
+        $this->assertCount(2, $historyEntries);
+
+        $this->assertEquals(
+            'John Doe <johndoe@examle.com>',
+            $historyEntries->eq(0)->filter('.ddr-gitki-history-committer')->text()
+        );
+        $this->assertEquals(
+            'Editing /index.md',
+            trim($historyEntries->eq(0)->filter('.ddr-gitki-history-message')->text())
         );
     }
 

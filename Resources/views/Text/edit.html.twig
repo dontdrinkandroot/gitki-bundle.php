@@ -8,7 +8,11 @@
         <h1>Edit text file</h1>
     </div>
     <div>
-        {{ form(form, { 'attr': {'class' : 'edit' }}) }}
+        {{ form_start(form, { 'attr': {'class' : 'edit' }}) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn btn-primary" name="save">Save</button>
+        <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'cancel'}) }}" class="btn btn-default">Cancel</a>
+        {{ form_end(form) }}
     </div>
 {% endblock ddr_gitki_main_content %}
 {% block ddr_gitki_javascript %}

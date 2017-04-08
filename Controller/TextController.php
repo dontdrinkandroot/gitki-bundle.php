@@ -5,10 +5,8 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,24 +86,9 @@ class TextController extends BaseController
         $form = $this->createFormBuilder()
             ->add('content', TextareaType::class, ['attr' => ['rows' => 15]])
             ->add('commitMessage', TextType::class, ['label' => 'Commit Message', 'required' => true])
-            ->add('submit', SubmitType::class, ['label' => 'Save'])
-            ->add('cancel', SubmitType::class, ['label' => 'Cancel'])
             ->getForm();
 
         $form->handleRequest($request);
-
-        /** @var SubmitButton $cancelButton */
-        $cancelButton = $form->get('cancel');
-        if ($cancelButton->isClicked()) {
-            $this->getWikiService()->removeLock($user, $filePath);
-
-            return $this->redirect(
-                $this->generateUrl(
-                    'ddr_gitki_file',
-                    ['path' => $filePath]
-                )
-            );
-        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $content = $form->get('content')->getData();
