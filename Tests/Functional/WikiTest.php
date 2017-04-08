@@ -118,7 +118,7 @@ class WikiTest extends FunctionalTest
         $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md?action=move');
         $this->assertStatusCode(Response::HTTP_OK);
 
-        $form = $crawler->selectButton('form_move')->form(
+        $form = $crawler->selectButton('form_submit')->form(
             [
                 'form[directory]' => '/',
                 'form[name]'      => 'newname.md',
