@@ -13,5 +13,15 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    <li class="active">{{ path.name }}</li>
+    <li class="active">
+        {% if path.filePath %}
+            <a href="{{ path('ddr_gitki_file', {'path': path}) }}">
+                {{ path.name }}
+            </a>
+        {% else %}
+            <a href="{{ path('ddr_gitki_directory', {'path': path, 'action': 'index'}) }}">
+                {{ path.name }}
+            </a>
+        {% endif %}
+    </li>
 </ol>

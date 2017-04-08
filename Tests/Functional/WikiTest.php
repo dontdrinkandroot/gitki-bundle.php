@@ -12,26 +12,26 @@ class WikiTest extends FunctionalTest
     public function testBrowseRedirect()
     {
         $this->client->followRedirects(false);
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/');
         $this->assertStatusCode(Response::HTTP_FOUND);
         $this->assertEquals('/browse/index.md', $this->client->getResponse()->headers->get('location'));
     }
 
     public function testHistory()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'history');
+        $crawler = $this->client->request(Request::METHOD_GET, '/history');
         $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testExampleAFilenameWithSpaces()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/a%20filename%20with%20spaces.md');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/a%20filename%20with%20spaces.md');
         $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testExampleLinkExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/link-example.md');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
         $this->assertStatusCode(Response::HTTP_OK);
 
         $link = $crawler->filter('a[href="./table-example.md"]');
@@ -49,25 +49,25 @@ class WikiTest extends FunctionalTest
 
     public function testExampleTableExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/table-example.md');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/table-example.md');
         $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testExampleTocExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/toc-example.md');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/toc-example.md');
         $this->assertStatusCode(Response::HTTP_OK);
     }
 
     public function testNonExistingFile()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/not-existing.md');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/not-existing.md');
         $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
     public function testNonExistingDirectoryWatcher()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/not-existing/');
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/not-existing/');
         $this->assertStatusCode(Response::HTTP_NOT_FOUND);
     }
 
@@ -76,7 +76,7 @@ class WikiTest extends FunctionalTest
         $this->client->followRedirects(false);
         $crawler = $this->client->request(
             Request::METHOD_GET,
-            'browse/examples/not-existing/',
+            '/browse/examples/not-existing/',
             [],
             [],
             [
@@ -104,6 +104,57 @@ class WikiTest extends FunctionalTest
         $this->assertEquals(
             '/browse/examples/not-existing/index.md?action=edit',
             $this->client->getResponse()->headers->get('location')
+        );
+    }
+
+    public function testMoveFile()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md?action=move');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $form = $crawler->selectButton('form_move')->form(
+            [
+                'form[directory]' => '/',
+                'form[name]'      => 'newname.md',
+            ]
+        );
+        $crawler = $this->client->submit($form);
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        /* File does not exist, so we are redirected to edit action */
+        $this->assertEquals(
+            '/browse/examples/link-example.md?action=edit',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/newname.md');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/newname.md?action=history');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
+        $this->assertCount(1, $historyEntries);
+
+        $this->assertEquals(
+            'John Doe <johndoe@examle.com>',
+            $historyEntries->eq(0)->filter('.ddr-gitki-history-committer')->text()
+        );
+        $this->assertEquals(
+            'Moving /examples/link-example.md to /newname.md',
+            trim($historyEntries->eq(0)->filter('.ddr-gitki-history-message')->text())
         );
     }
 
