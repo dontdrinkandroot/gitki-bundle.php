@@ -302,6 +302,18 @@ class WikiTest extends FunctionalTest
         );
     }
 
+    public function testListDirectoryAction()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/?action=list');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $subDirectories = $crawler->filter('.ddr-gitki-directory-subdirectories .list-group-item');
+        $this->assertCount(1, $subDirectories);
+
+        $files = $crawler->filter('.ddr-gitki-directory-files .list-group-item');
+        $this->assertCount(5, $files);
+    }
+
     /**
      * {@inheritdoc}
      */

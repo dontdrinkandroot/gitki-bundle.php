@@ -42,7 +42,7 @@
     </div>
 
     {% if directoryListing.subDirectories is not empty %}
-        <div class="panel panel-default">
+        <div class="panel panel-default ddr-gitki-directory-subdirectories">
             <div class="panel-heading">
                 <h2 class="panel-title">Folders</h2>
             </div>
@@ -77,7 +77,7 @@
     {% endif %}
 
     {% if directoryListing.files is not empty %}
-        <div class="panel panel-default">
+        <div class="panel panel-default ddr-gitki-directory-files">
             <div class="panel-heading">
                 <h2 class="panel-title">Files</h2>
             </div>
@@ -86,11 +86,11 @@
                     <div class="list-group-item">
                         <div class="ddr-gitki-icon-actions">
                             <div class="dropdown">
-                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="directorydropdown{{ loop.index }}"
+                        <span class="btn btn-default btn-light btn-xs dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
                               data-toggle="dropdown">
                             <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
                         </span>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="directorydropdown{{ loop.index }}">
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
                                     {% if isGitkiCommitter() %}
                                         <li role="presentation">
                                             <a role="menuitem" tabindex="-1" title="Edit"
