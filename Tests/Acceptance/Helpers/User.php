@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Functional\Helpers;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

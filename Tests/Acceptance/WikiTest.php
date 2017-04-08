@@ -1,11 +1,11 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Functional;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class WikiTest extends FunctionalTest
+class WikiTest extends WebTestCase
 {
     protected $environment = 'default';
 

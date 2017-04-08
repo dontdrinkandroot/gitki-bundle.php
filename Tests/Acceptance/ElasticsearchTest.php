@@ -1,11 +1,11 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Functional;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ElasticsearchTest extends FunctionalTest
+class ElasticsearchTest extends WebTestCase
 {
     public function setUp()
     {

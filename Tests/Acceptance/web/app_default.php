@@ -1,6 +1,6 @@
 <?php
 
-use Dontdrinkandroot\GitkiBundle\Tests\Functional\app\AppKernel;
+use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\app\AppKernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 $loader = require __DIR__ . '/../../../vendor/autoload.php';
 Debug::enable();
 
-$kernel = new AppKernel('elasticsearch', true);
+$kernel = new AppKernel('default', true);
 //$kernel->loadClassCache();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

@@ -1,13 +1,13 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Functional;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
-use Dontdrinkandroot\GitkiBundle\Tests\Functional\app\AppKernel;
+use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\app\AppKernel;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestTrait;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 
-abstract class FunctionalTest extends WebTestCase
+abstract class WebTestCase extends BaseWebTestCase
 {
     use GitRepositoryTestTrait;
 
