@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class TestSearchCommand extends KernelTestCase
+class SearchCommandTest extends KernelTestCase
 {
     public function testSearchEmpty()
     {

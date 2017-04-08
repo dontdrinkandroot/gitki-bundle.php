@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class TestReindexCommand extends KernelTestCase
+class ReindexCommandTest extends KernelTestCase
 {
     public function testSearchEmpty()
     {

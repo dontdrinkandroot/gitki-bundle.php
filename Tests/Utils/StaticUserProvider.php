@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Utils;
 
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;

@@ -6,7 +6,7 @@ use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
-use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers\User;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;

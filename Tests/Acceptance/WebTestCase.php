@@ -2,8 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
-use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\app\AppKernel;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestTrait;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\Application\app\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 

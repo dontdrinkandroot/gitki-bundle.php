@@ -1,6 +1,6 @@
 services:
     ddr_gitki_test.user_provider:
-        class: Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers\StaticUserProvider
+        class: Dontdrinkandroot\GitkiBundle\Tests\Utils\StaticUserProvider
 
 framework:
     secret: 'test'
@@ -13,7 +13,7 @@ framework:
 security:
 
     encoders:
-        Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers\User: plaintext
+        Dontdrinkandroot\GitkiBundle\Tests\Utils\User: plaintext
 
     providers:
         static:

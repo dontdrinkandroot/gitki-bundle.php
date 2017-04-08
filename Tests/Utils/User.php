@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Helpers;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Utils;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,7 +30,7 @@ class User implements UserInterface, GitUserInterface
      */
     private $roles;
 
-    public function __construct(string $username, string $gitUserName, string $gitUserEmail, array $roles)
+    public function __construct(string $username, string $gitUserName, string $gitUserEmail, array $roles = [])
     {
         $this->username = $username;
         $this->gitUserName = $gitUserName;

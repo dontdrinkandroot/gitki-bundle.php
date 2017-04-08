@@ -7,6 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\FilePath;
 
 /**
@@ -34,7 +35,7 @@ class GitServiceTest extends GitRepositoryTestCase
 
     public function testAddAndCommit()
     {
-        $user = new TestUser('Tester', 'test@example.com');
+        $user = new User('tester', 'Tester', 'test@example.com');
 
         /* Test with spaces */
 

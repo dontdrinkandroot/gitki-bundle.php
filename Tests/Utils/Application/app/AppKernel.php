@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\app;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Utils\Application\app;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;

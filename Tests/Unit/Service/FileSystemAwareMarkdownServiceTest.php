@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\FilePath;
 
 /**
@@ -44,7 +45,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 
         $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::GIT_REPOSITORY_PATH);
         $this->gitService = new GitService($this->fileSystemService);
-        $this->user = new TestUser('Tester', 'test@example.com');
+        $this->user = new User('tester', 'Tester', 'test@example.com', []);
 
         $this->tocTestContent = file_get_contents(__DIR__ . '/../../Data/repo/examples/toc-example.md');
         $this->tocTestPath = new FilePath('toc.md');

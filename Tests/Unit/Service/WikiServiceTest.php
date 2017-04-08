@@ -10,6 +10,7 @@ use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
+use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
@@ -120,7 +121,7 @@ class WikiServiceTest extends GitRepositoryTestCase
             );
         }
 
-        $testUser = new TestUser('TestUser', 'test@example.com');
+        $testUser = new User('testUser', 'TestUser', 'test@example.com');
         $this->wikiService->removeDirectoryRecursively(
             $testUser,
             DirectoryPath::parse('/examples/'),
@@ -138,9 +139,9 @@ class WikiServiceTest extends GitRepositoryTestCase
     {
         $this->setExpectedException(FileLockedException::class);
 
-        $testUser = new TestUser('TestUser', 'test@example.com');
+        $testUser = new User('testUser', 'TestUser', 'test@example.com');
         $this->wikiService->createLock($testUser, $this->getExampleFiles()[0]);
-        $otherUser = new TestUser('OtherUser', 'other@example.com');
+        $otherUser = new User('otherUser', 'OtherUser', 'other@example.com');
 
         $this->wikiService->removeDirectoryRecursively(
             $otherUser,
