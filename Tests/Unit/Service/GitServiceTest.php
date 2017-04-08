@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Service;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;

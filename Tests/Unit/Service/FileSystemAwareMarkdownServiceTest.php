@@ -1,6 +1,6 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Service;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
@@ -46,7 +46,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $this->gitService = new GitService($this->fileSystemService);
         $this->user = new TestUser('Tester', 'test@example.com');
 
-        $this->tocTestContent = file_get_contents(__DIR__ . '/../Data/repo/examples/toc-example.md');
+        $this->tocTestContent = file_get_contents(__DIR__ . '/../../Data/repo/examples/toc-example.md');
         $this->tocTestPath = new FilePath('toc.md');
 
         $this->gitService->putAndCommitFile($this->user, $this->tocTestPath, $this->tocTestContent, 'Adding tocTest');

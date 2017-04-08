@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Dontdrinkandroot\GitkiBundle\Tests\Service;
+namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
