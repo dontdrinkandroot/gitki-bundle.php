@@ -64,7 +64,16 @@ class FileController extends BaseController
         $filePath = FilePath::parse($path);
         $user = $this->getGitUser();
 
-        $expiry = $this->getWikiService()->holdLock($user, $filePath);
+        try {
+            $expiry = $this->getWikiService()->holdLock($user, $filePath);
+        } catch (FileLockedException $e) {
+            $renderedView = $this->renderView(
+                'DdrGitkiBundle:File:locked.html.twig',
+                ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
+            );
+
+            return new Response($renderedView, Response::HTTP_LOCKED);
+        }
 
         return new Response($expiry);
     }

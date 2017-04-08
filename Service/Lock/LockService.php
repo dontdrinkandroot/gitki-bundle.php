@@ -80,6 +80,8 @@ class LockService implements LockServiceInterface
             if ($lockLogin == $user->getGitUserEmail()) {
                 return true;
             }
+
+            throw new FileLockedException($user->getGitUserEmail(), $this->getLockExpiry($lockPath));
         }
 
         throw new FileLockExpiredException();

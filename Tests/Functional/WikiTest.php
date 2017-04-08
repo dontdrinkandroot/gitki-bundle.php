@@ -353,6 +353,34 @@ class WikiTest extends FunctionalTest
         $this->assertCount(1, $files);
     }
 
+    public function testCannotEditLockedFile()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW'   => 'admin',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        $this->assertStatusCode(Response::HTTP_LOCKED);
+
+        /* Cannot hold lock for different user */
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
+        $this->assertStatusCode(Response::HTTP_LOCKED);
+    }
+
     /**
      * {@inheritdoc}
      */
