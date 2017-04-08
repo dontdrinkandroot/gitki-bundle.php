@@ -222,6 +222,33 @@ class WikiTest extends FunctionalTest
         );
     }
 
+    public function testRemoveFileUnauthorized()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
+        echo $this->client->getResponse()->getContent();
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testRemoveFile()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
+        $this->assertStatusCode(Response::HTTP_FOUND);
+
+        /* File not found anymore so redirected to editing */
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/examples/textfile.txt?action=edit',
+            $this->client->getResponse()->headers->get('location')
+        );
+    }
+
     /**
      * {@inheritdoc}
      */
