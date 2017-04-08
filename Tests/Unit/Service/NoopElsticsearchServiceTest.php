@@ -3,8 +3,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
 use Dontdrinkandroot\GitkiBundle\Tests\Functional\Helpers\User;
 use Dontdrinkandroot\Path\FilePath;
@@ -42,7 +42,7 @@ class NoopElsticsearchServiceTest extends \PHPUnit_Framework_TestCase
         $this->elasticSearchService->onFileChanged(
             new FileChangedEvent($user, 'test', new DateTime(), $filePath, 'qwer')
         );
-        $this->elasticSearchService->onFileDeleted(new FileDeletedEvent($user, 'test', new Date(), $filePath));
+        $this->elasticSearchService->onFileRemoved(new FileRemovedEvent($user, 'test', new Date(), $filePath));
         $this->elasticSearchService->onFileMoved(
             new FileMovedEvent($user, 'test', new DateTime(), $filePath, $filePath)
         );

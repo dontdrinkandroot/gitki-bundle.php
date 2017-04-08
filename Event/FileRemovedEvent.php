@@ -8,9 +8,9 @@ use Dontdrinkandroot\Path\FilePath;
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class FileDeletedEvent extends AbstractFileEvent
+class FileRemovedEvent extends AbstractFileEvent
 {
-    const NAME = 'ddr.gitki.file.deleted';
+    const NAME = 'ddr.gitki.file.removed';
 
     public function __construct(GitUserInterface $user, $commitMessage, $time, FilePath $file)
     {

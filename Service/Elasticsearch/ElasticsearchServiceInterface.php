@@ -4,8 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
 use Dontdrinkandroot\GitkiBundle\Event\Listener\FileChangedEventListenerInterface;
-use Dontdrinkandroot\GitkiBundle\Event\Listener\FileDeletedEventListenerInterface;
 use Dontdrinkandroot\GitkiBundle\Event\Listener\FileMovedEventListenerInterface;
+use Dontdrinkandroot\GitkiBundle\Event\Listener\FileRemovedEventListenerInterface;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
 
@@ -13,9 +13,8 @@ use Dontdrinkandroot\Path\FilePath;
  * @author Philip Washington Sorst <philip@sorst.net>
  */
 interface ElasticsearchServiceInterface
-    extends FileChangedEventListenerInterface, FileMovedEventListenerInterface, FileDeletedEventListenerInterface
+    extends FileChangedEventListenerInterface, FileMovedEventListenerInterface, FileRemovedEventListenerInterface
 {
-
     /**
      * @param string $searchString
      *

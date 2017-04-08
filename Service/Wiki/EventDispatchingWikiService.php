@@ -3,8 +3,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
@@ -62,19 +62,15 @@ class EventDispatchingWikiService extends WikiService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath      $relativeFilePath
-     * @param string        $commitMessage
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
-    public function deleteFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
+    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
     {
-        parent::deleteFile($user, $relativeFilePath, $commitMessage);
+        parent::removeFile($user, $relativeFilePath, $commitMessage);
 
         $this->eventDispatcher->dispatch(
-            FileDeletedEvent::NAME,
-            new FileDeletedEvent($user, $commitMessage, time(), $relativeFilePath)
+            FileRemovedEvent::NAME,
+            new FileRemovedEvent($user, $commitMessage, time(), $relativeFilePath)
         );
     }
 }

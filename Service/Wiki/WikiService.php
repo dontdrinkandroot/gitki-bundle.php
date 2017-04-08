@@ -123,20 +123,6 @@ class WikiService
      * @param string           $commitMessage
      *
      * @throws \Exception
-     *
-     * @deprecated Use removeFile instead
-     */
-    public function deleteFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
-    {
-        $this->removeFile($user, $relativeFilePath, $commitMessage);
-    }
-
-    /**
-     * @param GitUserInterface $user
-     * @param FilePath         $relativeFilePath
-     * @param string           $commitMessage
-     *
-     * @throws \Exception
      */
     public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
     {

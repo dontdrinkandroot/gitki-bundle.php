@@ -4,8 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\Path\FilePath;
 
 /**
@@ -56,7 +56,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileDeleted(FileDeletedEvent $event)
+    public function onFileRemoved(FileRemovedEvent $event)
     {
         /* Noop */
     }

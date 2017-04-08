@@ -5,8 +5,8 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
 use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzerInterface;
 use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
-use Dontdrinkandroot\GitkiBundle\Event\FileDeletedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
+use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
@@ -88,7 +88,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileDeleted(FileDeletedEvent $event)
+    public function onFileRemoved(FileRemovedEvent $event)
     {
         $this->deleteFile($event->getFile());
     }
