@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\GitkiBundle\Form\Type\SubdirectoryCreateType;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -77,17 +78,7 @@ class DirectoryController extends BaseController
 
         $path = DirectoryPath::parse($directoryPath);
 
-        $form = $this->createFormBuilder()
-            ->add(
-                'dirname',
-                TextType::class,
-                [
-                    'label'    => 'Foldername',
-                    'required' => true,
-                ]
-            )
-            ->add('create', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(SubdirectoryCreateType::class);
 
         $form->handleRequest($request);
 

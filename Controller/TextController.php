@@ -3,10 +3,9 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Form\Type\TextEditType;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,10 +82,7 @@ class TextController extends BaseController
             return new Response($renderedView, Response::HTTP_LOCKED);
         }
 
-        $form = $this->createFormBuilder()
-            ->add('content', TextareaType::class, ['attr' => ['rows' => 15]])
-            ->add('commitMessage', TextType::class, ['label' => 'Commit Message', 'required' => true])
-            ->getForm();
+        $form = $this->createForm(TextEditType::class);
 
         $form->handleRequest($request);
 

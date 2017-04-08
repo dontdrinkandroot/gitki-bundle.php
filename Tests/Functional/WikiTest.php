@@ -188,7 +188,7 @@ class WikiTest extends FunctionalTest
 
         $form = $crawler->selectButton('save')->form(
             [
-                'form[content]' => 'This is the changed content'
+                'text_edit[content]' => 'This is the changed content'
             ]
         );
         $crawler = $this->client->submit($form);
@@ -331,9 +331,9 @@ class WikiTest extends FunctionalTest
         $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
         $this->assertStatusCode(Response::HTTP_OK);
 
-        $form = $crawler->selectButton('form_create')->form(
+        $form = $crawler->selectButton('subdirectory_create_submit')->form(
             [
-                'form[dirname]' => 'subdir'
+                'subdirectory_create[dirname]' => 'subdir'
             ]
         );
         $crawler = $this->client->submit($form);
