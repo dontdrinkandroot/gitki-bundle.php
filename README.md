@@ -1,5 +1,5 @@
-gitki-base-bundle
-=================
+gitki-bundle
+============
 
 [![Build Status](https://travis-ci.org/dontdrinkandroot/gitki-bundle.php.svg?branch=master)](https://travis-ci.org/dontdrinkandroot/gitki-bundle.php)
 [![Code Coverage](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/?branch=master)
@@ -60,22 +60,53 @@ git repository which is initialized and readable/writeable by the webserver.
 ```
 # Default configuration for extension with alias: "ddr_gitki"
 ddr_gitki:
+
+    # The path to the git repository containing the wiki files. Must end with slash.
     repository_path:      ~ # Required
-    name:                 GitKi
+
+    # When enabled breadcrumbs are shown for easy navigation
     show_breadcrumbs:     true
+
+    # When enabled the files and folders of the containing directory are shown while viewing a file
+    show_directory_contents: true
+
+    # Markdown specific configuration
     markdown:
+
+        # When disabled all html content is escaped
         allow_html:           false
         toc:
+
+            # Show the table of contents
             enabled:              true
+
+            # Max depth of the table of contents
             max_level:            3
+
+    # Configure elasticsearch integration
     elasticsearch:
         index_name:           ~ # Required
         host:                 localhost
         port:                 9200
+
+    # Maps user roles to internal roles
     roles:
+
+        # Is allowed to view content
         watcher:              IS_AUTHENTICATED_ANONYMOUSLY
+
+        # Is allowed to edit content
         committer:            ROLE_USER
-        admin:                ROLE_USER
+        admin:                ROLE_ADMIN
+
+    # The file names that are used as a directory index. Searched in the order defined.
+    index_files:
+
+        # Defaults:
+        - index.md
+        - README.md
+        - index.txt
+        - README.txt
 ```
 
 Add the routing to the ```app/config/routing.yml```:
