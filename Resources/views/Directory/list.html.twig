@@ -123,7 +123,7 @@
                         <div class="ddr-gitki-name">
                             <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
                                 {% if file.title is not empty %}
-                                    {{ file.title }} <span class="text-muted">{{ file.filename }}</span>
+                                    <span>{{ file.title }}</span> <span class="text-muted">{{ file.filename }}</span>
                                 {% else %}
                                     {{ file.filename }}
                                 {% endif %}

@@ -45,6 +45,23 @@ class ElasticsearchTest extends FunctionalTest
         $this->assertEquals('TOC Example', trim($resultLink->text()));
     }
 
+    public function testFileTitlesInDirectoryIndex()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/?action=list');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $fileNames = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-name');
+        $this->assertCount(5, $fileNames);
+
+        $fileNameParts = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-name span');
+
+        $this->assertEquals('A filename with spaces', $fileNameParts->eq(0)->text());
+        $this->assertEquals('Link Example', $fileNameParts->eq(2)->text());
+        $this->assertEquals('TOC Example', $fileNameParts->eq(4)->text());
+        $this->assertEquals('Table Example', $fileNameParts->eq(6)->text());
+        $this->assertEquals('textfile.txt', $fileNameParts->eq(8)->text());
+    }
+
     /**
      * {@inheritdoc}
      */
