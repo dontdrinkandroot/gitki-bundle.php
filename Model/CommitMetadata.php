@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Model;
 
 /**
@@ -33,7 +32,7 @@ class CommitMetadata
      */
     private $message;
 
-    public function __construct($hash, $committer, $eMail, $timeStamp, $message)
+    public function __construct(string $hash, string $committer, string $eMail, int $timeStamp, string $message)
     {
         $this->hash = $hash;
         $this->committer = $committer;
@@ -43,81 +42,41 @@ class CommitMetadata
     }
 
     /**
-     * @param string $committer
-     */
-    public function setCommitter($committer)
-    {
-        $this->committer = $committer;
-    }
-
-    /**
      * @return string
      */
-    public function getCommitter()
+    public function getCommitter(): string
     {
         return $this->committer;
     }
 
     /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param string $hash
-     */
-    public function setHash($hash)
-    {
-        $this->hash = $hash;
-    }
-
-    /**
      * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
 
     /**
-     * @param string $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-    }
-
-    /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
     /**
-     * @param int $timeStamp
-     */
-    public function setTimeStamp($timeStamp)
-    {
-        $this->timeStamp = $timeStamp;
-    }
-
-    /**
      * @return int
      */
-    public function getTimeStamp()
+    public function getTimeStamp(): int
     {
         return $this->timeStamp;
     }
