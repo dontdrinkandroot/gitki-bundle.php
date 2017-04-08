@@ -1,7 +1,5 @@
 {% extends 'DdrGitkiBundle:File:view.html.twig' %}
 {% block ddr_gitki_body_class %}wiki page show{% endblock ddr_gitki_body_class %}
 {% block ddr_gitki_main_content %}
-    <p>
-        <pre>{{ content }}</pre>
-    </p>
+    <pre class="ddr-gitki-text-content">{{ content }}</pre>
 {% endblock ddr_gitki_main_content %}

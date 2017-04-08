@@ -158,6 +158,70 @@ class WikiTest extends FunctionalTest
         );
     }
 
+    public function testViewTextFile()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $content = $crawler->filter('.ddr-gitki-text-content');
+        $this->assertCount(1, $content);
+
+        $this->assertEquals('This is a simple text file with some content.', $content->text());
+    }
+
+    public function testEditTextFileUnauthenticated()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testEditTextFile()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $form = $crawler->selectButton('form_submit')->form(
+            [
+                'form[content]' => 'This is the changed content'
+            ]
+        );
+        $crawler = $this->client->submit($form);
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/examples/textfile.txt',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $content = $crawler->filter('.ddr-gitki-text-content');
+        $this->assertCount(1, $content);
+
+        $this->assertEquals('This is the changed content', $content->text());
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=history');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
+        $this->assertCount(2, $historyEntries);
+
+        $this->assertEquals(
+            'John Doe <johndoe@examle.com>',
+            $historyEntries->eq(0)->filter('.ddr-gitki-history-committer')->text()
+        );
+        $this->assertEquals(
+            'Editing /examples/textfile.txt',
+            trim($historyEntries->eq(0)->filter('.ddr-gitki-history-message')->text())
+        );
+    }
+
     /**
      * {@inheritdoc}
      */

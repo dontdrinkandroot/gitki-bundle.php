@@ -5,6 +5,9 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class TextController extends BaseController
 {
-    public function viewAction($path)
+    public function viewAction(Request $request, $path)
     {
         $this->assertWatcher();
 
@@ -29,8 +32,11 @@ class TextController extends BaseController
             $response = new Response();
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
-            $response->setEtag(md5($lastModified->getTimestamp() . $user));
+            $response->setEtag($this->generateEtag($lastModified));
             $response->setLastModified($lastModified);
+            if ($response->isNotModified($request)) {
+                return $response;
+            }
 
             $content = $this->getWikiService()->getContent($filePath);
 
@@ -80,27 +86,16 @@ class TextController extends BaseController
         }
 
         $form = $this->createFormBuilder()
-            ->add('content', 'textarea', ['attr' => ['rows' => 15]])
-            ->add('commitMessage', 'text', ['label' => 'Commit Message', 'required' => true])
-            ->add(
-                'actions',
-                'form_actions',
-                [
-                    'buttons' => [
-                        'save'   => ['type' => 'submit', 'options' => ['label' => 'Save']],
-                        'cancel' => [
-                            'type'    => 'submit',
-                            'options' => ['label' => 'Cancel', 'button_class' => 'default']
-                        ],
-                    ]
-                ]
-            )
+            ->add('content', TextareaType::class, ['attr' => ['rows' => 15]])
+            ->add('commitMessage', TextType::class, ['label' => 'Commit Message', 'required' => true])
+            ->add('submit', SubmitType::class, ['label' => 'Save'])
+            ->add('cancel', SubmitType::class, ['label' => 'Cancel'])
             ->getForm();
 
         $form->handleRequest($request);
 
         /** @var SubmitButton $cancelButton */
-        $cancelButton = $form->get('actions')->get('cancel');
+        $cancelButton = $form->get('cancel');
         if ($cancelButton->isClicked()) {
             $this->getWikiService()->removeLock($user, $filePath);
 
@@ -112,7 +107,7 @@ class TextController extends BaseController
             );
         }
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $content = $form->get('content')->getData();
             $commitMessage = $form->get('commitMessage')->getData();
             try {

@@ -51,11 +51,12 @@ class WikiServiceTest extends GitRepositoryTestCase
     {
         /** @var FilePath[] $files */
         $files = $this->wikiService->findAllFiles();
-        $this->assertCount(5, $files);
+        $this->assertCount(6, $files);
 
         $expectedFilePaths = [
             '/examples/a filename with spaces.md',
             '/index.md',
+            '/examples/textfile.txt',
             '/examples/link-example.md',
             '/examples/toc-example.md',
             '/examples/table-example.md'
@@ -74,13 +75,14 @@ class WikiServiceTest extends GitRepositoryTestCase
     {
         /** @var FilePath[] $files */
         $files = $this->wikiService->findAllFiles(DirectoryPath::parse('/examples/'));
-        $this->assertCount(4, $files);
+        $this->assertCount(5, $files);
 
         $expectedFilePaths = [
             '/examples/a filename with spaces.md',
             '/examples/link-example.md',
             '/examples/toc-example.md',
-            '/examples/table-example.md'
+            '/examples/table-example.md',
+            '/examples/textfile.txt'
         ];
         sort($expectedFilePaths);
         $foundFilePaths = [];
