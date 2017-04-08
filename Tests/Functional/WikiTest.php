@@ -314,6 +314,45 @@ class WikiTest extends FunctionalTest
         $this->assertCount(5, $files);
     }
 
+    public function testCreateSubdirectoryActionUnauthenticated()
+    {
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
+        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testCreateSubdirectoryAction()
+    {
+        $this->client->setServerParameters(
+            [
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW'   => 'user',
+            ]
+        );
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $form = $crawler->selectButton('form_create')->form(
+            [
+                'form[dirname]' => 'subdir'
+            ]
+        );
+        $crawler = $this->client->submit($form);
+        $this->assertStatusCode(Response::HTTP_FOUND);
+        $this->assertEquals(
+            '/browse/subdir/',
+            $this->client->getResponse()->headers->get('location')
+        );
+
+        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=list');
+        $this->assertStatusCode(Response::HTTP_OK);
+
+        $subDirectories = $crawler->filter('.ddr-gitki-directory-subdirectories .list-group-item');
+        $this->assertCount(2, $subDirectories);
+
+        $files = $crawler->filter('.ddr-gitki-directory-files .list-group-item');
+        $this->assertCount(1, $files);
+    }
+
     /**
      * {@inheritdoc}
      */
