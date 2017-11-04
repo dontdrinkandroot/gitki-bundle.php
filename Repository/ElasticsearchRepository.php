@@ -50,7 +50,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             'fields' => ['_id']
         ];
 
-        $params['body']['query']['match_all'] = [];
+        $params['body']['query']['match_all'] = [
+            "boost" => 1.0,
+        ];
         $params['body']['size'] = 10000;
 
         try {
