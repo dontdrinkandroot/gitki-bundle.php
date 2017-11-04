@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand"
-               href="{{ path('ddr_gitki_directory', {'action': 'index', 'path': '/'}) }}">Gitki</a>
+               href="{{ path('ddr_gitki_directory', {'action': 'index', 'path': '/'}) }}">{{ ddr_gitki_display_name }}</a>
         </div>
         <div class="collapse navbar-collapse navbar-collapse">
             {% block ddr_gitki_navbar_left %}
