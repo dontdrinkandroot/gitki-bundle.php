@@ -47,11 +47,10 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     {
         $params = [
             'index'  => $this->index,
-            'fields' => ['_id']
         ];
 
         $params['body']['query']['match_all'] = [
-            "boost" => 1.0,
+            'boost' => 1.0,
         ];
         $params['body']['size'] = 10000;
 
@@ -114,7 +113,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function indexFile(FilePath $path, AnalyzedDocument $document)
     {
-
         $params = [
             'id'   => $path->toAbsoluteString(),
             'index' => $this->index,
