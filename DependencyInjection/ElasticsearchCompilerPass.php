@@ -27,7 +27,8 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
             [
                 $container->getParameter('ddr_gitki.elasticsearch.host'),
                 $container->getParameter('ddr_gitki.elasticsearch.port'),
-                $container->getParameter('ddr_gitki.elasticsearch.index_name')
+                $container->getParameter('ddr_gitki.elasticsearch.index_name'),
+                $container->getParameter('ddr_gitki.elasticsearch.version')
             ]
         );
 

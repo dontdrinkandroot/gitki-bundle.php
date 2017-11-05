@@ -26,12 +26,18 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     private $index;
 
     /**
+     * @var float
+     */
+    private $version;
+
+    /**
      * @param string $host
      * @param int    $port
      * @param string $index
      */
-    public function __construct($host, $port, $index)
+    public function __construct(string $host, int $port, string $index, float $version)
     {
+        $this->version = $version;
         $this->index = strtolower($index);
 
         $params = [];
@@ -79,8 +85,13 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     {
         $params = [
             'index'  => $this->index,
-            'fields' => ['title']
         ];
+
+        if ($this->version >= 5.0) {
+            $params['stored_fields'] = ['title'];
+        } else {
+            $params['fields'] = ['title'];
+        }
 
         $searchStringParts = explode(' ', $searchString);
         foreach ($searchStringParts as $searchStringPart) {
