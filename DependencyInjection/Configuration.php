@@ -97,7 +97,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('index_name')->isRequired()->end()
                         ->scalarNode('host')->defaultValue('localhost')->end()
-                        ->floatNode('version')->defaultValue(5.0)->end()
+                        ->floatNode('version')->defaultValue(5.5)->end()
                         ->integerNode('port')->defaultValue(9200)->end()
                     ->end()
                 ->end()
