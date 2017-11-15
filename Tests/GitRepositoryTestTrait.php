@@ -48,7 +48,7 @@ trait GitRepositoryTestTrait
     protected function initRepository(GitWorkingCopy $workingCopy)
     {
         $fileSystem = new Filesystem();
-        $testRepoPath = $this->getRepositoryDataPath();
+        $testRepoPath = $this->getRepositoryTemplatePath();
 
         $fileSystem->mirror($testRepoPath, $this->getRepositoryTargetPath());
         $workingCopy->add('', ['A' => '']);
@@ -60,7 +60,7 @@ trait GitRepositoryTestTrait
      *
      * @return string
      */
-    protected function getRepositoryDataPath()
+    protected function getRepositoryTemplatePath()
     {
         $targetPath = realPath(__DIR__ . '/Data/repo/');
 
