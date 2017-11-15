@@ -16,7 +16,7 @@ class SearchController extends BaseController
     {
         $this->assertWatcher();
 
-        $form = $this->createFormBuilder(null)
+        $form = $this->createFormBuilder(null, ['csrf_protection' => false])
             ->setMethod('GET')
             ->add('searchString', TextType::class, ['label' => 'Text'])
             ->add('search', SubmitType::class)
@@ -24,7 +24,7 @@ class SearchController extends BaseController
 
         $form->handleRequest($request);
 
-        $results = array();
+        $results = [];
         $searchString = null;
         if ($form->isSubmitted() && $form->isValid()) {
             $searchString = $form->get('searchString')->getData();
