@@ -26,18 +26,12 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     private $index;
 
     /**
-     * @var float
-     */
-    private $version;
-
-    /**
      * @param string $host
      * @param int    $port
      * @param string $index
      */
-    public function __construct(string $host, int $port, string $index, float $version)
+    public function __construct(string $host, int $port, string $index)
     {
-        $this->version = $version;
         $this->index = strtolower($index);
 
         $params = [];
@@ -84,14 +78,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     public function search($searchString)
     {
         $params = [
-            'index'  => $this->index,
+            'index'           => $this->index,
+            '_source_include' => ['title']
         ];
-
-        if ($this->version >= 5.0) {
-            $params['stored_fields'] = ['title'];
-        } else {
-            $params['fields'] = ['title'];
-        }
 
         $searchStringParts = explode(' ', $searchString);
         foreach ($searchStringParts as $searchStringPart) {
@@ -104,13 +93,14 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             return [];
         }
 
+
         $searchResults = [];
         foreach ($result['hits']['hits'] as $hit) {
             $searchResult = new SearchResultDocument(FilePath::parse($hit['_id']));
             $searchResult->setScore($hit['_score']);
-            if (isset($hit['fields'])) {
-                if (isset($hit['fields']['title'][0])) {
-                    $searchResult->setTitle($hit['fields']['title'][0]);
+            if (isset($hit['_source'])) {
+                if (isset($hit['_source']['title'])) {
+                    $searchResult->setTitle($hit['_source']['title']);
                 }
             }
             $searchResults[] = $searchResult;

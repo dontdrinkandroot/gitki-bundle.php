@@ -16,7 +16,12 @@ class SearchController extends BaseController
     {
         $this->assertWatcher();
 
-        $form = $this->createFormBuilder(null, ['csrf_protection' => false])
+        $options = [];
+        if ($this->has('security.csrf.token_manager')) {
+            $options['csrf_protection'] = false;
+        }
+
+        $form = $this->createFormBuilder(null, $options)
             ->setMethod('GET')
             ->add('searchString', TextType::class, ['label' => 'Text'])
             ->add('search', SubmitType::class)

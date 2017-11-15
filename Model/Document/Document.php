@@ -69,8 +69,6 @@ class Document
 
     /**
      * @param string $content
-     *
-     * @return null
      */
     public function setContent($content)
     {
