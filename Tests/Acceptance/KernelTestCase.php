@@ -18,7 +18,6 @@ abstract class KernelTestCase extends BaseKernelTestCase
     public function setUp()
     {
         $this->setUpRepo();
-        static::bootKernel(['environment' => $this->getEnvironment()]);
     }
 
     /**
@@ -36,6 +35,4 @@ abstract class KernelTestCase extends BaseKernelTestCase
     {
         return AppKernel::class;
     }
-
-    abstract protected function getEnvironment(): string;
 }

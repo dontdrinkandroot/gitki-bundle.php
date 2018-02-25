@@ -4,6 +4,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Command;
 
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +21,7 @@ class SearchCommand extends Command
      */
     private $elasticsearchService;
 
-    public function __construct(ElasticsearchService $elasticsearchService)
+    public function __construct(ElasticsearchServiceInterface $elasticsearchService)
     {
         parent::__construct();
         $this->elasticsearchService = $elasticsearchService;
@@ -34,6 +36,12 @@ class SearchCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($this->elasticsearchService instanceof NoopElasticsearchService) {
+            $output->writeln('Elasticsearch not configured');
+
+            return -1;
+        }
+
         $searchString = $input->getArgument('searchstring');
         $results = $this->elasticsearchService->search($searchString);
         if (count($results) == 0) {

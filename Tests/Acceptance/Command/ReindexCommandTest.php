@@ -11,8 +11,9 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class ReindexCommandTest extends KernelTestCase
 {
-    public function testSearchEmpty()
+    public function testReindex()
     {
+        static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
         $application->add(
             static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\ReindexCommand')
@@ -27,6 +28,25 @@ class ReindexCommandTest extends KernelTestCase
         );
 
         $this->assertNotEmpty($commandTester->getDisplay());
+    }
+
+    public function testNoElasticsearch()
+    {
+        static::bootKernel(['environment' => 'default']);
+        $application = new Application(static::$kernel);
+        $application->add(
+            static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\ReindexCommand')
+        );
+        $command = $application->find('gitki:reindex');
+        $command->setApplication($application);
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            [
+                'command' => $command->getName()
+            ]
+        );
+
+        $this->assertEquals("Elasticsearch not configured\n", $commandTester->getDisplay());
     }
 
     /**

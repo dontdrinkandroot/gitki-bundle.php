@@ -13,6 +13,7 @@ class SearchCommandTest extends KernelTestCase
 {
     public function testSearchEmpty()
     {
+        static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
         $application->add(
             $application->add(
@@ -34,6 +35,7 @@ class SearchCommandTest extends KernelTestCase
 
     public function testSearchSuccess()
     {
+        static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
         $application->add(
             $application->add(
@@ -53,11 +55,25 @@ class SearchCommandTest extends KernelTestCase
         $this->assertRegExp('#TOC Example#', $commandTester->getDisplay());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEnvironment(): string
+    public function testNoElasticsearch()
     {
-        return 'elasticsearch';
+        static::bootKernel(['environment' => 'default']);
+        $application = new Application(static::$kernel);
+        $application->add(
+            $application->add(
+                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
+            )
+        );
+        $command = $application->find('gitki:search');
+        $command->setApplication($application);
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(
+            [
+                'command'      => $command->getName(),
+                'searchstring' => 'muliple lines'
+            ]
+        );
+
+        $this->assertEquals("Elasticsearch not configured\n", $commandTester->getDisplay());
     }
 }

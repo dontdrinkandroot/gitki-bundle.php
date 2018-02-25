@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Command;
 
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -40,6 +41,12 @@ class ReindexCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($this->elasticsearchService instanceof NoopElasticsearchService) {
+            $output->writeln('Elasticsearch not configured');
+
+            return -1;
+        }
+
         $this->elasticsearchService->clearIndex();
 
         $filePaths = $this->wikiService->findAllFiles();
