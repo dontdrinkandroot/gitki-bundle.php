@@ -8,9 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class BaseController extends Controller
+abstract class BaseController extends Controller
 {
-
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     /**
@@ -18,9 +17,6 @@ class BaseController extends Controller
      */
     protected $securityService;
 
-    /**
-     * BaseController constructor.
-     */
     public function __construct(SecurityService $securityService)
     {
         $this->securityService = $securityService;
@@ -42,5 +38,10 @@ class BaseController extends Controller
         }
 
         return md5($timeStamp->getTimestamp() . $userString);
+    }
+
+    protected function assertAdmin()
+    {
+        $this->securityService->assertAdmin();
     }
 }
