@@ -131,6 +131,8 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
             - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
 
     Dontdrinkandroot\GitkiBundle\Controller\MarkdownController:
         arguments:
@@ -140,6 +142,8 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
             - '@Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
 
     Dontdrinkandroot\GitkiBundle\Controller\FileController:
         arguments:
@@ -147,6 +151,8 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
             - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
 
     Dontdrinkandroot\GitkiBundle\Controller\DirectoryController:
         arguments:
@@ -156,6 +162,8 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
             - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
 
     Dontdrinkandroot\GitkiBundle\Controller\TextController:
         arguments:
@@ -163,9 +171,13 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
             - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
 
     Dontdrinkandroot\GitkiBundle\Controller\SearchController:
         arguments:
             - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
             - '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
         public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
