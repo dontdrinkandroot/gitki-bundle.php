@@ -4,7 +4,11 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\MarkdownEditType;
+use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -17,16 +21,53 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class MarkdownController extends BaseController
 {
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    /**
+     * @var DirectoryServiceInterface
+     */
+    private $directoryService;
+
+    /**
+     * @var ExtensionRegistryInterface
+     */
+    private $extensionRegistry;
+
+    /**
+     * @var MarkdownServiceInterface
+     */
+    private $markdownService;
+
+    /**
+     * MarkdownController constructor.
+     */
+    public function __construct(
+        WikiService $wikiService,
+        DirectoryServiceInterface $directoryService,
+        ExtensionRegistryInterface $extensionRegistry,
+        SecurityService $securityService,
+        MarkdownServiceInterface $markdownService
+    ) {
+        parent::__construct($securityService);
+        $this->wikiService = $wikiService;
+        $this->directoryService = $directoryService;
+        $this->extensionRegistry = $extensionRegistry;
+        $this->markdownService = $markdownService;
+    }
+
     public function viewAction(Request $request, string $path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $showDirectoryContents = $this->getParameter('ddr_gitki.show_directory_contents');
         $filePath = FilePath::parse($path);
         $directoryListing = null;
 
         try {
-            $file = $this->getWikiService()->getFile($filePath);
+            $file = $this->wikiService->getFile($filePath);
             $response = new Response();
             if (!$showDirectoryContents) {
                 $lastModified = new \DateTime();
@@ -38,18 +79,18 @@ class MarkdownController extends BaseController
                 }
             } else {
                 $directoryPath = $filePath->getParentPath();
-                $directoryListing = $this->getDirectoryService()->getDirectoryListing($directoryPath);
+                $directoryListing = $this->directoryService->getDirectoryListing($directoryPath);
             }
 
-            $content = $this->getWikiService()->getContent($filePath);
-            $document = $this->getMarkdownService()->parse($content, $filePath);
+            $content = $this->wikiService->getContent($filePath);
+            $document = $this->markdownService->parse($content, $filePath);
 
             return $this->render(
                 'DdrGitkiBundle:Markdown:view.html.twig',
                 [
                     'path'               => $filePath,
                     'document'           => $document,
-                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions(),
+                    'editableExtensions' => $this->extensionRegistry->getEditableExtensions(),
                     'directoryListing'   => $directoryListing
                 ],
                 $response
@@ -71,25 +112,25 @@ class MarkdownController extends BaseController
 
     public function previewAction(Request $request, $path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $filePath = FilePath::parse($path);
 
         $markdown = $request->request->get('markdown');
-        $document = $this->getMarkdownService()->parse($markdown, $filePath);
+        $document = $this->markdownService->parse($markdown, $filePath);
 
         return new Response($document->getHtml());
     }
 
     public function editAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         try {
-            $this->getWikiService()->createLock($user, $filePath);
+            $this->wikiService->createLock($user, $filePath);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
@@ -107,8 +148,8 @@ class MarkdownController extends BaseController
             $content = $form->get('content')->getData();
             $commitMessage = $form->get('commitMessage')->getData();
             try {
-                $this->getWikiService()->saveFile($user, $filePath, $content, $commitMessage);
-                $this->getWikiService()->removeLock($user, $filePath);
+                $this->wikiService->saveFile($user, $filePath, $content, $commitMessage);
+                $this->wikiService->removeLock($user, $filePath);
 
                 return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
             } catch (GitException $e) {
@@ -116,8 +157,8 @@ class MarkdownController extends BaseController
             }
         } else {
             $content = null;
-            if ($this->getWikiService()->exists($filePath)) {
-                $content = $this->getWikiService()->getContent($filePath);
+            if ($this->wikiService->exists($filePath)) {
+                $content = $this->wikiService->getContent($filePath);
             } else {
                 $title = $request->query->get('title');
                 if (!empty($title)) {
@@ -144,13 +185,5 @@ class MarkdownController extends BaseController
             'DdrGitkiBundle:Markdown:edit.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
-    }
-
-    /**
-     * @return MarkdownServiceInterface
-     */
-    protected function getMarkdownService()
-    {
-        return $this->container->get('ddr.gitki.service.markdown');
     }
 }

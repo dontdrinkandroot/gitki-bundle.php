@@ -2,118 +2,28 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
-use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
 class BaseController extends Controller
 {
+
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     /**
-     * @return GitUserInterface|null
+     * @var SecurityService
      */
-    protected function findGitUser()
-    {
-        $user = $this->getUser();
-        if (null === $user) {
-            return null;
-        }
-
-        if (!($user instanceof GitUserInterface)) {
-            return null;
-        }
-
-        return $user;
-    }
+    protected $securityService;
 
     /**
-     * @return GitUserInterface
-     *
-     * @throws \Exception Thrown if the current user is not set or not a GitUserInterface.
+     * BaseController constructor.
      */
-    protected function getGitUser()
+    public function __construct(SecurityService $securityService)
     {
-        $user = $this->findGitUser();
-        if (null === $user) {
-            throw new \Exception('No user was found');
-        }
-
-        return $user;
-    }
-
-    /**
-     * @return WikiService
-     */
-    protected function getWikiService()
-    {
-        return $this->get('ddr.gitki.service.wiki');
-    }
-
-    /**
-     * @return DirectoryServiceInterface
-     */
-    protected function getDirectoryService()
-    {
-        return $this->get('ddr.gitki.service.directory');
-    }
-
-    /**
-     * @return RoleServiceInterface
-     */
-    protected function getRoleServie()
-    {
-        return $this->get('ddr.gitki.service.role');
-    }
-
-    /**
-     * @return ExtensionRegistryInterface
-     */
-    protected function getExtensionRegistry()
-    {
-        return $this->get('ddr.gitki.registry.extension');
-    }
-
-    /**
-     * @return FileSystemServiceInterface
-     */
-    protected function getFileSystemService()
-    {
-        return $this->get('ddr.gitki.service.file_system');
-    }
-
-    protected function assertWatcher()
-    {
-        if (!$this->isGranted($this->getRoleServie()->getWatcherRole())) {
-            throw new AuthenticationException();
-        }
-    }
-
-    protected function isCommitter(): bool
-    {
-        return $this->isGranted($this->getRoleServie()->getCommitterRole());
-    }
-
-    protected function assertCommitter()
-    {
-        if (!$this->isCommitter()) {
-            throw new AuthenticationException();
-        }
-    }
-
-    protected function assertAdmin()
-    {
-        if (!$this->isGranted($this->getRoleServie()->getAdminRole())) {
-            throw new AuthenticationException();
-        }
+        $this->securityService = $securityService;
     }
 
     /**
@@ -125,7 +35,7 @@ class BaseController extends Controller
      */
     protected function generateEtag(\DateTime $timeStamp)
     {
-        $user = $this->findGitUser();
+        $user = $this->securityService->findGitUser();
         $userString = '';
         if (null !== $user) {
             $userString = $user->getGitUserName();

@@ -3,6 +3,9 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,13 +21,33 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
  */
 class FileController extends BaseController
 {
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    /**
+     * @var DirectoryServiceInterface
+     */
+    private $directoryService;
+
+    public function __construct(
+        SecurityService $securityService,
+        WikiService $wikiService,
+        DirectoryServiceInterface $directoryService
+    ) {
+        parent::__construct($securityService);
+        $this->wikiService = $wikiService;
+        $this->directoryService = $directoryService;
+    }
+
     public function serveAction(Request $request, $path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $filePath = FilePath::parse($path);
 
-        $file = $this->getWikiService()->getFile($filePath);
+        $file = $this->wikiService->getFile($filePath);
 
         $response = new Response();
         $lastModified = new \DateTime();
@@ -43,13 +66,13 @@ class FileController extends BaseController
 
     public function removeAction($path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         $commitMessage = 'Removing ' . $filePath->toAbsoluteString();
-        $this->getWikiService()->removeFile($user, $filePath, $commitMessage);
+        $this->wikiService->removeFile($user, $filePath, $commitMessage);
 
         return $this->redirectToRoute(
             'ddr_gitki_directory',
@@ -59,13 +82,13 @@ class FileController extends BaseController
 
     public function holdLockAction($path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         try {
-            $expiry = $this->getWikiService()->holdLock($user, $filePath);
+            $expiry = $this->wikiService->holdLock($user, $filePath);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
@@ -80,11 +103,11 @@ class FileController extends BaseController
 
     public function historyAction($path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $filePath = FilePath::parse($path);
 
-        $history = $this->getWikiService()->getFileHistory($filePath);
+        $history = $this->wikiService->getFileHistory($filePath);
 
         return $this->render(
             'DdrGitkiBundle:File:history.html.twig',
@@ -97,18 +120,18 @@ class FileController extends BaseController
 
     public function moveAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         try {
-            $this->getWikiService()->createLock($user, $filePath);
+            $this->wikiService->createLock($user, $filePath);
         } catch (FileLockedException $e) {
             throw new ConflictHttpException($e->getMessage());
         }
 
-        $directories = $this->getDirectoryService()->listDirectories(new DirectoryPath(), true, true);
+        $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
         $directoryChoices = [];
         foreach ($directories as $directory) {
             $directoryString = $directory->getAbsolutePath()->toAbsoluteUrlString();
@@ -136,7 +159,7 @@ class FileController extends BaseController
             $newName = $form->get('name')->getData();
             $newPath = $newDirectory->appendFile($newName);
 
-            $this->getWikiService()->renameFile(
+            $this->wikiService->renameFile(
                 $user,
                 $filePath,
                 $newPath,
@@ -166,10 +189,10 @@ class FileController extends BaseController
      */
     public function cancelAction($path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
-        $this->getWikiService()->removeLock($user, $filePath);
+        $user = $this->securityService->getGitUser();
+        $this->wikiService->removeLock($user, $filePath);
 
         return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
     }

@@ -1,20 +1,20 @@
 ddr_gitki_search:
     path:   /search/
-    defaults: { _controller: DdrGitkiBundle:Search:search }
+    defaults: { _controller: Dontdrinkandroot\GitkiBundle\Controller\SearchController:searchAction }
 
 ddr_gitki_history:
     path:   /history
-    defaults: { _controller: DdrGitkiBundle:Repository:history }
+    defaults: { _controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController:historyAction }
 
 ddr_gitki_directory:
     path:   /browse{path}
-    defaults: { _controller: DdrGitkiBundle:Repository:directory }
+    defaults: { _controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController:directoryAction }
     requirements:
         path: .*/
 
 ddr_gitki_file:
     path:   /browse{path}
-    defaults: { _controller: DdrGitkiBundle:Repository:file }
+    defaults: { _controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController:fileAction }
     requirements:
         path: .+
 

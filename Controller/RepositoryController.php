@@ -3,6 +3,9 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Utils\StringUtils;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +20,29 @@ class RepositoryController extends BaseController
     const REQUEST_PARAMETER_ACTION = 'action';
 
     /**
+     * @var ExtensionRegistryInterface
+     */
+    private $extensionRegistry;
+
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    /**
+     * RepositoryController constructor.
+     */
+    public function __construct(
+        SecurityService $securityService,
+        ExtensionRegistryInterface $extensionRegistry,
+        WikiService $wikiService
+    ) {
+        parent::__construct($securityService);
+        $this->extensionRegistry = $extensionRegistry;
+        $this->wikiService = $wikiService;
+    }
+
+    /**
      * @param Request $request
      * @param string  $path
      *
@@ -25,9 +51,8 @@ class RepositoryController extends BaseController
     public function directoryAction(Request $request, $path)
     {
         $this->checkPreconditions($request, $path);
-        $extensionRegistry = $this->getExtensionRegistry();
         $action = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
-        $controller = $extensionRegistry->resolveDirectoryAction($action);
+        $controller = $this->extensionRegistry->resolveDirectoryAction($action);
 
         return $this->forward(
             $controller,
@@ -46,9 +71,8 @@ class RepositoryController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
-        $routeProvider = $this->getExtensionRegistry();
         $extensionRegistry = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
-        $controller = $routeProvider->resolveFileAction($extensionRegistry, $filePath->getExtension());
+        $controller = $this->extensionRegistry->resolveFileAction($extensionRegistry, $filePath->getExtension());
 
         return $this->forward(
             $controller,
@@ -64,9 +88,9 @@ class RepositoryController extends BaseController
      */
     public function historyAction()
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
-        $history = $this->getWikiService()->getHistory(20);
+        $history = $this->wikiService->getHistory(20);
 
         return $this->render('DdrGitkiBundle::history.html.twig', ['history' => $history]);
     }

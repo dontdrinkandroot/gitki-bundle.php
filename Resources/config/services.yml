@@ -2,34 +2,29 @@ parameters:
 
 services:
 
-    # ANALYZERS
-
-    ddr.gitki.analyzer.text:
-        class: Dontdrinkandroot\GitkiBundle\Analyzer\TextAnalyzer
+    Dontdrinkandroot\GitkiBundle\Analyzer\TextAnalyzer:
         tags:
             -  { name: ddr.gitki.analyzer }
 
-    ddr.gitki.analyzer.markdown:
-        class: Dontdrinkandroot\GitkiBundle\Analyzer\MarkdownAnalyzer
+    Dontdrinkandroot\GitkiBundle\Analyzer\MarkdownAnalyzer:
         arguments:
-            - '@ddr.gitki.service.markdown'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface'
         tags:
             -  { name: ddr.gitki.analyzer }
 
-    ddr.gitki.repository.elasticsearch:
-        class:  Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository
+    Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository: ~
 
-    ddr.gitki.twig.gitki_extension:
-        class: Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension
+    Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface: '@Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository'
+
+    Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension:
         arguments:
             - '@security.authorization_checker'
-            - '@ddr.gitki.service.role'
-            - '@ddr.gitki.registry.extension'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Role\RoleService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry'
         tags:
             - { name: twig.extension }
 
-    ddr.gitki.registry.extension:
-        class: Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry
+    Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry:
         calls:
             - [registerFileAction, ['DdrGitkiBundle:File:serve']]
             - [registerFileAction, ['DdrGitkiBundle:File:serve', 'raw']]
@@ -49,54 +44,128 @@ services:
             - [registerExtension, ['txt', 'Text', 'DdrGitkiBundle:Text:view','DdrGitkiBundle:Text:edit']]
             - [registerExtension, ['md', 'Markdown', 'DdrGitkiBundle:Markdown:view','DdrGitkiBundle:Markdown:edit']]
 
-    ddr.gitki.service.file_system:
-        class: Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService
+    Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface: '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry'
+
+    Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService:
         arguments:
             - '%ddr_gitki.repository_path%'
 
-    ddr.gitki.service.git:
-        class: Dontdrinkandroot\GitkiBundle\Service\Git\GitService
+    Dontdrinkandroot\GitkiBundle\Service\Git\GitService:
         arguments:
-            - '@ddr.gitki.service.file_system'
+            - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
 
-    ddr.gitki.service.elasticsearch:
-        class: Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService
+    Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService:
         arguments:
-            - '@ddr.gitki.service.git'
-            - '@ddr.gitki.repository.elasticsearch'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Git\GitService'
+            - '@Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface'
         tags:
             - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
             - { name: kernel.event_listener, event: ddr.gitki.file.removed, method: onFileRemoved }
             - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
 
-    ddr.gitki.service.lock:
-        class: Dontdrinkandroot\GitkiBundle\Service\Lock\LockService
-        arguments: ['@ddr.gitki.service.file_system']
+    Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService'
 
-    ddr.gitki.service.role:
-        class: Dontdrinkandroot\GitkiBundle\Service\Role\RoleService
+    Dontdrinkandroot\GitkiBundle\Service\Lock\LockService:
+        arguments: ['@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService']
+
+    Dontdrinkandroot\GitkiBundle\Service\Role\RoleService:
         calls:
             - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
             - [setCommitterRole, ['%ddr_gitki.role.committer%']]
             - [setAdminRole, ['%ddr_gitki.role.admin%']]
 
-    ddr.gitki.service.directory:
-        class: Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService
+    Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService:
         arguments:
-            - '@ddr.gitki.service.file_system'
-            - '@ddr.gitki.repository.elasticsearch'
+            - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
+            - '@Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface'
         calls:
             - [setIndexFiles, ['%ddr_gitki.index_files%']]
 
-    ddr.gitki.service.wiki:
-        class: Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService
+    Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService'
+
+    Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService:
         arguments:
-            - '@ddr.gitki.service.git'
-            - '@ddr.gitki.service.lock'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Git\GitService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Lock\LockService'
             - '@event_dispatcher'
 
-    ddr.gitki.service.markdown:
-        class: Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService
+    Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService: '@Dontdrinkandroot\GitkiBundle\Service\Wiki\EventDispatchingWikiService'
+
+    Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService:
         arguments:
-            - '@ddr.gitki.service.file_system'
+            - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
             - '%ddr_gitki_markdown.allow_html%'
+
+    Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService'
+
+    Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService:
+        arguments:
+            - '@security.token_storage'
+            - '@security.authorization_checker'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Role\RoleService'
+
+    #
+    # Commands
+    #
+
+    Dontdrinkandroot\GitkiBundle\Command\ReindexCommand:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
+        tags:
+            - { name: console.command }
+
+    Dontdrinkandroot\GitkiBundle\Command\SearchCommand:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
+        tags:
+            - { name: console.command }
+
+    #
+    # Controllers
+    #
+
+    Dontdrinkandroot\GitkiBundle\Controller\RepositoryController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+        public: true
+
+    Dontdrinkandroot\GitkiBundle\Controller\MarkdownController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
+            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface'
+        public: true
+
+    Dontdrinkandroot\GitkiBundle\Controller\FileController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
+        public: true
+
+    Dontdrinkandroot\GitkiBundle\Controller\DirectoryController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
+            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
+            - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
+        public: true
+
+    Dontdrinkandroot\GitkiBundle\Controller\TextController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
+        public: true
+
+    Dontdrinkandroot\GitkiBundle\Controller\SearchController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
+        public: true

@@ -2,7 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +13,20 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SearchController extends BaseController
 {
+    /**
+     * @var ElasticsearchService
+     */
+    private $elasticsearchService;
+
+    public function __construct(SecurityService $securityService, ElasticsearchService $elasticsearchService)
+    {
+        parent::__construct($securityService);
+        $this->elasticsearchService = $elasticsearchService;
+    }
+
     public function searchAction(Request $request)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $options = [];
         if ($this->has('security.csrf.token_manager')) {
@@ -33,20 +45,12 @@ class SearchController extends BaseController
         $searchString = null;
         if ($form->isSubmitted() && $form->isValid()) {
             $searchString = $form->get('searchString')->getData();
-            $results = $this->getElasticsearchService()->search($searchString);
+            $results = $this->elasticsearchService->search($searchString);
         }
 
         return $this->render(
             'DdrGitkiBundle:Search:search.html.twig',
             ['form' => $form->createView(), 'searchString' => $searchString, 'results' => $results]
         );
-    }
-
-    /**
-     * @return ElasticsearchServiceInterface
-     */
-    protected function getElasticsearchService()
-    {
-        return $this->get('ddr.gitki.service.elasticsearch');
     }
 }

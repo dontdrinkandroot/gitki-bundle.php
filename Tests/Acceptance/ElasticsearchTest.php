@@ -16,8 +16,10 @@ class ElasticsearchTest extends WebTestCase
     protected function reindex()
     {
         $container = self::$kernel->getContainer();
-        $wikiService = $container->get('ddr.gitki.service.wiki');
-        $elasticSearchService = $container->get('ddr.gitki.service.elasticsearch');
+        $wikiService = $container->get('test.Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService');
+        $elasticSearchService = $container->get(
+            'test.Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
+        );
         $elasticSearchService->clearIndex();
         $filePaths = $wikiService->findAllFiles();
         foreach ($filePaths as $filePath) {

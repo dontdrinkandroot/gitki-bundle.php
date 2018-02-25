@@ -4,6 +4,9 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\TextEditType;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
 use GitWrapper\GitException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -16,16 +19,36 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class TextController extends BaseController
 {
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    /**
+     * @var ExtensionRegistryInterface
+     */
+    private $extensionRegistry;
+
+    public function __construct(
+        SecurityService $securityService,
+        WikiService $wikiService,
+        ExtensionRegistryInterface $extensionRegistry
+    ) {
+        parent::__construct($securityService);
+        $this->wikiService = $wikiService;
+        $this->extensionRegistry = $extensionRegistry;
+    }
+
     public function viewAction(Request $request, $path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $filePath = FilePath::parse($path);
         $user = $this->getUser();
 
         $file = null;
         try {
-            $file = $this->getWikiService()->getFile($filePath);
+            $file = $this->wikiService->getFile($filePath);
             $response = new Response();
             $lastModified = new \DateTime();
             $lastModified->setTimestamp($file->getMTime());
@@ -35,14 +58,14 @@ class TextController extends BaseController
                 return $response;
             }
 
-            $content = $this->getWikiService()->getContent($filePath);
+            $content = $this->wikiService->getContent($filePath);
 
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:Text:view.html.twig',
                 [
                     'path'               => $filePath,
                     'content'            => $content,
-                    'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
+                    'editableExtensions' => $this->extensionRegistry->getEditableExtensions()
                 ]
             );
 
@@ -66,13 +89,13 @@ class TextController extends BaseController
 
     public function editAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $filePath = FilePath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         try {
-            $this->getWikiService()->createLock($user, $filePath);
+            $this->wikiService->createLock($user, $filePath);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
@@ -90,8 +113,8 @@ class TextController extends BaseController
             $content = $form->get('content')->getData();
             $commitMessage = $form->get('commitMessage')->getData();
             try {
-                $this->getWikiService()->saveFile($user, $filePath, $content, $commitMessage);
-                $this->getWikiService()->removeLock($user, $filePath);
+                $this->wikiService->saveFile($user, $filePath, $content, $commitMessage);
+                $this->wikiService->removeLock($user, $filePath);
 
                 return $this->redirect(
                     $this->generateUrl(
@@ -104,8 +127,8 @@ class TextController extends BaseController
             }
         } else {
             $content = '';
-            if ($this->getWikiService()->exists($filePath)) {
-                $content = $this->getWikiService()->getContent($filePath);
+            if ($this->wikiService->exists($filePath)) {
+                $content = $this->wikiService->getContent($filePath);
             }
 
             if (!$form->isSubmitted()) {

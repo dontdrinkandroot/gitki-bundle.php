@@ -2,7 +2,6 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Command;
 
-use Dontdrinkandroot\GitkiBundle\Command\SearchCommand;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -15,7 +14,11 @@ class SearchCommandTest extends KernelTestCase
     public function testSearchEmpty()
     {
         $application = new Application(static::$kernel);
-        $application->add(new SearchCommand());
+        $application->add(
+            $application->add(
+                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
+            )
+        );
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -32,7 +35,11 @@ class SearchCommandTest extends KernelTestCase
     public function testSearchSuccess()
     {
         $application = new Application(static::$kernel);
-        $application->add(new SearchCommand());
+        $application->add(
+            $application->add(
+                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
+            )
+        );
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);

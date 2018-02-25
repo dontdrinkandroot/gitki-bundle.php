@@ -3,6 +3,11 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Form\Type\SubdirectoryCreateType;
+use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,44 +21,78 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DirectoryController extends BaseController
 {
+    /**
+     * @var DirectoryServiceInterface
+     */
+    private $directoryService;
+
+    /**
+     * @var FileSystemService
+     */
+    private $fileSystemService;
+
+    /**
+     * @var ExtensionRegistryInterface
+     */
+    private $extensionRegistry;
+
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    public function __construct(
+        SecurityService $securityService,
+        WikiService $wikiService,
+        DirectoryServiceInterface $directoryService,
+        ExtensionRegistryInterface $extensionRegistry,
+        FileSystemService $fileSystemService
+    ) {
+        parent::__construct($securityService);
+        $this->directoryService = $directoryService;
+        $this->fileSystemService = $fileSystemService;
+        $this->extensionRegistry = $extensionRegistry;
+        $this->wikiService = $wikiService;
+    }
+
     public function listAction($path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $directoryPath = DirectoryPath::parse($path);
-        if (!$this->getFileSystemService()->exists($directoryPath)) {
+        if (!$this->fileSystemService->exists($directoryPath)) {
             throw new NotFoundHttpException();
         }
 
-        $directoryListing = $this->getDirectoryService()->getDirectoryListing($directoryPath);
+        $directoryListing = $this->directoryService->getDirectoryListing($directoryPath);
 
         return $this->render(
             'DdrGitkiBundle:Directory:list.html.twig',
             [
                 'path'               => $directoryPath,
                 'directoryListing'   => $directoryListing,
-                'editableExtensions' => $this->getExtensionRegistry()->getEditableExtensions()
+                'editableExtensions' => $this->extensionRegistry->getEditableExtensions()
             ]
         );
     }
 
     public function indexAction($path)
     {
-        $this->assertWatcher();
+        $this->securityService->assertWatcher();
 
         $directoryPath = DirectoryPath::parse($path);
 
-        $indexFilePath = $this->getDirectoryService()->resolveExistingIndexFile($directoryPath);
+        $indexFilePath = $this->directoryService->resolveExistingIndexFile($directoryPath);
         if (null !== $indexFilePath) {
             return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
         }
 
-        if (!$this->getFileSystemService()->exists($directoryPath)) {
-            if (!$this->isCommitter()) {
+        if (!$this->fileSystemService->exists($directoryPath)) {
+            if (!$this->securityService->isCommitter()) {
                 throw new NotFoundHttpException();
             }
 
-            $indexFilePath = $this->getDirectoryService()->getPrimaryIndexFile($directoryPath);
+            $indexFilePath = $this->directoryService->getPrimaryIndexFile($directoryPath);
             if (null === $indexFilePath) {
                 throw new NotFoundHttpException();
             }
@@ -72,7 +111,7 @@ class DirectoryController extends BaseController
 
     public function createSubdirectoryAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
@@ -86,7 +125,7 @@ class DirectoryController extends BaseController
             $dirname = $form->get('dirname')->getData();
             $subDirPath = $path->appendDirectory($dirname);
 
-            $this->getWikiService()->createFolder($subDirPath);
+            $this->wikiService->createFolder($subDirPath);
 
             return $this->redirect(
                 $this->generateUrl(
@@ -104,7 +143,7 @@ class DirectoryController extends BaseController
 
     public function createFileAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
@@ -147,16 +186,15 @@ class DirectoryController extends BaseController
 
     public function removeAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
 
-        $wikiService = $this->getWikiService();
-        $files = $wikiService->findAllFiles($directoryPath);
+        $files = $this->wikiService->findAllFiles($directoryPath);
         $parentDirPath = $directoryPath->getParentPath()->toAbsoluteString();
 
         if (0 === count($files)) {
-            $wikiService->removeDirectory($directoryPath);
+            $this->wikiService->removeDirectory($directoryPath);
 
             return $this->redirect($this->generateUrl('ddr_gitki_directory', ['path' => $parentDirPath]));
         }
@@ -168,7 +206,11 @@ class DirectoryController extends BaseController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $commitMessage = $form->get('commitMessage')->getData();
-            $wikiService->removeDirectoryRecursively($this->getGitUser(), $directoryPath, $commitMessage);
+            $this->wikiService->removeDirectoryRecursively(
+                $this->securityService->getGitUser(),
+                $directoryPath,
+                $commitMessage
+            );
 
             return $this->redirect($this->generateUrl('ddr_gitki_directory', ['path' => $parentDirPath]));
         }
@@ -185,10 +227,10 @@ class DirectoryController extends BaseController
 
     public function uploadFileAction(Request $request, $path)
     {
-        $this->assertCommitter();
+        $this->securityService->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
-        $user = $this->getGitUser();
+        $user = $this->securityService->getGitUser();
 
         $form = $this->createFormBuilder()
             ->add('uploadedFile', FileType::class, array('label' => 'File'))
@@ -206,7 +248,7 @@ class DirectoryController extends BaseController
                 $uploadedFileName = $uploadedFile->getClientOriginalName();
             }
             $filePath = $directoryPath->appendFile($uploadedFileName);
-            $this->getWikiService()->addFile(
+            $this->wikiService->addFile(
                 $user,
                 $filePath,
                 $uploadedFile,

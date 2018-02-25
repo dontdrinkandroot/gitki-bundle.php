@@ -18,6 +18,7 @@ class MetadataController extends BaseController
     public function directoriesJsonAction()
     {
         $this->assertWatcher();
+
         $directoryService = $this->getDirectoryService();
         $directories = $directoryService->listDirectories(new DirectoryPath(), true, true);
 

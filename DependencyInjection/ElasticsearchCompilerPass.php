@@ -21,7 +21,9 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $repositoryDefinition = $container->findDefinition('ddr.gitki.repository.elasticsearch');
+        $repositoryDefinition = $container->findDefinition(
+            'Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface'
+        );
         $repositoryDefinition->setClass('Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepository');
         $repositoryDefinition->setArguments(
             [
@@ -31,7 +33,9 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
             ]
         );
 
-        $serviceDefinition = $container->findDefinition('ddr.gitki.service.elasticsearch');
+        $serviceDefinition = $container->findDefinition(
+            'Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
+        );
         $serviceDefinition->setClass('Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService');
 
         $taggedServices = $container->findTaggedServiceIds('ddr.gitki.analyzer');

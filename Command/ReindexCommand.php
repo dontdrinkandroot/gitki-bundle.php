@@ -1,8 +1,10 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Command;
 
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,22 +12,37 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class ReindexCommand extends GitkiContainerAwareCommand
+class ReindexCommand extends Command
 {
+    /**
+     * @var WikiService
+     */
+    private $wikiService;
+
+    /**
+     * @var ElasticsearchServiceInterface
+     */
+    private $elasticsearchService;
+
+    public function __construct(WikiService $wikiService, ElasticsearchServiceInterface $elasticsearchService)
+    {
+        parent::__construct();
+        $this->wikiService = $wikiService;
+        $this->elasticsearchService = $elasticsearchService;
+    }
+
     protected function configure()
     {
-        $this->setName('gitki:reindex')
+        $this
+            ->setName('gitki:reindex')
             ->setDescription('Reindex all Markdown documents');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $wikiService = $this->getWikiService();
-        $elasticSearchService = $this->getElasticsearchService();
+        $this->elasticsearchService->clearIndex();
 
-        $elasticSearchService->clearIndex();
-
-        $filePaths = $wikiService->findAllFiles();
+        $filePaths = $this->wikiService->findAllFiles();
 
         $progress = new ProgressBar($output, count($filePaths));
         $progress->start();
@@ -34,7 +51,7 @@ class ReindexCommand extends GitkiContainerAwareCommand
             $progress->setMessage('Indexing ' . $filePath->toAbsoluteString());
             $progress->advance();
 
-            $elasticSearchService->indexFile($filePath);
+            $this->elasticsearchService->indexFile($filePath);
         }
 
         $progress->finish();
