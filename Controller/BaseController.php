@@ -44,4 +44,9 @@ abstract class BaseController extends Controller
     {
         $this->securityService->assertAdmin();
     }
+
+    protected function assertWatcher()
+    {
+        $this->securityService->assertWatcher();
+    }
 }

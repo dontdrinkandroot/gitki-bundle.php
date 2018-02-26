@@ -3,6 +3,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\PathUtils;
@@ -15,12 +17,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MetadataController extends BaseController
 {
+    /**
+     * @var DirectoryServiceInterface
+     */
+    private $directoryService;
+
+    public function __construct(SecurityService $securityService, DirectoryServiceInterface $directoryService)
+    {
+        parent::__construct($securityService);
+        $this->directoryService = $directoryService;
+    }
+
     public function directoriesJsonAction()
     {
         $this->assertWatcher();
 
-        $directoryService = $this->getDirectoryService();
-        $directories = $directoryService->listDirectories(new DirectoryPath(), true, true);
+        $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
 
         $response = new Response(json_encode($directories));
         $response->headers->set('Content-Type', 'application/json');
@@ -38,8 +50,7 @@ class MetadataController extends BaseController
             $currentPath = FilePath::parse($currentPathString);
         }
 
-        $directoryService = $this->getDirectoryService();
-        $files = $directoryService->listFiles(new DirectoryPath(), true);
+        $files = $this->directoryService->listFiles(new DirectoryPath(), true);
 
         $data = [];
         foreach ($files as $file) {

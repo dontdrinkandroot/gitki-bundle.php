@@ -181,3 +181,11 @@ services:
         public: true
         calls:
             - [ setContainer, [ '@service_container' ] ]
+
+    Dontdrinkandroot\GitkiBundle\Controller\MetadataController:
+        arguments:
+            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
+            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
+        public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
