@@ -39,7 +39,7 @@
         "symfony/dom-crawler": "^3.3",
         "symfony/css-selector": "^3.3",
         "phpunit/phpunit": "^5.0",
-        "elasticsearch/elasticsearch": "^6.0",
+        "elasticsearch/elasticsearch": "^6.0.1",
         "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^1.7"
     },
