@@ -30,8 +30,8 @@
         "symfony/validator": "^3.3",
         "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
         "cpliakas/git-wrapper": "^1.2",
-        "league/commonmark": "^0.15",
-        "webuni/commonmark-table-extension": "^0.6"
+        "league/commonmark": "^0.17",
+        "webuni/commonmark-table-extension": "^0.8"
     },
     "require-dev": {
         "symfony/console": "^3.3",
@@ -39,7 +39,7 @@
         "symfony/dom-crawler": "^3.3",
         "symfony/css-selector": "^3.3",
         "phpunit/phpunit": "^5.0",
-        "elasticsearch/elasticsearch": "^5.0",
+        "elasticsearch/elasticsearch": "^6.0",
         "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^1.7"
     },
