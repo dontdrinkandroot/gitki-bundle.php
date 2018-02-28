@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\Git;
 
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
@@ -54,7 +53,7 @@ class GitService implements GitServiceInterface
 
     public function getHistory(FilePath $path = null, $maxCount = null)
     {
-        $options = ['pretty' => 'format:' . LogParser::getFormatString()];
+        $options = ['pretty=format:' . LogParser::getFormatString() => true];
         if (null !== $maxCount) {
             $options['max-count'] = $maxCount;
         }
@@ -63,10 +62,12 @@ class GitService implements GitServiceInterface
         }
 
         $workingCopy = $this->getWorkingCopy();
-        $workingCopy->log($options);
-        $log = $workingCopy->getOutput();
 
-        return $this->parseLog($log);
+        $outputListener = new StringOutputListener();
+        $workingCopy->getWrapper()->addOutputListener($outputListener);
+        $workingCopy->log($options);
+
+        return $this->parseLog($outputListener->getBuffer());
     }
 
     /**
@@ -143,7 +144,7 @@ class GitService implements GitServiceInterface
      * @param FilePath         $path
      * @param UploadedFile     $uploadedFile
      *
-     * @param string $commitMessage
+     * @param string           $commitMessage
      *
      * @return mixed
      */
