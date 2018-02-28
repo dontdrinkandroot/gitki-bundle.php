@@ -19,25 +19,25 @@
     ],
     "require": {
         "php": ">=7.1",
-        "symfony/finder": "^3.3",
-        "symfony/form": "^3.3",
-        "symfony/framework-bundle": "^3.3",
-        "symfony/twig-bundle": "^3.3",
-        "symfony/twig-bridge": "^3.3",
-        "symfony/asset": "^3.3",
-        "symfony/templating": "^3.3",
-        "symfony/translation": "^3.3",
-        "symfony/validator": "^3.3",
+        "symfony/finder": "^4.0",
+        "symfony/form": "^4.0",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/twig-bridge": "^4.0",
+        "symfony/asset": "^4.0",
+        "symfony/templating": "^4.0",
+        "symfony/translation": "^4.0",
+        "symfony/validator": "^4.0",
         "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
         "cpliakas/git-wrapper": "^1.2",
         "league/commonmark": "^0.17",
         "webuni/commonmark-table-extension": "^0.8"
     },
     "require-dev": {
-        "symfony/console": "^3.3",
-        "symfony/security-bundle": "^3.3",
-        "symfony/dom-crawler": "^3.3",
-        "symfony/css-selector": "^3.3",
+        "symfony/console": "^4.0",
+        "symfony/security-bundle": "^4.0",
+        "symfony/dom-crawler": "^4.0",
+        "symfony/css-selector": "^4.0",
         "phpunit/phpunit": "^5.0",
         "elasticsearch/elasticsearch": "^5.0",
         "scrutinizer/ocular": "^1.1",
@@ -54,7 +54,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     }
 }
