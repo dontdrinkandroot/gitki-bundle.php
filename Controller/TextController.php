@@ -61,7 +61,7 @@ class TextController extends BaseController
             $content = $this->wikiService->getContent($filePath);
 
             $renderedView = $this->renderView(
-                'DdrGitkiBundle:Text:view.html.twig',
+                '@DdrGitki/Text/view.html.twig',
                 [
                     'path'               => $filePath,
                     'content'            => $content,
@@ -142,7 +142,7 @@ class TextController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Text:edit.html.twig',
+            '@DdrGitki/Text/edit.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

@@ -1,11 +1,19 @@
-{% extends 'DdrGitkiBundle::browse.html.twig' %}
+{% extends '@DdrGitki/browse.html.twig' %}
+
 {% block ddr_gitki_title %} - {{ path }} - Create File{% endblock ddr_gitki_title %}
+
 {% block ddr_gitki_main_content %}
+
     <div class="page-header">
         <h1>Create File</h1>
     </div>
-    {{ form(form) }}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
 {% endblock ddr_gitki_main_content %}
+
 {% block ddr_gitki_javascript %}
     {{ parent() }}
     <script type="text/javascript">

@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <title>{{ ddr_gitki_display_name }}{% block ddr_gitki_title %}{% endblock ddr_gitki_title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     {% block ddr_gitki_stylesheet %}
-        {{ include('DdrGitkiBundle::stylesheets.partial.html.twig') }}
+        {{ include('@DdrGitki/stylesheets.partial.html.twig') }}
     {% endblock ddr_gitki_stylesheet %}
+
 </head>
 <body class="{% block ddr_gitki_body_class %}{% endblock ddr_gitki_body_class %}">
+
 {% block ddr_gitki_body %}
 {% endblock ddr_gitki_body %}
+
 {% block ddr_gitki_javascript %}
-    {{ include('DdrGitkiBundle::javascripts.partial.html.twig') }}
+    {{ include('@DdrGitki/javascripts.partial.html.twig') }}
 {% endblock ddr_gitki_javascript %}
+
 </body>
 </html>

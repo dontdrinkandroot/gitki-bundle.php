@@ -67,7 +67,7 @@ class DirectoryController extends BaseController
         $directoryListing = $this->directoryService->getDirectoryListing($directoryPath);
 
         return $this->render(
-            'DdrGitkiBundle:Directory:list.html.twig',
+            '@DdrGitki/Directory/list.html.twig',
             [
                 'path'               => $directoryPath,
                 'directoryListing'   => $directoryListing,
@@ -136,7 +136,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Directory:create.subdirectory.html.twig',
+            '@DdrGitki/Directory/create.subdirectory.html.twig',
             ['form' => $form->createView(), 'path' => $path]
         );
     }
@@ -156,9 +156,9 @@ class DirectoryController extends BaseController
                 [
                     'label'    => 'Filename',
                     'required' => true,
-                    'attr'     => [
-                        'input_group' => ['append' => '.' . $extension]
-                    ]
+//                    'attr'     => [
+//                        'input_group' => ['append' => '.' . $extension]
+//                    ]
                 ]
             )
             ->add('create', SubmitType::class)
@@ -179,7 +179,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Directory:create.file.html.twig',
+            '@DdrGitki/Directory/create.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
@@ -204,7 +204,8 @@ class DirectoryController extends BaseController
             ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $commitMessage = $form->get('commitMessage')->getData();
             $this->wikiService->removeDirectoryRecursively(
                 $this->securityService->getGitUser(),
@@ -220,7 +221,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Directory:remove.html.twig',
+            '@DdrGitki/Directory/remove.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath, 'files' => $files]
         );
     }
@@ -264,7 +265,7 @@ class DirectoryController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Directory:upload.file.html.twig',
+            '@DdrGitki/Directory/upload.file.html.twig',
             ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }

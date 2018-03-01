@@ -1,15 +1,21 @@
-{% extends 'DdrGitkiBundle::scaffold.html.twig' %}
+{% extends '@DdrGitki/scaffold.html.twig' %}
+
 {% block ddr_gitki_body %}
+
     {% block ddr_gitki_navbar %}
-        {{ include('DdrGitkiBundle:Navbar:navbar.partial.html.twig') }}
+        {{ include('@DdrGitki/Navbar/navbar.partial.html.twig') }}
     {% endblock ddr_gitki_navbar %}
+
     {% block ddr_gitki_header %}
     {% endblock ddr_gitki_header %}
+
     {% block ddr_gitki_main %}
         <div id="main" class="container">
             {% block ddr_gitki_main_content %}{% endblock ddr_gitki_main_content %}
         </div>
     {% endblock ddr_gitki_main %}
+
     {% block ddr_gitki_modals %}
     {% endblock ddr_gitki_modals %}
+
 {% endblock ddr_gitki_body %}

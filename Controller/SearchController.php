@@ -49,7 +49,7 @@ class SearchController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Search:search.html.twig',
+            '@DdrGitki/Search/search.html.twig',
             ['form' => $form->createView(), 'searchString' => $searchString, 'results' => $results]
         );
     }

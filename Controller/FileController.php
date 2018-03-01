@@ -91,7 +91,7 @@ class FileController extends BaseController
             $expiry = $this->wikiService->holdLock($user, $filePath);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
-                'DdrGitkiBundle:File:locked.html.twig',
+                '@DdrGitki/File/locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 
@@ -110,7 +110,7 @@ class FileController extends BaseController
         $history = $this->wikiService->getFileHistory($filePath);
 
         return $this->render(
-            'DdrGitkiBundle:File:history.html.twig',
+            '@DdrGitki/File/history.html.twig',
             [
                 'path'    => $filePath,
                 'history' => $history
@@ -175,7 +175,7 @@ class FileController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:File:move.html.twig',
+            '@DdrGitki/File/move.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

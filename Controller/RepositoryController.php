@@ -92,7 +92,7 @@ class RepositoryController extends BaseController
 
         $history = $this->wikiService->getHistory(20);
 
-        return $this->render('DdrGitkiBundle::history.html.twig', ['history' => $history]);
+        return $this->render('@DdrGitki/history.html.twig', ['history' => $history]);
     }
 
     /**

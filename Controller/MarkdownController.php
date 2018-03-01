@@ -86,7 +86,7 @@ class MarkdownController extends BaseController
             $document = $this->markdownService->parse($content, $filePath);
 
             return $this->render(
-                'DdrGitkiBundle:Markdown:view.html.twig',
+                '@DdrGitki/Markdown/view.html.twig',
                 [
                     'path'               => $filePath,
                     'document'           => $document,
@@ -133,7 +133,7 @@ class MarkdownController extends BaseController
             $this->wikiService->createLock($user, $filePath);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
-                'DdrGitkiBundle:File:locked.html.twig',
+                '@DdrGitki/File/locked.html.twig',
                 ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
             );
 
@@ -182,7 +182,7 @@ class MarkdownController extends BaseController
         }
 
         return $this->render(
-            'DdrGitkiBundle:Markdown:edit.html.twig',
+            '@DdrGitki/Markdown/edit.html.twig',
             ['form' => $form->createView(), 'path' => $filePath]
         );
     }

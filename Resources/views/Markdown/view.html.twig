@@ -1,4 +1,4 @@
-{% extends 'DdrGitkiBundle:File:view.html.twig' %}
+{% extends '@DdrGitki/File/view.html.twig' %}
 {% block ddr_gitki_title %} - {{ document.title }}{% endblock ddr_gitki_title %}
 {% block ddr_gitki_body_class %}wiki page show{% endblock ddr_gitki_body_class %}
 {% block ddr_gitki_main_content %}
@@ -10,10 +10,10 @@
                 </div>
                 <div class="col-md-4 margin-top-1x-md">
                     {% if ddr_gitki_markdown_show_toc and document.toc is not empty %}
-                        {{ include('DdrGitkiBundle:Markdown:toc.partial.html.twig') }}
+                        {{ include('@DdrGitki/Markdown/toc.partial.html.twig') }}
                     {% endif %}
                     {% if ddr_gitki_show_directory_contents %}
-                        {{ include('DdrGitkiBundle:File:directory.contents.partial.html.twig') }}
+                        {{ include('@DdrGitki/File/directory.contents.partial.html.twig') }}
                     {% endif %}
                 </div>
             </div>
