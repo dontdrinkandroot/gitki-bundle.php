@@ -1,9 +1,8 @@
 {% if ddr_gitki_elasticsearch_enabled %}
-    <form class="navbar-form navbar-left" role="search"
-          action="{{ path('ddr_gitki_search') }}"
-          method="GET">
-        <div class="form-group">
-            <input id="form_searchString" name="form[searchString]" type="text" class="form-control" placeholder="Search">
-        </div>
+
+    <form class="form-inline my-2 my-lg-0" role="search" action="{{ path('ddr_gitki_search') }}" method="GET">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="form_searchString" name="form[searchString]" />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+
 {% endif %}

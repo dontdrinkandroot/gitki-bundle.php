@@ -1,15 +1,13 @@
 {% for commit in history %}
-    <div class="panel panel-default ddr-gitki-history-entry">
-        <div class="panel-heading">
-            <div class="panel-title ddr-gitki-history-hash">{{ commit.hash }}</div>
-        </div>
-        <div class="panel-body ddr-gitki-history-message">
+    <div class="card ddr-gitki-history-entry">
+        <h4 class="card-header ddr-gitki-history-hash">{{ commit.hash }}</h4>
+        <div class="card-body ddr-gitki-history-message">
             {{ commit.message }}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="row">
-                <div class="col-xs-6 ddr-gitki-history-committer">{{ commit.committer }} &lt;{{ commit.eMail }}&gt;</div>
-                <div class="col-xs-6 text-right ddr-gitki-history-date">{{ commit.timeStamp|date("Y/m/d H:i:s") }}</div>
+                <div class="col-md-6 ddr-gitki-history-committer">{{ commit.committer }} &lt;{{ commit.eMail }}&gt;</div>
+                <div class="col-md-6 text-right ddr-gitki-history-date">{{ commit.timeStamp|date("Y/m/d H:i:s") }}</div>
             </div>
         </div>
     </div>

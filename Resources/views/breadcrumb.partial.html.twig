@@ -1,5 +1,5 @@
 <ol class="breadcrumb pull-left">
-    <li>
+    <li class="breadcrumb-item">
         <a href="{{ path('ddr_gitki_directory', {'path': '/', 'action': 'index'}) }}">
             <span class="fa fa-home"></span>
         </a>
@@ -7,13 +7,13 @@
     {% if path.hasParentPath %}
         {% for parentPath in path.parentPath.collectPaths %}
             {% if parentPath.name is not empty %}
-                <li>
+                <li class="breadcrumb-item">
                     <a href="{{ path('ddr_gitki_directory', {'path': parentPath, 'action': 'index'}) }}">{{ parentPath.name }}</a>
                 </li>
             {% endif %}
         {% endfor %}
     {% endif %}
-    <li class="active">
+    <li class="breadcrumb-item active">
         {% if path.filePath %}
             <a href="{{ path('ddr_gitki_file', {'path': path}) }}">
                 {{ path.name }}

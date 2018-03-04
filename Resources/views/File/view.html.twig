@@ -1,71 +1,51 @@
 {% extends '@DdrGitki/browse.html.twig' %}
+
 {% block ddr_gitki_actions %}
-    <div class="btn-group btn-group-sm pull-right global-actions" role="group">
-        <a class="btn btn-default"
-           href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'list'}) }}"
-           title="Show Folder">
+    <div class="btn-group btn-group-lg pull-right global-actions" role="group">
+
+        <a class="btn btn-outline-secondary" href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'list'}) }}" title="Show Folder">
             <span class="fa fa-fw fa-folder-o"></span>
         </a>
+
         {% if isGitkiCommitter() and isEditable(path.extension) %}
-            <a class="btn btn-default"
-               href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}"
-               title="Edit">
+            <a class="btn btn-outline-secondary" href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}" title="Edit">
                 <span class="fa fa-fw fa-pencil"></span>
             </a>
         {% endif %}
-        <div class="btn-group btn-group-sm" role="group">
-            <button class="btn btn-default dropdown-toggle"
-                    type="button"
-                    id="actions-dropdown"
-                    data-toggle="dropdown">
+
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
                 <span class="fa fa-cog"></span>
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="actions-dropdown">
-                <li role="presentation">
-                    <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'history'}) }}"
-                       role="menuitem" tabindex="-1"
-                       title="History">
-                        <span class="fa fa-fw fa-history"></span> History
-                    </a>
-                </li>
-                <li role="presentation">
-                    <a href="javascript: if(window.print) window.print()" role="menuitem" tabindex="-1" title="Print">
-                        <span class="fa fa-fw fa-print"></span> Print
-                    </a>
-                </li>
+            <div class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="actions-dropdown">
+                <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'history'}) }}" role="menuitem" tabindex="-1" title="History" class="dropdown-item">
+                    <span class="fa fa-fw fa-history"></span> History
+                </a>
+                <a href="javascript: if(window.print) window.print()" role="menuitem" tabindex="-1" title="Print" class="dropdown-item">
+                    <span class="fa fa-fw fa-print"></span> Print
+                </a>
                 {% if isGitkiCommitter() %}
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation">
-                        <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'move'}) }}"
-                           role="menuitem" tabindex="-1"
-                           title="Move">
-                            <span class="fa fa-fw fa-arrows-h"></span> Move
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'remove'}) }}"
-                           role="menuitem" tabindex="-1"
-                           title="Remove">
-                            <span class="fa fa-fw fa-trash-o"></span> Delete
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.upload'}) }}"
-                           role="menuitem" tabindex="-1" title="Upload File to containing folder">
-                            <span class="fa fa-fw fa-upload"></span> Upload file
-                        </a>
-                    </li>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'move'}) }}" role="menuitem" tabindex="-1" title="Move" class="dropdown-item">
+                        <span class="fa fa-fw fa-arrows-h"></span> Move
+                    </a>
+                    <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'remove'}) }}" role="menuitem" tabindex="-1" title="Remove"
+                       class="dropdown-item">
+                        <span class="fa fa-fw fa-trash-o"></span> Delete
+                    </a>
+                    <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.upload'}) }}" role="menuitem" tabindex="-1"
+                       title="Upload File to containing folder" class="dropdown-item">
+                        <span class="fa fa-fw fa-upload"></span> Upload file
+                    </a>
                     {% for extension,name in editableExtensions %}
-                        <li role="presentation">
-                            <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.create', 'extension': extension}) }}"
-                               role="menuitem" tabindex="-1" title="Create {{ name }} file">
-                                <span class="fa fa-fw fa-file-o"></span> Create {{ name }} file
-                            </a>
-                        </li>
+                        <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.create', 'extension': extension}) }}" role="menuitem"
+                           tabindex="-1" title="Create {{ name }} file" class="dropdown-item">
+                            <span class="fa fa-fw fa-file-o"></span> Create {{ name }} file
+                        </a>
                     {% endfor %}
                 {% endif %}
-            </ul>
+            </div>
         </div>
     </div>
 {% endblock ddr_gitki_actions %}

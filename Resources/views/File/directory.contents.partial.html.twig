@@ -1,9 +1,7 @@
 {% if directoryListing.files is not empty %}
-    <div class="panel panel-default ddr-gitki-directory-files">
-        <div class="panel-heading">
-            <h2 class="panel-title">Files</h2>
-        </div>
-        <ul class="list-group">
+    <div class="card ddr-gitki-directory-files">
+        <h4 class="card-header">Files</h4>
+        <ul class="list-group list-group-flush">
             {% for file in directoryListing.files %}
                 <li class="list-group-item">
                     <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
@@ -20,11 +18,9 @@
 {% endif %}
 
 {% if directoryListing.subDirectories is not empty %}
-    <div class="panel panel-default ddr-gitki-directory-folders">
-        <div class="panel-heading">
-            <h2 class="panel-title">Folders</h2>
-        </div>
-        <ul class="list-group">
+    <div class="card ddr-gitki-directory-folders">
+        <h4 class="card-header">Folders</h4>
+        <ul class="list-group list-group-flush">
             {% for dir in directoryListing.subDirectories %}
                 <li class="list-group-item">
                     <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">

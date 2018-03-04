@@ -1,8 +1,11 @@
 {% extends '@DdrGitki/base.html.twig' %}
+
 {% block ddr_gitki_title %} - {{ path }}{% endblock ddr_gitki_title %}
+
 {% block ddr_gitki_body_class %}wiki{% endblock ddr_gitki_body_class %}
+
 {% block ddr_gitki_header %}
-    <header>
+    <header class="clearfix">
         {% block ddr_gitki_header_content %}
             {% if ddr_gitki_show_breadcrumbs %}
                 <div class="action-bar">
