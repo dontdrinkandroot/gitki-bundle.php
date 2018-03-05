@@ -1,8 +1,6 @@
-<div class="panel panel-default" id="ddr-gitki-toc">
-    <div class="panel-heading">
-        <h2 class="panel-title">TOC</h2>
-    </div>
-    <ul class="list-group">
+<div class="card mb-3" id="ddr-gitki-toc">
+    <h5 class="card-header">TOC</h5>
+    <ul class="list-group list-group-flush">
         {% if ddr_gitki_markdown_toc_max_level > 1 %}
             {% for h2 in document.toc %}
                 <li class="list-group-item"><a href="#{{ h2.id }}">{{ h2.text }}</a>

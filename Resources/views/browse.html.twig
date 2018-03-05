@@ -5,17 +5,15 @@
 {% block ddr_gitki_body_class %}wiki{% endblock ddr_gitki_body_class %}
 
 {% block ddr_gitki_header %}
-    <header class="clearfix">
+    <header class="ddr-gitki-header">
         {% block ddr_gitki_header_content %}
-            {% if ddr_gitki_show_breadcrumbs %}
-                <div class="action-bar">
-                    <div class="container">
-                        {% block ddr_gitki_actions %}
-                        {% endblock ddr_gitki_actions %}
-                        {{ include('@DdrGitki/breadcrumb.partial.html.twig', {'path' : path}) }}
-                    </div>
-                </div>
-            {% endif %}
+            <div class="container">
+                {% if ddr_gitki_show_breadcrumbs %}
+                    {{ include('@DdrGitki/breadcrumb.partial.html.twig', {'path' : path}) }}
+                {% endif %}
+                {% block ddr_gitki_actions %}
+                {% endblock ddr_gitki_actions %}
+            </div>
         {% endblock ddr_gitki_header_content %}
     </header>
 {% endblock ddr_gitki_header %}

@@ -1,7 +1,7 @@
 {% extends '@DdrGitki/browse.html.twig' %}
 
 {% block ddr_gitki_actions %}
-    <div class="btn-group btn-group-lg pull-right global-actions" role="group">
+    <div class="btn-group ddr-gitki-global-actions" role="group">
 
         <a class="btn btn-outline-secondary" href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'list'}) }}" title="Show Folder">
             <span class="fa fa-fw fa-folder-o"></span>
@@ -16,7 +16,6 @@
         <div class="btn-group" role="group">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
                 <span class="fa fa-cog"></span>
-                <span class="caret"></span>
             </button>
             <div class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="actions-dropdown">
                 <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'history'}) }}" role="menuitem" tabindex="-1" title="History" class="dropdown-item">

@@ -6,7 +6,7 @@
 
 {% block ddr_gitki_actions %}
     {% if isGitkiCommitter() %}
-        <div class="dropdown pull-right global-actions">
+        <div class="dropdown pull-right ddr-gitki-global-actions">
             <button class="btn btn-outline-secondary btn-lg dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
                 <span class="fa fa-cog"></span>
                 <span class="caret"></span>
@@ -33,17 +33,15 @@
 
 {% block ddr_gitki_main_content %}
 
-    <div class="page-header">
-        <h1>{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
-    </div>
+    <h1 class="mt-3 mb-3">{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
 
     {% if directoryListing.subDirectories is not empty %}
         <div class="card ddr-gitki-directory-subdirectories">
-            <h4 class="card-header">Folders</h4>
+            <h5 class="card-header">Folders</h5>
             <div class="list-group list-group-flush">
                 {% for dir in directoryListing.subDirectories %}
                     <div class="list-group-item">
-                        <div class="ddr-gitki-icon-actions">
+                        <div class="ddr-gitki-item-actions">
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
                                         data-toggle="dropdown">
@@ -59,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ddr-gitki-name">
+                        <div class="ddr-gitki-item-name">
                             <a href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'index'}) }}">{{ dir.filename|dirTitle }}</a>
                         </div>
                     </div>
@@ -70,14 +68,13 @@
 
     {% if directoryListing.files is not empty %}
         <div class="card ddr-gitki-directory-files">
-            <h4 class="card-header">Files</h4>
+            <h5 class="card-header">Files</h5>
             <div class="list-group list-group-flush">
                 {% for file in directoryListing.files %}
                     <div class="list-group-item">
-                        <div class="ddr-gitki-icon-actions">
+                        <div class="ddr-gitki-item-actions">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
-                                        data-toggle="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}" data-toggle="dropdown">
                                     <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
@@ -102,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ddr-gitki-name">
+                        <div class="ddr-gitki-item-name">
                             <a href="{{ path('ddr_gitki_file', {'path':file.absolutePath}) }}">
                                 {% if file.title is not empty %}
                                     <span>{{ file.title }}</span> <span class="text-muted">{{ file.filename }}</span>
