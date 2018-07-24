@@ -96,7 +96,7 @@ class WikiServiceTest extends GitRepositoryTestCase
 
     public function testRemoveNonEmptyDirectory()
     {
-        $this->setExpectedException(DirectoryNotEmptyException::class);
+        $this->expectException(DirectoryNotEmptyException::class);
         $this->wikiService->removeDirectory(DirectoryPath::parse('/examples/'));
     }
 
@@ -137,7 +137,7 @@ class WikiServiceTest extends GitRepositoryTestCase
 
     public function testRemoveDirectoryRecursivelyWithLock()
     {
-        $this->setExpectedException(FileLockedException::class);
+        $this->expectException(FileLockedException::class);
 
         $testUser = new User('testUser', 'TestUser', 'test@example.com');
         $this->wikiService->createLock($testUser, $this->getExampleFiles()[0]);

@@ -2,10 +2,12 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class GitRepositoryTestCase extends \PHPUnit_Framework_TestCase
+class GitRepositoryTestCase extends TestCase
 {
     const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
