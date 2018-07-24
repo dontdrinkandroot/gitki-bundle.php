@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
@@ -34,10 +33,13 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     {
         $this->index = strtolower($index);
 
-        $params = [];
-        $params['hosts'] = [];
-
         $this->client = ClientBuilder::create()->setHosts([$host . ':' . $port])->build();
+        $params = ['index' => $this->index];
+        try {
+            $response = $this->client->indices()->getSettings($params);
+        } catch (Missing404Exception $e) {
+            $response = $this->client->indices()->create($params);
+        }
     }
 
     /**
@@ -45,31 +47,9 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
      */
     public function clear()
     {
-        $params = [
-            'index'  => $this->index,
-        ];
-
-        $params['body']['query']['match_all'] = [
-            'boost' => 1.0,
-        ];
-        $params['body']['size'] = 10000;
-
-        try {
-            $result = $this->client->search($params);
-        } catch (Missing404Exception $e) {
-            /* If index is missing nothing to be done */
-            return;
-        }
-
-        foreach ($result['hits']['hits'] as $hit) {
-            $params = [
-                'id'   => $hit['_id'],
-                'index' => $this->index,
-                'type' => $hit['_type']
-            ];
-
-            $this->client->delete($params);
-        }
+        $params = ['index' => $this->index];
+        $response = $this->client->indices()->delete($params);
+        $response = $this->client->indices()->create($params);
     }
 
     /**
@@ -84,7 +64,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
         $searchStringParts = explode(' ', $searchString);
         foreach ($searchStringParts as $searchStringPart) {
-            $params['body']['query']['bool']['should'][]['wildcard']['content'] = $searchStringPart . '*';
+            $params['body']['query']['bool']['should'][]['wildcard']['content'] = strtolower($searchStringPart) . '*';
         }
 
         $result = $this->client->search($params);
@@ -92,7 +72,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         if ($numHits == 0) {
             return [];
         }
-
 
         $searchResults = [];
         foreach ($result['hits']['hits'] as $hit) {
@@ -115,13 +94,14 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     public function indexFile(FilePath $path, AnalyzedDocument $document)
     {
         $params = [
-            'id'   => $path->toAbsoluteString(),
+            'id'    => $path->toAbsoluteString(),
             'index' => $this->index,
-            'type' => $path->getExtension(),
-            'body' => [
+            'type'  => 'gitki_document',
+            'body'  => [
                 'title'        => $document->getTitle(),
                 'content'      => $document->getAnalyzedContent(),
-                'linked_paths' => $document->getLinkedPaths()
+                'linked_paths' => $document->getLinkedPaths(),
+                'extension'    => $path->getExtension(),
             ]
         ];
 
@@ -136,7 +116,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $params = [
             'id'    => $path->toAbsoluteString(),
             'index' => $this->index,
-            'type'  => $path->getExtension()
+            'type'  => 'gitki_document',
         ];
 
         return $this->client->delete($params);
@@ -151,7 +131,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             $params = [
                 'id'              => $path->toAbsoluteString(),
                 'index'           => $this->index,
-                'type'            => $path->getExtension(),
+                'type'            => 'gitki_document',
                 '_source_include' => ['title']
             ];
             $result = $this->client->get($params);
