@@ -52,10 +52,10 @@ class ElasticsearchTest extends WebTestCase
         $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/?action=list');
         $this->assertStatusCode(Response::HTTP_OK);
 
-        $fileNames = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-name');
+        $fileNames = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-item-name');
         $this->assertCount(5, $fileNames);
 
-        $fileNameParts = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-name span');
+        $fileNameParts = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-item-name span');
 
         $this->assertEquals('A filename with spaces', $fileNameParts->eq(0)->text());
         $this->assertEquals('Link Example', $fileNameParts->eq(2)->text());
