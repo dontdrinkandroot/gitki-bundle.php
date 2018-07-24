@@ -8,12 +8,11 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
-use Dontdrinkandroot\Service\AbstractService;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class DirectoryService extends AbstractService implements DirectoryServiceInterface
+class DirectoryService implements DirectoryServiceInterface
 {
     /**
      * @var FileSystemServiceInterface
