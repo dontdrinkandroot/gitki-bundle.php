@@ -28,7 +28,7 @@
         "symfony/templating": "^4.0",
         "symfony/translation": "^4.0",
         "symfony/validator": "^4.0",
-        "dontdrinkandroot/utils": "0.4.*,>=0.4.3",
+        "dontdrinkandroot/utils": "0.5.x-dev",
         "cpliakas/git-wrapper": "^2.0",
         "league/commonmark": "^0.17",
         "webuni/commonmark-table-extension": "^0.8"
