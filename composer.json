@@ -40,7 +40,7 @@
         "symfony/css-selector": "^4.0",
         "symfony/yaml": "^4.0",
         "phpunit/phpunit": "^6.0",
-        "elasticsearch/elasticsearch": "^6.0.1",
+        "elasticsearch/elasticsearch": "^6.0",
         "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^1.7"
     },
