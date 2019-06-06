@@ -1,6 +1,6 @@
 {% if directoryListing.files is not empty %}
     <div class="card ddr-gitki-directory-files mb-3">
-        <h5 class="card-header">Files</h5>
+        <h2 class="card-header">Files</h2>
         <ul class="list-group list-group-flush">
             {% for file in directoryListing.files %}
                 <li class="list-group-item">
@@ -19,7 +19,7 @@
 
 {% if directoryListing.subDirectories is not empty %}
     <div class="card ddr-gitki-directory-folders mb-3">
-        <h5 class="card-header">Folders</h5>
+        <h2 class="card-header">Folders</h2>
         <ul class="list-group list-group-flush">
             {% for dir in directoryListing.subDirectories %}
                 <li class="list-group-item">

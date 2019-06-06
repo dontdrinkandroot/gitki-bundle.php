@@ -7,7 +7,7 @@
 {% block ddr_gitki_actions %}
     {% if isGitkiCommitter() %}
         <div class="dropdown pull-right ddr-gitki-global-actions">
-            <button class="btn btn-outline-secondary btn-lg dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
                 <span class="fa fa-cog"></span>
                 <span class="caret"></span>
             </button>
@@ -33,11 +33,13 @@
 
 {% block ddr_gitki_main_content %}
 
-    <h1 class="mt-3 mb-3">{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
+    <div class="page-header">
+        <h1>{% if path.name %}{{ path.name|dirTitle }}{% else %}<span class="fa fa-home"></span>{% endif %}</h1>
+    </div>
 
     {% if directoryListing.subDirectories is not empty %}
         <div class="card ddr-gitki-directory-subdirectories">
-            <h5 class="card-header">Folders</h5>
+            <h2 class="card-header">Folders</h2>
             <div class="list-group list-group-flush">
                 {% for dir in directoryListing.subDirectories %}
                     <div class="list-group-item">
@@ -68,13 +70,14 @@
 
     {% if directoryListing.files is not empty %}
         <div class="card ddr-gitki-directory-files">
-            <h5 class="card-header">Files</h5>
+            <h2 class="card-header">Files</h2>
             <div class="list-group list-group-flush">
                 {% for file in directoryListing.files %}
                     <div class="list-group-item">
                         <div class="ddr-gitki-item-actions">
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}" data-toggle="dropdown">
+                                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
+                                        data-toggle="dropdown">
                                     <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
