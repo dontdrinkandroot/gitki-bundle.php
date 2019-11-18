@@ -4,17 +4,17 @@
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\Heading;
+use League\CommonMark\Block\Renderer\BlockRendererInterface;
 use League\CommonMark\Block\Renderer\HeadingRenderer;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInlineContainer;
+use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Node\Node;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class TocBuildingHeaderRenderer extends HeadingRenderer
+class TocBuildingHeaderRenderer implements BlockRendererInterface
 {
     private $toc = [];
 
@@ -24,16 +24,20 @@ class TocBuildingHeaderRenderer extends HeadingRenderer
 
     private $current = [];
 
+    /** @var HeadingRenderer */
+    private $decoratedRender;
+
+    public function __construct()
+    {
+        $this->decoratedRender = new HeadingRenderer();
+    }
+
     /**
      * {@inheritdoc}
      */
     public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
     {
-        if (!($block instanceof Heading)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
-        }
-
-        $htmlElement = parent::render($block, $htmlRenderer, $inTightList);
+        $htmlElement = $this->decoratedRender->render($block, $htmlRenderer, $inTightList);
 
         $id = 'heading' . $this->count;
         $level = $block->getLevel();
@@ -84,12 +88,7 @@ class TocBuildingHeaderRenderer extends HeadingRenderer
         return $this->toc;
     }
 
-    /**
-     * @param AbstractBlock $header
-     *
-     * @return string
-     */
-    private function getBlockTextContent(AbstractBlock $header)
+    private function getBlockTextContent(AbstractBlock $header): string
     {
         $text = '';
         foreach ($header->children() as $node) {
@@ -99,18 +98,13 @@ class TocBuildingHeaderRenderer extends HeadingRenderer
         return $text;
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return string
-     */
-    private function getNodeTextContent(Node $node)
+    private function getNodeTextContent(Node $node): string
     {
         if ($node instanceof Text) {
             return $node->getContent();
         }
 
-        if ($node instanceof AbstractInlineContainer) {
+        if ($node instanceof AbstractInline) {
             $text = '';
             foreach ($node->children() as $child) {
                 $text .= $this->getNodeTextContent($child);
