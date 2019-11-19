@@ -13,9 +13,7 @@ abstract class WebTestCase extends BaseWebTestCase
 
     const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
-    /**
-     * @var Client
-     */
+    /** @var Client */
     protected $client;
 
     public function setUp()

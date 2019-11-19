@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Command;
 
+use Dontdrinkandroot\GitkiBundle\Command\SearchCommand;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -15,11 +16,7 @@ class SearchCommandTest extends KernelTestCase
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
-        $application->add(
-            $application->add(
-                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
-            )
-        );
+        $application->add(self::$container->get(SearchCommand::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -37,11 +34,7 @@ class SearchCommandTest extends KernelTestCase
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
-        $application->add(
-            $application->add(
-                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
-            )
-        );
+        $application->add(self::$container->get(SearchCommand::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -59,11 +52,7 @@ class SearchCommandTest extends KernelTestCase
     {
         static::bootKernel(['environment' => 'default']);
         $application = new Application(static::$kernel);
-        $application->add(
-            $application->add(
-                static::$kernel->getContainer()->get('test.Dontdrinkandroot\GitkiBundle\Command\SearchCommand')
-            )
-        );
+        $application->add(self::$container->get(SearchCommand::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);

@@ -2,6 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,11 +17,9 @@ class ElasticsearchTest extends WebTestCase
 
     protected function reindex()
     {
-        $container = self::$kernel->getContainer();
-        $wikiService = $container->get('test.Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService');
-        $elasticSearchService = $container->get(
-            'test.Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
-        );
+        $container = self::$container;
+        $wikiService = $container->get(WikiService::class);
+        $elasticSearchService = $container->get(ElasticsearchServiceInterface::class);
         $elasticSearchService->clearIndex();
         $filePaths = $wikiService->findAllFiles();
         foreach ($filePaths as $filePath) {

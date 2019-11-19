@@ -6,6 +6,10 @@ matrix:
             env: dependencies=lowest
         -   php: 7.2
             env: dependencies=highest
+        -   php: 7.3
+            env: dependencies=lowest
+        -   php: 7.3
+            env: dependencies=highest
 
 services:
   - elasticsearch
@@ -15,7 +19,7 @@ cache:
         - $HOME/.composer/cache
 
 before_install:
-    - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.0.deb && sudo dpkg -i --force-confnew elasticsearch-6.5.0.deb && sudo service elasticsearch restart
+    - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.4.deb && sudo dpkg -i --force-confnew elasticsearch-6.8.4.deb && sudo service elasticsearch restart
 
 before_script:
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
