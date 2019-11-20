@@ -20,7 +20,7 @@ cache:
 
 before_install:
     - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.4.deb && sudo dpkg -i --force-confnew elasticsearch-6.8.4.deb && sudo service elasticsearch restart
-    - sleep 10
+    - until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
 
 before_script:
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
@@ -29,7 +29,6 @@ before_script:
     - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
     - git config --global user.email "gitki@dontdrinkandroot.net"
     - git config --global user.name "GitKi"
-    - curl -XGET 'localhost:9200'
 
 script:
     - SYMFONY_DEPRECATIONS_HELPER="weak" vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
