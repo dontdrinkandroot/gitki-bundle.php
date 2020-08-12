@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use DateTime;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\MarkdownEditType;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
@@ -41,9 +42,6 @@ class MarkdownController extends BaseController
      */
     private $markdownService;
 
-    /**
-     * MarkdownController constructor.
-     */
     public function __construct(
         WikiService $wikiService,
         DirectoryServiceInterface $directoryService,
@@ -70,7 +68,7 @@ class MarkdownController extends BaseController
             $file = $this->wikiService->getFile($filePath);
             $response = new Response();
             if (!$showDirectoryContents) {
-                $lastModified = new \DateTime();
+                $lastModified = new DateTime();
                 $lastModified->setTimestamp($file->getMTime());
                 $response->setLastModified($lastModified);
                 $response->setEtag($this->generateEtag($lastModified));

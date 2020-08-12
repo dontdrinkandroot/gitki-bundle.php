@@ -132,7 +132,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
                 'id'              => $path->toAbsoluteString(),
                 'index'           => $this->index,
                 'type'            => 'gitki_document',
-                '_source_include' => ['title']
+                '_source_includes' => ['title']
             ];
             $result = $this->client->get($params);
             if (null === $result) {
