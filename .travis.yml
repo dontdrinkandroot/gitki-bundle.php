@@ -4,14 +4,14 @@ matrix:
     include:
         -   php: 7.2
             env: dependencies=lowest
-        -   php: 7.2
-            env: dependencies=highest
-        -   php: 7.3
-            env: dependencies=lowest
-        -   php: 7.3
-            env: dependencies=highest
-        -   php: 7.4
-            env: dependencies=lowest
+        #        -   php: 7.2
+        #            env: dependencies=highest
+        #        -   php: 7.3
+        #            env: dependencies=lowest
+        #        -   php: 7.3
+        #            env: dependencies=highest
+        #        -   php: 7.4
+        #            env: dependencies=lowest
         -   php: 7.4
             env: dependencies=highest
 
@@ -44,7 +44,7 @@ before_script:
     - phpenv config-rm xdebug.ini
     - if [ -z "$dependencies" ]; then composer install; fi;
     - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
-    - if [ "$dependencies" = "highest" ] && [ "$TRAVIS_PHP_VERSION" = "7.4" ]; then pecl install pcov; fi;
+    - if [ "$dependencies" = "highest" ] && [ "$TRAVIS_PHP_VERSION" = "7.4" ]; then pecl install pcov && php -m; fi;
     - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
     - git config --global user.email "gitki@dontdrinkandroot.net"
     - git config --global user.name "GitKi"
@@ -53,8 +53,8 @@ script:
     - |-
         if [ "$dependencies" = "highest" ] && [ "$TRAVIS_PHP_VERSION" = "7.4" ]
         then
-            SYMFONY_DEPRECATIONS_HELPER="weak" php -d pcov.enabled=1 vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-            sonar-scanner
+            php -d pcov.enabled=1 vendor/bin/phpunit --coverage-clover coverage.clover.xml --log-junit log.junit.xml \
+            && sonar-scanner
         else
-            vendor/bin/phpunit
+            SYMFONY_DEPRECATIONS_HELPER="weak" vendor/bin/phpunit
         fi
