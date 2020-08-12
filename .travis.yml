@@ -28,7 +28,7 @@ addons:
         token: $SONAR_TOKEN
 
 before_install:
-    - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.1-amd64.deb && sudo dpkg -i --force-confnew elasticsearch-7.8.1.deb && sudo service elasticsearch restart
+    - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.8.1-amd64.deb && sudo dpkg -i --force-confnew elasticsearch-7.8.1-amd64.deb && sudo service elasticsearch restart
     - sleep 10
     - sudo tail -n 500 /var/log/elasticsearch/elasticsearch.log
     - curl -XGET http://localhost:9200
