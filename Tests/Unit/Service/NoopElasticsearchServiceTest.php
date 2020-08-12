@@ -15,7 +15,10 @@ class NoopElasticsearchServiceTest extends TestCase
      */
     private $elasticSearchService;
 
-    protected function setUp()
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp(): void
     {
         $this->elasticSearchService = new NoopElasticsearchService();
     }

@@ -39,7 +39,10 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 
     private $tocTestContent;
 
-    public function setUp()
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp(): void
     {
         parent::setUp();
 

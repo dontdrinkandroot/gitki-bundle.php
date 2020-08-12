@@ -16,7 +16,7 @@ class GitRepositoryTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpRepo();
     }
@@ -24,7 +24,7 @@ class GitRepositoryTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tearDownRepo();
     }

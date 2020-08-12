@@ -13,6 +13,7 @@ use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
+use Exception;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -33,7 +34,10 @@ class WikiServiceTest extends GitRepositoryTestCase
      */
     private $wikiService;
 
-    public function setUp()
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp(): void
     {
         parent::setUp();
         $this->fileSystemService = new FileSystemService(GitRepositoryTestCase::GIT_REPOSITORY_PATH);
@@ -42,7 +46,10 @@ class WikiServiceTest extends GitRepositoryTestCase
         $this->wikiService = new WikiService($this->gitService, $this->lockService);
     }
 
-    public function tearDown()
+    /**
+     * {@inheritdoc}
+     */
+    public function tearDown(): void
     {
         parent::tearDown();
     }
@@ -158,7 +165,7 @@ class WikiServiceTest extends GitRepositoryTestCase
 
     /**
      * @return FilePath[]
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getExampleFiles()
     {

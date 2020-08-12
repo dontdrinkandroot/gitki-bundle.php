@@ -9,7 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchTest extends WebTestCase
 {
-    public function setUp()
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp(): void
     {
         parent::setUp();
         $this->reindex();
