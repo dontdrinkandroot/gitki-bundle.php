@@ -50,5 +50,11 @@ before_script:
     - git config --global user.name "GitKi"
 
 script:
-    - SYMFONY_DEPRECATIONS_HELPER="weak" vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-    - if [ "$dependencies" = "highest" ] && [ "$TRAVIS_PHP_VERSION" = "7.4" ]; then sonar-scanner; fi;
+    - |-
+        if [ "$dependencies" = "highest" ] && [ "$TRAVIS_PHP_VERSION" = "7.4" ]
+        then
+            SYMFONY_DEPRECATIONS_HELPER="weak" php -d pcov.enabled=1 vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+            sonar-scanner
+        else
+            vendor/bin/phpunit
+        fi
