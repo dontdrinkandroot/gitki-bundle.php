@@ -64,5 +64,7 @@ class ReindexCommand extends Command
         $progress->finish();
 
         $output->writeln('');
+
+        return 0;
     }
 }

@@ -49,9 +49,12 @@ class SearchCommand extends Command
         } else {
             foreach ($results as $result) {
                 $output->writeln(
-                    '[' . $result->getScore() . '] ' . $result->getTitle() . ' (' . $result->getPath()->toAbsoluteString() . ')'
+                    '[' . $result->getScore() . '] ' . $result->getTitle() . ' (' . $result->getPath(
+                    )->toAbsoluteString() . ')'
                 );
             }
         }
+
+        return 0;
     }
 }

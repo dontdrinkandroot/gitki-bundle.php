@@ -42,7 +42,6 @@ before_install:
 
 before_script:
     - phpenv config-rm xdebug.ini
-    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
     - if [ -z "$dependencies" ]; then composer install; fi;
     - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
     - if [ "$dependencies" = "highest" ] && ["$TRAVIS_PHP_VERSION" = "7.4" ]; then pecl install pcov; fi;

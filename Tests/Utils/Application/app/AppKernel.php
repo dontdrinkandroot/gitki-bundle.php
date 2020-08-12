@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Utils\Application\app;
 
 use Psr\Log\NullLogger;
+use RuntimeException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
@@ -16,7 +17,7 @@ class AppKernel extends Kernel
     {
         $bundlesFile = $this->getEnvConfigDir() . '/bundles.php';
         if (!file_exists($bundlesFile)) {
-            throw new \RuntimeException($bundlesFile . ' is missing');
+            throw new RuntimeException($bundlesFile . ' is missing');
         }
 
         return include $bundlesFile;
@@ -36,7 +37,7 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sys_get_temp_dir() . '/gitkitest/cache/';
+        return sys_get_temp_dir() . '/ddr_gitki_bundle/cache/';
     }
 
     /**
@@ -44,7 +45,7 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sys_get_temp_dir() . '/gitkitest/logs/';
+        return sys_get_temp_dir() . '/ddr_gitki_bundle/logs/';
     }
 
     /**

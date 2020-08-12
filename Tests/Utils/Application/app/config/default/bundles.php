@@ -1,9 +1,13 @@
 <?php
 
+use Dontdrinkandroot\GitkiBundle\DdrGitkiBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+
 return [
-    new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-    new \Symfony\Bundle\TwigBundle\TwigBundle(),
-    new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
-    new \Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
-    new \Dontdrinkandroot\GitkiBundle\DdrGitkiBundle()
+    new FrameworkBundle(),
+    new TwigBundle(),
+    new SecurityBundle(),
+    new DdrGitkiBundle()
 ];

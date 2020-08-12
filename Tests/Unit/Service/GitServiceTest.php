@@ -6,7 +6,6 @@ use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
-use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\FilePath;
 
@@ -25,6 +24,9 @@ class GitServiceTest extends GitRepositoryTestCase
      */
     protected $gitService;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         parent::setUp();

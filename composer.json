@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": "^7.2",
+        "symfony/config": "^4.2",
         "symfony/finder": "^4.0",
         "symfony/form": "^4.0",
         "symfony/framework-bundle": "^4.0",
@@ -28,24 +29,25 @@
         "symfony/templating": "^4.0",
         "symfony/translation": "^4.0",
         "symfony/validator": "^4.0",
+        "symfony/yaml": "^4.0",
         "cpliakas/git-wrapper": "^2.0",
         "league/commonmark": "^1.0",
         "league/commonmark-ext-table": "^2.1",
         "dontdrinkandroot/path": "^0.1.0"
     },
     "require-dev": {
-        "symfony/console": "^4.0",
-        "symfony/security-bundle": "^4.0",
-        "symfony/dom-crawler": "^4.0",
-        "symfony/css-selector": "^4.0",
-        "symfony/yaml": "^4.0",
-        "phpunit/phpunit": "^6.0",
-        "elasticsearch/elasticsearch": "^6.1",
+        "elasticsearch/elasticsearch": "^7.0",
         "guzzlehttp/ringphp": "^1.1.1",
-        "liip/functional-test-bundle": "^2.0-alpha"
+        "liip/test-fixtures-bundle": "^1.0",
+        "phpunit/phpunit": "^7.5",
+        "symfony/console": "^4.0",
+        "symfony/browser-kit": "^4.0",
+        "symfony/css-selector": "^4.0",
+        "symfony/phpunit-bridge": "^4.4",
+        "symfony/security-bundle": "^4.0"
     },
     "suggest": {
-        "elasticsearch/elasticsearch": "Include this if you want the wiki to be searchable",
+        "elasticsearch/elasticsearch": "Include this if you want the wiki to be searchable, Supported Version: ^7.0",
         "braincrafted/bootstrap-bundle": "Style forms in a bootstrap compatible style"
     },
     "autoload": {
@@ -57,5 +59,8 @@
         "branch-alias": {
             "dev-master": "0.3.x-dev"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }

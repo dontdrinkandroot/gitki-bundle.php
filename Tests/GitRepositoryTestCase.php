@@ -13,11 +13,17 @@ class GitRepositoryTestCase extends TestCase
 
     use GitRepositoryTestTrait;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         $this->setUpRepo();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function tearDown()
     {
         $this->tearDownRepo();

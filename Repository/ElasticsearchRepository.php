@@ -58,8 +58,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     public function search($searchString)
     {
         $params = [
-            'index'           => $this->index,
-            '_source_include' => ['title']
+            'index'            => $this->index,
+            '_source_includes' => ['title']
         ];
 
         $searchStringParts = explode(' ', $searchString);
