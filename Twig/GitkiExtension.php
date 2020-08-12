@@ -5,11 +5,14 @@ namespace Dontdrinkandroot\GitkiBundle\Twig;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class GitkiExtension extends \Twig_Extension
+class GitkiExtension extends AbstractExtension
 {
     /**
      * @var AuthorizationCheckerInterface
@@ -50,7 +53,7 @@ class GitkiExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('dirTitle', [$this, 'titleFilter']),
+            new TwigFilter('dirTitle', [$this, 'titleFilter']),
         ];
     }
 
@@ -60,10 +63,10 @@ class GitkiExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('isGitkiWatcher', [$this, 'isWatcher']),
-            new \Twig_SimpleFunction('isGitkiCommitter', [$this, 'isCommitter']),
-            new \Twig_SimpleFunction('isGitkiAdmin', [$this, 'isAdmin']),
-            new \Twig_SimpleFunction('isEditable', [$this, 'isEditable'])
+            new TwigFunction('isGitkiWatcher', [$this, 'isWatcher']),
+            new TwigFunction('isGitkiCommitter', [$this, 'isCommitter']),
+            new TwigFunction('isGitkiAdmin', [$this, 'isAdmin']),
+            new TwigFunction('isEditable', [$this, 'isEditable'])
         ];
     }
 

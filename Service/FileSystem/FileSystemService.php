@@ -5,10 +5,12 @@ namespace Dontdrinkandroot\GitkiBundle\Service\FileSystem;
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\Directory;
 use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
+use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
-use Dontdrinkandroot\Utils\StringUtils;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -35,14 +37,14 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * @param string $basePath
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($basePath)
     {
         $pathString = $basePath;
 
         if (!StringUtils::startsWith($pathString, '/')) {
-            throw new \RuntimeException('Base Path must be absolute');
+            throw new RuntimeException('Base Path must be absolute');
         }
 
         if (!StringUtils::endsWith($pathString, '/')) {

@@ -3,8 +3,8 @@
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
+use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
-use Dontdrinkandroot\Utils\StringUtils;
 use Exception;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;

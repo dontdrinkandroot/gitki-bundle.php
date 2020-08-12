@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "^7.2",
         "symfony/finder": "^4.0",
         "symfony/form": "^4.0",
         "symfony/framework-bundle": "^4.0",
@@ -28,7 +28,6 @@
         "symfony/templating": "^4.0",
         "symfony/translation": "^4.0",
         "symfony/validator": "^4.0",
-        "dontdrinkandroot/utils": "0.5.x-dev",
         "cpliakas/git-wrapper": "^2.0",
         "league/commonmark": "^1.0",
         "league/commonmark-ext-table": "^2.1",

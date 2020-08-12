@@ -6,8 +6,10 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
+use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
-use Dontdrinkandroot\Utils\StringUtils;
+use Exception;
+use GitWrapper\GitException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -83,8 +85,8 @@ class RepositoryController extends BaseController
 
     /**
      * @return Response
-     * @throws \Exception
-     * @throws \GitWrapper\GitException
+     * @throws Exception
+     * @throws GitException
      */
     public function historyAction()
     {

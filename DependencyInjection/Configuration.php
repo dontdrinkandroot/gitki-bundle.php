@@ -16,8 +16,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ddr_gitki');
+        $treeBuilder = new TreeBuilder('ddr_gitki');
+        $rootNode = $treeBuilder->getRootNode();
 
         // @formatter:off
         $rootNode
