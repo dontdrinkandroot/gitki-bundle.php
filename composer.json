@@ -42,7 +42,6 @@
         "phpunit/phpunit": "^6.0",
         "elasticsearch/elasticsearch": "^6.1",
         "guzzlehttp/ringphp": "^1.1.1",
-        "scrutinizer/ocular": "^1.1",
         "liip/functional-test-bundle": "^2.0-alpha"
     },
     "suggest": {
