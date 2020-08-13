@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Command;
 
 use Dontdrinkandroot\GitkiBundle\Command\SearchCommand;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\KernelTestCase;
+use Dontdrinkandroot\GitkiBundle\Tests\ElasticsearchReindexTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -12,9 +13,12 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class SearchCommandTest extends KernelTestCase
 {
+    use ElasticsearchReindexTrait;
+
     public function testSearchEmpty()
     {
         static::bootKernel(['environment' => 'elasticsearch']);
+        $this->reindex(self::$container);
         $application = new Application(static::$kernel);
         $application->add(self::$container->get(SearchCommand::class));
         $command = $application->find('gitki:search');
@@ -33,6 +37,7 @@ class SearchCommandTest extends KernelTestCase
     public function testSearchSuccess()
     {
         static::bootKernel(['environment' => 'elasticsearch']);
+        $this->reindex(self::$container);
         $application = new Application(static::$kernel);
         $application->add(self::$container->get(SearchCommand::class));
         $command = $application->find('gitki:search');

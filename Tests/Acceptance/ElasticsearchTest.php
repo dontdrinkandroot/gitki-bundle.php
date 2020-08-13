@@ -2,32 +2,21 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
-use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
+use Dontdrinkandroot\GitkiBundle\Tests\ElasticsearchReindexTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchTest extends WebTestCase
 {
+    use ElasticsearchReindexTrait;
+
     /**
      * {@inheritdoc}
      */
     public function setUp(): void
     {
         parent::setUp();
-        $this->reindex();
-    }
-
-    protected function reindex()
-    {
-        $container = self::$container;
-        $wikiService = $container->get(WikiService::class);
-        $elasticSearchService = $container->get(ElasticsearchServiceInterface::class);
-        $elasticSearchService->clearIndex();
-        $filePaths = $wikiService->findAllFiles();
-        foreach ($filePaths as $filePath) {
-            $elasticSearchService->indexFile($filePath);
-        }
+        $this->reindex(self::$container);
     }
 
     public function testSearch()
@@ -37,7 +26,7 @@ class ElasticsearchTest extends WebTestCase
 
         $form = $crawler->selectButton('form_search')->form(
             [
-                'form[searchString]' => 'muliple lines'
+                'form[searchString]' => 'multiple lines'
             ]
         );
         $crawler = $this->client->submit($form);
