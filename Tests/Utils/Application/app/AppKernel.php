@@ -53,7 +53,7 @@ class AppKernel extends Kernel
      */
     public function getEnvConfigDir(): string
     {
-        return $this->getRootDir() . '/config/' . $this->getEnvironment();
+        return $this->getProjectDir() . '/Tests/Utils/Application/app/config/' . $this->getEnvironment();
     }
 
     protected function build(ContainerBuilder $container)
