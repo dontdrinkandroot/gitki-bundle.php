@@ -4,4 +4,4 @@ imports:
 framework:
     router:
         resource: "%kernel.root_dir%/config/default/routing.yml"
-
+    templating: false

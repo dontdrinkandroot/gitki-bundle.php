@@ -29,6 +29,7 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     public function tearDown(): void
     {
+        parent::tearDown();
         $this->tearDownRepo();
     }
 
