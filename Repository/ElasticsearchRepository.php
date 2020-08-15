@@ -96,7 +96,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $params = [
             'id'    => $path->toAbsoluteString(),
             'index' => $this->index,
-            'type'  => 'gitki_document',
             'body'  => [
                 'title'        => $document->getTitle(),
                 'content'      => $document->getAnalyzedContent(),
@@ -116,7 +115,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $params = [
             'id'    => $path->toAbsoluteString(),
             'index' => $this->index,
-            'type'  => 'gitki_document',
         ];
 
         return $this->client->delete($params);
@@ -131,7 +129,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             $params = [
                 'id'              => $path->toAbsoluteString(),
                 'index'           => $this->index,
-                'type'            => 'gitki_document',
                 '_source_includes' => ['title']
             ];
             $result = $this->client->get($params);
