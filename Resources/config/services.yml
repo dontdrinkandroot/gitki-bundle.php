@@ -125,67 +125,8 @@ services:
     # Controllers
     #
 
-    Dontdrinkandroot\GitkiBundle\Controller\RepositoryController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\MarkdownController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
-            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\FileController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\DirectoryController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
-            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
-            - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\TextController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\SearchController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-
-    Dontdrinkandroot\GitkiBundle\Controller\MetadataController:
-        arguments:
-            - '@Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface'
-        public: true
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
+    Dontdrinkandroot\GitkiBundle\Controller\:
+        autowire: true
+        autoconfigure: true
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']

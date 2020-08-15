@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService;
+use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends BaseController
 {
     /**
-     * @var ElasticsearchService
+     * @var ElasticsearchServiceInterface
      */
     private $elasticsearchService;
 
-    public function __construct(SecurityService $securityService, ElasticsearchService $elasticsearchService)
+    public function __construct(SecurityService $securityService, ElasticsearchServiceInterface $elasticsearchService)
     {
         parent::__construct($securityService);
         $this->elasticsearchService = $elasticsearchService;

@@ -2,13 +2,14 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use DateTime;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-abstract class BaseController extends Controller
+abstract class BaseController extends AbstractController
 {
     const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
@@ -25,11 +26,11 @@ abstract class BaseController extends Controller
     /**
      * Generate an etag based on the timestamp and the current user.
      *
-     * @param \DateTime $timeStamp
+     * @param DateTime $timeStamp
      *
      * @return string The generated etag.
      */
-    protected function generateEtag(\DateTime $timeStamp)
+    protected function generateEtag(DateTime $timeStamp)
     {
         $user = $this->securityService->findGitUser();
         $userString = '';
