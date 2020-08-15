@@ -39,7 +39,6 @@ class EventDispatchingWikiService extends WikiService
         parent::saveFile($user, $relativeFilePath, $content, $commitMessage);
 
         $this->eventDispatcher->dispatch(
-            FileChangedEvent::NAME,
             new FileChangedEvent($user, $commitMessage, time(), $relativeFilePath, $content)
         );
     }
@@ -56,7 +55,6 @@ class EventDispatchingWikiService extends WikiService
         parent::renameFile($user, $relativeOldFilePath, $relativeNewFilePath, $commitMessage);
 
         $this->eventDispatcher->dispatch(
-            FileMovedEvent::NAME,
             new FileMovedEvent($user, $commitMessage, time(), $relativeNewFilePath, $relativeOldFilePath)
         );
     }
@@ -69,7 +67,6 @@ class EventDispatchingWikiService extends WikiService
         parent::removeFile($user, $relativeFilePath, $commitMessage);
 
         $this->eventDispatcher->dispatch(
-            FileRemovedEvent::NAME,
             new FileRemovedEvent($user, $commitMessage, time(), $relativeFilePath)
         );
     }

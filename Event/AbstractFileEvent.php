@@ -4,7 +4,7 @@ namespace Dontdrinkandroot\GitkiBundle\Event;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>

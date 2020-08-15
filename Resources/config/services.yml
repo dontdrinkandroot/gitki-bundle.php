@@ -59,9 +59,9 @@ services:
             - '@Dontdrinkandroot\GitkiBundle\Service\Git\GitService'
             - '@Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface'
         tags:
-            - { name: kernel.event_listener, event: ddr.gitki.file.changed, method: onFileChanged }
-            - { name: kernel.event_listener, event: ddr.gitki.file.removed, method: onFileRemoved }
-            - { name: kernel.event_listener, event: ddr.gitki.file.moved, method: onFileMoved }
+            - { name: kernel.event_listener, event: Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent, method: onFileChanged }
+            - { name: kernel.event_listener, event: Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent, method: onFileRemoved }
+            - { name: kernel.event_listener, event: Dontdrinkandroot\GitkiBundle\FileMovedEvent, method: onFileMoved }
 
     Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService'
 
