@@ -11,28 +11,32 @@ class WikiTest extends WebTestCase
 
     public function testBrowseRedirect()
     {
-        $this->client->followRedirects(false);
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/');
-        $this->assertStatusCode(Response::HTTP_FOUND);
-        $this->assertEquals('/browse/index.md', $this->client->getResponse()->headers->get('location'));
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->followRedirects(false);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/');
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+        $this->assertEquals('/browse/index.md', $client->getResponse()->headers->get('location'));
     }
 
     public function testHistory()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/history');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/history');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     public function testExampleAFilenameWithSpaces()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/a%20filename%20with%20spaces.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/a%20filename%20with%20spaces.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     public function testExampleLinkExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $link = $crawler->filter('a[href="./table-example.md"]');
         $this->assertCount(1, $link);
@@ -49,32 +53,37 @@ class WikiTest extends WebTestCase
 
     public function testExampleTableExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/table-example.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/table-example.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     public function testExampleTocExample()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/toc-example.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/toc-example.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
     public function testNonExistingFile()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/not-existing.md');
-        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/not-existing.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testNonExistingDirectoryWatcher()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/not-existing/');
-        $this->assertStatusCode(Response::HTTP_NOT_FOUND);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/not-existing/');
+        self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
     public function testNonExistingDirectoryCommitter()
     {
-        $this->client->followRedirects(false);
-        $crawler = $this->client->request(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->followRedirects(false);
+        $crawler = $client->request(
             Request::METHOD_GET,
             '/browse/examples/not-existing/',
             [],
@@ -84,15 +93,15 @@ class WikiTest extends WebTestCase
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/examples/not-existing/index.md',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(
+        $crawler = $client->request(
             Request::METHOD_GET,
-            $this->client->getResponse()->headers->get('location'),
+            $client->getResponse()->headers->get('location'),
             [],
             [],
             [
@@ -100,23 +109,24 @@ class WikiTest extends WebTestCase
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/examples/not-existing/index.md?action=edit',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
     }
 
     public function testMoveFile()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md?action=move');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/link-example.md?action=move');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('form_submit')->form(
             [
@@ -124,26 +134,26 @@ class WikiTest extends WebTestCase
                 'form[name]'      => 'newname.md',
             ]
         );
-        $crawler = $this->client->submit($form);
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->submit($form);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         /* File does not exist, so we are redirected to edit action */
         $this->assertEquals(
             '/browse/examples/link-example.md?action=edit',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/newname.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/newname.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/newname.md?action=history');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/newname.md?action=history');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
         $this->assertCount(1, $historyEntries);
@@ -160,8 +170,9 @@ class WikiTest extends WebTestCase
 
     public function testViewTextFile()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $content = $crawler->filter('.ddr-gitki-text-content');
         $this->assertCount(1, $content);
@@ -171,43 +182,45 @@ class WikiTest extends WebTestCase
 
     public function testEditTextFileUnauthenticated()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
-        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testEditTextFile()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('save')->form(
             [
                 'text_edit[content]' => 'This is the changed content'
             ]
         );
-        $crawler = $this->client->submit($form);
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->submit($form);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/examples/textfile.txt',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $content = $crawler->filter('.ddr-gitki-text-content');
         $this->assertCount(1, $content);
 
         $this->assertEquals('This is the changed content', $content->text());
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=history');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=history');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
         $this->assertCount(2, $historyEntries);
@@ -224,70 +237,74 @@ class WikiTest extends WebTestCase
 
     public function testRemoveFileUnauthorized()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
-        echo $this->client->getResponse()->getContent();
-        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
+        echo $client->getResponse()->getContent();
+        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testRemoveFile()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
         /* File not found anymore so redirected to editing */
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/examples/textfile.txt?action=edit',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
     }
 
     public function testEditMarkdownFileUnauthenticated()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
-        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testEditMarkdownFile()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('save')->form(
             [
                 'markdown_edit[content]' => 'This is the changed content'
             ]
         );
-        $crawler = $this->client->submit($form);
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->submit($form);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/index.md',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $content = $crawler->filter('.markdown-html p');
         $this->assertCount(1, $content);
 
         $this->assertEquals('This is the changed content', $content->text());
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=history');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=history');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $historyEntries = $crawler->filter('.ddr-gitki-history-entry');
         $this->assertCount(2, $historyEntries);
@@ -304,8 +321,9 @@ class WikiTest extends WebTestCase
 
     public function testListDirectoryAction()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/examples/?action=list');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/examples/?action=list');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $subDirectories = $crawler->filter('.ddr-gitki-directory-subdirectories .list-group-item');
         $this->assertCount(1, $subDirectories);
@@ -316,35 +334,37 @@ class WikiTest extends WebTestCase
 
     public function testCreateSubdirectoryActionUnauthenticated()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
-        $this->assertStatusCode(Response::HTTP_UNAUTHORIZED);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
+        self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testCreateSubdirectoryAction()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('subdirectory_create_submit')->form(
             [
                 'subdirectory_create[dirname]' => 'subdir'
             ]
         );
-        $crawler = $this->client->submit($form);
-        $this->assertStatusCode(Response::HTTP_FOUND);
+        $crawler = $client->submit($form);
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/subdir/',
-            $this->client->getResponse()->headers->get('location')
+            $client->getResponse()->headers->get('location')
         );
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/?action=list');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/?action=list');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $subDirectories = $crawler->filter('.ddr-gitki-directory-subdirectories .list-group-item');
         $this->assertCount(2, $subDirectories);
@@ -355,30 +375,31 @@ class WikiTest extends WebTestCase
 
     public function testCannotEditLockedFile()
     {
-        $this->client->setServerParameters(
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'admin',
                 'PHP_AUTH_PW'   => 'admin',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $this->client->setServerParameters(
+        $client->setServerParameters(
             [
                 'PHP_AUTH_USER' => 'user',
                 'PHP_AUTH_PW'   => 'user',
             ]
         );
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
-        $this->assertStatusCode(Response::HTTP_LOCKED);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
+        self::assertResponseStatusCodeSame(Response::HTTP_LOCKED);
 
         /* Cannot hold lock for different user */
-        $crawler = $this->client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
-        $this->assertStatusCode(Response::HTTP_LOCKED);
+        $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
+        self::assertResponseStatusCodeSame(Response::HTTP_LOCKED);
     }
 
     /**

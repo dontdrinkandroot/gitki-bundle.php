@@ -3,7 +3,6 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestTrait;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 
 abstract class WebTestCase extends BaseWebTestCase
@@ -12,16 +11,13 @@ abstract class WebTestCase extends BaseWebTestCase
 
     const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
-    /** @var Client */
-    protected $client;
-
     /**
      * {@inheritdoc}
      */
     public function setUp(): void
     {
+        parent::setUp();
         $this->setUpRepo();
-        $this->client = static::createClient(['environment' => $this->getEnvironment()]);
     }
 
     /**
@@ -39,11 +35,6 @@ abstract class WebTestCase extends BaseWebTestCase
     protected function getRepositoryTargetPath()
     {
         return self::GIT_REPOSITORY_PATH;
-    }
-
-    protected function assertStatusCode(int $expectedCode)
-    {
-        $this->assertEquals($expectedCode, $this->client->getResponse()->getStatusCode());
     }
 
     abstract protected function getEnvironment(): string;

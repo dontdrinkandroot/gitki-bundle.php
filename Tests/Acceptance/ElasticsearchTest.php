@@ -16,20 +16,21 @@ class ElasticsearchTest extends WebTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->reindex(self::$container);
     }
 
     public function testSearch()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'search/');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $this->reindex(self::$container);
+        $crawler = $client->request(Request::METHOD_GET, 'search/');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('form_search')->form(
             [
                 'form[searchString]' => 'multiple lines'
             ]
         );
-        $crawler = $this->client->submit($form);
+        $crawler = $client->submit($form);
 
         $resultElements = $crawler->filter('ul.results li');
         $this->assertCount(1, $resultElements);
@@ -41,8 +42,10 @@ class ElasticsearchTest extends WebTestCase
 
     public function testFileTitlesInDirectoryIndex()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, 'browse/examples/?action=list');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $this->reindex(self::$container);
+        $crawler = $client->request(Request::METHOD_GET, 'browse/examples/?action=list');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $fileNames = $crawler->filter('.ddr-gitki-directory-files .ddr-gitki-item-name');
         $this->assertCount(5, $fileNames);

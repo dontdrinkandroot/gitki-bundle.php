@@ -13,10 +13,11 @@ class MetadataControllerDefaultTest extends WebTestCase
 {
     public function testDirectoriesAction()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/meta/directories.json');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/meta/directories.json');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
         $content = $response->getContent();
         $deserializedContent = json_decode($content, true);
 
@@ -25,10 +26,11 @@ class MetadataControllerDefaultTest extends WebTestCase
 
     public function testFilesAction()
     {
-        $crawler = $this->client->request(Request::METHOD_GET, '/meta/files.json');
-        $this->assertStatusCode(Response::HTTP_OK);
+        $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $crawler = $client->request(Request::METHOD_GET, '/meta/files.json');
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $response = $this->client->getResponse();
+        $response = $client->getResponse();
         $content = $response->getContent();
         $deserializedContent = json_decode($content, true);
 
