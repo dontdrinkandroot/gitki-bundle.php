@@ -2,17 +2,18 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use DateTime;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\TextEditType;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
-use GitWrapper\GitException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symplify\GitWrapper\Exception\GitException;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -50,7 +51,7 @@ class TextController extends BaseController
         try {
             $file = $this->wikiService->getFile($filePath);
             $response = new Response();
-            $lastModified = new \DateTime();
+            $lastModified = new DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response->setEtag($this->generateEtag($lastModified));
             $response->setLastModified($lastModified);
@@ -73,7 +74,6 @@ class TextController extends BaseController
 
             return $response;
         } catch (FileNotFoundException $e) {
-
             if (null === $user) {
                 throw new NotFoundHttpException('This file does not exist');
             }

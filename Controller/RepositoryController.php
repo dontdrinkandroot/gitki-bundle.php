@@ -9,10 +9,10 @@ use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
-use GitWrapper\GitException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symplify\GitWrapper\Exception\GitException;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>

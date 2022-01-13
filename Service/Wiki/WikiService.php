@@ -13,11 +13,12 @@ use Dontdrinkandroot\GitkiBundle\Service\Lock\LockServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
-use GitWrapper\GitException;
+use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symplify\GitWrapper\Exception\GitException;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -74,7 +75,7 @@ class WikiService
      * @param GitUserInterface $user
      * @param FilePath         $relativeFilePath
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function removeLock(GitUserInterface $user, FilePath $relativeFilePath)
     {
@@ -97,7 +98,7 @@ class WikiService
      * @param string           $content
      * @param string           $commitMessage
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function saveFile(GitUserInterface $user, FilePath $relativeFilePath, $content, $commitMessage)
     {
@@ -122,7 +123,7 @@ class WikiService
      * @param FilePath         $relativeFilePath
      * @param string           $commitMessage
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
     {
@@ -193,7 +194,7 @@ class WikiService
      * @param string           $commitMessage
      *
      * @throws FileExistsException
-     * @throws \Exception
+     * @throws Exception
      */
     public function renameFile(
         GitUserInterface $user,
@@ -299,9 +300,9 @@ class WikiService
             if ($e->getMessage() === "fatal: bad default revision 'HEAD'\n") {
                 /* swallow, history not there yet */
                 return [];
-            } else {
-                throw $e;
             }
+
+            throw $e;
         }
     }
 
