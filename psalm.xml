@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<psalm
+        errorLevel="8"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="Analyzer" />
+        <directory name="Command" />
+        <directory name="Controller" />
+        <directory name="DependencyInjection" />
+        <directory name="Event" />
+        <directory name="Exception" />
+        <directory name="Form" />
+        <directory name="Markdown" />
+        <directory name="Model" />
+        <directory name="Repository" />
+        <directory name="Service" />
+        <directory name="Tests" />
+        <directory name="Twig" />
+        <directory name="Utils" />
+        <file name="DdrGitkiBundle.php" />
+        <ignoreFiles>
+            <directory name="vendor" />
+            <file name="Tests/Utils/Application/web/app_default.php" />
+            <file name="Tests/Utils/Application/web/app_elasticsearch.php" />
+        </ignoreFiles>
+    </projectFiles>
+</psalm>
