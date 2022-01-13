@@ -34,7 +34,7 @@ class SearchCommand extends Command
             ->addArgument('searchstring', InputArgument::REQUIRED, 'The search string');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->elasticsearchService instanceof NoopElasticsearchService) {
             $output->writeln('Elasticsearch not configured');

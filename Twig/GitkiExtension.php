@@ -50,7 +50,7 @@ class GitkiExtension extends AbstractExtension
     /**
      * @inheritdoc
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('dirTitle', [$this, 'titleFilter']),
@@ -60,7 +60,7 @@ class GitkiExtension extends AbstractExtension
     /**
      * @inheritdoc
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('isGitkiWatcher', [$this, 'isWatcher']),

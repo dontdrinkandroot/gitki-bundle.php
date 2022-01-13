@@ -7,6 +7,7 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\HtmlInline;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use Stringable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -16,7 +17,7 @@ class EscapingHtmlInlineRenderer implements NodeRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
         if (!($node instanceof HtmlInline)) {
             throw new InvalidArgumentException('Incompatible inline type: ' . get_class($node));

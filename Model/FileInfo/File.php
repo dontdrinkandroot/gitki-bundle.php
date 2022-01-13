@@ -4,11 +4,12 @@
 namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\FilePath;
+use JsonSerializable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class File extends AbstractPathAwareFileInfo implements \JsonSerializable
+class File extends AbstractPathAwareFileInfo implements JsonSerializable
 {
     /**
      * @var FilePath
@@ -67,7 +68,7 @@ class File extends AbstractPathAwareFileInfo implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $absolutePath = $this->getAbsolutePath();
         $data = [

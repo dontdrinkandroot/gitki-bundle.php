@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('ddr_gitki');
         $rootNode = $treeBuilder->getRootNode();
@@ -87,7 +87,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addElasticsearchSection(ArrayNodeDefinition $node)
+    private function addElasticsearchSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
         $node

@@ -4,11 +4,12 @@
 namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\DirectoryPath;
+use JsonSerializable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class Directory extends AbstractPathAwareFileInfo implements \JsonSerializable
+class Directory extends AbstractPathAwareFileInfo implements JsonSerializable
 {
     /**
      * @var DirectoryPath
@@ -46,7 +47,7 @@ class Directory extends AbstractPathAwareFileInfo implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'path' => $this->getAbsolutePath()->toAbsoluteString()

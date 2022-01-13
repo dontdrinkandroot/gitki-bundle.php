@@ -58,7 +58,7 @@ class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUser
     /**
      * {@inheritdoc}
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -74,7 +74,7 @@ class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUser
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
@@ -82,7 +82,7 @@ class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUser
     /**
      * {@inheritdoc}
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }

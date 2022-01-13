@@ -12,6 +12,7 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
+use Stringable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -39,7 +40,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
     /**
      * {@inheritdoc}
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
         $htmlElement = $this->decoratedRenderer->render($node, $childRenderer);
 

@@ -23,7 +23,7 @@ class StaticUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username): UserInterface
     {
         if (!array_key_exists($username, $this->users)) {
             throw new UsernameNotFoundException();
@@ -43,7 +43,7 @@ class StaticUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === User::class;
     }
