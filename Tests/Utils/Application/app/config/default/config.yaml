@@ -1,0 +1,6 @@
+imports:
+    - { resource: ../config.yml }
+
+framework:
+    router:
+        resource: "%kernel.project_dir%/Tests/Utils/Application/app/config/default/routing.yaml"

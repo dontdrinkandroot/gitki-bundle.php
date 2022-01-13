@@ -1,0 +1,27 @@
+ddr_gitki_search:
+    path:   /search/
+    controller: Dontdrinkandroot\GitkiBundle\Controller\SearchController::searchAction
+
+ddr_gitki_history:
+    path:   /history
+    controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController::historyAction
+
+ddr_gitki_directory:
+    path:   /browse{path}
+    controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController::directoryAction
+    requirements:
+        path: .*/
+
+ddr_gitki_file:
+    path:   /browse{path}
+    controller: Dontdrinkandroot\GitkiBundle\Controller\RepositoryController::fileAction
+    requirements:
+        path: .+
+
+ddr_gitki_meta_directories_json:
+    path: /meta/directories.json
+    controller: Dontdrinkandroot\GitkiBundle\Controller\MetadataController::directoriesJsonAction
+
+ddr_gitki_meta_files_json:
+    path: /meta/files.json
+    controller: Dontdrinkandroot\GitkiBundle\Controller\MetadataController::filesJsonAction

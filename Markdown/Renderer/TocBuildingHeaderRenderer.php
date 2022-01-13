@@ -3,18 +3,19 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-use League\CommonMark\Block\Renderer\HeadingRenderer;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Extension\CommonMark\Renderer\Block\HeadingRenderer;
+use League\CommonMark\Node\Inline\AbstractInline;
+use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use Stringable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class TocBuildingHeaderRenderer implements BlockRendererInterface
+class TocBuildingHeaderRenderer implements NodeRendererInterface
 {
     private $toc = [];
 
@@ -35,13 +36,13 @@ class TocBuildingHeaderRenderer implements BlockRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
-        $htmlElement = $this->decoratedRender->render($block, $htmlRenderer, $inTightList);
+        $htmlElement = $this->decoratedRender->render($node, $childRenderer);
 
         $id = 'heading' . $this->count;
-        $level = $block->getLevel();
-        $text = $this->getBlockTextContent($block);
+        $level = $node->getLevel();
+        $text = $this->getBlockTextContent($node);
 
         $htmlElement->setAttribute('id', $id);
         if (null === $this->title && $level == 1) {
@@ -88,7 +89,7 @@ class TocBuildingHeaderRenderer implements BlockRendererInterface
         return $this->toc;
     }
 
-    private function getBlockTextContent(AbstractBlock $header): string
+    private function getBlockTextContent(Heading $header): string
     {
         $text = '';
         foreach ($header->children() as $node) {
@@ -101,7 +102,7 @@ class TocBuildingHeaderRenderer implements BlockRendererInterface
     private function getNodeTextContent(Node $node): string
     {
         if ($node instanceof Text) {
-            return $node->getContent();
+            return $node->getLiteral();
         }
 
         if ($node instanceof AbstractInline) {

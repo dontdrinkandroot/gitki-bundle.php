@@ -2,25 +2,26 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\HtmlBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-use League\CommonMark\ElementRendererInterface;
+use InvalidArgumentException;
+use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class EscapingHtmlBlockRenderer implements BlockRendererInterface
+class EscapingHtmlBlockRenderer implements NodeRendererInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        if (!($block instanceof HtmlBlock)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
+        if (!($node instanceof HtmlBlock)) {
+            throw new InvalidArgumentException('Incompatible block type: ' . get_class($node));
         }
 
-        return htmlspecialchars($block->getStringContent(), ENT_HTML5);
+        return htmlspecialchars($node->getLiteral(), ENT_HTML5);
     }
 }

@@ -6,17 +6,17 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\Inline\Renderer\LinkRenderer;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Extension\CommonMark\Renderer\Inline\LinkRenderer;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class FileSystemAwareLinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+class FileSystemAwareLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var FileSystemServiceInterface */
     private $fileSystemService;
@@ -39,17 +39,17 @@ class FileSystemAwareLinkRenderer implements InlineRendererInterface, Configurat
     /**
      * {@inheritdoc}
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        $htmlElement = $this->decoratedRenderer->render($inline, $htmlRenderer);
+        $htmlElement = $this->decoratedRenderer->render($node, $childRenderer);
 
-        if ($this->isExternalUrl($inline->getUrl())) {
+        if ($this->isExternalUrl($node->getUrl())) {
             $htmlElement->setAttribute('rel', 'external');
 
             return $htmlElement;
         }
 
-        if (!$this->targetUrlExists($inline->getUrl())) {
+        if (!$this->targetUrlExists($node->getUrl())) {
             $classes = $htmlElement->getAttribute('class');
             if (null === $classes) {
                 $classes = '';
@@ -119,7 +119,7 @@ class FileSystemAwareLinkRenderer implements InlineRendererInterface, Configurat
     /**
      * {@inheritdoc}
      */
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->decoratedRenderer->setConfiguration($configuration);
     }

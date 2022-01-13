@@ -9,8 +9,8 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
-use GitWrapper\GitWrapper;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symplify\GitWrapper\GitWrapper;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -55,7 +55,7 @@ class GitService implements GitServiceInterface
     {
         $options = ['pretty=format:' . LogParser::getFormatString() => true];
         if (null !== $maxCount) {
-            $options['max-count'] = $maxCount;
+            $options['max-count'] = (string)$maxCount;
         }
         if (null !== $path) {
             $options['p'] = $path->toRelativeFileSystemString();
@@ -63,8 +63,8 @@ class GitService implements GitServiceInterface
 
         $workingCopy = $this->getWorkingCopy();
 
-        $outputListener = new StringOutputListener();
-        $workingCopy->getWrapper()->addOutputListener($outputListener);
+        $outputListener = new StringOutputEventSubscriber();
+        $workingCopy->getWrapper()->addOutputEventSubscriber($outputListener);
         $workingCopy->log($options);
 
         return $this->parseLog($outputListener->getBuffer());
@@ -158,12 +158,9 @@ class GitService implements GitServiceInterface
         $this->addAndCommitFile($author, $commitMessage, $path);
     }
 
-    /**
-     * @return \GitWrapper\GitWorkingCopy
-     */
     protected function getWorkingCopy()
     {
-        $git = new GitWrapper();
+        $git = new GitWrapper('git');
         $workingCopy = $git->workingCopy($this->fileSystemService->getBasePath()->toAbsoluteFileSystemString());
 
         return $workingCopy;

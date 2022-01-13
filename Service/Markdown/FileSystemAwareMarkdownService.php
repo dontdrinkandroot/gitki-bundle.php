@@ -11,15 +11,16 @@ use Dontdrinkandroot\GitkiBundle\Markdown\Renderer\TocBuildingHeaderRenderer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\ParsedMarkdownDocument;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
-use League\CommonMark\Block\Element\Heading;
-use League\CommonMark\Block\Element\HtmlBlock;
-use League\CommonMark\DocParser;
-use League\CommonMark\Environment;
-use League\CommonMark\Ext\Table\Table;
-use League\CommonMark\Ext\Table\TableExtension;
-use League\CommonMark\HtmlRenderer;
-use League\CommonMark\Inline\Element\HtmlInline;
-use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Extension\CommonMark\Node\Block\HtmlBlock;
+use League\CommonMark\Extension\CommonMark\Node\Inline\HtmlInline;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\CommonMark\Extension\Table\Table;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Parser\MarkdownParser;
+use League\CommonMark\Renderer\HtmlRenderer;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -54,21 +55,22 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
         $linkRenderer = new FileSystemAwareLinkRenderer($this->fileSystemService, $path);
         $headerRenderer = new TocBuildingHeaderRenderer();
 
-        $environment = Environment::createCommonMarkEnvironment();
+        $environment = new Environment();
+        $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new TableExtension());
-        $environment->addBlockRenderer(Table::class, new BootstrapTableRenderer());
-        $environment->addInlineRenderer(Link::class, $linkRenderer);
-        $environment->addBlockRenderer(Heading::class, $headerRenderer);
+        $environment->addRenderer(Table::class, new BootstrapTableRenderer());
+        $environment->addRenderer(Link::class, $linkRenderer);
+        $environment->addRenderer(Heading::class, $headerRenderer);
 
         if (!$this->allowHtml) {
-            $environment->addBlockRenderer(HtmlBlock::class, new EscapingHtmlBlockRenderer());
-            $environment->addInlineRenderer(HtmlInline::class, new EscapingHtmlInlineRenderer());
+            $environment->addRenderer(HtmlBlock::class, new EscapingHtmlBlockRenderer());
+            $environment->addRenderer(HtmlInline::class, new EscapingHtmlInlineRenderer());
         }
 
-        $parser = new DocParser($environment);
+        $parser = new MarkdownParser($environment);
         $htmlRenderer = new HtmlRenderer($environment);
         $documentAST = $parser->parse($content);
-        $html = $htmlRenderer->renderBlock($documentAST);
+        $html = $htmlRenderer->renderDocument($documentAST)->getContent();
 
         $linkedPaths = $linkRenderer->getLinkedPaths();
         $title = $headerRenderer->getTitle();

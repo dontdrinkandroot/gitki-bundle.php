@@ -2,11 +2,18 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Git;
 
-use GitWrapper\Event\GitOutputEvent;
-use GitWrapper\Event\GitOutputListenerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\GitWrapper\Event\GitOutputEvent;
 
-class StringOutputListener implements GitOutputListenerInterface
+class StringOutputEventSubscriber implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            GitOutputEvent::class => 'handleOutput',
+        ];
+    }
+
     /**
      * @var string
      */

@@ -13,7 +13,7 @@ class AppKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundlesFile = $this->getEnvConfigDir() . '/bundles.php';
         if (!file_exists($bundlesFile)) {
@@ -28,14 +28,14 @@ class AppKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $resource = $this->getEnvConfigDir() . '/config.yml';
+        $resource = $this->getEnvConfigDir() . '/config.yaml';
         $loader->load($resource);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/ddr_gitki_bundle/cache/';
     }
@@ -43,7 +43,7 @@ class AppKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/ddr_gitki_bundle/logs/';
     }

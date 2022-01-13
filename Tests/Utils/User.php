@@ -3,12 +3,13 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Utils;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class User implements UserInterface, GitUserInterface
+class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var string
@@ -65,7 +66,7 @@ class User implements UserInterface, GitUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->username;
     }

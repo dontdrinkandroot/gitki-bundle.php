@@ -3,9 +3,9 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests;
 
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\GitWrapper;
 use Symfony\Component\Filesystem\Filesystem;
+use Symplify\GitWrapper\GitWorkingCopy;
+use Symplify\GitWrapper\GitWrapper;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -24,7 +24,7 @@ trait GitRepositoryTestTrait
 
         $fileSystem->mkdir($this->getRepositoryTargetPath());
 
-        $git = new GitWrapper();
+        $git = new GitWrapper('/usr/bin/git');
         $workingCopy = $git->init($this->getRepositoryTargetPath());
         $workingCopy->config('user.email', 'gitki@example.com');
         $workingCopy->config('user.name', 'Gitki');

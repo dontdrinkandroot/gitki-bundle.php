@@ -5,8 +5,6 @@ services:
 framework:
     secret: 'test'
     test: ~
-    templating:
-        engines: ['twig']
     assets: ~
     form: ~
 

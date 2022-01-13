@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
+use RuntimeException;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -46,7 +47,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('services.yaml');
 
         $container->setParameter('ddr_gitki.repository_path', $config['repository_path']);
         $container->setParameter('ddr_gitki.display_name', $config['display_name']);
@@ -82,7 +83,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
     {
         $configuration = parent::getConfiguration($config, $container);
         if (null === $configuration) {
-            throw new \RuntimeException('No configuration found');
+            throw new RuntimeException('No configuration found');
         }
 
         return $configuration;
@@ -91,7 +92,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
     private function assertElasticSearchAvailable()
     {
         if (!class_exists('Elasticsearch\Client')) {
-            throw new \RuntimeException('You configured elasticsearch but the client is not available');
+            throw new RuntimeException('You configured elasticsearch but the client is not available');
         }
     }
 }

@@ -3,15 +3,16 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Ext\Table\TableRenderer;
+use League\CommonMark\Extension\Table\TableRenderer;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use Stringable;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
  */
-class BootstrapTableRenderer implements BlockRendererInterface
+class BootstrapTableRenderer implements NodeRendererInterface
 {
     /** @var TableRenderer */
     private $decoratedRenderer;
@@ -24,9 +25,9 @@ class BootstrapTableRenderer implements BlockRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
-        $tableElement = $this->decoratedRenderer->render($block, $htmlRenderer, $inTightList);
+        $tableElement = $this->decoratedRenderer->render($node, $childRenderer);
         $tableElement->setAttribute('class', 'table');
 
         return $tableElement;
