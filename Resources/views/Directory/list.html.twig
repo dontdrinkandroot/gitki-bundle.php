@@ -7,23 +7,23 @@
 {% block ddr_gitki_actions %}
     {% if isGitkiCommitter() %}
         <div class="dropdown pull-right ddr-gitki-global-actions">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-toggle="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-bs-toggle="dropdown">
                 <span class="fa fa-cog"></span>
                 <span class="caret"></span>
             </button>
-            <div class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="actions-dropdown">
+            <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="actions-dropdown">
                 <a class="dropdown-item" href="{{ path('ddr_gitki_directory', {'path': path, 'action': 'subdirectory.create'}) }}" role="menuitem" tabindex="-1"
                    title="Add Folder">
-                    <span class="fa fa-fw fa-plus"></span> Add folder
+                    <span class="fas fa-fw fa-plus"></span> Add folder
                 </a>
                 <a class="dropdown-item" href="{{ path('ddr_gitki_directory', {'path': path, 'action': 'file.upload'}) }}" role="menuitem" tabindex="-1"
                    title="Upload File">
-                    <span class="fa fa-fw fa-upload"></span> Upload file
+                    <span class="fas fa-fw fa-file-upload"></span> Upload file
                 </a>
                 {% for extension,name in editableExtensions %}
                     <a class="dropdown-item" href="{{ path('ddr_gitki_directory', {'path': path, 'action': 'file.create', 'extension': extension}) }}"
                        role="menuitem" tabindex="-1" title="Create {{ name }} file">
-                        <span class="fa fa-fw fa-file-o"></span> Create {{ name }} file
+                        <span class="fas fa-fw fa-file"></span> Create {{ name }} file
                     </a>
                 {% endfor %}
             </div>
@@ -46,14 +46,14 @@
                         <div class="ddr-gitki-item-actions">
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
-                                        data-toggle="dropdown">
-                                    <span class="fa fa-fw fa-folder-o"></span>
+                                        data-bs-toggle="dropdown">
+                                    <span class="fas fa-fw fa-folder"></span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
                                     {% if isGitkiCommitter() %}
                                         <a role="menuitem" tabindex="-1" class="dropdown-item"
                                            href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'remove'}) }}"
-                                           title="Delete"><span class="fa fa-fw fa-trash-o"></span> Remove
+                                           title="Delete"><span class="fas fa-fw fa-trash"></span> Remove
                                         </a>
                                     {% endif %}
                                 </div>
@@ -77,27 +77,27 @@
                         <div class="ddr-gitki-item-actions">
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="filedropdown{{ loop.index }}"
-                                        data-toggle="dropdown">
-                                    <span class="fa fa-fw fa-file-o"></span> <b class="caret"></b>
+                                        data-bs-toggle="dropdown">
+                                    <span class="fas fa-fw fa-file"></span> <b class="caret"></b>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
                                     {% if isGitkiCommitter() %}
                                         <a role="menuitem" tabindex="-1" title="Edit" class="dropdown-item"
                                            href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'edit'}) }}">
-                                            <span class="fa fa-fw fa-pencil"></span> Edit
+                                            <span class="fas fa-fw fa-pen"></span> Edit
                                         </a>
                                         <a role="menuitem" tabindex="-1" class="dropdown-item"
                                            href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'move'}) }}"
-                                           title="Rename"><span class="fa fa-fw fa-arrows-h"></span> Move
+                                           title="Rename"><span class="fas fa-fw fa-arrows-alt-h"></span> Move
                                         </a>
                                         <a role="menuitem" tabindex="-1" class="dropdown-item"
                                            href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'remove'}) }}"
-                                           title="Delete"><span class="fa fa-fw fa-trash-o"></span> Remove
+                                           title="Delete"><span class="fas fa-fw fa-trash"></span> Remove
                                         </a>
                                     {% endif %}
                                     <a role="menuitem" tabindex="-1" class="dropdown-item"
                                        href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'history'}) }}"
-                                       title="History"><span class="fa fa-fw fa-history"></span> History
+                                       title="History"><span class="fas fa-fw fa-history"></span> History
                                     </a>
                                 </div>
                             </div>
