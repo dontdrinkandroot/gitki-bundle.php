@@ -108,17 +108,17 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createDirectory(DirectoryPath $relativePath)
+    public function createDirectory(DirectoryPath $path)
     {
-        $this->fileSystemService->createDirectory($relativePath);
+        $this->fileSystemService->createDirectory($path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getContent(FilePath $relativePath)
+    public function getContent(FilePath $path)
     {
-        return file_get_contents($this->getAbsolutePathString($relativePath));
+        return file_get_contents($this->getAbsolutePathString($path));
     }
 
     /**

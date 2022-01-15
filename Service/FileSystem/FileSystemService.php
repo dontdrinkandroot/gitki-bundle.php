@@ -24,22 +24,16 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class FileSystemService implements FileSystemServiceInterface
 {
-    /**
-     * @var DirectoryPath
-     */
-    protected $basePath;
+    protected DirectoryPath $basePath;
 
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
+    protected Filesystem $fileSystem;
 
     /**
      * @param string $basePath
      *
      * @throws Exception
      */
-    public function __construct($basePath)
+    public function __construct(string $basePath)
     {
         $pathString = $basePath;
 
@@ -98,9 +92,9 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getContent(FilePath $relativePath)
+    public function getContent(FilePath $path)
     {
-        return file_get_contents($this->getAbsolutePathString($relativePath));
+        return file_get_contents($this->getAbsolutePathString($path));
     }
 
     /**

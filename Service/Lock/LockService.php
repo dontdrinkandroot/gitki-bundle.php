@@ -7,31 +7,20 @@ use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
+use Exception;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class LockService implements LockServiceInterface
 {
-    /**
-     * @var FileSystemServiceInterface
-     */
-    private $fileSystemService;
-
-    /**
-     * @param FileSystemServiceInterface $fileSystemService
-     */
-    public function __construct(FileSystemServiceInterface $fileSystemService)
+    public function __construct(private FileSystemServiceInterface $fileSystemService)
     {
-        $this->fileSystemService = $fileSystemService;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createLock(GitUserInterface $user, FilePath $filePath)
+    public function createLock(GitUserInterface $user, FilePath $path)
     {
-        $lockPath = $this->getLockPath($filePath);
+        $lockPath = $this->getLockPath($path);
         $relativeLockDir = $lockPath->getParentPath();
 
         $this->assertUnlocked($user, $lockPath);
@@ -50,9 +39,9 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeLock(GitUserInterface $user, FilePath $filePath)
+    public function removeLock(GitUserInterface $user, FilePath $path)
     {
-        $lockPath = $this->getLockPath($filePath);
+        $lockPath = $this->getLockPath($path);
         if (!$this->fileSystemService->exists($lockPath)) {
             return;
         }
@@ -63,7 +52,7 @@ class LockService implements LockServiceInterface
 
         $lockLogin = $this->getLockLogin($lockPath);
         if ($lockLogin != $user->getGitUserEmail()) {
-            throw new \Exception('Cannot remove lock of different user');
+            throw new Exception('Cannot remove lock of different user');
         }
 
         $this->removeLockFile($lockPath);
@@ -72,9 +61,9 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function assertUserHasLock(GitUserInterface $user, FilePath $filePath)
+    public function assertUserHasLock(GitUserInterface $user, FilePath $path)
     {
-        $lockPath = $this->getLockPath($filePath);
+        $lockPath = $this->getLockPath($path);
         if ($this->fileSystemService->exists($lockPath) && !$this->isLockExpired($lockPath)) {
             $lockLogin = $this->getLockLogin($lockPath);
             if ($lockLogin == $user->getGitUserEmail()) {
@@ -90,10 +79,10 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function holdLockForUser(GitUserInterface $user, FilePath $filePath)
+    public function holdLockForUser(GitUserInterface $user, FilePath $path)
     {
-        $this->assertUserHasLock($user, $filePath);
-        $lockPath = $this->getLockPath($filePath);
+        $this->assertUserHasLock($user, $path);
+        $lockPath = $this->getLockPath($path);
 
         $this->fileSystemService->touchFile($lockPath);
 
