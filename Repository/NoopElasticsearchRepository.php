@@ -5,15 +5,12 @@ namespace Dontdrinkandroot\GitkiBundle\Repository;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function search($searchString)
+    public function search(string $searchString): array
     {
         return [];
     }
@@ -45,7 +42,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function findTitle(FilePath $path)
+    public function findTitle(FilePath $path): ?string
     {
         return null;
     }

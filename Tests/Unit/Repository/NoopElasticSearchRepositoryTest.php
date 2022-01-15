@@ -6,15 +6,9 @@ use Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository;
 use Dontdrinkandroot\Path\FilePath;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class NoopElasticSearchRepositoryTest extends TestCase
 {
-    /**
-     * @var NoopElasticsearchRepository
-     */
-    private $elasticSearchRepository;
+    private NoopElasticsearchRepository $elasticSearchRepository;
 
     /**
      * {@inheritdoc}
@@ -24,14 +18,14 @@ class NoopElasticSearchRepositoryTest extends TestCase
         $this->elasticSearchRepository = new NoopElasticsearchRepository();
     }
 
-    public function testFindTitle()
+    public function testFindTitle(): void
     {
         $this->assertNull($this->elasticSearchRepository->findTitle(new FilePath('assdf')));
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
-        $this->assertEquals([], $this->elasticSearchRepository->search('asdf'));
+        $this->assertEquals([], $this->elasticSearchRepository->search('Kaazing'));
     }
 
 //    public function testMethodCalls()

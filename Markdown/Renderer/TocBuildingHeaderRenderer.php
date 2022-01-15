@@ -12,9 +12,6 @@ use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use Stringable;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class TocBuildingHeaderRenderer implements NodeRendererInterface
 {
     private $toc = [];
@@ -25,8 +22,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
 
     private $current = [];
 
-    /** @var HeadingRenderer */
-    private $decoratedRender;
+    private HeadingRenderer $decoratedRender;
 
     public function __construct()
     {
@@ -38,6 +34,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
+        assert($node instanceof Heading);
         $htmlElement = $this->decoratedRender->render($node, $childRenderer);
 
         $id = 'heading' . $this->count;
@@ -45,7 +42,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
         $text = $this->getBlockTextContent($node);
 
         $htmlElement->setAttribute('id', $id);
-        if (null === $this->title && $level == 1) {
+        if (null === $this->title && $level === 1) {
             $this->title = $text;
         } else {
             if ($level >= 2) {
@@ -58,7 +55,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
                     'level'    => $level,
                     'children' => []
                 ];
-                if ($level == 2) {
+                if ($level === 2) {
                     $this->toc[] = &$this->current[$level];
                 } else {
                     if (isset($this->current[$level - 1])) {

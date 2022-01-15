@@ -8,9 +8,6 @@ use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class NoopElasticsearchService implements ElasticsearchServiceInterface
 {
     /**

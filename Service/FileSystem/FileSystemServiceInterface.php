@@ -9,9 +9,6 @@ use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 interface FileSystemServiceInterface
 {
     /**

@@ -140,16 +140,14 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @param GitUserInterface $author
-     * @param FilePath         $path
-     * @param UploadedFile     $uploadedFile
-     *
-     * @param string           $commitMessage
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function addAndCommitUploadedFile($author, FilePath $path, UploadedFile $uploadedFile, $commitMessage)
-    {
+    public function addAndCommitUploadedFile(
+        GitUserInterface $author,
+        FilePath $path,
+        UploadedFile $uploadedFile,
+        string $commitMessage
+    ) {
         $uploadedFile->move(
             $this->fileSystemService->getAbsolutePath($path->getParentPath())->toAbsoluteFileSystemString(),
             $path->getName()

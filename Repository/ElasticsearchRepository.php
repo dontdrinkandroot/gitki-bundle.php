@@ -9,20 +9,11 @@ use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
-    /**
-     * @var string
-     */
-    private $index;
+    private string $index;
 
     /**
      * @param string $host
@@ -55,7 +46,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function search($searchString)
+    public function search(string $searchString): array
     {
         $params = [
             'index'            => $this->index,
@@ -123,12 +114,12 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function findTitle(FilePath $path)
+    public function findTitle(FilePath $path): ?string
     {
         try {
             $params = [
-                'id'              => $path->toAbsoluteString(),
-                'index'           => $this->index,
+                'id'               => $path->toAbsoluteString(),
+                'index'            => $this->index,
                 '_source_includes' => ['title']
             ];
             $result = $this->client->get($params);

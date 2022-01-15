@@ -19,8 +19,6 @@ use Symfony\Component\Finder\SplFileInfo;
  * Performs file system operations relative to a base path.
  *
  * All paths passed to the functions have to be relative to the base path.
- *
- * @author Philip Washington Sorst <philip@sorst.net>
  */
 class FileSystemService implements FileSystemServiceInterface
 {
@@ -188,12 +186,7 @@ class FileSystemService implements FileSystemServiceInterface
         return $files;
     }
 
-    /**
-     * @param Path $path
-     *
-     * @return Path
-     */
-    protected function getAbsolutePathString(Path $path)
+    protected function getAbsolutePathString(Path $path): string
     {
         return $path->prepend($this->basePath)->toAbsoluteFileSystemString();
     }

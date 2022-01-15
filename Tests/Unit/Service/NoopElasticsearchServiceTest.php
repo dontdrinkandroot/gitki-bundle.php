@@ -5,15 +5,9 @@ namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class NoopElasticsearchServiceTest extends TestCase
 {
-    /**
-     * @var NoopElasticsearchService
-     */
-    private $elasticSearchService;
+    private NoopElasticsearchService $elasticSearchService;
 
     /**
      * {@inheritdoc}
@@ -25,7 +19,6 @@ class NoopElasticsearchServiceTest extends TestCase
 
     public function testSearch()
     {
-        $this->assertEquals([], $this->elasticSearchService->search(null));
         $this->assertEquals([], $this->elasticSearchService->search('blabla'));
     }
 

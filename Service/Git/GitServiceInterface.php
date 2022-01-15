@@ -89,11 +89,10 @@ interface GitServiceInterface
      */
     public function putAndCommitFile($author, FilePath $path, $content, $commitMessage);
 
-    /**
-     * @param GitUserInterface $author
-     * @param FilePath         $path
-     * @param UploadedFile     $uploadedFile
-     * @param string           $commitMessage
-     */
-    public function addAndCommitUploadedFile($author, FilePath $path, UploadedFile $uploadedFile, $commitMessage);
+    public function addAndCommitUploadedFile(
+        GitUserInterface $author,
+        FilePath $path,
+        UploadedFile $uploadedFile,
+        string $commitMessage
+    );
 }

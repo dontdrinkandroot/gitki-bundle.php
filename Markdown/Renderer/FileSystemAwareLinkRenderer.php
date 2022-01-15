@@ -6,6 +6,7 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
+use League\CommonMark\Extension\CommonMark\Node\Inline\AbstractWebResource;
 use League\CommonMark\Extension\CommonMark\Renderer\Inline\LinkRenderer;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
@@ -42,6 +43,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
+        assert($node instanceof AbstractWebResource);
         $htmlElement = $this->decoratedRenderer->render($node, $childRenderer);
 
         if ($this->isExternalUrl($node->getUrl())) {
