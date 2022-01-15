@@ -18,43 +18,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class DirectoryController extends BaseController
 {
-    /**
-     * @var DirectoryServiceInterface
-     */
-    private $directoryService;
-
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
-
-    /**
-     * @var ExtensionRegistryInterface
-     */
-    private $extensionRegistry;
-
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
-
     public function __construct(
         SecurityService $securityService,
-        WikiService $wikiService,
-        DirectoryServiceInterface $directoryService,
-        ExtensionRegistryInterface $extensionRegistry,
-        FileSystemService $fileSystemService
+        private WikiService $wikiService,
+        private DirectoryServiceInterface $directoryService,
+        private ExtensionRegistryInterface $extensionRegistry,
+        private FileSystemService $fileSystemService
     ) {
         parent::__construct($securityService);
-        $this->directoryService = $directoryService;
-        $this->fileSystemService = $fileSystemService;
-        $this->extensionRegistry = $extensionRegistry;
-        $this->wikiService = $wikiService;
     }
 
     public function listAction($path): Response
@@ -111,21 +84,19 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function createSubdirectoryAction(Request $request, $path): Response
+    public function createSubdirectoryAction(Request $request, string $path): Response
     {
         $this->securityService->assertCommitter();
 
         $directoryPath = DirectoryPath::parse($path);
-
-        $path = DirectoryPath::parse($directoryPath);
 
         $form = $this->createForm(SubdirectoryCreateType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dirname = $form->get('dirname')->getData();
-            $subDirPath = $path->appendDirectory($dirname);
+            $dirname = (string)$form->get('dirname')->getData();
+            $subDirPath = $directoryPath->appendDirectory($dirname);
 
             $this->wikiService->createFolder($subDirPath);
 
@@ -139,7 +110,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/create.subdirectory.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form->createView(), 'path' => $directoryPath]
         );
     }
 

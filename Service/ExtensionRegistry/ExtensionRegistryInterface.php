@@ -2,42 +2,16 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 interface ExtensionRegistryInterface
 {
-    /**
-     * @param string $extension
-     *
-     * @return string|null
-     */
-    public function getName($extension);
+    public function getName(string $extension): ?string;
 
-    /**
-     * @param string $extension
-     *
-     * @return bool
-     */
-    public function isEditable($extension);
+    public function isEditable(string $extension): bool;
 
-    /**
-     * @return array
-     */
-    public function getEditableExtensions();
+    /** @return array<string, string> */
+    public function getEditableExtensions(): array;
 
-    /**
-     * @param string $action
-     *
-     * @return string
-     */
-    public function resolveDirectoryAction($action);
+    public function resolveDirectoryAction(string $action): string;
 
-    /**
-     * @param string $action
-     * @param string $extension
-     *
-     * @return string
-     */
-    public function resolveFileAction($action, $extension);
+    public function resolveFileAction(string $action, string $extension): string;
 }

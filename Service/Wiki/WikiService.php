@@ -113,7 +113,7 @@ class WikiService
      *
      * @return int
      */
-    public function holdLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function holdLock(GitUserInterface $user, FilePath $relativeFilePath): int
     {
         return $this->lockService->holdLockForUser($user, $relativeFilePath);
     }

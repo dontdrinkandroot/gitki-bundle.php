@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use DateTime;
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\MarkdownEditType;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
@@ -114,7 +115,7 @@ class MarkdownController extends BaseController
 
         $filePath = FilePath::parse($path);
 
-        $markdown = $request->request->get('markdown');
+        $markdown = Asserted::stringOrNull($request->request->get('markdown'));
         $document = $this->markdownService->parse($markdown, $filePath);
 
         return new Response($document->getHtml());
@@ -158,13 +159,11 @@ class MarkdownController extends BaseController
             if ($this->wikiService->exists($filePath)) {
                 $content = $this->wikiService->getContent($filePath);
             } else {
-                $title = $request->query->get('title');
+                $title = Asserted::stringOrNull($request->query->get('title'));
                 if (!empty($title)) {
                     $content = $title . "\n";
                     $titleLength = strlen($title);
-                    for ($i = 0; $i < $titleLength; $i++) {
-                        $content .= '=';
-                    }
+                    $content .= str_repeat('=', $titleLength);
                     $content .= "\n\n";
                 }
             }

@@ -6,7 +6,6 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
-use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,34 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symplify\GitWrapper\Exception\GitException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class RepositoryController extends BaseController
 {
-    const REQUEST_PARAMETER_ACTION = 'action';
+    public const REQUEST_PARAMETER_ACTION = 'action';
 
-    /**
-     * @var ExtensionRegistryInterface
-     */
-    private $extensionRegistry;
-
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
-
-    /**
-     * RepositoryController constructor.
-     */
     public function __construct(
         SecurityService $securityService,
-        ExtensionRegistryInterface $extensionRegistry,
-        WikiService $wikiService
+        private ExtensionRegistryInterface $extensionRegistry,
+        private WikiService $wikiService
     ) {
         parent::__construct($securityService);
-        $this->extensionRegistry = $extensionRegistry;
-        $this->wikiService = $wikiService;
     }
 
     /**
@@ -53,7 +34,7 @@ class RepositoryController extends BaseController
     public function directoryAction(Request $request, $path)
     {
         $this->checkPreconditions($request, $path);
-        $action = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
+        $action = (string)$request->query->get(self::REQUEST_PARAMETER_ACTION, '');
         $controller = $this->extensionRegistry->resolveDirectoryAction($action);
 
         return $this->forward(
@@ -73,8 +54,8 @@ class RepositoryController extends BaseController
     {
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
-        $extensionRegistry = $request->query->get(self::REQUEST_PARAMETER_ACTION, '');
-        $controller = $this->extensionRegistry->resolveFileAction($extensionRegistry, $filePath->getExtension());
+        $action = (string)$request->query->get(self::REQUEST_PARAMETER_ACTION, '');
+        $controller = $this->extensionRegistry->resolveFileAction($action, $filePath->getExtension());
 
         return $this->forward(
             $controller,
@@ -88,7 +69,7 @@ class RepositoryController extends BaseController
      * @throws Exception
      * @throws GitException
      */
-    public function historyAction()
+    public function historyAction(): Response
     {
         $this->securityService->assertWatcher();
 
@@ -103,7 +84,7 @@ class RepositoryController extends BaseController
      *
      * @throws AccessDeniedHttpException
      */
-    protected function checkPreconditions(Request $request, $path): void
+    protected function checkPreconditions(Request $request, string $path): void
     {
         if (str_starts_with($path, '/.git')) {
             throw new AccessDeniedHttpException();

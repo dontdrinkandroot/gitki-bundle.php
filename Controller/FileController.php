@@ -19,29 +19,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileController extends BaseController
 {
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
-
-    /**
-     * @var DirectoryServiceInterface
-     */
-    private $directoryService;
-
     public function __construct(
         SecurityService $securityService,
-        WikiService $wikiService,
-        DirectoryServiceInterface $directoryService
+        private WikiService $wikiService,
+        private DirectoryServiceInterface $directoryService
     ) {
         parent::__construct($securityService);
-        $this->wikiService = $wikiService;
-        $this->directoryService = $directoryService;
     }
 
     public function serveAction(Request $request, $path): Response
@@ -101,7 +86,7 @@ class FileController extends BaseController
             return new Response($renderedView, Response::HTTP_LOCKED);
         }
 
-        return new Response($expiry);
+        return new Response((string)$expiry);
     }
 
     public function historyAction($path): Response

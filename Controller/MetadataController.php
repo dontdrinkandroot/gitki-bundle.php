@@ -3,9 +3,9 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
-use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\PathUtils;
@@ -45,7 +45,7 @@ class MetadataController extends BaseController
         $this->assertWatcher();
 
         $currentPath = null;
-        $currentPathString = $request->query->get('currentpath', null);
+        $currentPathString = Asserted::stringOrNull($request->query->get('currentpath'));
         if (null !== $currentPathString) {
             $currentPath = FilePath::parse($currentPathString);
         }

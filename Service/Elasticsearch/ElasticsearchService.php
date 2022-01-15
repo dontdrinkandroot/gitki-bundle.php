@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\Elasticsearch;
 
 use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzerInterface;
@@ -11,30 +10,15 @@ use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ElasticsearchService implements ElasticsearchServiceInterface
 {
-    /**
-     * @var AnalyzerInterface[];
-     */
-    protected $analyzers = [];
+    /** @var array<string, AnalyzerInterface> */
+    protected array $analyzers = [];
 
-    /**
-     * @var ElasticsearchRepositoryInterface
-     */
-    private $repository;
-
-    /**
-     * @var GitServiceInterface
-     */
-    private $gitRepository;
-
-    public function __construct(GitServiceInterface $gitRepository, ElasticsearchRepositoryInterface $repository)
-    {
-        $this->gitRepository = $gitRepository;
-        $this->repository = $repository;
+    public function __construct(
+        private GitServiceInterface $gitRepository,
+        private ElasticsearchRepositoryInterface $repository
+    ) {
     }
 
     /**

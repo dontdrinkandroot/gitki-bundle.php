@@ -4,9 +4,6 @@ namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ExtensionRegistry implements ExtensionRegistryInterface
 {
     const ACTION_VIEW = '';
@@ -35,12 +32,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         }
     }
 
-    /**
-     * @param string $controller
-     * @param string $action
-     * @param string $extension
-     */
-    public function registerFileAction($controller, $action = '', $extension = ''): void
+    public function registerFileAction(string $controller, string $action = '', string $extension = ''): void
     {
         if (!isset($this->fileTypeActions[$extension])) {
             $this->fileTypeActions[$extension] = [];
@@ -48,11 +40,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         $this->fileTypeActions[$extension][$action] = $controller;
     }
 
-    /**
-     * @param string $controller
-     * @param string $action
-     */
-    public function registerDirectoryAction($controller, $action = ''): void
+    public function registerDirectoryAction(string $controller, string $action = ''): void
     {
         $this->directoryActions[$action] = $controller;
     }
@@ -60,7 +48,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getName($extension)
+    public function getName(string $extension): ?string
     {
         if (!isset($this->nameMap[$extension])) {
             return null;
@@ -72,7 +60,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function isEditable($extension)
+    public function isEditable(string $extension): bool
     {
         if (!isset($this->editableMap[$extension])) {
             return false;
@@ -84,7 +72,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getEditableExtensions()
+    public function getEditableExtensions(): array
     {
         $editableExtensions = [];
         foreach ($this->nameMap as $extension => $name) {
@@ -99,7 +87,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveDirectoryAction($action)
+    public function resolveDirectoryAction(string $action): string
     {
         if (!isset($this->directoryActions[$action])) {
             throw new ResourceNotFoundException();
@@ -111,7 +99,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFileAction($action, $extension)
+    public function resolveFileAction(string $action, string $extension): string
     {
         if (isset($this->fileTypeActions[$extension][$action])) {
             return $this->fileTypeActions[$extension][$action];
