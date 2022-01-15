@@ -42,7 +42,7 @@ class GitkiExtension extends AbstractExtension
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'gitki_extension';
     }
@@ -70,7 +70,7 @@ class GitkiExtension extends AbstractExtension
         ];
     }
 
-    public function titleFilter($title)
+    public function titleFilter($title): string
     {
         $words = explode('_', $title);
         $transformedTitle = '';
@@ -97,12 +97,12 @@ class GitkiExtension extends AbstractExtension
         return $this->hasRole($this->roleService->getAdminRole());
     }
 
-    public function hasRole($role)
+    public function hasRole(string $role): bool
     {
         return $this->authorizationChecker->isGranted($role);
     }
 
-    public function isEditable($extension)
+    public function isEditable($extension): bool
     {
         return $this->extensionRegistry->isEditable($extension);
     }

@@ -7,6 +7,7 @@ use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Philip Washington Sorst <philip@sorst.net>
@@ -24,7 +25,7 @@ class SearchController extends BaseController
         $this->elasticsearchService = $elasticsearchService;
     }
 
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): Response
     {
         $this->securityService->assertWatcher();
 

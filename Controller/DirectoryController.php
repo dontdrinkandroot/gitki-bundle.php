@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -55,7 +57,7 @@ class DirectoryController extends BaseController
         $this->wikiService = $wikiService;
     }
 
-    public function listAction($path)
+    public function listAction($path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -76,7 +78,7 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function indexAction($path)
+    public function indexAction($path): RedirectResponse
     {
         $this->securityService->assertWatcher();
 
@@ -109,7 +111,7 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function createSubdirectoryAction(Request $request, $path)
+    public function createSubdirectoryAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 
@@ -141,7 +143,7 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function createFileAction(Request $request, $path)
+    public function createFileAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 
@@ -184,7 +186,7 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function removeAction(Request $request, $path)
+    public function removeAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 
@@ -226,7 +228,7 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function uploadFileAction(Request $request, $path)
+    public function uploadFileAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 

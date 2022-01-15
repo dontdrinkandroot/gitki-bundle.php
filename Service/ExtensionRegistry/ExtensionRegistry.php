@@ -21,7 +21,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
 
     protected $fileTypeActions = [];
 
-    public function registerExtension($extension, $name, $viewController = null, $editController = null)
+    public function registerExtension($extension, $name, $viewController = null, $editController = null): void
     {
         $this->nameMap[$extension] = $name;
 
@@ -40,7 +40,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
      * @param string $action
      * @param string $extension
      */
-    public function registerFileAction($controller, $action = '', $extension = '')
+    public function registerFileAction($controller, $action = '', $extension = ''): void
     {
         if (!isset($this->fileTypeActions[$extension])) {
             $this->fileTypeActions[$extension] = [];
@@ -52,7 +52,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
      * @param string $controller
      * @param string $action
      */
-    public function registerDirectoryAction($controller, $action = '')
+    public function registerDirectoryAction($controller, $action = ''): void
     {
         $this->directoryActions[$action] = $controller;
     }

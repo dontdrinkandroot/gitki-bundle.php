@@ -66,7 +66,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         return $htmlElement;
     }
 
-    protected function isExternalUrl($url)
+    protected function isExternalUrl(string $url): bool
     {
         try {
             $urlParts = parse_url($url);
@@ -83,7 +83,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         return false;
     }
 
-    protected function targetUrlExists($url)
+    protected function targetUrlExists(string $url): bool
     {
         try {
             $urlParts = parse_url($url);

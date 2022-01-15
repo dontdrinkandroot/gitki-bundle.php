@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Security;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
+use Exception;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -72,19 +73,19 @@ class SecurityService
     /**
      * @return GitUserInterface
      *
-     * @throws \Exception Thrown if the current user is not set or not a GitUserInterface.
+     * @throws Exception Thrown if the current user is not set or not a GitUserInterface.
      */
     public function getGitUser()
     {
         $user = $this->findGitUser();
         if (null === $user) {
-            throw new \Exception('No user was found');
+            throw new Exception('No user was found');
         }
 
         return $user;
     }
 
-    public function assertWatcher()
+    public function assertWatcher(): void
     {
         if (!$this->authorizationChecker->isGranted($this->roleService->getWatcherRole())) {
             throw new AuthenticationException();
@@ -96,14 +97,14 @@ class SecurityService
         return $this->authorizationChecker->isGranted($this->roleService->getCommitterRole());
     }
 
-    public function assertCommitter()
+    public function assertCommitter(): void
     {
         if (!$this->isCommitter()) {
             throw new AuthenticationException();
         }
     }
 
-    public function assertAdmin()
+    public function assertAdmin(): void
     {
         if (!$this->authorizationChecker->isGranted($this->roleService->getAdminRole())) {
             throw new AuthenticationException();

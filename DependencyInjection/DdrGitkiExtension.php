@@ -18,7 +18,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig($this->getAlias());
         $configuration = $this->getConfiguration($configs, $container);
@@ -41,7 +41,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
         $config = $this->processConfiguration($configuration, $configs);
@@ -89,7 +89,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         return $configuration;
     }
 
-    private function assertElasticSearchAvailable()
+    private function assertElasticSearchAvailable(): void
     {
         if (!class_exists('Elasticsearch\Client')) {
             throw new RuntimeException('You configured elasticsearch but the client is not available');

@@ -57,7 +57,7 @@ class StringUtils
      *
      * @return string|null The last character or false if not found.
      */
-    public static function getLastChar($str)
+    public static function getLastChar(string $str)
     {
         $length = strlen($str);
         if ($length === 0) {

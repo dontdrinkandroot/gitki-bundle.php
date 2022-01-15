@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addMarkdownSection(ArrayNodeDefinition $node)
+    private function addMarkdownSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
         $node
@@ -107,7 +107,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addRolesSection(ArrayNodeDefinition $node)
+    private function addRolesSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
         $node
@@ -135,7 +135,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $node
      */
-    private function addIndexFilesSection(ArrayNodeDefinition $node)
+    private function addIndexFilesSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
         $node

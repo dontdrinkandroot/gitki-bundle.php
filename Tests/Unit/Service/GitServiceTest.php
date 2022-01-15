@@ -35,7 +35,7 @@ class GitServiceTest extends GitRepositoryTestCase
         $this->gitService = new GitService($this->fileSystemService);
     }
 
-    public function testAddAndCommit()
+    public function testAddAndCommit(): void
     {
         $user = new User('tester', 'Tester', 'test@example.com');
 

@@ -56,7 +56,7 @@ class MarkdownController extends BaseController
         $this->markdownService = $markdownService;
     }
 
-    public function viewAction(Request $request, string $path)
+    public function viewAction(Request $request, string $path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -108,7 +108,7 @@ class MarkdownController extends BaseController
         }
     }
 
-    public function previewAction(Request $request, $path)
+    public function previewAction(Request $request, $path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -120,7 +120,7 @@ class MarkdownController extends BaseController
         return new Response($document->getHtml());
     }
 
-    public function editAction(Request $request, $path)
+    public function editAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 

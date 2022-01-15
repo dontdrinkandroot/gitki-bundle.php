@@ -18,7 +18,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $path, AnalyzedDocument $document)
+    public function indexFile(FilePath $path, AnalyzedDocument $document): void
     {
         /* NOOP */
     }
@@ -26,7 +26,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteFile(FilePath $path)
+    public function deleteFile(FilePath $path): void
     {
         /* NOOP */
     }
@@ -34,7 +34,7 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): void
     {
         /* NOOP */
     }

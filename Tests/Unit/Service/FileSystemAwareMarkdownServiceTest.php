@@ -56,7 +56,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $this->gitService->putAndCommitFile($this->user, $this->tocTestPath, $this->tocTestContent, 'Adding tocTest');
     }
 
-    public function testToc()
+    public function testToc(): void
     {
         $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
         $parsedMarkdownDocument = $markdownService->parse($this->tocTestContent, $this->tocTestPath);
@@ -102,7 +102,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         );
     }
 
-    public function testLinks()
+    public function testLinks(): void
     {
         $linkTestPath = new FilePath('links.md');
         $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);

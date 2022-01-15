@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MetadataControllerDefaultTest extends WebTestCase
 {
-    public function testDirectoriesAction()
+    public function testDirectoriesAction(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/meta/directories.json');
@@ -24,7 +24,7 @@ class MetadataControllerDefaultTest extends WebTestCase
         $this->assertCount(3, $deserializedContent);
     }
 
-    public function testFilesAction()
+    public function testFilesAction(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/meta/files.json');

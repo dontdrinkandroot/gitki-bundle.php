@@ -31,6 +31,10 @@ abstract class WebTestCase extends BaseWebTestCase
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
+     *
+     * @psalm-return '/tmp/gitkitest/repo/'
      */
     protected function getRepositoryTargetPath()
     {

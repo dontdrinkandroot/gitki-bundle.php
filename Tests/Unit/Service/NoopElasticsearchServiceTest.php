@@ -17,7 +17,7 @@ class NoopElasticsearchServiceTest extends TestCase
         $this->elasticSearchService = new NoopElasticsearchService();
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
         $this->assertEquals([], $this->elasticSearchService->search('blabla'));
     }

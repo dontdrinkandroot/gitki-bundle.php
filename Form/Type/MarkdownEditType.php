@@ -14,7 +14,7 @@ class MarkdownEditType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('content', TextareaType::class, ['attr' => ['rows' => 15], 'label' => false])

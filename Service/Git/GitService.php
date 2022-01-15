@@ -10,6 +10,7 @@ use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
 
 /**
@@ -51,7 +52,10 @@ class GitService implements GitServiceInterface
         return $this->getHistory($path, $maxCount);
     }
 
-    public function getHistory(FilePath $path = null, $maxCount = null)
+    /**
+     * @return list<CommitMetadata>
+     */
+    public function getHistory(FilePath $path = null, ?int $maxCount = null): array
     {
         $options = ['pretty=format:' . LogParser::getFormatString() => true];
         if (null !== $maxCount) {
@@ -73,7 +77,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeAndCommit(GitUserInterface $author, $paths, $commitMessage)
+    public function removeAndCommit(GitUserInterface $author, $paths, $commitMessage): void
     {
         $this->remove($this->toFilePathArray($paths));
         $this->commit($author, $commitMessage);
@@ -82,7 +86,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage)
+    public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage): void
     {
         $workingCopy = $this->getWorkingCopy();
         $workingCopy->mv($oldPath->toRelativeFileSystemString(), $newPath->toRelativeFileSystemString());
@@ -108,7 +112,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createDirectory(DirectoryPath $path)
+    public function createDirectory(DirectoryPath $path): void
     {
         $this->fileSystemService->createDirectory($path);
     }
@@ -124,7 +128,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeDirectory(DirectoryPath $path)
+    public function removeDirectory(DirectoryPath $path): void
     {
         $this->fileSystemService->removeDirectory($path);
     }
@@ -132,7 +136,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function putAndCommitFile($author, FilePath $path, $content, $commitMessage)
+    public function putAndCommitFile($author, FilePath $path, $content, $commitMessage): void
     {
         $this->fileSystemService->putContent($path, $content);
         $this->add([$path]);
@@ -147,7 +151,7 @@ class GitService implements GitServiceInterface
         FilePath $path,
         UploadedFile $uploadedFile,
         string $commitMessage
-    ) {
+    ): void {
         $uploadedFile->move(
             $this->fileSystemService->getAbsolutePath($path->getParentPath())->toAbsoluteFileSystemString(),
             $path->getName()
@@ -156,7 +160,7 @@ class GitService implements GitServiceInterface
         $this->addAndCommitFile($author, $commitMessage, $path);
     }
 
-    protected function getWorkingCopy()
+    protected function getWorkingCopy(): GitWorkingCopy
     {
         $git = new GitWrapper('git');
         $workingCopy = $git->workingCopy($this->fileSystemService->getBasePath()->toAbsoluteFileSystemString());
@@ -224,11 +228,11 @@ class GitService implements GitServiceInterface
      * @param GitUserInterface $author
      * @param string           $commitMessage
      */
-    protected function commit(GitUserInterface $author, $commitMessage)
+    protected function commit(GitUserInterface $author, $commitMessage): void
     {
         $this->getWorkingCopy()->commit(
             [
-                'm'      => $commitMessage,
+                'm' => $commitMessage,
                 'author' => $this->getAuthorString($author)
             ]
         );
@@ -237,7 +241,7 @@ class GitService implements GitServiceInterface
     /**
      * @param FilePath[] $paths
      */
-    protected function add(array $paths)
+    protected function add(array $paths): void
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
@@ -248,7 +252,7 @@ class GitService implements GitServiceInterface
     /**
      * @param FilePath[] $paths
      */
-    protected function remove(array $paths)
+    protected function remove(array $paths): void
     {
         $workingCopy = $this->getWorkingCopy();
         foreach ($paths as $path) {
@@ -261,7 +265,7 @@ class GitService implements GitServiceInterface
      * @param string           $commitMessage
      * @param FilePath         $path
      */
-    protected function addAndCommitFile(GitUserInterface $author, $commitMessage, FilePath $path)
+    protected function addAndCommitFile(GitUserInterface $author, $commitMessage, FilePath $path): void
     {
         $this->add([$path]);
         $this->commit($author, $commitMessage);

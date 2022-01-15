@@ -15,7 +15,7 @@ class SearchCommandTest extends KernelTestCase
 {
     use ElasticsearchReindexTrait;
 
-    public function testSearchEmpty()
+    public function testSearchEmpty(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $this->reindex(self::$container);
@@ -34,7 +34,7 @@ class SearchCommandTest extends KernelTestCase
         $this->assertEquals('No results found', trim($commandTester->getDisplay()));
     }
 
-    public function testSearchSuccess()
+    public function testSearchSuccess(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $this->reindex(self::$container);
@@ -53,7 +53,7 @@ class SearchCommandTest extends KernelTestCase
         $this->assertRegExp('#TOC Example#', $commandTester->getDisplay());
     }
 
-    public function testNoElasticsearch()
+    public function testNoElasticsearch(): void
     {
         static::bootKernel(['environment' => 'default']);
         $application = new Application(static::$kernel);

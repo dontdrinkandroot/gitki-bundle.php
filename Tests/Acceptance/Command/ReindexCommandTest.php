@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class ReindexCommandTest extends KernelTestCase
 {
-    public function testReindex()
+    public function testReindex(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
@@ -29,7 +29,7 @@ class ReindexCommandTest extends KernelTestCase
         $this->assertNotEmpty($commandTester->getDisplay());
     }
 
-    public function testNoElasticsearch()
+    public function testNoElasticsearch(): void
     {
         static::bootKernel(['environment' => 'default']);
         $application = new Application(static::$kernel);

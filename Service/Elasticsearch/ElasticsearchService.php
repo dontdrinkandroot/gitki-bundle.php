@@ -64,7 +64,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteFile(FilePath $filePath)
+    public function deleteFile(FilePath $filePath): void
     {
         $this->repository->deleteFile($filePath);
     }
@@ -72,7 +72,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function clearIndex()
+    public function clearIndex(): void
     {
         $this->repository->clear();
     }
@@ -80,7 +80,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileChanged(FileChangedEvent $event)
+    public function onFileChanged(FileChangedEvent $event): void
     {
         $this->indexFile($event->getFile());
     }
@@ -88,7 +88,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileRemoved(FileRemovedEvent $event)
+    public function onFileRemoved(FileRemovedEvent $event): void
     {
         $this->deleteFile($event->getFile());
     }
@@ -96,16 +96,13 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileMoved(FileMovedEvent $event)
+    public function onFileMoved(FileMovedEvent $event): void
     {
         $this->deleteFile($event->getPreviousFile());
         $this->indexFile($event->getFile());
     }
 
-    /**
-     * @param AnalyzerInterface $analyzer
-     */
-    public function registerAnalyzer(AnalyzerInterface $analyzer)
+    public function registerAnalyzer(AnalyzerInterface $analyzer): void
     {
         foreach ($analyzer->getSupportedExtensions() as $extension) {
             $this->analyzers[$extension] = $analyzer;

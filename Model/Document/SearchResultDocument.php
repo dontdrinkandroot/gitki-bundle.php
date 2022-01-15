@@ -16,7 +16,7 @@ class SearchResultDocument extends Document
     /**
      * @param float $score
      */
-    public function setScore($score)
+    public function setScore($score): void
     {
         $this->score = $score;
     }

@@ -33,7 +33,7 @@ class DirectoryService implements DirectoryServiceInterface
     /**
      * @param string[] $indexFiles
      */
-    public function setIndexFiles(array $indexFiles)
+    public function setIndexFiles(array $indexFiles): void
     {
         $this->indexFiles = $indexFiles;
     }

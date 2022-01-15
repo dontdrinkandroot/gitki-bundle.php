@@ -54,7 +54,7 @@ class Document
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -70,7 +70,7 @@ class Document
     /**
      * @param string $content
      */
-    public function setContent($content)
+    public function setContent($content): void
     {
         $this->content = $content;
     }
@@ -78,7 +78,7 @@ class Document
     /**
      * @param Path[] $pageLinks
      */
-    public function setLinkedPaths($pageLinks)
+    public function setLinkedPaths($pageLinks): void
     {
         $this->linkedPaths = $pageLinks;
     }

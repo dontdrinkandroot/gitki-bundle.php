@@ -66,7 +66,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createDirectory(DirectoryPath $path)
+    public function createDirectory(DirectoryPath $path): void
     {
         $this->fileSystem->mkdir($this->getAbsolutePathString($path), 0755);
     }
@@ -74,7 +74,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function touchFile(FilePath $path)
+    public function touchFile(FilePath $path): void
     {
         $this->fileSystem->touch($this->getAbsolutePathString($path));
     }
@@ -82,7 +82,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function putContent(FilePath $path, $content)
+    public function putContent(FilePath $path, $content): void
     {
         file_put_contents($this->getAbsolutePathString($path), $content);
     }
@@ -108,7 +108,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeFile(FilePath $path)
+    public function removeFile(FilePath $path): void
     {
         $this->fileSystem->remove($this->getAbsolutePathString($path));
     }
@@ -116,7 +116,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false)
+    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false): void
     {
         if (!$ignoreEmpty) {
             $this->assertDirectoryIsEmpty($path);
@@ -196,7 +196,7 @@ class FileSystemService implements FileSystemServiceInterface
      *
      * @throws DirectoryNotEmptyException
      */
-    protected function assertDirectoryIsEmpty(DirectoryPath $path)
+    protected function assertDirectoryIsEmpty(DirectoryPath $path): void
     {
         $absoluteDirectoryPath = $this->getAbsolutePath($path);
         $finder = new Finder();

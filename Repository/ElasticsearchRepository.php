@@ -36,7 +36,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): void
     {
         $params = ['index' => $this->index];
         $response = $this->client->indices()->delete($params);
@@ -81,6 +81,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function indexFile(FilePath $path, AnalyzedDocument $document)
     {
@@ -100,6 +102,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function deleteFile(FilePath $path)
     {

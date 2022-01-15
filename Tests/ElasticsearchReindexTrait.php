@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 
 trait ElasticsearchReindexTrait
 {
-    public function reindex(ContainerInterface $container, int $sleepSeconds = 1)
+    public function reindex(ContainerInterface $container, int $sleepSeconds = 1): void
     {
         $wikiService = $container->get(WikiService::class);
         $elasticSearchService = $container->get(ElasticsearchServiceInterface::class);

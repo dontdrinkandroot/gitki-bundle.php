@@ -21,7 +21,7 @@ class LogParser
     const DATE_BEGIN = 'date_begin';
     const DATE_END = 'date_end';
 
-    public static function getFormatString()
+    public static function getFormatString(): string
     {
         $s = self::COMMIT_BEGIN;
         $s .= self::HASH_BEGIN . '%H' . self::HASH_END;
@@ -34,7 +34,7 @@ class LogParser
         return $s;
     }
 
-    public static function getMatchString()
+    public static function getMatchString(): string
     {
         $s = '/';
         $s .= self::COMMIT_BEGIN;

@@ -31,6 +31,10 @@ class GitRepositoryTestCase extends TestCase
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
+     *
+     * @psalm-return '/tmp/gitkitest/repo/'
      */
     protected function getRepositoryTargetPath()
     {

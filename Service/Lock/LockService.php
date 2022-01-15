@@ -18,7 +18,7 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createLock(GitUserInterface $user, FilePath $path)
+    public function createLock(GitUserInterface $user, FilePath $path): void
     {
         $lockPath = $this->getLockPath($path);
         $relativeLockDir = $lockPath->getParentPath();
@@ -39,7 +39,7 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeLock(GitUserInterface $user, FilePath $path)
+    public function removeLock(GitUserInterface $user, FilePath $path): void
     {
         $lockPath = $this->getLockPath($path);
         if (!$this->fileSystemService->exists($lockPath)) {
@@ -142,7 +142,7 @@ class LockService implements LockServiceInterface
     /**
      * @param FilePath $lockPath
      */
-    protected function removeLockFile(FilePath $lockPath)
+    protected function removeLockFile(FilePath $lockPath): void
     {
         $this->fileSystemService->removeFile($lockPath);
     }

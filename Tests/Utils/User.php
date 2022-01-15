@@ -90,7 +90,7 @@ class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUser
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         /* Noop */
     }

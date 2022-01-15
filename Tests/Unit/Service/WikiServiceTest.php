@@ -54,7 +54,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         parent::tearDown();
     }
 
-    public function testFindAllFiles()
+    public function testFindAllFiles(): void
     {
         /** @var FilePath[] $files */
         $files = $this->wikiService->findAllFiles();
@@ -78,7 +78,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         $this->assertEquals($expectedFilePaths, $foundFilePaths);
     }
 
-    public function testFindAllFilesWithPath()
+    public function testFindAllFilesWithPath(): void
     {
         /** @var FilePath[] $files */
         $files = $this->wikiService->findAllFiles(DirectoryPath::parse('/examples/'));
@@ -101,13 +101,13 @@ class WikiServiceTest extends GitRepositoryTestCase
         $this->assertEquals($expectedFilePaths, $foundFilePaths);
     }
 
-    public function testRemoveNonEmptyDirectory()
+    public function testRemoveNonEmptyDirectory(): void
     {
         $this->expectException(DirectoryNotEmptyException::class);
         $this->wikiService->removeDirectory(DirectoryPath::parse('/examples/'));
     }
 
-    public function testRemoveDirectory()
+    public function testRemoveDirectory(): void
     {
         $testDirPath = DirectoryPath::parse('/testDir/');
         $this->wikiService->createFolder($testDirPath);
@@ -120,7 +120,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         );
     }
 
-    public function testRemoveDirectoryRecursively()
+    public function testRemoveDirectoryRecursively(): void
     {
         foreach ($this->getExampleFiles() as $exampleFile) {
             $this->assertFileExists(
@@ -142,7 +142,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         }
     }
 
-    public function testRemoveDirectoryRecursivelyWithLock()
+    public function testRemoveDirectoryRecursivelyWithLock(): void
     {
         $this->expectException(FileLockedException::class);
 

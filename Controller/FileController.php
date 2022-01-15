@@ -2,16 +2,19 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use DateTime;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
+use RuntimeException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -41,7 +44,7 @@ class FileController extends BaseController
         $this->directoryService = $directoryService;
     }
 
-    public function serveAction(Request $request, $path)
+    public function serveAction(Request $request, $path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -50,7 +53,7 @@ class FileController extends BaseController
         $file = $this->wikiService->getFile($filePath);
 
         $response = new Response();
-        $lastModified = new \DateTime();
+        $lastModified = new DateTime();
         $lastModified->setTimestamp($file->getMTime());
         $response->setLastModified($lastModified);
         $response->setEtag($this->generateEtag($lastModified));
@@ -64,7 +67,7 @@ class FileController extends BaseController
         return $response;
     }
 
-    public function removeAction($path)
+    public function removeAction($path): RedirectResponse
     {
         $this->securityService->assertCommitter();
 
@@ -80,7 +83,7 @@ class FileController extends BaseController
         );
     }
 
-    public function holdLockAction($path)
+    public function holdLockAction($path): Response
     {
         $this->securityService->assertCommitter();
 
@@ -101,7 +104,7 @@ class FileController extends BaseController
         return new Response($expiry);
     }
 
-    public function historyAction($path)
+    public function historyAction($path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -118,7 +121,7 @@ class FileController extends BaseController
         );
     }
 
-    public function moveAction(Request $request, $path)
+    public function moveAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 
@@ -201,7 +204,7 @@ class FileController extends BaseController
      * @param File $file
      *
      * @return string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getContents(File $file)
     {
@@ -210,7 +213,7 @@ class FileController extends BaseController
         error_reporting($level);
         if (false === $content) {
             $error = error_get_last();
-            throw new \RuntimeException($error['message']);
+            throw new RuntimeException($error['message']);
         }
 
         return $content;

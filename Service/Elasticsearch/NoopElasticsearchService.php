@@ -21,7 +21,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $filePath)
+    public function indexFile(FilePath $filePath): void
     {
         /* Noop */
     }
@@ -29,7 +29,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteFile(FilePath $filePath)
+    public function deleteFile(FilePath $filePath): void
     {
         /* Noop */
     }
@@ -37,7 +37,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function clearIndex()
+    public function clearIndex(): void
     {
         /* Noop */
     }
@@ -45,7 +45,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileChanged(FileChangedEvent $event)
+    public function onFileChanged(FileChangedEvent $event): void
     {
         /* Noop */
     }
@@ -53,7 +53,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileRemoved(FileRemovedEvent $event)
+    public function onFileRemoved(FileRemovedEvent $event): void
     {
         /* Noop */
     }
@@ -61,7 +61,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function onFileMoved(FileMovedEvent $event)
+    public function onFileMoved(FileMovedEvent $event): void
     {
         /* Noop */
     }

@@ -40,7 +40,7 @@ class TextController extends BaseController
         $this->extensionRegistry = $extensionRegistry;
     }
 
-    public function viewAction(Request $request, $path)
+    public function viewAction(Request $request, $path): Response
     {
         $this->securityService->assertWatcher();
 
@@ -87,7 +87,7 @@ class TextController extends BaseController
         }
     }
 
-    public function editAction(Request $request, $path)
+    public function editAction(Request $request, $path): Response
     {
         $this->securityService->assertCommitter();
 

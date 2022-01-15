@@ -15,7 +15,7 @@ trait GitRepositoryTestTrait
     /**
      * Init the git repository used for the tests.
      */
-    protected function setUpRepo()
+    protected function setUpRepo(): void
     {
         $repositoryTargetPath = $this->getRepositoryTargetPath();
 
@@ -34,7 +34,7 @@ trait GitRepositoryTestTrait
     /**
      * Tear down the git repository used for the tests.
      */
-    protected function tearDownRepo()
+    protected function tearDownRepo(): void
     {
         $fileSystem = new Filesystem();
         $fileSystem->remove($this->getRepositoryTargetPath());
@@ -45,7 +45,7 @@ trait GitRepositoryTestTrait
      *
      * @param GitWorkingCopy $workingCopy
      */
-    protected function initRepository(GitWorkingCopy $workingCopy)
+    protected function initRepository(GitWorkingCopy $workingCopy): void
     {
         $fileSystem = new Filesystem();
         $testRepoPath = $this->getRepositoryTemplatePath();

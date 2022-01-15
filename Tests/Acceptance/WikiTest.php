@@ -9,7 +9,7 @@ class WikiTest extends WebTestCase
 {
     protected $environment = 'default';
 
-    public function testBrowseRedirect()
+    public function testBrowseRedirect(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->followRedirects(false);
@@ -18,21 +18,21 @@ class WikiTest extends WebTestCase
         $this->assertEquals('/browse/index.md', $client->getResponse()->headers->get('location'));
     }
 
-    public function testHistory()
+    public function testHistory(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/history');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
-    public function testExampleAFilenameWithSpaces()
+    public function testExampleAFilenameWithSpaces(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/a%20filename%20with%20spaces.md');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
-    public function testExampleLinkExample()
+    public function testExampleLinkExample(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/link-example.md');
@@ -51,35 +51,35 @@ class WikiTest extends WebTestCase
         $this->assertNull($link->attr('class'));
     }
 
-    public function testExampleTableExample()
+    public function testExampleTableExample(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/table-example.md');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
-    public function testExampleTocExample()
+    public function testExampleTocExample(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/toc-example.md');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
-    public function testNonExistingFile()
+    public function testNonExistingFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/not-existing.md');
         self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
-    public function testNonExistingDirectoryWatcher()
+    public function testNonExistingDirectoryWatcher(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/not-existing/');
         self::assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
-    public function testNonExistingDirectoryCommitter()
+    public function testNonExistingDirectoryCommitter(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->followRedirects(false);
@@ -116,7 +116,7 @@ class WikiTest extends WebTestCase
         );
     }
 
-    public function testMoveFile()
+    public function testMoveFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(
@@ -168,7 +168,7 @@ class WikiTest extends WebTestCase
         );
     }
 
-    public function testViewTextFile()
+    public function testViewTextFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt');
@@ -180,14 +180,14 @@ class WikiTest extends WebTestCase
         $this->assertEquals('This is a simple text file with some content.', $content->text());
     }
 
-    public function testEditTextFileUnauthenticated()
+    public function testEditTextFileUnauthenticated(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testEditTextFile()
+    public function testEditTextFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(
@@ -235,7 +235,7 @@ class WikiTest extends WebTestCase
         );
     }
 
-    public function testRemoveFileUnauthorized()
+    public function testRemoveFileUnauthorized(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
@@ -243,7 +243,7 @@ class WikiTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testRemoveFile()
+    public function testRemoveFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(
@@ -264,14 +264,14 @@ class WikiTest extends WebTestCase
         );
     }
 
-    public function testEditMarkdownFileUnauthenticated()
+    public function testEditMarkdownFileUnauthenticated(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testEditMarkdownFile()
+    public function testEditMarkdownFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(
@@ -319,7 +319,7 @@ class WikiTest extends WebTestCase
         );
     }
 
-    public function testListDirectoryAction()
+    public function testListDirectoryAction(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/?action=list');
@@ -332,14 +332,14 @@ class WikiTest extends WebTestCase
         $this->assertCount(5, $files);
     }
 
-    public function testCreateSubdirectoryActionUnauthenticated()
+    public function testCreateSubdirectoryActionUnauthenticated(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $crawler = $client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testCreateSubdirectoryAction()
+    public function testCreateSubdirectoryAction(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(
@@ -373,7 +373,7 @@ class WikiTest extends WebTestCase
         $this->assertCount(1, $files);
     }
 
-    public function testCannotEditLockedFile()
+    public function testCannotEditLockedFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $client->setServerParameters(

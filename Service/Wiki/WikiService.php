@@ -66,7 +66,7 @@ class WikiService
      * @param GitUserInterface $user
      * @param FilePath         $relativeFilePath
      */
-    public function createLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function createLock(GitUserInterface $user, FilePath $relativeFilePath): void
     {
         $this->lockService->createLock($user, $relativeFilePath);
     }
@@ -77,7 +77,7 @@ class WikiService
      *
      * @throws Exception
      */
-    public function removeLock(GitUserInterface $user, FilePath $relativeFilePath)
+    public function removeLock(GitUserInterface $user, FilePath $relativeFilePath): void
     {
         $this->lockService->removeLock($user, $relativeFilePath);
     }
@@ -100,7 +100,7 @@ class WikiService
      *
      * @throws Exception
      */
-    public function saveFile(GitUserInterface $user, FilePath $relativeFilePath, $content, $commitMessage)
+    public function saveFile(GitUserInterface $user, FilePath $relativeFilePath, $content, $commitMessage): void
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->lockService->assertUserHasLock($user, $relativeFilePath);
@@ -125,7 +125,7 @@ class WikiService
      *
      * @throws Exception
      */
-    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage)
+    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage): void
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->createLock($user, $relativeFilePath);
@@ -140,7 +140,7 @@ class WikiService
      *
      * @deprecated Use removeDirectory instead
      */
-    public function deleteDirectory(DirectoryPath $relativeDirectoryPath)
+    public function deleteDirectory(DirectoryPath $relativeDirectoryPath): void
     {
         $this->removeDirectory($relativeDirectoryPath);
     }
@@ -150,7 +150,7 @@ class WikiService
      *
      * @throws DirectoryNotEmptyException
      */
-    public function removeDirectory(DirectoryPath $relativeDirectoryPath)
+    public function removeDirectory(DirectoryPath $relativeDirectoryPath): void
     {
         $this->gitService->removeDirectory($relativeDirectoryPath);
     }
@@ -164,7 +164,7 @@ class WikiService
         GitUserInterface $user,
         DirectoryPath $relativeDirectoryPath,
         $commitMessage
-    ) {
+    ): void {
         $files = $this->findAllFiles($relativeDirectoryPath);
 
         /* No files contained, just delete */
@@ -201,7 +201,7 @@ class WikiService
         FilePath $relativeOldFilePath,
         FilePath $relativeNewFilePath,
         $commitMessage
-    ) {
+    ): void {
         $this->assertFileDoesNotExist($relativeNewFilePath);
 
         $this->assertCommitMessageExists($commitMessage);
@@ -233,7 +233,7 @@ class WikiService
         FilePath $relativeFilePath,
         UploadedFile $uploadedFile,
         $commitMessage
-    ) {
+    ): void {
         $relativeDirectoryPath = $relativeFilePath->getParentPath();
 
         $this->assertFileDoesNotExist($relativeFilePath);
@@ -320,7 +320,7 @@ class WikiService
     /**
      * @param string $extension
      */
-    public function registerEditableExtension($extension)
+    public function registerEditableExtension($extension): void
     {
         $this->editableExtensions[$extension] = true;
     }
@@ -336,12 +336,12 @@ class WikiService
     /**
      * @param DirectoryPath $path
      */
-    public function createFolder(DirectoryPath $path)
+    public function createFolder(DirectoryPath $path): void
     {
         $this->gitService->createDirectory($path);
     }
 
-    protected function assertCommitMessageExists($commitMessage)
+    protected function assertCommitMessageExists(string $commitMessage): void
     {
         if (empty($commitMessage)) {
             throw new ComitMessageMissingException();
@@ -353,7 +353,7 @@ class WikiService
      *
      * @throws FileExistsException
      */
-    protected function assertFileDoesNotExist(FilePath $relativeNewFilePath)
+    protected function assertFileDoesNotExist(FilePath $relativeNewFilePath): void
     {
         if ($this->gitService->exists($relativeNewFilePath)) {
             throw new FileExistsException($relativeNewFilePath);

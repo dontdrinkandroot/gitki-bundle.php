@@ -18,7 +18,7 @@ class ElasticsearchTest extends WebTestCase
         parent::setUp();
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $this->reindex(self::$container);
@@ -40,7 +40,7 @@ class ElasticsearchTest extends WebTestCase
         $this->assertEquals('TOC Example', trim($resultLink->text()));
     }
 
-    public function testFileTitlesInDirectoryIndex()
+    public function testFileTitlesInDirectoryIndex(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
         $this->reindex(self::$container);

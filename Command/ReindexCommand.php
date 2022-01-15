@@ -32,7 +32,7 @@ class ReindexCommand extends Command
         $this->elasticsearchService = $elasticsearchService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('gitki:reindex')

@@ -14,7 +14,7 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $enabled = $container->getParameter('ddr_gitki.elasticsearch.enabled');
         if (!$enabled) {

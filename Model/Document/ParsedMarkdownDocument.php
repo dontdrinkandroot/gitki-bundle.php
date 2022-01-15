@@ -26,7 +26,7 @@ class ParsedMarkdownDocument extends Document
     /**
      * @param string $html
      */
-    public function setHtml($html)
+    public function setHtml($html): void
     {
         $this->html = $html;
     }
@@ -42,7 +42,7 @@ class ParsedMarkdownDocument extends Document
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -58,7 +58,7 @@ class ParsedMarkdownDocument extends Document
     /**
      * @param array $toc
      */
-    public function setToc(array $toc)
+    public function setToc(array $toc): void
     {
         $this->toc = $toc;
     }

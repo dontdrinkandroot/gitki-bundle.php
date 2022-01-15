@@ -28,7 +28,7 @@ class MetadataController extends BaseController
         $this->directoryService = $directoryService;
     }
 
-    public function directoriesJsonAction()
+    public function directoriesJsonAction(): Response
     {
         $this->assertWatcher();
 
@@ -40,7 +40,7 @@ class MetadataController extends BaseController
         return $response;
     }
 
-    public function filesJsonAction(Request $request)
+    public function filesJsonAction(Request $request): Response
     {
         $this->assertWatcher();
 

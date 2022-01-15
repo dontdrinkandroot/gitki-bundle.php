@@ -60,7 +60,7 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }

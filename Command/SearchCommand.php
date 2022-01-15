@@ -27,7 +27,7 @@ class SearchCommand extends Command
         $this->elasticsearchService = $elasticsearchService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('gitki:search')
             ->setDescription('Search for Markdown documents')
