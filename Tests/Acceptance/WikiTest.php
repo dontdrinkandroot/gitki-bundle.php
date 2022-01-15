@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
+use Dontdrinkandroot\Common\Asserted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -101,7 +102,7 @@ class WikiTest extends WebTestCase
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $client->getResponse()->headers->get('location'),
+            Asserted::notNull($client->getResponse()->headers->get('location')),
             [],
             [],
             [

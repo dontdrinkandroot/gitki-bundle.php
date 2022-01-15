@@ -2,15 +2,14 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Command;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Command\SearchCommand;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\KernelTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\ElasticsearchReindexTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class SearchCommandTest extends KernelTestCase
 {
     use ElasticsearchReindexTrait;
@@ -18,9 +17,9 @@ class SearchCommandTest extends KernelTestCase
     public function testSearchEmpty(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
-        $this->reindex(self::$container);
+        $this->reindex(self::getContainer());
         $application = new Application(static::$kernel);
-        $application->add(self::$container->get(SearchCommand::class));
+        $application->add(Asserted::instanceOf(self::getContainer()->get(SearchCommand::class), Command::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -37,9 +36,9 @@ class SearchCommandTest extends KernelTestCase
     public function testSearchSuccess(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
-        $this->reindex(self::$container);
+        $this->reindex(self::getContainer());
         $application = new Application(static::$kernel);
-        $application->add(self::$container->get(SearchCommand::class));
+        $application->add(Asserted::instanceOf(self::getContainer()->get(SearchCommand::class), Command::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -57,7 +56,7 @@ class SearchCommandTest extends KernelTestCase
     {
         static::bootKernel(['environment' => 'default']);
         $application = new Application(static::$kernel);
-        $application->add(self::$container->get(SearchCommand::class));
+        $application->add(Asserted::instanceOf(self::getContainer()->get(SearchCommand::class), Command::class));
         $command = $application->find('gitki:search');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);

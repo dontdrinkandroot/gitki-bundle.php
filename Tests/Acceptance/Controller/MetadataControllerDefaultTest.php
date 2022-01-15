@@ -2,13 +2,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Controller;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class MetadataControllerDefaultTest extends WebTestCase
 {
     public function testDirectoriesAction(): void
@@ -18,8 +16,8 @@ class MetadataControllerDefaultTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $response = $client->getResponse();
-        $content = $response->getContent();
-        $deserializedContent = json_decode($content, true);
+        $content = Asserted::string($response->getContent());
+        $deserializedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertCount(3, $deserializedContent);
     }
@@ -31,8 +29,8 @@ class MetadataControllerDefaultTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $response = $client->getResponse();
-        $content = $response->getContent();
-        $deserializedContent = json_decode($content, true);
+        $content = Asserted::string($response->getContent());
+        $deserializedContent = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertCount(6, $deserializedContent);
     }

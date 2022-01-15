@@ -2,21 +2,20 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Command;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Command\ReindexCommand;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ReindexCommandTest extends KernelTestCase
 {
     public function testReindex(): void
     {
         static::bootKernel(['environment' => 'elasticsearch']);
         $application = new Application(static::$kernel);
-        $application->add(self::$container->get(ReindexCommand::class));
+        $application->add(Asserted::instanceOf(self::getContainer()->get(ReindexCommand::class), Command::class));
         $command = $application->find('gitki:reindex');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);
@@ -33,7 +32,7 @@ class ReindexCommandTest extends KernelTestCase
     {
         static::bootKernel(['environment' => 'default']);
         $application = new Application(static::$kernel);
-        $application->add(self::$container->get(ReindexCommand::class));
+        $application->add(Asserted::instanceOf(self::getContainer()->get(ReindexCommand::class), Command::class));
         $command = $application->find('gitki:reindex');
         $command->setApplication($application);
         $commandTester = new CommandTester($command);

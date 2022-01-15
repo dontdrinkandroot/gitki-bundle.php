@@ -1,8 +1,9 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
+use Dontdrinkandroot\Common\Asserted;
+use League\CommonMark\Extension\Table\Table;
 use League\CommonMark\Extension\Table\TableRenderer;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
@@ -24,7 +25,7 @@ class BootstrapTableRenderer implements NodeRendererInterface
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
-        $tableElement = $this->decoratedRenderer->render($node, $childRenderer);
+        $tableElement = $this->decoratedRenderer->render(Asserted::instanceOf($node, Table::class), $childRenderer);
         assert($tableElement instanceof HtmlElement);
         $tableElement->setAttribute('class', 'table');
 

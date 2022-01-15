@@ -12,20 +12,11 @@ use Dontdrinkandroot\Path\PathUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class MetadataController extends BaseController
 {
-    /**
-     * @var DirectoryServiceInterface
-     */
-    private $directoryService;
-
-    public function __construct(SecurityService $securityService, DirectoryServiceInterface $directoryService)
+    public function __construct(SecurityService $securityService, private DirectoryServiceInterface $directoryService)
     {
         parent::__construct($securityService);
-        $this->directoryService = $directoryService;
     }
 
     public function directoriesJsonAction(): Response
@@ -34,7 +25,7 @@ class MetadataController extends BaseController
 
         $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
 
-        $response = new Response(json_encode($directories));
+        $response = new Response(json_encode($directories, JSON_THROW_ON_ERROR));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

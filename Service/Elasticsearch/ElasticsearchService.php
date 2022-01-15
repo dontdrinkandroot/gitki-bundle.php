@@ -34,11 +34,12 @@ class ElasticsearchService implements ElasticsearchServiceInterface
      */
     public function indexFile(FilePath $filePath)
     {
-        if (!isset($this->analyzers[$filePath->getExtension()])) {
+        $extension = $filePath->getExtension();
+        if (null === $extension || !isset($this->analyzers[$extension])) {
             return null;
         }
 
-        $analyzer = $this->analyzers[$filePath->getExtension()];
+        $analyzer = $this->analyzers[$extension];
         $content = $this->gitRepository->getContent($filePath);
         $document = $analyzer->analyze($filePath, $content);
 

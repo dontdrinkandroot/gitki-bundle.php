@@ -6,9 +6,6 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -49,9 +46,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     private function addMarkdownSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
@@ -84,9 +78,6 @@ class Configuration implements ConfigurationInterface
         // @formatter:on
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     private function addElasticsearchSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
@@ -104,9 +95,6 @@ class Configuration implements ConfigurationInterface
         // @formatter:on
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     private function addRolesSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
@@ -120,9 +108,10 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('IS_AUTHENTICATED_ANONYMOUSLY')
                             ->info('Is allowed to view content')
                         ->end()
-                        ->scalarNode('committer')->defaultValue('ROLE_USER')
+                        ->scalarNode('committer')
+                            ->defaultValue('ROLE_USER')
                             ->info('Is allowed to edit content')
-                            ->end()
+                        ->end()
                         ->scalarNode('admin')
                             ->defaultValue('ROLE_ADMIN')
                         ->end()
@@ -132,18 +121,13 @@ class Configuration implements ConfigurationInterface
         // @formatter:on
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     private function addIndexFilesSection(ArrayNodeDefinition $node): void
     {
         // @formatter:off
         $node
             ->children()
                 ->arrayNode('index_files')
-                    ->info(
-                        'The file names that are used as a directory index. Searched in the order defined.'
-                    )
+                    ->info('The file names that are used as a directory index. Searched in the order defined.')
                     ->prototype('scalar')->end()
                     ->defaultValue(['index.md', 'README.md','index.txt','README.txt'])
                 ->end()

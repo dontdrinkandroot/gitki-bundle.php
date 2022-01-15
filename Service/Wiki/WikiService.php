@@ -3,6 +3,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Exception\ComitMessageMissingException;
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
@@ -15,7 +16,6 @@ use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 use Exception;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symplify\GitWrapper\Exception\GitException;
@@ -248,11 +248,11 @@ class WikiService
     }
 
     /**
-     * @param DirectoryPath $path
+     * @param DirectoryPath|null $path
      *
-     * @return FilePath[]
+     * @return list<FilePath>
      */
-    public function findAllFiles(DirectoryPath $path = null)
+    public function findAllFiles(DirectoryPath $path = null): array
     {
         if (null === $path) {
             $path = new DirectoryPath();
@@ -266,8 +266,10 @@ class WikiService
         $filePaths = [];
 
         foreach ($finder->files() as $file) {
-            /** @var SplFileInfo $file */
-            $filePaths[] = FilePath::parse('/' . $file->getRelativePathname())->prepend($path);
+            $filePaths[] = Asserted::instanceOf(
+                FilePath::parse('/' . $file->getRelativePathname())->prepend($path),
+                FilePath::class
+            );
         }
 
         return $filePaths;

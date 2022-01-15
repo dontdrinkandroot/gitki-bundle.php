@@ -46,24 +46,21 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
         $htmlElement->setAttribute('id', $id);
         if (null === $this->title && $level === 1) {
             $this->title = $text;
-        } else {
-            if ($level >= 2) {
-                for ($i = $level; $i <= 6; $i++) {
-                    unset($this->current[$i]);
-                }
-                $this->current[$level] = [
-                    'id'       => $id,
-                    'text'     => $text,
-                    'level'    => $level,
-                    'children' => []
-                ];
-                if ($level === 2) {
-                    $this->toc[] = &$this->current[$level];
-                } else {
-                    if (isset($this->current[$level - 1])) {
-                        $this->current[$level - 1]['children'][] = &$this->current[$level];
-                    }
-                }
+        } elseif ($level >= 2) {
+            for ($i = $level; $i <= 6; $i++) {
+                unset($this->current[$i]);
+            }
+            $this->current[$level] = [
+                'id'       => $id,
+                'text'     => $text,
+                'level'    => $level,
+                'children' => []
+            ];
+            if ($level === 2) {
+                $this->toc[] = &$this->current[$level];
+            } elseif (isset($this->current[$level - 1])) {
+                /** @psalm-suppress PossiblyInvalidArrayOffset */
+                $this->current[$level - 1]['children'][] = &$this->current[$level];
             }
         }
 

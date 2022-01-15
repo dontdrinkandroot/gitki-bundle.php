@@ -3,10 +3,9 @@
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
-use Dontdrinkandroot\GitkiBundle\Utils\StringUtils;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
-use League\CommonMark\Extension\CommonMark\Node\Inline\AbstractWebResource;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\CommonMark\Renderer\Inline\LinkRenderer;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
@@ -16,26 +15,16 @@ use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 use Stringable;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileSystemAwareLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
-    /** @var FileSystemServiceInterface */
-    private $fileSystemService;
-
     private $linkedPaths = [];
 
-    /** @var FilePath */
-    private $currentFilePath;
+    private LinkRenderer $decoratedRenderer;
 
-    /** @var LinkRenderer */
-    private $decoratedRenderer;
-
-    public function __construct(FileSystemServiceInterface $fileSystemService, FilePath $currentFilePath)
-    {
-        $this->fileSystemService = $fileSystemService;
-        $this->currentFilePath = $currentFilePath;
+    public function __construct(
+        private FileSystemServiceInterface $fileSystemService,
+        private FilePath $currentFilePath
+    ) {
         $this->decoratedRenderer = new LinkRenderer();
     }
 
@@ -44,7 +33,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
-        assert($node instanceof AbstractWebResource);
+        assert($node instanceof Link);
         $htmlElement = $this->decoratedRenderer->render($node, $childRenderer);
         assert($htmlElement instanceof HtmlElement);
 
@@ -90,6 +79,9 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         try {
             $urlParts = parse_url($url);
 
+            if (!isset($urlParts['path'])) {
+                return true;
+            }
             $urlPath = $urlParts['path'];
             $path = null;
             if (str_starts_with($urlPath, '/')) {

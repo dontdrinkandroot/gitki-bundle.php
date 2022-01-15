@@ -1,8 +1,8 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
@@ -55,7 +55,10 @@ class RepositoryController extends BaseController
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
         $action = (string)$request->query->get(self::REQUEST_PARAMETER_ACTION, '');
-        $controller = $this->extensionRegistry->resolveFileAction($action, $filePath->getExtension());
+        $controller = $this->extensionRegistry->resolveFileAction(
+            $action,
+            Asserted::notNull($filePath->getExtension())
+        );
 
         return $this->forward(
             $controller,

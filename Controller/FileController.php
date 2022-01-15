@@ -198,7 +198,7 @@ class FileController extends BaseController
         error_reporting($level);
         if (false === $content) {
             $error = error_get_last();
-            throw new RuntimeException($error['message']);
+            throw new RuntimeException($error['message'] ?? 'Could not get contents');
         }
 
         return $content;

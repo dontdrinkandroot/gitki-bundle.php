@@ -8,6 +8,12 @@ use Psr\Container\ContainerInterface;
 
 trait ElasticsearchReindexTrait
 {
+    /**
+     * @param ContainerInterface $container
+     * @param positive-int       $sleepSeconds
+     *
+     * @return void
+     */
     public function reindex(ContainerInterface $container, int $sleepSeconds = 1): void
     {
         $wikiService = $container->get(WikiService::class);

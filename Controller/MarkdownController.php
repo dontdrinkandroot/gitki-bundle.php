@@ -18,43 +18,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symplify\GitWrapper\Exception\GitException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class MarkdownController extends BaseController
 {
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
-
-    /**
-     * @var DirectoryServiceInterface
-     */
-    private $directoryService;
-
-    /**
-     * @var ExtensionRegistryInterface
-     */
-    private $extensionRegistry;
-
-    /**
-     * @var MarkdownServiceInterface
-     */
-    private $markdownService;
-
     public function __construct(
-        WikiService $wikiService,
-        DirectoryServiceInterface $directoryService,
-        ExtensionRegistryInterface $extensionRegistry,
+        private WikiService $wikiService,
+        private DirectoryServiceInterface $directoryService,
+        private ExtensionRegistryInterface $extensionRegistry,
         SecurityService $securityService,
-        MarkdownServiceInterface $markdownService
+        private MarkdownServiceInterface $markdownService
     ) {
         parent::__construct($securityService);
-        $this->wikiService = $wikiService;
-        $this->directoryService = $directoryService;
-        $this->extensionRegistry = $extensionRegistry;
-        $this->markdownService = $markdownService;
     }
 
     public function viewAction(Request $request, string $path): Response
@@ -115,7 +88,7 @@ class MarkdownController extends BaseController
 
         $filePath = FilePath::parse($path);
 
-        $markdown = Asserted::stringOrNull($request->request->get('markdown'));
+        $markdown = Asserted::string($request->request->get('markdown'));
         $document = $this->markdownService->parse($markdown, $filePath);
 
         return new Response($document->getHtml());
