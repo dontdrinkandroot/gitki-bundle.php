@@ -7,15 +7,12 @@ use League\CommonMark\Extension\Table\TableRenderer;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use Stringable;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class BootstrapTableRenderer implements NodeRendererInterface
 {
-    /** @var TableRenderer */
-    private $decoratedRenderer;
+    private TableRenderer $decoratedRenderer;
 
     public function __construct()
     {
@@ -28,6 +25,7 @@ class BootstrapTableRenderer implements NodeRendererInterface
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
         $tableElement = $this->decoratedRenderer->render($node, $childRenderer);
+        assert($tableElement instanceof HtmlElement);
         $tableElement->setAttribute('class', 'table');
 
         return $tableElement;

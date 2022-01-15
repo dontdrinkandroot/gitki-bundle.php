@@ -10,6 +10,7 @@ use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use Stringable;
 
 class TocBuildingHeaderRenderer implements NodeRendererInterface
@@ -36,6 +37,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
     {
         assert($node instanceof Heading);
         $htmlElement = $this->decoratedRender->render($node, $childRenderer);
+        assert($htmlElement instanceof HtmlElement);
 
         $id = 'heading' . $this->count;
         $level = $node->getLevel();

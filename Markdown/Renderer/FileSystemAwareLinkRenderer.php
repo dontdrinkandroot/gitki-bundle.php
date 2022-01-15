@@ -11,6 +11,7 @@ use League\CommonMark\Extension\CommonMark\Renderer\Inline\LinkRenderer;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
 use Stringable;
@@ -45,6 +46,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
     {
         assert($node instanceof AbstractWebResource);
         $htmlElement = $this->decoratedRenderer->render($node, $childRenderer);
+        assert($htmlElement instanceof HtmlElement);
 
         if ($this->isExternalUrl($node->getUrl())) {
             $htmlElement->setAttribute('rel', 'external');
@@ -90,7 +92,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
 
             $urlPath = $urlParts['path'];
             $path = null;
-            if (StringUtils::startsWith($urlPath, '/')) {
+            if (str_starts_with($urlPath, '/')) {
                 /* Absolute paths won't work */
                 return false;
             }

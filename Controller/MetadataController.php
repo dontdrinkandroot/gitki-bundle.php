@@ -63,7 +63,7 @@ class MetadataController extends BaseController
             ];
             if (null !== $currentPath) {
                 $relativePath = PathUtils::getPathDiff($currentPath, $absolutePath);
-                if (!StringUtils::startsWith($relativePath, '../')) {
+                if (str_starts_with($relativePath, '../')) {
                     $relativePath = './' . $relativePath;
                 }
                 $element['relativePath'] = $relativePath;

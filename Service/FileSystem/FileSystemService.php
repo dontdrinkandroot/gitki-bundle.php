@@ -35,11 +35,11 @@ class FileSystemService implements FileSystemServiceInterface
     {
         $pathString = $basePath;
 
-        if (!StringUtils::startsWith($pathString, '/')) {
+        if (!str_starts_with($pathString, '/')) {
             throw new RuntimeException('Base Path must be absolute');
         }
 
-        if (!StringUtils::endsWith($pathString, '/')) {
+        if (!str_ends_with($pathString, '/')) {
             $pathString .= '/';
         }
 

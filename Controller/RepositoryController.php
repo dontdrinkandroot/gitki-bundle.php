@@ -105,7 +105,7 @@ class RepositoryController extends BaseController
      */
     protected function checkPreconditions(Request $request, $path): void
     {
-        if (StringUtils::startsWith($path, '/.git')) {
+        if (str_starts_with($path, '/.git')) {
             throw new AccessDeniedHttpException();
         }
     }
