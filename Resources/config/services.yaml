@@ -4,13 +4,13 @@ services:
 
     Dontdrinkandroot\GitkiBundle\Analyzer\TextAnalyzer:
         tags:
-            -  { name: ddr.gitki.analyzer }
+            - { name: ddr.gitki.analyzer }
 
     Dontdrinkandroot\GitkiBundle\Analyzer\MarkdownAnalyzer:
         arguments:
             - '@Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface'
         tags:
-            -  { name: ddr.gitki.analyzer }
+            - { name: ddr.gitki.analyzer }
 
     Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository: ~
 
@@ -66,20 +66,20 @@ services:
     Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService'
 
     Dontdrinkandroot\GitkiBundle\Service\Lock\LockService:
-        arguments: ['@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService']
+        arguments: [ '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService' ]
 
     Dontdrinkandroot\GitkiBundle\Service\Role\RoleService:
         calls:
-            - [setWatcherRole, ['%ddr_gitki.role.watcher%']]
-            - [setCommitterRole, ['%ddr_gitki.role.committer%']]
-            - [setAdminRole, ['%ddr_gitki.role.admin%']]
+            - [ setWatcherRole, [ '%ddr_gitki.role.watcher%' ] ]
+            - [ setCommitterRole, [ '%ddr_gitki.role.committer%' ] ]
+            - [ setAdminRole, [ '%ddr_gitki.role.admin%' ] ]
 
     Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService:
         arguments:
             - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
             - '@Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface'
         calls:
-            - [setIndexFiles, ['%ddr_gitki.index_files%']]
+            - [ setIndexFiles, [ '%ddr_gitki.index_files%' ] ]
 
     Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface: '@Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService'
 
@@ -129,4 +129,14 @@ services:
         autowire: true
         autoconfigure: true
         resource: '../../Controller'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
+
+    #
+    # Converters
+    #
+
+    Dontdrinkandroot\GitkiBundle\Request\ParamConverter\DirectoryPathConverter:
+        tags: [ 'request.param_converter' ]
+
+    Dontdrinkandroot\GitkiBundle\Request\ParamConverter\FilePathConverter:
+        tags: [ 'request.param_converter' ]
