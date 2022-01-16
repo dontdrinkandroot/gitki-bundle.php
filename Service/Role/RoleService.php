@@ -4,39 +4,25 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Role;
 
 /**
- * @author Philip Washington Sorst <philip@sorst.net>
+ * @deprecated Use Voters instead
  */
 class RoleService implements RoleServiceInterface
 {
-    /**
-     * @var string
-     */
-    protected $watcherRole = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    protected string $watcherRole = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
-    /**
-     * @var string
-     */
-    protected $committerRole = 'ROLE_USER';
+    protected string $committerRole = 'ROLE_USER';
 
-    /**
-     * @var string
-     */
-    protected $adminRole = 'ROLE_ADMIN';
+    protected string $adminRole = 'ROLE_ADMIN';
 
     /**
      * {@inheritdoc}
      */
-    public function getWatcherRole()
+    public function getWatcherRole(): string
     {
         return $this->watcherRole;
     }
 
-    /**
-     * @param string $watcherRole
-     *
-     * @return null
-     */
-    public function setWatcherRole($watcherRole)
+    public function setWatcherRole(string $watcherRole): void
     {
         $this->watcherRole = $watcherRole;
     }
@@ -44,17 +30,12 @@ class RoleService implements RoleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCommitterRole()
+    public function getCommitterRole(): string
     {
         return $this->committerRole;
     }
 
-    /**
-     * @param string $committerRole
-     *
-     * @return null
-     */
-    public function setCommitterRole($committerRole)
+    public function setCommitterRole(string $committerRole): void
     {
         $this->committerRole = $committerRole;
     }
@@ -62,17 +43,12 @@ class RoleService implements RoleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAdminRole()
+    public function getAdminRole(): string
     {
         return $this->adminRole;
     }
 
-    /**
-     * @param string $adminRole
-     *
-     * @return null
-     */
-    public function setAdminRole($adminRole)
+    public function setAdminRole(string $adminRole): void
     {
         $this->adminRole = $adminRole;
     }

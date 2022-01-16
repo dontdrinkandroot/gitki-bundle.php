@@ -4,22 +4,13 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Role;
 
 /**
- * @author Philip Washington Sorst <philip@sorst.net>
+ * @deprecated Use Voters instead
  */
 interface RoleServiceInterface
 {
-    /**
-     * @return string
-     */
-    public function getWatcherRole();
+    public function getWatcherRole(): string;
 
-    /**
-     * @return string
-     */
-    public function getCommitterRole();
+    public function getCommitterRole(): string;
 
-    /**
-     * @return string
-     */
-    public function getAdminRole();
+    public function getAdminRole(): string;
 }
