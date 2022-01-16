@@ -50,7 +50,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getBasePath()
+    public function getBasePath(): DirectoryPath
     {
         return $this->basePath;
     }
@@ -82,7 +82,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function putContent(FilePath $path, $content): void
+    public function putContent(FilePath $path, string $content): void
     {
         file_put_contents($this->getAbsolutePathString($path), $content);
     }
@@ -90,17 +90,12 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getContent(FilePath $path)
+    public function getContent(FilePath $path): string
     {
         return file_get_contents($this->getAbsolutePathString($path));
     }
 
-    /**
-     * @param Path $path
-     *
-     * @return int
-     */
-    public function getModificationTime(Path $path)
+    public function getModificationTime(Path $path): int
     {
         return filemtime($this->getAbsolutePathString($path));
     }
@@ -127,7 +122,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAbsolutePath(Path $path)
+    public function getAbsolutePath(Path $path): Path
     {
         return $path->prepend($this->basePath);
     }
@@ -135,7 +130,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true)
+    public function listDirectories(DirectoryPath $root, bool $includeRoot = false, bool $recursive = true): array
     {
         /** @var Directory[] $directories */
         $directories = [];
@@ -161,7 +156,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function listFiles(DirectoryPath $root, $recursive = true)
+    public function listFiles(DirectoryPath $root, bool $recursive = true): array
     {
         /* @var File[] $files */
         $files = [];

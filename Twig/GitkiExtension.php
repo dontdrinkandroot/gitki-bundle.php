@@ -9,34 +9,13 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class GitkiExtension extends AbstractExtension
 {
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /**
-     * @var ExtensionRegistryInterface
-     */
-    private $extensionRegistry;
-
-    /**
-     * @var RoleServiceInterface
-     */
-    private $roleService;
-
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        RoleServiceInterface $roleService,
-        ExtensionRegistryInterface $extensionRegistry
+        private AuthorizationCheckerInterface $authorizationChecker,
+        private RoleServiceInterface $roleService,
+        private ExtensionRegistryInterface $extensionRegistry
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->extensionRegistry = $extensionRegistry;
-        $this->roleService = $roleService;
     }
 
     /**
@@ -70,7 +49,7 @@ class GitkiExtension extends AbstractExtension
         ];
     }
 
-    public function titleFilter($title): string
+    public function titleFilter(string $title): string
     {
         $words = explode('_', $title);
         $transformedTitle = '';
@@ -82,17 +61,17 @@ class GitkiExtension extends AbstractExtension
         return $transformedTitle;
     }
 
-    public function isWatcher()
+    public function isWatcher(): bool
     {
         return $this->hasRole($this->roleService->getWatcherRole());
     }
 
-    public function isCommitter()
+    public function isCommitter(): bool
     {
         return $this->hasRole($this->roleService->getCommitterRole());
     }
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->hasRole($this->roleService->getAdminRole());
     }
@@ -102,7 +81,7 @@ class GitkiExtension extends AbstractExtension
         return $this->authorizationChecker->isGranted($role);
     }
 
-    public function isEditable($extension): bool
+    public function isEditable(string $extension): bool
     {
         return $this->extensionRegistry->isEditable($extension);
     }

@@ -2,15 +2,13 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Utils;
 
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class StaticUserProvider implements UserProviderInterface
 {
+    /** @var array<string, User> */
     private $users;
 
     public function __construct()
@@ -23,10 +21,10 @@ class StaticUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername(string $username): UserInterface
     {
         if (!array_key_exists($username, $this->users)) {
-            throw new UsernameNotFoundException();
+            throw new UserNotFoundException();
         }
 
         return $this->users[$username];
@@ -35,7 +33,7 @@ class StaticUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         return $user;
     }
@@ -43,7 +41,7 @@ class StaticUserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $class === User::class;
     }

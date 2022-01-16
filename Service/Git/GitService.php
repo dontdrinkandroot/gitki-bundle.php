@@ -31,7 +31,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getRepositoryPath()
+    public function getRepositoryPath(): DirectoryPath
     {
         return $this->fileSystemService->getBasePath();
     }
@@ -39,7 +39,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getWorkingCopyHistory($maxCount = null)
+    public function getWorkingCopyHistory(?int $maxCount = null): array
     {
         return $this->getHistory(null, $maxCount);
     }
@@ -47,7 +47,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getFileHistory(FilePath $path, $maxCount = null)
+    public function getFileHistory(FilePath $path, ?int $maxCount = null): array
     {
         return $this->getHistory($path, $maxCount);
     }
@@ -86,8 +86,12 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function moveAndCommit(GitUserInterface $author, FilePath $oldPath, FilePath $newPath, $commitMessage): void
-    {
+    public function moveAndCommit(
+        GitUserInterface $author,
+        FilePath $oldPath,
+        FilePath $newPath,
+        string $commitMessage
+    ): void {
         $workingCopy = $this->getWorkingCopy();
         $workingCopy->mv($oldPath->toRelativeFileSystemString(), $newPath->toRelativeFileSystemString());
         $this->commit($author, $commitMessage);
@@ -96,7 +100,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function exists(Path $path)
+    public function exists(Path $path): bool
     {
         return $this->fileSystemService->exists($path);
     }
@@ -104,7 +108,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAbsolutePath(Path $path)
+    public function getAbsolutePath(Path $path): Path
     {
         return $path->prepend($this->getRepositoryPath());
     }
@@ -120,7 +124,7 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getContent(FilePath $path)
+    public function getContent(FilePath $path): string
     {
         return file_get_contents($this->getAbsolutePathString($path));
     }
@@ -136,8 +140,12 @@ class GitService implements GitServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function putAndCommitFile($author, FilePath $path, $content, $commitMessage): void
-    {
+    public function putAndCommitFile(
+        GitUserInterface $author,
+        FilePath $path,
+        string $content,
+        string $commitMessage
+    ): void {
         $this->fileSystemService->putContent($path, $content);
         $this->add([$path]);
         $this->commit($author, $commitMessage);
@@ -187,9 +195,9 @@ class GitService implements GitServiceInterface
     {
         if (!is_array($paths)) {
             return [$paths];
-        } else {
-            return $paths;
         }
+
+        return $paths;
     }
 
     /**

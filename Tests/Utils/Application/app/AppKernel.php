@@ -26,7 +26,7 @@ class AppKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $resource = $this->getEnvConfigDir() . '/config.yaml';
         $loader->load($resource);
@@ -56,7 +56,7 @@ class AppKernel extends Kernel
         return $this->getProjectDir() . '/Tests/Utils/Application/app/config/' . $this->getEnvironment();
     }
 
-    protected function build(ContainerBuilder $container)
+    protected function build(ContainerBuilder $container): void
     {
         $container->register(NullLogger::class)->setDecoratedService('logger');
     }

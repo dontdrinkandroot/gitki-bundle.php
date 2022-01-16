@@ -18,9 +18,8 @@
         <directory name="Model" />
         <directory name="Repository" />
         <directory name="Service" />
-        <directory name="Tests" />
+<!--        <directory name="Tests" />-->
         <directory name="Twig" />
-        <directory name="Utils" />
         <file name="DdrGitkiBundle.php" />
         <ignoreFiles>
             <directory name="vendor" />

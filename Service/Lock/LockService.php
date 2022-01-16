@@ -61,7 +61,7 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function assertUserHasLock(GitUserInterface $user, FilePath $path)
+    public function assertUserHasLock(GitUserInterface $user, FilePath $path): bool
     {
         $lockPath = $this->getLockPath($path);
         if ($this->fileSystemService->exists($lockPath) && !$this->isLockExpired($lockPath)) {
@@ -79,7 +79,7 @@ class LockService implements LockServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function holdLockForUser(GitUserInterface $user, FilePath $path)
+    public function holdLockForUser(GitUserInterface $user, FilePath $path): int
     {
         $this->assertUserHasLock($user, $path);
         $lockPath = $this->getLockPath($path);
@@ -89,12 +89,7 @@ class LockService implements LockServiceInterface
         return $this->getLockExpiry($lockPath);
     }
 
-    /**
-     * @param FilePath $lockPath
-     *
-     * @return bool
-     */
-    protected function isLockExpired(FilePath $lockPath)
+    protected function isLockExpired(FilePath $lockPath): bool
     {
         $expired = time() > $this->getLockExpiry($lockPath);
         if ($expired) {
@@ -104,34 +99,19 @@ class LockService implements LockServiceInterface
         return $expired;
     }
 
-    /**
-     * @param FilePath $lockPath
-     *
-     * @return int
-     */
-    protected function getLockExpiry(FilePath $lockPath)
+    protected function getLockExpiry(FilePath $lockPath): int
     {
         $modificationTime = $this->fileSystemService->getModificationTime($lockPath);
 
         return $modificationTime + (60);
     }
 
-    /**
-     * @param FilePath $lockPath
-     *
-     * @return string
-     */
-    protected function getLockLogin(FilePath $lockPath)
+    protected function getLockLogin(FilePath $lockPath): string
     {
         return $this->fileSystemService->getContent($lockPath);
     }
 
-    /**
-     * @param FilePath $filePath
-     *
-     * @return FilePath
-     */
-    protected function getLockPath(FilePath $filePath)
+    protected function getLockPath(FilePath $filePath): FilePath
     {
         $name = $filePath->getName();
         $relativeLockPath = $filePath->getParentPath()->appendFile('.' . $name . '.lock');
@@ -139,9 +119,6 @@ class LockService implements LockServiceInterface
         return $relativeLockPath;
     }
 
-    /**
-     * @param FilePath $lockPath
-     */
     protected function removeLockFile(FilePath $lockPath): void
     {
         $this->fileSystemService->removeFile($lockPath);
@@ -154,7 +131,7 @@ class LockService implements LockServiceInterface
      * @return bool
      * @throws FileLockedException
      */
-    protected function assertUnlocked(GitUserInterface $user, FilePath $lockPath)
+    protected function assertUnlocked(GitUserInterface $user, FilePath $lockPath): bool
     {
         if (!$this->fileSystemService->exists($lockPath)) {
             return true;
@@ -165,7 +142,7 @@ class LockService implements LockServiceInterface
         }
 
         $lockLogin = $this->getLockLogin($lockPath);
-        if ($lockLogin == $user->getGitUserEmail()) {
+        if ($lockLogin === $user->getGitUserEmail()) {
             return true;
         }
 

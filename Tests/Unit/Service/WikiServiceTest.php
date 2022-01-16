@@ -15,24 +15,15 @@ use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class WikiServiceTest extends GitRepositoryTestCase
 {
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
+    private FileSystemService $fileSystemService;
 
-    private $gitService;
+    private GitService $gitService;
 
-    private $lockService;
+    private LockService $lockService;
 
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
+    private WikiService $wikiService;
 
     /**
      * {@inheritdoc}
@@ -115,7 +106,7 @@ class WikiServiceTest extends GitRepositoryTestCase
             $testDirPath->prepend($this->fileSystemService->getBasePath())->toAbsoluteFileSystemString()
         );
         $this->wikiService->removeDirectory($testDirPath);
-        $this->assertFileNotExists(
+        $this->assertFileDoesNotExist(
             $testDirPath->prepend($this->fileSystemService->getBasePath())->toAbsoluteFileSystemString()
         );
     }
@@ -136,7 +127,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         );
 
         foreach ($this->getExampleFiles() as $exampleFile) {
-            $this->assertFileNotExists(
+            $this->assertFileDoesNotExist(
                 $exampleFile->prepend($this->fileSystemService->getBasePath())->toAbsoluteFileSystemString()
             );
         }

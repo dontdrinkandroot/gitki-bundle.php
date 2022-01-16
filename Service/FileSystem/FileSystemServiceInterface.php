@@ -11,80 +11,27 @@ use Dontdrinkandroot\Path\Path;
 
 interface FileSystemServiceInterface
 {
-    /**
-     * @return DirectoryPath
-     */
-    public function getBasePath();
+    public function getBasePath(): DirectoryPath;
 
-    /**
-     * @param Path $path
-     *
-     * @return bool
-     */
     public function exists(Path $path): bool;
 
-    /**
-     * @param DirectoryPath $path
-     */
-    public function createDirectory(DirectoryPath $path);
+    public function createDirectory(DirectoryPath $path): void;
 
-    /**
-     * @param FilePath $path
-     */
-    public function touchFile(FilePath $path);
+    public function touchFile(FilePath $path): void;
 
-    /**
-     * @param FilePath $path
-     * @param string   $content
-     */
-    public function putContent(FilePath $path, $content);
+    public function putContent(FilePath $path, string $content): void;
 
-    /**
-     * @param Path $path
-     *
-     * @return int
-     */
-    public function getModificationTime(Path $path);
+    public function getModificationTime(Path $path): int;
 
-    /**
-     * @param FilePath $path
-     *
-     * @return string
-     */
-    public function getContent(FilePath $path);
+    public function getContent(FilePath $path): string;
 
-    /**
-     * @param FilePath $path
-     */
-    public function removeFile(FilePath $path);
+    public function removeFile(FilePath $path): void;
 
-    /**
-     * @param DirectoryPath $path
-     * @param bool          $ignoreEmpty
-     */
-    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false);
+    public function getAbsolutePath(Path $path): Path;
 
-    /**
-     * @param Path $path
-     *
-     * @return Path
-     */
-    public function getAbsolutePath(Path $path);
+    /** @return list<Directory> */
+    public function listDirectories(DirectoryPath $root, bool $includeRoot = false, bool $recursive = true): array;
 
-    /**
-     * @param DirectoryPath $root
-     * @param bool          $includeRoot
-     * @param bool          $recursive
-     *
-     * @return Directory[]
-     */
-    public function listDirectories(DirectoryPath $root, $includeRoot = false, $recursive = true);
-
-    /**
-     * @param DirectoryPath $root
-     * @param bool          $recursive
-     *
-     * @return File[]
-     */
-    public function listFiles(DirectoryPath $root, $recursive = true);
+    /** @return list<File> */
+    public function listFiles(DirectoryPath $root, bool $recursive = true): array;
 }
