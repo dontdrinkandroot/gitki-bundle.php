@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\Common\CrudOperation;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,7 @@ class RawAction extends AbstractController
 
     public function __invoke(Request $request, FilePath $path): Response
     {
-        $this->denyAccessUnlessGranted('READ', $path);
+        $this->denyAccessUnlessGranted(CrudOperation::READ, $path);
 
         return new BinaryFileResponse($this->wikiService->getFile($path));
     }

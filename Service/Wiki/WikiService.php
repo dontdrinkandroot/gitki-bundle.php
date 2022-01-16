@@ -1,12 +1,12 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\Wiki;
 
 use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Exception\ComitMessageMissingException;
 use Dontdrinkandroot\GitkiBundle\Exception\DirectoryNotEmptyException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileExistsException;
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Model\CommitMetadata;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
@@ -65,6 +65,8 @@ class WikiService
     /**
      * @param GitUserInterface $user
      * @param FilePath         $relativeFilePath
+     *
+     * @throws FileLockedException
      */
     public function createLock(GitUserInterface $user, FilePath $relativeFilePath): void
     {

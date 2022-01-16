@@ -42,7 +42,7 @@ services:
             - [ registerDirectoryAction, [ 'Dontdrinkandroot\GitkiBundle\Controller\DirectoryController::removeAction', 'remove' ] ]
             - [ registerDirectoryAction, [ 'Dontdrinkandroot\GitkiBundle\Controller\DirectoryController::uploadFileAction', 'file.upload' ] ]
             - [ registerExtension, [ 'txt', 'Text', 'Dontdrinkandroot\GitkiBundle\Controller\TextController::viewAction','Dontdrinkandroot\GitkiBundle\Controller\TextController::editAction' ] ]
-            - [ registerExtension, [ 'md', 'Markdown', 'Dontdrinkandroot\GitkiBundle\Controller\MarkdownController::viewAction','Dontdrinkandroot\GitkiBundle\Controller\MarkdownController::editAction' ] ]
+            - [ registerExtension, [ 'md', 'Markdown', 'Dontdrinkandroot\GitkiBundle\Controller\Markdown\ViewAction','Dontdrinkandroot\GitkiBundle\Controller\Markdown\EditAction' ] ]
 
     Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface: '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry'
 

@@ -1,8 +1,8 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Service\Lock;
 
+use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockExpiredException;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
@@ -12,6 +12,8 @@ interface LockServiceInterface
     /**
      * @param GitUserInterface $user
      * @param FilePath         $path
+     *
+     * @throws FileLockedException
      */
     public function createLock(GitUserInterface $user, FilePath $path): void;
 
@@ -25,9 +27,9 @@ interface LockServiceInterface
      * @param GitUserInterface $user
      * @param FilePath         $path
      *
+     * @return bool
      * @throws FileLockExpiredException
      *
-     * @return bool
      */
     public function assertUserHasLock(GitUserInterface $user, FilePath $path): bool;
 
@@ -35,9 +37,9 @@ interface LockServiceInterface
      * @param GitUserInterface $user
      * @param FilePath         $path
      *
+     * @return int
      * @throws FileLockExpiredException
      *
-     * @return int
      */
     public function holdLockForUser(GitUserInterface $user, FilePath $path): int;
 }

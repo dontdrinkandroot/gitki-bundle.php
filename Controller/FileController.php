@@ -29,29 +29,6 @@ class FileController extends BaseController
         parent::__construct($securityService);
     }
 
-    public function serveAction(Request $request, $path): Response
-    {
-        $this->securityService->assertWatcher();
-
-        $filePath = FilePath::parse($path);
-
-        $file = $this->wikiService->getFile($filePath);
-
-        $response = new Response();
-        $lastModified = new DateTime();
-        $lastModified->setTimestamp($file->getMTime());
-        $response->setLastModified($lastModified);
-        $response->setEtag($this->generateEtag($lastModified));
-        if ($response->isNotModified($request)) {
-            return $response;
-        }
-
-        $response->headers->set('Content-Type', $file->getMimeType());
-        $response->setContent($this->getContents($file));
-
-        return $response;
-    }
-
     public function removeAction($path): RedirectResponse
     {
         $this->securityService->assertCommitter();
