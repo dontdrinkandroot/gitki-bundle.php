@@ -18,6 +18,12 @@ ddr_gitki_file:
     requirements:
         path: .+
 
+ddr_gitki.raw:
+    path:   /raw{path}
+    controller: Dontdrinkandroot\GitkiBundle\Controller\RawAction
+    requirements:
+        path: .+
+
 ddr_gitki_meta_directories_json:
     path: /meta/directories.json
     controller: Dontdrinkandroot\GitkiBundle\Controller\MetadataController::directoriesJsonAction

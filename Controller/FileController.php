@@ -191,7 +191,7 @@ class FileController extends BaseController
      * @return string
      * @throws RuntimeException
      */
-    protected function getContents(File $file)
+    protected function getContents(File $file): string
     {
         $level = error_reporting(0);
         $content = file_get_contents($file->getPathname());

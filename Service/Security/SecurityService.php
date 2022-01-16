@@ -10,34 +10,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class SecurityService
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-
-    /**
-     * @var RoleServiceInterface
-     */
-    private $roleService;
-
-    /**
-     * @var AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
 
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        AuthorizationCheckerInterface $authorizationChecker,
-        RoleServiceInterface $roleService
+        private TokenStorageInterface $tokenStorage,
+        private AuthorizationCheckerInterface $authorizationChecker,
+        private RoleServiceInterface $roleService
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->roleService = $roleService;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function getUser(): ?UserInterface
@@ -53,10 +33,7 @@ class SecurityService
         return $user;
     }
 
-    /**
-     * @return GitUserInterface|null
-     */
-    public function findGitUser()
+    public function findGitUser(): ?GitUserInterface
     {
         $user = $this->getUser();
         if (null === $user) {
@@ -75,7 +52,7 @@ class SecurityService
      *
      * @throws Exception Thrown if the current user is not set or not a GitUserInterface.
      */
-    public function getGitUser()
+    public function getGitUser(): GitUserInterface
     {
         $user = $this->findGitUser();
         if (null === $user) {
