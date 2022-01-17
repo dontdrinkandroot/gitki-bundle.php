@@ -22,6 +22,7 @@
         "dontdrinkandroot/common": "dev-master",
         "dontdrinkandroot/path": "^0.1.0",
         "league/commonmark": "^2.1",
+        "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "^5.4",
         "symfony/config": "^5.4",
         "symfony/finder": "^5.4",
