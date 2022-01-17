@@ -1,14 +1,11 @@
 <?php
 
-namespace Dontdrinkandroot\GitkiBundle\Tests\Utils;
+namespace Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUserInterface
 {
     /**

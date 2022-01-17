@@ -8,8 +8,8 @@ use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\FileSystemAwareMarkdownService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
+use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
-use Dontdrinkandroot\GitkiBundle\Tests\Utils\User;
 use Dontdrinkandroot\Path\FilePath;
 
 /**

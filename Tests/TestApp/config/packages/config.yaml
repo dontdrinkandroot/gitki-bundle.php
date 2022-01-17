@@ -1,6 +1,6 @@
 services:
     ddr_gitki_test.user_provider:
-        class: Dontdrinkandroot\GitkiBundle\Tests\Utils\StaticUserProvider
+        class: Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\StaticUserProvider
 
 framework:
     secret: 'test'
@@ -18,7 +18,7 @@ sensio_framework_extra:
 security:
 
     encoders:
-        Dontdrinkandroot\GitkiBundle\Tests\Utils\User: plaintext
+        Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User: plaintext
 
     providers:
         static:
@@ -35,3 +35,8 @@ security:
 
 ddr_gitki:
     repository_path: '/tmp/gitkitest/repo/'
+
+when@elasticsearch:
+    ddr_gitki:
+        elasticsearch:
+            index_name: gitki_test

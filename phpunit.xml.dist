@@ -7,7 +7,7 @@
         <ini name="error_reporting" value="-1" />
         <env name="APP_SECRET" value="c2143e0e6fa7397bf72e127fc8ccf2b5" />
         <env name="SHELL_VERBOSITY" value="-1" />
-        <env name="KERNEL_CLASS" value="Dontdrinkandroot\GitkiBundle\Tests\Utils\Application\app\AppKernel" />
+        <env name="KERNEL_CLASS" value="Dontdrinkandroot\GitkiBundle\Tests\TestApp\TestKernel" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[direct]=0" />
     </php>
 
