@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller\Markdown;
 
 use Dontdrinkandroot\Common\Asserted;
-use Dontdrinkandroot\Common\CrudOperation;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +18,7 @@ class PreviewAction extends AbstractController
 
     public function __invoke(Request $request, FilePath $path): Response
     {
-        $this->isGranted(CrudOperation::READ);
+        $this->isGranted(SecurityAttribute::READ_PATH);
 
         $markdown = Asserted::string($request->request->get('markdown'));
         $document = $this->markdownService->parse($markdown, $path);

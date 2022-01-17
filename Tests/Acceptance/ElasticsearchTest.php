@@ -21,7 +21,7 @@ class ElasticsearchTest extends WebTestCase
     public function testSearch(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $this->reindex(self::$container);
+        $this->reindex(self::getContainer());
         $crawler = $client->request(Request::METHOD_GET, 'search/');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -43,7 +43,7 @@ class ElasticsearchTest extends WebTestCase
     public function testFileTitlesInDirectoryIndex(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $this->reindex(self::$container);
+        $this->reindex(self::getContainer());
         $crawler = $client->request(Request::METHOD_GET, 'browse/examples/?action=list');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 

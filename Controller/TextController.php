@@ -5,6 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Controller;
 use DateTime;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\TextEditType;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
@@ -15,41 +16,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symplify\GitWrapper\Exception\GitException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class TextController extends BaseController
 {
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
-
-    /**
-     * @var ExtensionRegistryInterface
-     */
-    private $extensionRegistry;
 
     public function __construct(
         SecurityService $securityService,
-        WikiService $wikiService,
-        ExtensionRegistryInterface $extensionRegistry
+        private WikiService $wikiService,
+        private ExtensionRegistryInterface $extensionRegistry
     ) {
         parent::__construct($securityService);
-        $this->wikiService = $wikiService;
-        $this->extensionRegistry = $extensionRegistry;
     }
 
-    public function viewAction(Request $request, $path): Response
+    public function viewAction(Request $request, FilePath $path): Response
     {
-        $this->securityService->assertWatcher();
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH, $path);
 
-        $filePath = FilePath::parse($path);
         $user = $this->getUser();
 
         $file = null;
         try {
-            $file = $this->wikiService->getFile($filePath);
+            $file = $this->wikiService->getFile($path);
             $response = new Response();
             $lastModified = new DateTime();
             $lastModified->setTimestamp($file->getMTime());
@@ -59,12 +45,12 @@ class TextController extends BaseController
                 return $response;
             }
 
-            $content = $this->wikiService->getContent($filePath);
+            $content = $this->wikiService->getContent($path);
 
             $renderedView = $this->renderView(
                 '@DdrGitki/Text/view.html.twig',
                 [
-                    'path'               => $filePath,
+                    'path'               => $path,
                     'content'            => $content,
                     'editableExtensions' => $this->extensionRegistry->getEditableExtensions()
                 ]
@@ -81,25 +67,24 @@ class TextController extends BaseController
             return $this->redirect(
                 $this->generateUrl(
                     'ddr_gitki_file',
-                    ['path' => $filePath, 'action' => 'edit']
+                    ['path' => $path, 'action' => 'edit']
                 )
             );
         }
     }
 
-    public function editAction(Request $request, $path): Response
+    public function editAction(Request $request, FilePath $path): Response
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
-        $filePath = FilePath::parse($path);
         $user = $this->securityService->getGitUser();
 
         try {
-            $this->wikiService->createLock($user, $filePath);
+            $this->wikiService->createLock($user, $path);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
-                ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
+                ['path' => $path, 'lockedBy' => $e->getLockedBy()]
             );
 
             return new Response($renderedView, Response::HTTP_LOCKED);
@@ -113,13 +98,13 @@ class TextController extends BaseController
             $content = $form->get('content')->getData();
             $commitMessage = $form->get('commitMessage')->getData();
             try {
-                $this->wikiService->saveFile($user, $filePath, $content, $commitMessage);
-                $this->wikiService->removeLock($user, $filePath);
+                $this->wikiService->saveFile($user, $path, $content, $commitMessage);
+                $this->wikiService->removeLock($user, $path);
 
                 return $this->redirect(
                     $this->generateUrl(
                         'ddr_gitki_file',
-                        ['path' => $filePath]
+                        ['path' => $path]
                     )
                 );
             } catch (GitException $e) {
@@ -127,15 +112,15 @@ class TextController extends BaseController
             }
         } else {
             $content = '';
-            if ($this->wikiService->exists($filePath)) {
-                $content = $this->wikiService->getContent($filePath);
+            if ($this->wikiService->exists($path)) {
+                $content = $this->wikiService->getContent($path);
             }
 
             if (!$form->isSubmitted()) {
                 $form->setData(
                     [
                         'content'       => $content,
-                        'commitMessage' => 'Editing ' . $filePath->toAbsoluteString()
+                        'commitMessage' => 'Editing ' . $path->toAbsoluteString()
                     ]
                 );
             }
@@ -143,7 +128,7 @@ class TextController extends BaseController
 
         return $this->render(
             '@DdrGitki/Text/edit.html.twig',
-            ['form' => $form->createView(), 'path' => $filePath]
+            ['form' => $form->createView(), 'path' => $path]
         );
     }
 }

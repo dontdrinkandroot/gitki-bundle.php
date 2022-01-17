@@ -3,9 +3,9 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller\Markdown;
 
 use Dontdrinkandroot\Common\Asserted;
-use Dontdrinkandroot\Common\CrudOperation;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
 use Dontdrinkandroot\GitkiBundle\Form\Type\MarkdownEditType;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\FilePath;
@@ -22,7 +22,7 @@ class EditAction extends AbstractController
 
     public function __invoke(Request $request, FilePath $path): Response
     {
-        $this->denyAccessUnlessGranted(CrudOperation::UPDATE, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $user = $this->securityService->getGitUser();
 

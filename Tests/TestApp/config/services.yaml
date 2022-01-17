@@ -1,0 +1,4 @@
+services:
+
+    Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\Voter\TestVoter:
+        tags: [ 'security.voter' ]

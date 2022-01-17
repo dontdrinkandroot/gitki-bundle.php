@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
-use Dontdrinkandroot\GitkiBundle\Security\Attribute;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
@@ -31,7 +31,7 @@ class FileController extends BaseController
 
     public function removeAction(FilePath $path): RedirectResponse
     {
-        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $user = $this->securityService->getGitUser();
 
@@ -46,7 +46,7 @@ class FileController extends BaseController
 
     public function holdLockAction(FilePath $path): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $user = $this->securityService->getGitUser();
 
@@ -64,32 +64,29 @@ class FileController extends BaseController
         return new Response((string)$expiry);
     }
 
-    public function historyAction($path): Response
+    public function historyAction(FilePath $path): Response
     {
-        $this->securityService->assertWatcher();
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_HISTORY, $path);
 
-        $filePath = FilePath::parse($path);
-
-        $history = $this->wikiService->getFileHistory($filePath);
+        $history = $this->wikiService->getFileHistory($path);
 
         return $this->render(
             '@DdrGitki/File/history.html.twig',
             [
-                'path'    => $filePath,
+                'path'    => $path,
                 'history' => $history
             ]
         );
     }
 
-    public function moveAction(Request $request, $path): Response
+    public function moveAction(Request $request, FilePath $path): Response
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
-        $filePath = FilePath::parse($path);
         $user = $this->securityService->getGitUser();
 
         try {
-            $this->wikiService->createLock($user, $filePath);
+            $this->wikiService->createLock($user, $path);
         } catch (FileLockedException $e) {
             throw new ConflictHttpException($e->getMessage());
         }
@@ -108,10 +105,10 @@ class FileController extends BaseController
                 [
                     'choices'  => $directoryChoices,
                     'required' => true,
-                    'data'     => $filePath->getParentPath()->toAbsoluteString()
+                    'data'     => $path->getParentPath()->toAbsoluteString()
                 ]
             )
-            ->add('name', TextType::class, ['required' => true, 'data' => $filePath->getName()])
+            ->add('name', TextType::class, ['required' => true, 'data' => $path->getName()])
             ->add('submit', SubmitType::class)
             ->getForm();
 
@@ -124,9 +121,9 @@ class FileController extends BaseController
 
             $this->wikiService->renameFile(
                 $user,
-                $filePath,
+                $path,
                 $newPath,
-                sprintf('Moving %s to %s', $filePath->toAbsoluteString(), $newPath->toAbsoluteString())
+                sprintf('Moving %s to %s', $path->toAbsoluteString(), $newPath->toAbsoluteString())
             );
 
             return $this->redirect(
@@ -139,25 +136,20 @@ class FileController extends BaseController
 
         return $this->render(
             '@DdrGitki/File/move.html.twig',
-            ['form' => $form->createView(), 'path' => $filePath]
+            ['form' => $form->createView(), 'path' => $path]
         );
     }
 
     /**
      * Cancels editing.
-     *
-     * @param string $path
-     *
-     * @return Response
      */
-    public function cancelAction($path)
+    public function cancelAction(FilePath $path): Response
     {
-        $this->securityService->assertCommitter();
-        $filePath = FilePath::parse($path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
         $user = $this->securityService->getGitUser();
-        $this->wikiService->removeLock($user, $filePath);
+        $this->wikiService->removeLock($user, $path);
 
-        return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $filePath]));
+        return $this->redirect($this->generateUrl('ddr_gitki_file', ['path' => $path]));
     }
 
     /**

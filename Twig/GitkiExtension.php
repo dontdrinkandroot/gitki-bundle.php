@@ -3,16 +3,14 @@
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class GitkiExtension extends AbstractExtension
 {
-    public function __construct(
-        private AuthorizationCheckerInterface $authorizationChecker,
-        private ExtensionRegistryInterface $extensionRegistry
-    ) {
+    public function __construct(private ExtensionRegistryInterface $extensionRegistry)
+    {
     }
 
     /**
@@ -33,6 +31,16 @@ class GitkiExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('isEditable', [$this, 'isEditable'])
+        ];
+    }
+
     public function titleFilter(string $title): string
     {
         $words = explode('_', $title);
@@ -43,5 +51,10 @@ class GitkiExtension extends AbstractExtension
         $transformedTitle .= ucfirst($words[count($words) - 1]);
 
         return $transformedTitle;
+    }
+
+    public function isEditable(string $extension): bool
+    {
+        return $this->extensionRegistry->isEditable($extension);
     }
 }

@@ -7,7 +7,7 @@
             <span class="fas fa-fw fa-folder"></span>
         </a>
 
-        {% if isGitkiCommitter() and isEditable(path.extension) %}
+        {% if is_granted('GITKI_WRITE_PATH', path) and isEditable(path.extension) %}
             <a class="btn btn-outline-secondary" href="{{ path('ddr_gitki_file', {'path': path, 'action': 'edit'}) }}" title="Edit">
                 <span class="fas fa-fw fa-pen"></span>
             </a>
@@ -24,7 +24,7 @@
                 <a href="javascript: if(window.print) window.print()" role="menuitem" tabindex="-1" title="Print" class="dropdown-item">
                     <span class="fas fa-fw fa-print"></span> Print
                 </a>
-                {% if isGitkiCommitter() %}
+                {% if is_granted('GITKI_WRITE_PATH', path) %}
                     <div class="dropdown-divider"></div>
                     <a href="{{ path('ddr_gitki_file', {'path': path, 'action': 'move'}) }}" role="menuitem" tabindex="-1" title="Move" class="dropdown-item">
                         <span class="fas fa-fw fa-arrows-alt-h"></span> Move

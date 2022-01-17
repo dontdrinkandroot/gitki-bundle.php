@@ -24,8 +24,6 @@
         <ignoreFiles>
             <directory name="vendor" />
             <file name="DependencyInjection/Configuration.php" />
-            <file name="Tests/Utils/Application/web/app_default.php" />
-            <file name="Tests/Utils/Application/web/app_elasticsearch.php" />
         </ignoreFiles>
     </projectFiles>
 </psalm>

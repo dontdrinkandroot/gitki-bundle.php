@@ -2,7 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use Dontdrinkandroot\GitkiBundle\Security\Attribute;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,7 +28,7 @@ class SearchController extends BaseController
 
     public function searchAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::READ_PATH);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH);
 
         $options = [];
         if ($this->has('security.csrf.token_manager')) {

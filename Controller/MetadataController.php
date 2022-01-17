@@ -4,7 +4,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\Common\Asserted;
-use Dontdrinkandroot\GitkiBundle\Security\Attribute;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\Path\DirectoryPath;
@@ -22,7 +22,7 @@ class MetadataController extends BaseController
 
     public function directoriesJsonAction(): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::READ_PATH);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH);
 
         $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
 
@@ -34,7 +34,7 @@ class MetadataController extends BaseController
 
     public function filesJsonAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::READ_PATH);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH);
 
         $currentPath = null;
         $currentPathString = Asserted::stringOrNull($request->query->get('currentpath'));

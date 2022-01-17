@@ -5,7 +5,7 @@
 {% block ddr_gitki_ddr_giki_body_class %}wiki directory-listing{% endblock ddr_gitki_ddr_giki_body_class %}
 
 {% block ddr_gitki_actions %}
-    {% if isGitkiCommitter() %}
+    {% if is_granted('GITKI_WRITE_PATH', path) %}
         <div class="dropdown pull-right ddr-gitki-global-actions">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actions-dropdown" data-bs-toggle="dropdown">
                 <span class="fa fa-cog"></span>
@@ -50,7 +50,7 @@
                                     <span class="fas fa-fw fa-folder"></span>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
-                                    {% if isGitkiCommitter() %}
+                                    {% if is_granted('GITKI_WRITE_PATH', path) %}
                                         <a role="menuitem" tabindex="-1" class="dropdown-item"
                                            href="{{ path('ddr_gitki_directory', {'path': dir.absolutePath, 'action': 'remove'}) }}"
                                            title="Delete"><span class="fas fa-fw fa-trash"></span> Remove
@@ -81,7 +81,7 @@
                                     <span class="fas fa-fw fa-file"></span> <b class="caret"></b>
                                 </button>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="filedropdown{{ loop.index }}">
-                                    {% if isGitkiCommitter() %}
+                                    {% if is_granted('GITKI_WRITE_PATH', file.absolutePath) %}
                                         <a role="menuitem" tabindex="-1" title="Edit" class="dropdown-item"
                                            href="{{ path('ddr_gitki_file', {'path': file.absolutePath, 'action': 'edit'}) }}">
                                             <span class="fas fa-fw fa-pen"></span> Edit

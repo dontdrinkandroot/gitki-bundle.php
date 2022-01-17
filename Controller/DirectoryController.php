@@ -3,7 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Form\Type\SubdirectoryCreateType;
-use Dontdrinkandroot\GitkiBundle\Security\Attribute;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
@@ -33,7 +33,7 @@ class DirectoryController extends BaseController
 
     public function listAction(DirectoryPath $path): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::READ_PATH, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH, $path);
 
         if (!$this->fileSystemService->exists($path)) {
             throw new NotFoundHttpException();
@@ -53,7 +53,7 @@ class DirectoryController extends BaseController
 
     public function indexAction(DirectoryPath $path): RedirectResponse
     {
-        $this->denyAccessUnlessGranted(Attribute::READ_PATH, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH, $path);
 
         $indexFilePath = $this->directoryService->resolveExistingIndexFile($path);
         if (null !== $indexFilePath) {
@@ -61,7 +61,7 @@ class DirectoryController extends BaseController
         }
 
         if (!$this->fileSystemService->exists($path)) {
-            if (!$this->isGranted(Attribute::WRITE_PATH, $path)) {
+            if (!$this->isGranted(SecurityAttribute::WRITE_PATH, $path)) {
                 throw new NotFoundHttpException();
             }
 
@@ -84,7 +84,7 @@ class DirectoryController extends BaseController
 
     public function createSubdirectoryAction(Request $request, DirectoryPath $path): Response
     {
-        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $form = $this->createForm(SubdirectoryCreateType::class);
 
@@ -110,11 +110,9 @@ class DirectoryController extends BaseController
         );
     }
 
-    public function createFileAction(Request $request, $path): Response
+    public function createFileAction(Request $request, DirectoryPath $path): Response
     {
-        $this->securityService->assertCommitter();
-
-        $directoryPath = DirectoryPath::parse($path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $extension = $request->query->get('extension', 'txt');
 
@@ -137,7 +135,7 @@ class DirectoryController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $filename = $form->get('filename')->getData() . '.' . $extension;
-            $filePath = $directoryPath->appendFile($filename);
+            $filePath = $path->appendFile($filename);
 
             return $this->redirect(
                 $this->generateUrl(
@@ -149,21 +147,19 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/create.file.html.twig',
-            ['form' => $form->createView(), 'path' => $directoryPath]
+            ['form' => $form->createView(), 'path' => $path]
         );
     }
 
-    public function removeAction(Request $request, $path): Response
+    public function removeAction(Request $request, DirectoryPath $path): Response
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
-        $directoryPath = DirectoryPath::parse($path);
-
-        $files = $this->wikiService->findAllFiles($directoryPath);
-        $parentDirPath = $directoryPath->getParentPath()->toAbsoluteString();
+        $files = $this->wikiService->findAllFiles($path);
+        $parentDirPath = $path->getParentPath()->toAbsoluteString();
 
         if (0 === count($files)) {
-            $this->wikiService->removeDirectory($directoryPath);
+            $this->wikiService->removeDirectory($path);
 
             return $this->redirect($this->generateUrl('ddr_gitki_directory', ['path' => $parentDirPath]));
         }
@@ -178,7 +174,7 @@ class DirectoryController extends BaseController
             $commitMessage = $form->get('commitMessage')->getData();
             $this->wikiService->removeDirectoryRecursively(
                 $this->securityService->getGitUser(),
-                $directoryPath,
+                $path,
                 $commitMessage
             );
 
@@ -186,20 +182,19 @@ class DirectoryController extends BaseController
         }
 
         if (!$form->isSubmitted()) {
-            $form->setData(['commitMessage' => 'Removing ' . $directoryPath->toAbsoluteString()]);
+            $form->setData(['commitMessage' => 'Removing ' . $path->toAbsoluteString()]);
         }
 
         return $this->render(
             '@DdrGitki/Directory/remove.html.twig',
-            ['form' => $form->createView(), 'path' => $directoryPath, 'files' => $files]
+            ['form' => $form->createView(), 'path' => $path, 'files' => $files]
         );
     }
 
-    public function uploadFileAction(Request $request, $path): Response
+    public function uploadFileAction(Request $request, DirectoryPath $path): Response
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
-        $directoryPath = DirectoryPath::parse($path);
         $user = $this->securityService->getGitUser();
 
         $form = $this->createFormBuilder()
@@ -217,7 +212,7 @@ class DirectoryController extends BaseController
             if (null === $uploadedFileName || trim($uploadedFileName) === '') {
                 $uploadedFileName = $uploadedFile->getClientOriginalName();
             }
-            $filePath = $directoryPath->appendFile($uploadedFileName);
+            $filePath = $path->appendFile($uploadedFileName);
             $this->wikiService->addFile(
                 $user,
                 $filePath,
@@ -228,14 +223,14 @@ class DirectoryController extends BaseController
             return $this->redirect(
                 $this->generateUrl(
                     'ddr_gitki_directory',
-                    ['path' => $directoryPath->toAbsoluteString()]
+                    ['path' => $path->toAbsoluteString()]
                 )
             );
         }
 
         return $this->render(
             '@DdrGitki/Directory/upload.file.html.twig',
-            ['form' => $form->createView(), 'path' => $directoryPath]
+            ['form' => $form->createView(), 'path' => $path]
         );
     }
 }

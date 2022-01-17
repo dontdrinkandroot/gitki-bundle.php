@@ -13,19 +13,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class GitService implements GitServiceInterface
 {
-    /**
-     * @var FileSystemServiceInterface
-     */
-    private $fileSystemService;
-
-    public function __construct(FileSystemServiceInterface $fileSystemService)
+    public function __construct(private FileSystemServiceInterface $fileSystemService)
     {
-        $this->fileSystemService = $fileSystemService;
     }
 
     /**

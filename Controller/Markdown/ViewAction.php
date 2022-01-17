@@ -3,8 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller\Markdown;
 
 use DateTime;
-use Dontdrinkandroot\Common\CrudOperation;
-use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryService;
+use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
@@ -28,7 +27,7 @@ class ViewAction extends AbstractController
 
     public function __invoke(Request $request, FilePath $path): Response
     {
-        $this->denyAccessUnlessGranted(CrudOperation::READ, $path);
+        $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH, $path);
 
         $showDirectoryContents = $this->getParameter('ddr_gitki.show_directory_contents');
         $directoryListing = null;

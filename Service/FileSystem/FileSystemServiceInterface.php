@@ -27,6 +27,8 @@ interface FileSystemServiceInterface
 
     public function removeFile(FilePath $path): void;
 
+    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false): void;
+
     public function getAbsolutePath(Path $path): Path;
 
     /** @return list<Directory> */

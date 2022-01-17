@@ -17,6 +17,8 @@ sensio_framework_extra:
 
 security:
 
+    enable_authenticator_manager: true
+
     encoders:
         Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User: plaintext
 
@@ -30,7 +32,7 @@ security:
             security: false
 
         default:
-            anonymous: ~
+            lazy: true
             http_basic: ~
 
 ddr_gitki:
