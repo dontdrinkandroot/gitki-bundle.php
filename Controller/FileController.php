@@ -2,8 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
-use DateTime;
 use Dontdrinkandroot\GitkiBundle\Exception\FileLockedException;
+use Dontdrinkandroot\GitkiBundle\Security\Attribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
@@ -29,35 +29,33 @@ class FileController extends BaseController
         parent::__construct($securityService);
     }
 
-    public function removeAction($path): RedirectResponse
+    public function removeAction(FilePath $path): RedirectResponse
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
 
-        $filePath = FilePath::parse($path);
         $user = $this->securityService->getGitUser();
 
-        $commitMessage = 'Removing ' . $filePath->toAbsoluteString();
-        $this->wikiService->removeFile($user, $filePath, $commitMessage);
+        $commitMessage = 'Removing ' . $path->toAbsoluteString();
+        $this->wikiService->removeFile($user, $path, $commitMessage);
 
         return $this->redirectToRoute(
             'ddr_gitki_directory',
-            ['path' => $filePath->getParentPath()->toAbsoluteString()]
+            ['path' => $path->getParentPath()->toAbsoluteString()]
         );
     }
 
-    public function holdLockAction($path): Response
+    public function holdLockAction(FilePath $path): Response
     {
-        $this->securityService->assertCommitter();
+        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
 
-        $filePath = FilePath::parse($path);
         $user = $this->securityService->getGitUser();
 
         try {
-            $expiry = $this->wikiService->holdLock($user, $filePath);
+            $expiry = $this->wikiService->holdLock($user, $path);
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 '@DdrGitki/File/locked.html.twig',
-                ['path' => $filePath, 'lockedBy' => $e->getLockedBy()]
+                ['path' => $path, 'lockedBy' => $e->getLockedBy()]
             );
 
             return new Response($renderedView, Response::HTTP_LOCKED);

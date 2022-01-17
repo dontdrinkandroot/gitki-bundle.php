@@ -40,7 +40,6 @@ class Configuration implements ConfigurationInterface
 
         $this->addMarkdownSection($rootNode);
         $this->addElasticsearchSection($rootNode);
-        $this->addRolesSection($rootNode);
         $this->addIndexFilesSection($rootNode);
 
         return $treeBuilder;
@@ -89,32 +88,6 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('index_name')->isRequired()->end()
                         ->scalarNode('host')->defaultValue('localhost')->end()
                         ->integerNode('port')->defaultValue(9200)->end()
-                    ->end()
-                ->end()
-            ->end();
-        // @formatter:on
-    }
-
-    private function addRolesSection(ArrayNodeDefinition $node): void
-    {
-        // @formatter:off
-        $node
-            ->children()
-                ->arrayNode('roles')
-                    ->addDefaultsIfNotSet()
-                    ->info('Maps user roles to internal roles')
-                    ->children()
-                        ->scalarNode('watcher')
-                            ->defaultValue('IS_AUTHENTICATED_ANONYMOUSLY')
-                            ->info('Is allowed to view content')
-                        ->end()
-                        ->scalarNode('committer')
-                            ->defaultValue('ROLE_USER')
-                            ->info('Is allowed to edit content')
-                        ->end()
-                        ->scalarNode('admin')
-                            ->defaultValue('ROLE_ADMIN')
-                        ->end()
                     ->end()
                 ->end()
             ->end();

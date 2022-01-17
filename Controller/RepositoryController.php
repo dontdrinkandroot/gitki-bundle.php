@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\Common\Asserted;
+use Dontdrinkandroot\GitkiBundle\Security\Attribute;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
@@ -74,7 +75,7 @@ class RepositoryController extends BaseController
      */
     public function historyAction(): Response
     {
-        $this->securityService->assertWatcher();
+        $this->denyAccessUnlessGranted(Attribute::READ_HISTORY);
 
         $history = $this->wikiService->getHistory(20);
 

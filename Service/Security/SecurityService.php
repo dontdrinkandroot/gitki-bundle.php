@@ -3,11 +3,9 @@
 namespace Dontdrinkandroot\GitkiBundle\Service\Security;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
-use Dontdrinkandroot\GitkiBundle\Service\Role\RoleServiceInterface;
 use Exception;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class SecurityService
@@ -16,7 +14,6 @@ class SecurityService
     public function __construct(
         private TokenStorageInterface $tokenStorage,
         private AuthorizationCheckerInterface $authorizationChecker,
-        private RoleServiceInterface $roleService
     ) {
     }
 
@@ -60,31 +57,5 @@ class SecurityService
         }
 
         return $user;
-    }
-
-    public function assertWatcher(): void
-    {
-        if (!$this->authorizationChecker->isGranted($this->roleService->getWatcherRole())) {
-            throw new AuthenticationException();
-        }
-    }
-
-    public function isCommitter(): bool
-    {
-        return $this->authorizationChecker->isGranted($this->roleService->getCommitterRole());
-    }
-
-    public function assertCommitter(): void
-    {
-        if (!$this->isCommitter()) {
-            throw new AuthenticationException();
-        }
-    }
-
-    public function assertAdmin(): void
-    {
-        if (!$this->authorizationChecker->isGranted($this->roleService->getAdminRole())) {
-            throw new AuthenticationException();
-        }
     }
 }

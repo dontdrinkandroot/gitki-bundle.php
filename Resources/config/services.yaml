@@ -19,7 +19,6 @@ services:
     Dontdrinkandroot\GitkiBundle\Twig\GitkiExtension:
         arguments:
             - '@security.authorization_checker'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Role\RoleService'
             - '@Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistry'
         tags:
             - { name: twig.extension }
@@ -68,12 +67,6 @@ services:
     Dontdrinkandroot\GitkiBundle\Service\Lock\LockService:
         arguments: [ '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService' ]
 
-    Dontdrinkandroot\GitkiBundle\Service\Role\RoleService:
-        calls:
-            - [ setWatcherRole, [ '%ddr_gitki.role.watcher%' ] ]
-            - [ setCommitterRole, [ '%ddr_gitki.role.committer%' ] ]
-            - [ setAdminRole, [ '%ddr_gitki.role.admin%' ] ]
-
     Dontdrinkandroot\GitkiBundle\Service\Directory\ElasticsearchAwareDirectoryService:
         arguments:
             - '@Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService'
@@ -102,7 +95,6 @@ services:
         arguments:
             - '@security.token_storage'
             - '@security.authorization_checker'
-            - '@Dontdrinkandroot\GitkiBundle\Service\Role\RoleService'
 
     #
     # Commands

@@ -27,14 +27,4 @@ abstract class BaseController extends AbstractController
 
         return md5($timeStamp->getTimestamp() . $userString);
     }
-
-    protected function assertAdmin(): void
-    {
-        $this->securityService->assertAdmin();
-    }
-
-    protected function assertWatcher(): void
-    {
-        $this->securityService->assertWatcher();
-    }
 }

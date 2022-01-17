@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
 use Dontdrinkandroot\GitkiBundle\Form\Type\SubdirectoryCreateType;
+use Dontdrinkandroot\GitkiBundle\Security\Attribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
@@ -30,44 +31,41 @@ class DirectoryController extends BaseController
         parent::__construct($securityService);
     }
 
-    public function listAction($path): Response
+    public function listAction(DirectoryPath $path): Response
     {
-        $this->securityService->assertWatcher();
+        $this->denyAccessUnlessGranted(Attribute::READ_PATH, $path);
 
-        $directoryPath = DirectoryPath::parse($path);
-        if (!$this->fileSystemService->exists($directoryPath)) {
+        if (!$this->fileSystemService->exists($path)) {
             throw new NotFoundHttpException();
         }
 
-        $directoryListing = $this->directoryService->getDirectoryListing($directoryPath);
+        $directoryListing = $this->directoryService->getDirectoryListing($path);
 
         return $this->render(
             '@DdrGitki/Directory/list.html.twig',
             [
-                'path'               => $directoryPath,
+                'path'               => $path,
                 'directoryListing'   => $directoryListing,
                 'editableExtensions' => $this->extensionRegistry->getEditableExtensions()
             ]
         );
     }
 
-    public function indexAction($path): RedirectResponse
+    public function indexAction(DirectoryPath $path): RedirectResponse
     {
-        $this->securityService->assertWatcher();
+        $this->denyAccessUnlessGranted(Attribute::READ_PATH, $path);
 
-        $directoryPath = DirectoryPath::parse($path);
-
-        $indexFilePath = $this->directoryService->resolveExistingIndexFile($directoryPath);
+        $indexFilePath = $this->directoryService->resolveExistingIndexFile($path);
         if (null !== $indexFilePath) {
             return $this->redirectToRoute('ddr_gitki_file', ['path' => $indexFilePath->toAbsoluteString()]);
         }
 
-        if (!$this->fileSystemService->exists($directoryPath)) {
-            if (!$this->securityService->isCommitter()) {
+        if (!$this->fileSystemService->exists($path)) {
+            if (!$this->isGranted(Attribute::WRITE_PATH, $path)) {
                 throw new NotFoundHttpException();
             }
 
-            $indexFilePath = $this->directoryService->getPrimaryIndexFile($directoryPath);
+            $indexFilePath = $this->directoryService->getPrimaryIndexFile($path);
             if (null === $indexFilePath) {
                 throw new NotFoundHttpException();
             }
@@ -80,15 +78,13 @@ class DirectoryController extends BaseController
 
         return $this->redirectToRoute(
             'ddr_gitki_directory',
-            ['path' => $directoryPath->toAbsoluteString(), 'action' => 'list']
+            ['path' => $path->toAbsoluteString(), 'action' => 'list']
         );
     }
 
-    public function createSubdirectoryAction(Request $request, string $path): Response
+    public function createSubdirectoryAction(Request $request, DirectoryPath $path): Response
     {
-        $this->securityService->assertCommitter();
-
-        $directoryPath = DirectoryPath::parse($path);
+        $this->denyAccessUnlessGranted(Attribute::WRITE_PATH, $path);
 
         $form = $this->createForm(SubdirectoryCreateType::class);
 
@@ -96,7 +92,7 @@ class DirectoryController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dirname = (string)$form->get('dirname')->getData();
-            $subDirPath = $directoryPath->appendDirectory($dirname);
+            $subDirPath = $path->appendDirectory($dirname);
 
             $this->wikiService->createFolder($subDirPath);
 
@@ -110,7 +106,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/create.subdirectory.html.twig',
-            ['form' => $form->createView(), 'path' => $directoryPath]
+            ['form' => $form->createView(), 'path' => $path]
         );
     }
 

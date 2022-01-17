@@ -65,9 +65,6 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
             $container->setParameter('ddr_gitki.elasticsearch.enabled', false);
         }
 
-        $container->setParameter('ddr_gitki.role.watcher', $config['roles']['watcher']);
-        $container->setParameter('ddr_gitki.role.committer', $config['roles']['committer']);
-        $container->setParameter('ddr_gitki.role.admin', $config['roles']['admin']);
 //        var_dump($container->getParameter('kernel.environment'));
     }
 
