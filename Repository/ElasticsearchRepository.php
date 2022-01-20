@@ -81,10 +81,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return array
      */
-    public function indexFile(FilePath $path, AnalyzedDocument $document)
+    public function indexFile(FilePath $path, AnalyzedDocument $document): mixed
     {
         $params = [
             'id'    => $path->toAbsoluteString(),
@@ -102,10 +100,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return array
      */
-    public function deleteFile(FilePath $path)
+    public function deleteFile(FilePath $path): mixed
     {
         $params = [
             'id'    => $path->toAbsoluteString(),
@@ -127,9 +123,6 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
                 '_source_includes' => ['title']
             ];
             $result = $this->client->get($params);
-            if (null === $result) {
-                return null;
-            }
         } catch (Missing404Exception $e) {
             return null;
         }

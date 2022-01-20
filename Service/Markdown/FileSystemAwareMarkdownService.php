@@ -22,35 +22,16 @@ use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Parser\MarkdownParser;
 use League\CommonMark\Renderer\HtmlRenderer;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
-    /**
-     * @var FileSystemServiceInterface
-     */
-    protected $fileSystemService;
-
-    /**
-     * @var bool
-     */
-    private $allowHtml;
-
-    /**
-     * @param FileSystemServiceInterface $fileSystemService
-     * @param bool                       $allowHtml
-     */
-    public function __construct(FileSystemServiceInterface $fileSystemService, $allowHtml)
+    public function __construct(protected FileSystemServiceInterface $fileSystemService, private bool $allowHtml)
     {
-        $this->fileSystemService = $fileSystemService;
-        $this->allowHtml = $allowHtml;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parse($content, FilePath $path)
+    public function parse(string $content, FilePath $path): ParsedMarkdownDocument
     {
         $linkRenderer = new FileSystemAwareLinkRenderer($this->fileSystemService, $path);
         $headerRenderer = new TocBuildingHeaderRenderer();

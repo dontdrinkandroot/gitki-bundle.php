@@ -110,7 +110,7 @@ class FileSystemService implements FileSystemServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function removeDirectory(DirectoryPath $path, $ignoreEmpty = false): void
+    public function removeDirectory(DirectoryPath $path, bool $ignoreEmpty = false): void
     {
         if (!$ignoreEmpty) {
             $this->assertDirectoryIsEmpty($path);

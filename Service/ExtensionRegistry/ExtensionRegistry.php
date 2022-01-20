@@ -6,20 +6,28 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ExtensionRegistry implements ExtensionRegistryInterface
 {
-    const ACTION_VIEW = '';
+    private const ACTION_VIEW = '';
 
-    const ACTION_EDIT = 'edit';
+    private const ACTION_EDIT = 'edit';
 
+    /** @var array <string, string> */
     protected $nameMap = [];
 
-    protected $editableMap = [];
+    /** @var array <string, string> */
+    protected array $editableMap = [];
 
-    protected $directoryActions = [];
+    /** @var array <string, string> */
+    protected array $directoryActions = [];
 
-    protected $fileTypeActions = [];
+    /** @var array<string, array> */
+    protected array $fileTypeActions = [];
 
-    public function registerExtension($extension, $name, $viewController = null, $editController = null): void
-    {
+    public function registerExtension(
+        string $extension,
+        string $name,
+        ?string $viewController = null,
+        ?string $editController = null
+    ): void {
         $this->nameMap[$extension] = $name;
 
         if (null !== $viewController) {

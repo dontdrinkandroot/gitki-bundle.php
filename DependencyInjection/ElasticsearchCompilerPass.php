@@ -2,13 +2,11 @@
 
 namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
+use Dontdrinkandroot\CrudAdminBundle\Service\FieldRenderer\FieldRendererProviderInterface;
+use Dontdrinkandroot\GitkiBundle\Analyzer\AnalyzerInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ElasticsearchCompilerPass implements CompilerPassInterface
 {
     /**
@@ -38,13 +36,8 @@ class ElasticsearchCompilerPass implements CompilerPassInterface
         );
         $serviceDefinition->setClass('Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService');
 
-        $taggedServices = $container->findTaggedServiceIds('ddr.gitki.analyzer');
-
-        foreach ($taggedServices as $id => $tags) {
-            $serviceDefinition->addMethodCall(
-                'registerAnalyzer',
-                [new Reference($id)]
-            );
-        }
+        $container
+            ->registerForAutoconfiguration(AnalyzerInterface::class)
+            ->addTag('ddr.gitki.analyzer');
     }
 }

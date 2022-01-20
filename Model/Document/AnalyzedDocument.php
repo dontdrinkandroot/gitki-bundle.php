@@ -2,9 +2,6 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class AnalyzedDocument extends Document
 {
     /**
@@ -23,9 +20,9 @@ class AnalyzedDocument extends Document
     /**
      * @param string $analyzedContent
      *
-     * @return null
+     * @return void
      */
-    public function setAnalyzedContent($analyzedContent)
+    public function setAnalyzedContent($analyzedContent): void
     {
         $this->analyzedContent = $analyzedContent;
     }

@@ -18,17 +18,17 @@ class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $path, AnalyzedDocument $document): void
+    public function indexFile(FilePath $path, AnalyzedDocument $document): mixed
     {
-        /* NOOP */
+        return [];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteFile(FilePath $path): void
+    public function deleteFile(FilePath $path): mixed
     {
-        /* NOOP */
+        return [];
     }
 
     /**

@@ -6,9 +6,6 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 use Dontdrinkandroot\Path\FilePath;
 use JsonSerializable;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class File extends AbstractPathAwareFileInfo implements JsonSerializable
 {
     /**
@@ -21,10 +18,7 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
      */
     protected $absolutePath;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected ?string $title = null;
 
     public function __construct($basePath, $currentDirectoryPath, $relativeFilePath)
     {
@@ -49,18 +43,12 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
         return $this->absolutePath;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }

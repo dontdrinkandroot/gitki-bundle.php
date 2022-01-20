@@ -13,7 +13,7 @@ class NoopElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function search($searchString)
+    public function search(string $searchString): array
     {
         return [];
     }

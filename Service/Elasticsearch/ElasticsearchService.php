@@ -9,22 +9,28 @@ use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
+use Symfony\Component\Mime\MimeTypeGuesserInterface;
 
 class ElasticsearchService implements ElasticsearchServiceInterface
 {
-    /** @var array<string, AnalyzerInterface> */
-    protected array $analyzers = [];
-
+    /**
+     * @param GitServiceInterface              $gitService
+     * @param ElasticsearchRepositoryInterface $repository
+     * @param iterable<AnalyzerInterface>      $analyzers
+     * @param MimeTypeGuesserInterface         $mimeTypeGuesser
+     */
     public function __construct(
-        private GitServiceInterface $gitRepository,
-        private ElasticsearchRepositoryInterface $repository
+        private GitServiceInterface $gitService,
+        private ElasticsearchRepositoryInterface $repository,
+        private iterable $analyzers,
+        private MimeTypeGuesserInterface $mimeTypeGuesser
     ) {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function search($searchString)
+    public function search(string $searchString): array
     {
         return $this->repository->search($searchString);
     }
@@ -32,18 +38,21 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function indexFile(FilePath $filePath)
+    public function indexFile(FilePath $filePath): void
     {
-        $extension = $filePath->getExtension();
-        if (null === $extension || !isset($this->analyzers[$extension])) {
-            return null;
+        $mimeType = $this->mimeTypeGuesser->guessMimeType(
+            $this->gitService->getAbsolutePath($filePath)->toAbsoluteFileSystemString()
+        );
+        foreach ($this->analyzers as $analyzer) {
+            if ($analyzer->supports($filePath, $mimeType)) {
+                $content = $this->gitService->getContent($filePath);
+                $document = $analyzer->analyze($filePath, $content);
+
+                $this->repository->indexFile($filePath, $document);
+
+                return;
+            }
         }
-
-        $analyzer = $this->analyzers[$extension];
-        $content = $this->gitRepository->getContent($filePath);
-        $document = $analyzer->analyze($filePath, $content);
-
-        $this->repository->indexFile($filePath, $document);
     }
 
     /**
@@ -85,12 +94,5 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     {
         $this->deleteFile($event->getPreviousFile());
         $this->indexFile($event->getFile());
-    }
-
-    public function registerAnalyzer(AnalyzerInterface $analyzer): void
-    {
-        foreach ($analyzer->getSupportedExtensions() as $extension) {
-            $this->analyzers[$extension] = $analyzer;
-        }
     }
 }

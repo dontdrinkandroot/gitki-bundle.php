@@ -1,28 +1,24 @@
 <?php
 
-
 namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class TextAnalyzer implements AnalyzerInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getSupportedExtensions()
+    public function supports(FilePath $filePath, ?string $mimeType): bool
     {
-        return ['txt'];
+        return $mimeType === 'text/plain';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function analyze(FilePath $path, $content)
+    public function analyze(FilePath $path, $content): AnalyzedDocument
     {
         $analyzedFile = new AnalyzedDocument($path);
         $analyzedFile->setContent($content);

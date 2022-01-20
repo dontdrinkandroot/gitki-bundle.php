@@ -12,25 +12,15 @@ use Dontdrinkandroot\Path\FilePath;
 interface ElasticsearchServiceInterface
     extends FileChangedEventListenerInterface, FileMovedEventListenerInterface, FileRemovedEventListenerInterface
 {
-    /**
-     * @param string $searchString
-     *
-     * @return SearchResultDocument[]
-     */
-    public function search($searchString);
+    /** @return list<SearchResultDocument> */
+    public function search(string $searchString): array;
 
-    /**
-     * @param FilePath $filePath
-     */
-    public function indexFile(FilePath $filePath);
+    public function indexFile(FilePath $filePath): void;
 
-    /**
-     * @param FilePath $filePath
-     */
-    public function deleteFile(FilePath $filePath);
+    public function deleteFile(FilePath $filePath): void;
 
     /**
      * Removes all document from the index.
      */
-    public function clearIndex();
+    public function clearIndex(): void;
 }

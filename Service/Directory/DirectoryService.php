@@ -9,30 +9,16 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class DirectoryService implements DirectoryServiceInterface
 {
-    /**
-     * @var FileSystemServiceInterface
-     */
-    protected $fileSystemService;
+    /** @var list<string> */
+    protected array $indexFiles = [];
 
-    /** @var string[] */
-    protected $indexFiles = [];
-
-    /**
-     * @param FileSystemServiceInterface $fileSystemService
-     */
-    public function __construct(FileSystemServiceInterface $fileSystemService)
+    public function __construct(protected FileSystemServiceInterface $fileSystemService)
     {
-        $this->fileSystemService = $fileSystemService;
     }
 
-    /**
-     * @param string[] $indexFiles
-     */
+    /** @param list<string> $indexFiles */
     public function setIndexFiles(array $indexFiles): void
     {
         $this->indexFiles = $indexFiles;
@@ -43,8 +29,8 @@ class DirectoryService implements DirectoryServiceInterface
      */
     public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath
     {
-        foreach ($this->indexFiles as $indexFile) {
-            return $directoryPath->appendFile($indexFile);
+        if (count($this->indexFiles) > 0) {
+            return $directoryPath->appendFile($this->indexFiles[0]);
         }
 
         return null;

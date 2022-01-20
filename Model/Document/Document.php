@@ -5,16 +5,8 @@ namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class Document
 {
-    /**
-     * @var FilePath
-     */
-    private $path;
-
     /**
      * @var string
      */
@@ -30,17 +22,8 @@ class Document
      */
     private $linkedPaths;
 
-    public function __construct(FilePath $path)
+    public function __construct(public readonly FilePath $path)
     {
-        $this->path = $path;
-    }
-
-    /**
-     * @return FilePath
-     */
-    public function getPath()
-    {
-        return $this->path;
     }
 
     /**

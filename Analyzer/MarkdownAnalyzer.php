@@ -6,33 +6,32 @@ use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class MarkdownAnalyzer implements AnalyzerInterface
 {
-    /**
-     * @var MarkdownServiceInterface
-     */
-    private $markdownService;
-
-    public function __construct(MarkdownServiceInterface $markdownService)
+    public function __construct(private MarkdownServiceInterface $markdownService)
     {
-        $this->markdownService = $markdownService;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSupportedExtensions()
+    public function supports(FilePath $filePath, ?string $mimeType): bool
     {
-        return ['md'];
+        if (in_array($mimeType, ['text/markdown', 'text/x-markdown'])) {
+            return true;
+        }
+
+        if ($mimeType === 'text/plain' && 'md' === $filePath->getExtension()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function analyze(FilePath $path, $content)
+    public function analyze(FilePath $path, $content): AnalyzedDocument
     {
         $markdownDocument = $this->markdownService->parse($content, $path);
         $analyzedDocument = new AnalyzedDocument($path);
