@@ -7,23 +7,11 @@
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="Analyzer" />
-        <directory name="Command" />
-        <directory name="Controller" />
-        <directory name="DependencyInjection" />
-        <directory name="Event" />
-        <directory name="Exception" />
-        <directory name="Form" />
-        <directory name="Markdown" />
-        <directory name="Model" />
-        <directory name="Repository" />
-        <directory name="Service" />
-<!--        <directory name="Tests" />-->
-        <directory name="Twig" />
-        <file name="DdrGitkiBundle.php" />
+        <directory name="src/"/>
+        <directory name="tests/"/>
         <ignoreFiles>
-            <directory name="vendor" />
-            <file name="DependencyInjection/Configuration.php" />
+            <directory name="vendor"/>
+            <file name="src/DependencyInjection/Configuration.php"/>
         </ignoreFiles>
     </projectFiles>
 </psalm>

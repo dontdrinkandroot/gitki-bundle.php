@@ -56,7 +56,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dontdrinkandroot\\GitkiBundle\\": ""
+            "Dontdrinkandroot\\GitkiBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dontdrinkandroot\\GitkiBundle\\Tests\\": "tests/"
         }
     },
     "extra": {

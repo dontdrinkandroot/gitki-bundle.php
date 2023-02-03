@@ -1,0 +1,2 @@
+ddr_gitki:
+    resource: "@DdrGitkiBundle/config/routing.yaml"
