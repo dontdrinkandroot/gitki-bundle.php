@@ -52,14 +52,10 @@ trait GitRepositoryTestTrait
 
     /**
      * Get the path to the repository test data.
-     *
-     * @return string
      */
-    protected function getRepositoryTemplatePath()
+    protected function getRepositoryTemplatePath(): string
     {
-        $targetPath = realPath(__DIR__ . '/Data/repo/');
-
-        return $targetPath;
+        return realPath(__DIR__ . '/../../tests/Data/repo/');
     }
 
     abstract protected function getRepositoryTargetPath();
