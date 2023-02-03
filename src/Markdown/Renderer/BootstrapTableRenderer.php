@@ -13,7 +13,7 @@ use Stringable;
 
 class BootstrapTableRenderer implements NodeRendererInterface
 {
-    private TableRenderer $decoratedRenderer;
+    private readonly TableRenderer $decoratedRenderer;
 
     public function __construct()
     {

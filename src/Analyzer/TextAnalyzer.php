@@ -20,10 +20,12 @@ class TextAnalyzer implements AnalyzerInterface
      */
     public function analyze(FilePath $path, $content): AnalyzedDocument
     {
-        $analyzedFile = new AnalyzedDocument($path);
-        $analyzedFile->setContent($content);
-        $analyzedFile->setAnalyzedContent($content);
-        $analyzedFile->setTitle($path->getName());
+        $analyzedFile = new AnalyzedDocument(
+            path: $path,
+            analyzedContent: $content,
+            title: $path->getName(),
+            content: $content
+        );
 
         return $analyzedFile;
     }

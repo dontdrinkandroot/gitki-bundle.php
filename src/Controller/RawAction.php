@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RawAction extends AbstractController
 {
-    public function __construct(private WikiService $wikiService)
+    public function __construct(private readonly WikiService $wikiService)
     {
     }
 

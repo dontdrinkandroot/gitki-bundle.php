@@ -14,8 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MetadataController extends BaseController
 {
-    public function __construct(SecurityService $securityService, private DirectoryServiceInterface $directoryService)
-    {
+    public function __construct(
+        SecurityService $securityService,
+        private readonly DirectoryServiceInterface $directoryService
+    ) {
         parent::__construct($securityService);
     }
 
@@ -62,7 +64,7 @@ class MetadataController extends BaseController
             $data[] = $element;
         }
 
-        $response = new Response(json_encode($data));
+        $response = new Response(json_encode($data, JSON_THROW_ON_ERROR));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;

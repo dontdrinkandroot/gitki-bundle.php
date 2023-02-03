@@ -9,20 +9,11 @@ use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class GitServiceTest extends GitRepositoryTestCase
 {
-    /**
-     * @var FileSystemService
-     */
-    protected $fileSystemService;
+    protected FileSystemService $fileSystemService;
 
-    /**
-     * @var GitService
-     */
-    protected $gitService;
+    protected GitService $gitService;
 
     /**
      * {@inheritdoc}

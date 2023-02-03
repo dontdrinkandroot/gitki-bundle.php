@@ -11,7 +11,7 @@ use Exception;
 
 class LockService implements LockServiceInterface
 {
-    public function __construct(private FileSystemServiceInterface $fileSystemService)
+    public function __construct(private readonly FileSystemServiceInterface $fileSystemService)
     {
     }
 
@@ -125,10 +125,7 @@ class LockService implements LockServiceInterface
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath $lockPath
      *
-     * @return bool
      * @throws FileLockedException
      */
     protected function assertUnlocked(GitUserInterface $user, FilePath $lockPath): bool

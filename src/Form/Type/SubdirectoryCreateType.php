@@ -7,9 +7,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class SubdirectoryCreateType extends AbstractType
 {
     /**

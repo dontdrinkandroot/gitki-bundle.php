@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Controller;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Form\Type\SubdirectoryCreateType;
 use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
@@ -23,10 +24,10 @@ class DirectoryController extends BaseController
 {
     public function __construct(
         SecurityService $securityService,
-        private WikiService $wikiService,
-        private DirectoryServiceInterface $directoryService,
-        private ExtensionRegistryInterface $extensionRegistry,
-        private FileSystemService $fileSystemService
+        private readonly WikiService $wikiService,
+        private readonly DirectoryServiceInterface $directoryService,
+        private readonly ExtensionRegistryInterface $extensionRegistry,
+        private readonly FileSystemService $fileSystemService
     ) {
         parent::__construct($securityService);
     }
@@ -198,17 +199,16 @@ class DirectoryController extends BaseController
         $user = $this->securityService->getGitUser();
 
         $form = $this->createFormBuilder()
-            ->add('uploadedFile', FileType::class, array('label' => 'File'))
-            ->add('uploadedFileName', TextType::class, array('label' => 'Filename (if other)', 'required' => false))
+            ->add('uploadedFile', FileType::class, ['label' => 'File'])
+            ->add('uploadedFileName', TextType::class, ['label' => 'Filename (if other)', 'required' => false])
             ->add('Upload', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var UploadedFile $uploadedFile */
-            $uploadedFile = $form->get('uploadedFile')->getData();
-            $uploadedFileName = $form->get('uploadedFileName')->getData();
+            $uploadedFile = Asserted::instanceOf($form->get('uploadedFile')->getData(), UploadedFile::class);
+            $uploadedFileName = Asserted::stringOrNull($form->get('uploadedFileName')->getData());
             if (null === $uploadedFileName || trim($uploadedFileName) === '') {
                 $uploadedFileName = $uploadedFile->getClientOriginalName();
             }

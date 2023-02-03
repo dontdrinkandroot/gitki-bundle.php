@@ -2,23 +2,20 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class LogParser
 {
-    const COMMIT_BEGIN = 'commit_begin';
-    const COMMIT_END = 'commit_end';
-    const HASH_BEGIN = 'hash_begin';
-    const HASH_END = 'hash_end';
-    const AUTHOR_BEGIN = 'author_begin';
-    const AUTHOR_END = 'author_end';
-    const MAIL_BEGIN = 'mail_begin';
-    const MAIL_END = 'mail_end';
-    const MESSAGE_BEGIN = 'message_begin';
-    const MESSAGE_END = 'message_end';
-    const DATE_BEGIN = 'date_begin';
-    const DATE_END = 'date_end';
+    final const COMMIT_BEGIN = 'commit_begin';
+    final const COMMIT_END = 'commit_end';
+    final const HASH_BEGIN = 'hash_begin';
+    final const HASH_END = 'hash_end';
+    final const AUTHOR_BEGIN = 'author_begin';
+    final const AUTHOR_END = 'author_end';
+    final const MAIL_BEGIN = 'mail_begin';
+    final const MAIL_END = 'mail_end';
+    final const MESSAGE_BEGIN = 'message_begin';
+    final const MESSAGE_END = 'message_end';
+    final const DATE_BEGIN = 'date_begin';
+    final const DATE_END = 'date_end';
 
     public static function getFormatString(): string
     {

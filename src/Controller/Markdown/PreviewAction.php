@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PreviewAction extends AbstractController
 {
-    public function __construct(private MarkdownServiceInterface $markdownService)
+    public function __construct(private readonly MarkdownServiceInterface $markdownService)
     {
     }
 
@@ -23,6 +23,6 @@ class PreviewAction extends AbstractController
         $markdown = Asserted::string($request->request->get('markdown'));
         $document = $this->markdownService->parse($markdown, $path);
 
-        return new Response($document->getHtml());
+        return new Response($document->html);
     }
 }

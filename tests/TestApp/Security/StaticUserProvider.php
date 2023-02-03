@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class StaticUserProvider implements UserProviderInterface
 {
     /** @var array<string, User> */
-    private $users;
+    private array $users;
 
     public function __construct()
     {

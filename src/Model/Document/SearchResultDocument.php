@@ -2,29 +2,12 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
+use Dontdrinkandroot\Path\FilePath;
+
 class SearchResultDocument extends Document
 {
-    /**
-     * @var float
-     */
-    private $score;
-
-    /**
-     * @param float $score
-     */
-    public function setScore($score): void
+    public function __construct(FilePath $path, string $title, public readonly float $score, ?string $content = null)
     {
-        $this->score = $score;
-    }
-
-    /**
-     * @return float
-     */
-    public function getScore()
-    {
-        return $this->score;
+        parent::__construct($path, $title, $content);
     }
 }

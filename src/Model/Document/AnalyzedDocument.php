@@ -2,28 +2,16 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Model\Document;
 
+use Dontdrinkandroot\Path\FilePath;
+
 class AnalyzedDocument extends Document
 {
-    /**
-     * @var string
-     */
-    private $analyzedContent;
-
-    /**
-     * @return string
-     */
-    public function getAnalyzedContent()
-    {
-        return $this->analyzedContent;
-    }
-
-    /**
-     * @param string $analyzedContent
-     *
-     * @return void
-     */
-    public function setAnalyzedContent($analyzedContent): void
-    {
-        $this->analyzedContent = $analyzedContent;
+    public function __construct(
+        FilePath $path,
+        public readonly string $analyzedContent,
+        ?string $title = null,
+        ?string $content = null
+    ) {
+        parent::__construct($path, $title, $content);
     }
 }

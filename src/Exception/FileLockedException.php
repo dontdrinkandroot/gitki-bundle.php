@@ -4,30 +4,14 @@ namespace Dontdrinkandroot\GitkiBundle\Exception;
 
 use Exception;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileLockedException extends Exception
 {
-    /**
-     * @var string
-     */
-    private $lockedBy;
+    private readonly string $lockedBy;
 
-    /**
-     * @var int
-     */
-    private $expires;
-
-    /**
-     * @param string $lockedBy
-     * @param int $expires
-     */
-    public function __construct($lockedBy, $expires)
+    public function __construct(string $lockedBy, private readonly int $expires)
     {
         parent::__construct('Page is locked by ' . $lockedBy);
         $this->lockedBy = $lockedBy;
-        $this->expires = $expires;
     }
 
     /**

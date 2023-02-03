@@ -6,37 +6,14 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class AbstractFileEvent extends Event
 {
-    /**
-     * @var GitUserInterface
-     */
-    private $user;
-
-    /**
-     * @var string
-     */
-    private $commitMessage;
-
-    /**
-     * @var int
-     */
-    private $time;
-
-    /**
-     * @var FilePath
-     */
-    private $file;
-
-    public function __construct(GitUserInterface $user, $commitMessage, $time, FilePath $file)
-    {
-        $this->user = $user;
-        $this->commitMessage = $commitMessage;
-        $this->time = $time;
-        $this->file = $file;
+    public function __construct(
+        private readonly GitUserInterface $user,
+        private readonly string $commitMessage,
+        private readonly int $time,
+        private readonly FilePath $file
+    ) {
     }
 
     /**

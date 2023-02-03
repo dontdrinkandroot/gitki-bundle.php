@@ -18,10 +18,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ViewAction extends AbstractController
 {
     public function __construct(
-        private WikiService $wikiService,
-        private DirectoryServiceInterface $directoryService,
-        private MarkdownServiceInterface $markdownService,
-        private ExtensionRegistryInterface $extensionRegistry
+        private readonly WikiService $wikiService,
+        private readonly DirectoryServiceInterface $directoryService,
+        private readonly MarkdownServiceInterface $markdownService,
+        private readonly ExtensionRegistryInterface $extensionRegistry
     ) {
     }
 
@@ -60,7 +60,7 @@ class ViewAction extends AbstractController
                 ],
                 $response
             );
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             if (null === $this->getUser()) {
                 throw new NotFoundHttpException('This page does not exist');
             }

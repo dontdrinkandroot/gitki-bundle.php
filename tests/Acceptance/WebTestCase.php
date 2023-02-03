@@ -9,7 +9,7 @@ abstract class WebTestCase extends BaseWebTestCase
 {
     use GitRepositoryTestTrait;
 
-    const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
+    public const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
     /**
      * {@inheritdoc}

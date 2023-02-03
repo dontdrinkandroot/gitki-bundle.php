@@ -9,31 +9,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @var string
+     * @param string[] $roles
      */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $gitUserName;
-
-    /**
-     * @var string
-     */
-    private $gitUserEmail;
-
-    /**
-     * @var string[]
-     */
-    private $roles;
-
-    public function __construct(string $username, string $gitUserName, string $gitUserEmail, array $roles = [])
-    {
-        $this->username = $username;
-        $this->gitUserName = $gitUserName;
-        $this->gitUserEmail = $gitUserEmail;
-        $this->roles = $roles;
+    public function __construct(
+        private readonly string $username,
+        private readonly string $gitUserName,
+        private readonly string $gitUserEmail,
+        private readonly array $roles = []
+    ) {
     }
 
     /**

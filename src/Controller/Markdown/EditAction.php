@@ -16,8 +16,10 @@ use Symplify\GitWrapper\Exception\GitException;
 
 class EditAction extends AbstractController
 {
-    public function __construct(private SecurityService $securityService, private WikiService $wikiService)
-    {
+    public function __construct(
+        private readonly SecurityService $securityService,
+        private readonly WikiService $wikiService
+    ) {
     }
 
     public function __invoke(Request $request, FilePath $path): Response

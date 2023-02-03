@@ -14,19 +14,13 @@ class StringOutputEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @var string
-     */
-    private $buffer = '';
+    private string $buffer = '';
 
     public function handleOutput(GitOutputEvent $gitOutputEvent): void
     {
         $this->buffer .= $gitOutputEvent->getBuffer();
     }
 
-    /**
-     * @return string
-     */
     public function getBuffer(): string
     {
         return $this->buffer;

@@ -8,7 +8,7 @@ use Dontdrinkandroot\Path\FilePath;
 
 class MarkdownAnalyzer implements AnalyzerInterface
 {
-    public function __construct(private MarkdownServiceInterface $markdownService)
+    public function __construct(private readonly MarkdownServiceInterface $markdownService)
     {
     }
 
@@ -34,11 +34,13 @@ class MarkdownAnalyzer implements AnalyzerInterface
     public function analyze(FilePath $path, $content): AnalyzedDocument
     {
         $markdownDocument = $this->markdownService->parse($content, $path);
-        $analyzedDocument = new AnalyzedDocument($path);
-        $analyzedDocument->setTitle($markdownDocument->getTitle());
-        $analyzedDocument->setContent($content);
+        $analyzedDocument = new AnalyzedDocument(
+            path: $path,
+            analyzedContent: $content,
+            title: $markdownDocument->title,
+            content: $content
+        );
         $analyzedDocument->setLinkedPaths($markdownDocument->getLinkedPaths());
-        $analyzedDocument->setAnalyzedContent($content);
 
         return $analyzedDocument;
     }

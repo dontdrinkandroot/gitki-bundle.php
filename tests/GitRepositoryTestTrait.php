@@ -7,9 +7,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 trait GitRepositoryTestTrait
 {
     /**
@@ -42,8 +39,6 @@ trait GitRepositoryTestTrait
 
     /**
      * Fills the created git repository with test data.
-     *
-     * @param GitWorkingCopy $workingCopy
      */
     protected function initRepository(GitWorkingCopy $workingCopy): void
     {

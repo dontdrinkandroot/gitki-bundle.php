@@ -21,8 +21,8 @@ class TextController extends BaseController
 
     public function __construct(
         SecurityService $securityService,
-        private WikiService $wikiService,
-        private ExtensionRegistryInterface $extensionRegistry
+        private readonly WikiService $wikiService,
+        private readonly ExtensionRegistryInterface $extensionRegistry
     ) {
         parent::__construct($securityService);
     }
@@ -59,7 +59,7 @@ class TextController extends BaseController
             $response->setContent($renderedView);
 
             return $response;
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             if (null === $user) {
                 throw new NotFoundHttpException('This file does not exist');
             }

@@ -4,12 +4,9 @@ namespace Dontdrinkandroot\GitkiBundle\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class GitRepositoryTestCase extends TestCase
 {
-    const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
+    final const GIT_REPOSITORY_PATH = '/tmp/gitkitest/repo/';
 
     use GitRepositoryTestTrait;
 
@@ -32,11 +29,10 @@ class GitRepositoryTestCase extends TestCase
     /**
      * {@inheritdoc}
      *
-     * @return string
      *
      * @psalm-return '/tmp/gitkitest/repo/'
      */
-    protected function getRepositoryTargetPath()
+    protected function getRepositoryTargetPath(): string
     {
         return self::GIT_REPOSITORY_PATH;
     }

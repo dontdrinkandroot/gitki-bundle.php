@@ -23,8 +23,10 @@ use League\CommonMark\Renderer\HtmlRenderer;
 
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
-    public function __construct(protected FileSystemServiceInterface $fileSystemService, private bool $allowHtml)
-    {
+    public function __construct(
+        protected FileSystemServiceInterface $fileSystemService,
+        private readonly bool $allowHtml
+    ) {
     }
 
     /**
@@ -56,12 +58,14 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
         $title = $headerRenderer->getTitle();
         $toc = $headerRenderer->getToc();
 
-        $result = new ParsedMarkdownDocument($path);
-        $result->setContent($content);
+        $result = new ParsedMarkdownDocument(
+            path: $path,
+            toc: $toc,
+            html: $html,
+            title: $title,
+            content: $content,
+        );
         $result->setLinkedPaths($linkedPaths);
-        $result->setTitle($title);
-        $result->setToc($toc);
-        $result->setHtml($html);
 
         return $result;
     }

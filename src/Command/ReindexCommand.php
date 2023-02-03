@@ -10,35 +10,29 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ReindexCommand extends Command
 {
-    /**
-     * @var WikiService
-     */
-    private $wikiService;
+    protected static $defaultDescription = 'Reindex all Markdown documents';
 
-    /**
-     * @var ElasticsearchServiceInterface
-     */
-    private $elasticsearchService;
-
-    public function __construct(WikiService $wikiService, ElasticsearchServiceInterface $elasticsearchService)
-    {
+    public function __construct(
+        private readonly WikiService $wikiService,
+        private readonly ElasticsearchServiceInterface $elasticsearchService
+    ) {
         parent::__construct();
-        $this->wikiService = $wikiService;
-        $this->elasticsearchService = $elasticsearchService;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure(): void
     {
         $this
-            ->setName('gitki:reindex')
-            ->setDescription('Reindex all Markdown documents');
+            ->setName('gitki:reindex');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->elasticsearchService instanceof NoopElasticsearchService) {
@@ -65,6 +59,6 @@ class ReindexCommand extends Command
 
         $output->writeln('');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

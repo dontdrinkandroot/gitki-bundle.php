@@ -5,20 +5,11 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 use Dontdrinkandroot\Path\DirectoryPath;
 use JsonSerializable;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class Directory extends AbstractPathAwareFileInfo implements JsonSerializable
 {
-    /**
-     * @var DirectoryPath
-     */
-    protected $relativePath;
+    protected DirectoryPath $relativePath;
 
-    /**
-     * @var DirectoryPath
-     */
-    protected $absolutePath;
+    protected DirectoryPath $absolutePath;
 
     public function __construct($basePath, $currentDirectoryPath, $relativeDirectoryPath)
     {
@@ -45,6 +36,7 @@ class Directory extends AbstractPathAwareFileInfo implements JsonSerializable
 
     /**
      * {@inheritdoc}
+     * @return array{path: string}
      */
     public function jsonSerialize(): array
     {

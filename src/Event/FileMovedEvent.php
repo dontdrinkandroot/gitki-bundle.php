@@ -5,22 +5,18 @@ namespace Dontdrinkandroot\GitkiBundle\Event;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileMovedEvent extends AbstractFileEvent
 {
-    const NAME = 'ddr.gitki.file.moved';
+    final const NAME = 'ddr.gitki.file.moved';
 
-    /**
-     * @var FilePath
-     */
-    private $previousFile;
-
-    public function __construct(GitUserInterface $user, $commitMessage, $time, FilePath $file, FilePath $previousFile)
-    {
+    public function __construct(
+        GitUserInterface $user,
+        string $commitMessage,
+        int $time,
+        FilePath $file,
+        private readonly FilePath $previousFile
+    ) {
         parent::__construct($user, $commitMessage, $time, $file);
-        $this->previousFile = $previousFile;
     }
 
     /**

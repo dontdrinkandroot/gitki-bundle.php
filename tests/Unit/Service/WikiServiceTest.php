@@ -158,7 +158,7 @@ class WikiServiceTest extends GitRepositoryTestCase
      * @return FilePath[]
      * @throws Exception
      */
-    protected function getExampleFiles()
+    protected function getExampleFiles(): array
     {
         return [
             FilePath::parse('/examples/link-example.md'),

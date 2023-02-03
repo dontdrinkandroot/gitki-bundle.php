@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Repository;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Model\Document\SearchResultDocument;
 use Dontdrinkandroot\Path\FilePath;
@@ -11,15 +12,10 @@ use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-    private Client $client;
+    private readonly Client $client;
 
-    private string $index;
+    private readonly string $index;
 
-    /**
-     * @param string $host
-     * @param int $port
-     * @param string $index
-     */
     public function __construct(string $host, int $port, string $index)
     {
         $this->index = strtolower($index);
@@ -28,7 +24,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $params = ['index' => $this->index];
         try {
             $response = $this->client->indices()->getSettings($params);
-        } catch (Missing404Exception $e) {
+        } catch (Missing404Exception) {
             $response = $this->client->indices()->create($params);
         }
     }
@@ -60,19 +56,18 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 
         $result = $this->client->search($params);
         $numHits = $result['hits']['total'];
-        if ($numHits == 0) {
+        if ($numHits === 0) {
             return [];
         }
 
         $searchResults = [];
         foreach ($result['hits']['hits'] as $hit) {
-            $searchResult = new SearchResultDocument(FilePath::parse($hit['_id']));
-            $searchResult->setScore($hit['_score']);
-            if (isset($hit['_source'])) {
-                if (isset($hit['_source']['title'])) {
-                    $searchResult->setTitle($hit['_source']['title']);
-                }
-            }
+            $searchResult = new SearchResultDocument(
+                path: FilePath::parse($hit['_id']),
+                title: Asserted::notNull($hit['_source']['title'] ?? null, 'No title set'),
+                score: Asserted::float($hit['_score'])
+            );
+
             $searchResults[] = $searchResult;
         }
 
@@ -88,8 +83,8 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
             'id' => $path->toAbsoluteString(),
             'index' => $this->index,
             'body' => [
-                'title' => $document->getTitle(),
-                'content' => $document->getAnalyzedContent(),
+                'title' => $document->title,
+                'content' => $document->analyzedContent,
                 'linked_paths' => $document->getLinkedPaths(),
                 'extension' => $path->getExtension(),
             ]
@@ -123,7 +118,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
                 '_source_includes' => ['title']
             ];
             $result = $this->client->get($params);
-        } catch (Missing404Exception $e) {
+        } catch (Missing404Exception) {
             return null;
         }
 

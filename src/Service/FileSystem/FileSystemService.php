@@ -26,8 +26,6 @@ class FileSystemService implements FileSystemServiceInterface
     protected Filesystem $fileSystem;
 
     /**
-     * @param string $basePath
-     *
      * @throws Exception
      */
     public function __construct(string $basePath)
@@ -186,8 +184,6 @@ class FileSystemService implements FileSystemServiceInterface
     }
 
     /**
-     * @param DirectoryPath $path
-     *
      * @throws DirectoryNotEmptyException
      */
     protected function assertDirectoryIsEmpty(DirectoryPath $path): void
@@ -201,13 +197,7 @@ class FileSystemService implements FileSystemServiceInterface
         }
     }
 
-    /**
-     * @param DirectoryPath $root
-     * @param SplFileInfo $splDirectory
-     *
-     * @return Directory
-     */
-    protected function buildDirectory(DirectoryPath $root, SplFileInfo $splDirectory = null)
+    protected function buildDirectory(DirectoryPath $root, SplFileInfo $splDirectory = null): Directory
     {
         $relativeDirectoryPath = '';
         if (null !== $splDirectory) {

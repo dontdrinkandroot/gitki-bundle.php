@@ -54,21 +54,19 @@ class DirectoryService implements DirectoryServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getDirectoryListing(DirectoryPath $relativeDirectoryPath)
+    public function getDirectoryListing(DirectoryPath $relativeDirectoryPath): DirectoryListing
     {
         $files = $this->listFiles($relativeDirectoryPath);
         $subDirectories = $this->fileSystemService->listDirectories($relativeDirectoryPath, false, false);
 
         usort(
             $subDirectories,
-            function (Directory $a, Directory $b) {
-                return strcmp($a->getFilename(), $b->getFilename());
-            }
+            fn(Directory $a, Directory $b): int => strcmp($a->getFilename(), $b->getFilename())
         );
 
         usort(
             $files,
-            function (File $a, File $b) {
+            function (File $a, File $b): int {
                 $titleA = $a->getTitle();
                 if (null === $titleA) {
                     $titleA = $a->getFilename();
@@ -88,7 +86,7 @@ class DirectoryService implements DirectoryServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false)
+    public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false): array
     {
         return $this->fileSystemService->listDirectories($rootPath, $includeRoot, $recursive);
     }
@@ -96,7 +94,7 @@ class DirectoryService implements DirectoryServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false)
+    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false): array
     {
         return $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
     }

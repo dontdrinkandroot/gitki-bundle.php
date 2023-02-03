@@ -12,8 +12,8 @@ class SecurityService
 {
 
     public function __construct(
-        private TokenStorageInterface $tokenStorage,
-        private AuthorizationCheckerInterface $authorizationChecker,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
     ) {
     }
 
@@ -45,8 +45,6 @@ class SecurityService
     }
 
     /**
-     * @return GitUserInterface
-     *
      * @throws Exception Thrown if the current user is not set or not a GitUserInterface.
      */
     public function getGitUser(): GitUserInterface

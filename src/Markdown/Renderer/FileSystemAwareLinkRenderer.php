@@ -17,13 +17,13 @@ use Stringable;
 
 class FileSystemAwareLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
-    private $linkedPaths = [];
+    private array $linkedPaths = [];
 
-    private LinkRenderer $decoratedRenderer;
+    private readonly LinkRenderer $decoratedRenderer;
 
     public function __construct(
-        private FileSystemServiceInterface $fileSystemService,
-        private FilePath $currentFilePath
+        private readonly FileSystemServiceInterface $fileSystemService,
+        private readonly FilePath $currentFilePath
     ) {
         $this->decoratedRenderer = new LinkRenderer();
     }
@@ -67,7 +67,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
             if (array_key_exists('host', $urlParts)) {
                 return true;
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             /* If parsing url fails, ignore silently and assume it is not external */
         }
 
@@ -98,7 +98,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
             $this->linkedPaths[] = $path;
 
             return $fileExists;
-        } catch (Exception $e) {
+        } catch (Exception) {
             /* If parsing url fails, ignore silently and assume the target exists */
         }
 

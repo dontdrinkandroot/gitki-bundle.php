@@ -12,9 +12,6 @@ use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 {
     /**
@@ -35,7 +32,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
     /**
      * @var FilePath
      */
-    private $tocTestPath;
+    private FilePath $tocTestPath;
 
     private $tocTestContent;
 
@@ -61,19 +58,19 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
         $parsedMarkdownDocument = $markdownService->parse($this->tocTestContent, $this->tocTestPath);
 
-        $this->assertEquals('TOC Example', $parsedMarkdownDocument->getTitle());
+        $this->assertEquals('TOC Example', $parsedMarkdownDocument->title);
 
-        $toc = $parsedMarkdownDocument->getToc();
+        $toc = $parsedMarkdownDocument->toc;
         $this->assertEquals(
             [
                 [
-                    'text'     => 'First Subheading',
-                    'id'       => 'heading1',
-                    'level'    => 2,
+                    'text' => 'First Subheading',
+                    'id' => 'heading1',
+                    'level' => 2,
                     'children' => [
                         [
-                            'text'     => 'Third level heading',
-                            'id'       => 'heading2',
+                            'text' => 'Third level heading',
+                            'id' => 'heading2',
                             'level'    => 3,
                             'children' => []
                         ],
@@ -108,7 +105,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $markdownService = new FileSystemAwareMarkdownService($this->fileSystemService, true);
 
         $parsedMarkdownDocument = $markdownService->parse('[Existing Link](./toc.md)', $linkTestPath);
-        $this->assertSame('<p><a href="./toc.md">Existing Link</a></p>' . "\n", $parsedMarkdownDocument->getHtml());
+        $this->assertSame('<p><a href="./toc.md">Existing Link</a></p>' . "\n", $parsedMarkdownDocument->html);
         $linkedPaths = $parsedMarkdownDocument->getLinkedPaths();
         $this->assertCount(1, $linkedPaths);
         $this->assertEquals(new FilePath('toc.md'), $linkedPaths[0]);
@@ -116,13 +113,13 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $parsedMarkdownDocument = $markdownService->parse('[Missing Link](./missing.md)', $linkTestPath);
         $this->assertSame(
             '<p><a href="./missing.md" class="missing">Missing Link</a></p>' . "\n",
-            $parsedMarkdownDocument->getHtml()
+            $parsedMarkdownDocument->html
         );
 
         $parsedMarkdownDocument = $markdownService->parse('[External Link](http://example.com)', $linkTestPath);
         $this->assertSame(
             '<p><a href="http://example.com" rel="external">External Link</a></p>' . "\n",
-            $parsedMarkdownDocument->getHtml()
+            $parsedMarkdownDocument->html
         );
     }
 }

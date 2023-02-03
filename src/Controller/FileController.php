@@ -23,8 +23,8 @@ class FileController extends BaseController
 {
     public function __construct(
         SecurityService $securityService,
-        private WikiService $wikiService,
-        private DirectoryServiceInterface $directoryService
+        private readonly WikiService $wikiService,
+        private readonly DirectoryServiceInterface $directoryService
     ) {
         parent::__construct($securityService);
     }
@@ -153,9 +153,6 @@ class FileController extends BaseController
     }
 
     /**
-     * @param File $file
-     *
-     * @return string
      * @throws RuntimeException
      */
     protected function getContents(File $file): string

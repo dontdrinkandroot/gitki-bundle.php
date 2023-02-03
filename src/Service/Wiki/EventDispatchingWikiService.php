@@ -11,23 +11,14 @@ use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\Path\FilePath;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class EventDispatchingWikiService extends WikiService
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
     public function __construct(
         GitServiceInterface $gitRepository,
         LockService $lockService,
-        EventDispatcherInterface $eventDispatcher
+        protected EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($gitRepository, $lockService);
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**

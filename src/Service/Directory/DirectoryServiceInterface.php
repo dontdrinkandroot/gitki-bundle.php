@@ -8,16 +8,11 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 interface DirectoryServiceInterface
 {
     public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath;
 
     /**
-     * @param DirectoryPath $directoryPath
-     *
      * @return FilePath|null
      */
     public function resolveExistingIndexFile(DirectoryPath $directoryPath);

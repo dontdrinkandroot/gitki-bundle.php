@@ -15,7 +15,7 @@ use Symplify\GitWrapper\GitWrapper;
 
 class GitService implements GitServiceInterface
 {
-    public function __construct(private FileSystemServiceInterface $fileSystemService)
+    public function __construct(private readonly FileSystemServiceInterface $fileSystemService)
     {
     }
 
@@ -167,12 +167,7 @@ class GitService implements GitServiceInterface
         return $workingCopy;
     }
 
-    /**
-     * @param Path $relativePath
-     *
-     * @return string
-     */
-    protected function getAbsolutePathString(Path $relativePath)
+    protected function getAbsolutePathString(Path $relativePath): string
     {
         return $this->getAbsolutePath($relativePath)->toAbsoluteFileSystemString();
     }
@@ -182,7 +177,7 @@ class GitService implements GitServiceInterface
      *
      * @return FilePath[]
      */
-    protected function toFilePathArray($paths)
+    protected function toFilePathArray(array|FilePath $paths)
     {
         if (!is_array($paths)) {
             return [$paths];
@@ -191,12 +186,7 @@ class GitService implements GitServiceInterface
         return $paths;
     }
 
-    /**
-     * @param GitUserInterface $user
-     *
-     * @return string
-     */
-    protected function getAuthorString(GitUserInterface $user)
+    protected function getAuthorString(GitUserInterface $user): string
     {
         return sprintf('"%s <%s>"', $user->getGitUserName(), $user->getGitUserEmail());
     }
@@ -206,7 +196,7 @@ class GitService implements GitServiceInterface
      *
      * @return list<CommitMetadata>
      */
-    protected function parseLog($log)
+    protected function parseLog($log): array
     {
         preg_match_all(LogParser::getMatchString(), $log, $matches);
         $metaData = [];
@@ -224,7 +214,6 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @param GitUserInterface $author
      * @param string $commitMessage
      */
     protected function commit(GitUserInterface $author, $commitMessage): void
@@ -260,9 +249,7 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @param GitUserInterface $author
      * @param string $commitMessage
-     * @param FilePath $path
      */
     protected function addAndCommitFile(GitUserInterface $author, $commitMessage, FilePath $path): void
     {
@@ -275,7 +262,7 @@ class GitService implements GitServiceInterface
      *
      * @return mixed
      */
-    protected function escapePath(Path $path)
+    protected function escapePath(Path $path): string
     {
         return str_replace(" ", "\\ ", $path->toRelativeFileSystemString());
     }

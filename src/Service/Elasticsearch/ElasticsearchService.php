@@ -14,16 +14,13 @@ use Symfony\Component\Mime\MimeTypeGuesserInterface;
 class ElasticsearchService implements ElasticsearchServiceInterface
 {
     /**
-     * @param GitServiceInterface $gitService
-     * @param ElasticsearchRepositoryInterface $repository
      * @param iterable<AnalyzerInterface> $analyzers
-     * @param MimeTypeGuesserInterface $mimeTypeGuesser
      */
     public function __construct(
-        private GitServiceInterface $gitService,
-        private ElasticsearchRepositoryInterface $repository,
-        private iterable $analyzers,
-        private MimeTypeGuesserInterface $mimeTypeGuesser
+        private readonly GitServiceInterface $gitService,
+        private readonly ElasticsearchRepositoryInterface $repository,
+        private readonly iterable $analyzers,
+        private readonly MimeTypeGuesserInterface $mimeTypeGuesser
     ) {
     }
 

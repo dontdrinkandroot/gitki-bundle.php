@@ -7,15 +7,9 @@ use JsonSerializable;
 
 class File extends AbstractPathAwareFileInfo implements JsonSerializable
 {
-    /**
-     * @var FilePath
-     */
-    protected $relativePath;
+    protected FilePath $relativePath;
 
-    /**
-     * @var FilePath
-     */
-    protected $absolutePath;
+    protected FilePath $absolutePath;
 
     protected ?string $title = null;
 
@@ -54,6 +48,7 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
 
     /**
      * {@inheritdoc}
+     * @return array{path: string, name: string, extension: string|null, title: string|null}
      */
     public function jsonSerialize(): array
     {

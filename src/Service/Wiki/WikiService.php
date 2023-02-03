@@ -20,21 +20,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symplify\GitWrapper\Exception\GitException;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class WikiService
 {
-    /**
-     * @var GitServiceInterface
-     */
-    protected $gitService;
-
-    /**
-     * @var LockServiceInterface
-     */
-    private $lockService;
-
     /**
      * @var array
      */
@@ -45,16 +32,12 @@ class WikiService
      * @param LockServiceInterface $lockService
      */
     public function __construct(
-        GitServiceInterface $gitService,
-        LockServiceInterface $lockService
+        protected GitServiceInterface $gitService,
+        private readonly LockServiceInterface $lockService
     ) {
-        $this->gitService = $gitService;
-        $this->lockService = $lockService;
     }
 
     /**
-     * @param Path $relativePath
-     *
      * @return bool
      */
     public function exists(Path $relativePath)
@@ -63,8 +46,6 @@ class WikiService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath $relativeFilePath
      *
      * @throws FileLockedException
      */
@@ -74,8 +55,6 @@ class WikiService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath $relativeFilePath
      *
      * @throws Exception
      */
@@ -85,8 +64,6 @@ class WikiService
     }
 
     /**
-     * @param FilePath $relativeFilePath
-     *
      * @return string
      */
     public function getContent(FilePath $relativeFilePath)
@@ -102,16 +79,18 @@ class WikiService
      *
      * @throws Exception
      */
-    public function saveFile(GitUserInterface $user, FilePath $relativeFilePath, $content, $commitMessage): void
-    {
+    public function saveFile(
+        GitUserInterface $user,
+        FilePath $relativeFilePath,
+        string $content,
+        string $commitMessage
+    ): void {
         $this->assertCommitMessageExists($commitMessage);
         $this->lockService->assertUserHasLock($user, $relativeFilePath);
         $this->gitService->putAndCommitFile($user, $relativeFilePath, $content, $commitMessage);
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath $relativeFilePath
      *
      * @return int
      */
@@ -127,7 +106,7 @@ class WikiService
      *
      * @throws Exception
      */
-    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage): void
+    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, string $commitMessage): void
     {
         $this->assertCommitMessageExists($commitMessage);
         $this->createLock($user, $relativeFilePath);
@@ -136,10 +115,8 @@ class WikiService
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
      *
      * @throws DirectoryNotEmptyException
-     *
      * @deprecated Use removeDirectory instead
      */
     public function deleteDirectory(DirectoryPath $relativeDirectoryPath): void
@@ -148,8 +125,6 @@ class WikiService
     }
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
      * @throws DirectoryNotEmptyException
      */
     public function removeDirectory(DirectoryPath $relativeDirectoryPath): void
@@ -157,15 +132,10 @@ class WikiService
         $this->gitService->removeDirectory($relativeDirectoryPath);
     }
 
-    /**
-     * @param GitUserInterface $user
-     * @param DirectoryPath $relativeDirectoryPath
-     * @param string $commitMessage
-     */
     public function removeDirectoryRecursively(
         GitUserInterface $user,
         DirectoryPath $relativeDirectoryPath,
-        $commitMessage
+        string $commitMessage
     ): void {
         $files = $this->findAllFiles($relativeDirectoryPath);
 
@@ -202,7 +172,7 @@ class WikiService
         GitUserInterface $user,
         FilePath $relativeOldFilePath,
         FilePath $relativeNewFilePath,
-        $commitMessage
+        string $commitMessage
     ): void {
         $this->assertFileDoesNotExist($relativeNewFilePath);
 
@@ -223,10 +193,6 @@ class WikiService
     }
 
     /**
-     * @param GitUserInterface $user
-     * @param FilePath $relativeFilePath
-     * @param UploadedFile $uploadedFile
-     * @param string $commitMessage
      *
      * @throws FileExistsException
      */
@@ -234,7 +200,7 @@ class WikiService
         GitUserInterface $user,
         FilePath $relativeFilePath,
         UploadedFile $uploadedFile,
-        $commitMessage
+        string $commitMessage
     ): void {
         $relativeDirectoryPath = $relativeFilePath->getParentPath();
 
@@ -278,8 +244,6 @@ class WikiService
     }
 
     /**
-     * @param FilePath $path
-     *
      * @return File
      */
     public function getFile(FilePath $path)
@@ -290,13 +254,11 @@ class WikiService
     }
 
     /**
-     * @param int $maxCount
      *
      * @return CommitMetadata[]
-     *
      * @throws GitException
      */
-    public function getHistory($maxCount)
+    public function getHistory(?int $maxCount)
     {
         try {
             return $this->gitService->getWorkingCopyHistory($maxCount);
@@ -311,12 +273,10 @@ class WikiService
     }
 
     /**
-     * @param FilePath $path
-     * @param int|null $maxCount
      *
      * @return CommitMetadata[]
      */
-    public function getFileHistory(FilePath $path, $maxCount = null)
+    public function getFileHistory(FilePath $path, ?int $maxCount = null)
     {
         return $this->gitService->getFileHistory($path, $maxCount);
     }
@@ -337,9 +297,6 @@ class WikiService
         return array_keys($this->editableExtensions);
     }
 
-    /**
-     * @param DirectoryPath $path
-     */
     public function createFolder(DirectoryPath $path): void
     {
         $this->gitService->createDirectory($path);
@@ -353,8 +310,6 @@ class WikiService
     }
 
     /**
-     * @param FilePath $relativeNewFilePath
-     *
      * @throws FileExistsException
      */
     protected function assertFileDoesNotExist(FilePath $relativeNewFilePath): void

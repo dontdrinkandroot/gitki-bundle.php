@@ -67,8 +67,6 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
     /**
      * {@inheritdoc}
      *
-     * @param array $config
-     * @param ContainerBuilder $container
      *
      * @return ConfigurationInterface
      */

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 abstract class BaseController extends AbstractController
 {
-    const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
+    final const ANONYMOUS_ROLE = 'IS_AUTHENTICATED_ANONYMOUSLY';
 
     public function __construct(protected SecurityService $securityService)
     {

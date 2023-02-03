@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Markdown\Renderer;
 
+use Dontdrinkandroot\Common\Asserted;
 use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\CommonMark\Renderer\Block\HeadingRenderer;
 use League\CommonMark\Node\Inline\AbstractInline;
@@ -14,15 +15,15 @@ use Stringable;
 
 class TocBuildingHeaderRenderer implements NodeRendererInterface
 {
-    private $toc = [];
+    private array $toc = [];
 
-    private $title = null;
+    private ?string $title = null;
 
-    private $count = 0;
+    private int $count = 0;
 
-    private $current = [];
+    private array $current = [];
 
-    private HeadingRenderer $decoratedRender;
+    private readonly HeadingRenderer $decoratedRender;
 
     public function __construct()
     {
@@ -34,13 +35,15 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
-        assert($node instanceof Heading);
-        $htmlElement = $this->decoratedRender->render($node, $childRenderer);
-        assert($htmlElement instanceof HtmlElement);
+        $heading = Asserted::instanceOf($node, Heading::class);
+        $htmlElement = Asserted::instanceOf(
+            $this->decoratedRender->render($heading, $childRenderer),
+            HtmlElement::class
+        );
 
         $id = 'heading' . $this->count;
-        $level = $node->getLevel();
-        $text = $this->getBlockTextContent($node);
+        $level = $heading->getLevel();
+        $text = $this->getBlockTextContent($heading);
 
         $htmlElement->setAttribute('id', $id);
         if (null === $this->title && $level === 1) {
@@ -68,18 +71,12 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
         return $htmlElement;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @return array
-     */
-    public function getToc()
+    public function getToc(): array
     {
         return $this->toc;
     }

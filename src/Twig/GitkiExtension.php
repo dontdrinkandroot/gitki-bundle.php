@@ -9,7 +9,7 @@ use Twig\TwigFunction;
 
 class GitkiExtension extends AbstractExtension
 {
-    public function __construct(private ExtensionRegistryInterface $extensionRegistry)
+    public function __construct(private readonly ExtensionRegistryInterface $extensionRegistry)
     {
     }
 
@@ -27,7 +27,7 @@ class GitkiExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('dirTitle', [$this, 'titleFilter']),
+            new TwigFilter('dirTitle', $this->titleFilter(...)),
         ];
     }
 
@@ -37,7 +37,7 @@ class GitkiExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('isEditable', [$this, 'isEditable'])
+            new TwigFunction('isEditable', $this->isEditable(...))
         ];
     }
 

@@ -16,23 +16,17 @@ use Symplify\GitWrapper\Exception\GitException;
 
 class RepositoryController extends BaseController
 {
-    public const REQUEST_PARAMETER_ACTION = 'action';
+    final public const REQUEST_PARAMETER_ACTION = 'action';
 
     public function __construct(
         SecurityService $securityService,
-        private ExtensionRegistryInterface $extensionRegistry,
-        private WikiService $wikiService
+        private readonly ExtensionRegistryInterface $extensionRegistry,
+        private readonly WikiService $wikiService
     ) {
         parent::__construct($securityService);
     }
 
-    /**
-     * @param Request $request
-     * @param string $path
-     *
-     * @return Response
-     */
-    public function directoryAction(Request $request, $path)
+    public function directoryAction(Request $request, string $path): Response
     {
         $this->checkPreconditions($request, $path);
         $action = (string)$request->query->get(self::REQUEST_PARAMETER_ACTION, '');
@@ -45,13 +39,7 @@ class RepositoryController extends BaseController
         );
     }
 
-    /**
-     * @param Request $request
-     * @param string $path
-     *
-     * @return Response
-     */
-    public function fileAction(Request $request, $path)
+    public function fileAction(Request $request, string $path): Response
     {
         $this->checkPreconditions($request, $path);
         $filePath = FilePath::parse($path);
@@ -69,7 +57,6 @@ class RepositoryController extends BaseController
     }
 
     /**
-     * @return Response
      * @throws Exception
      * @throws GitException
      */
@@ -83,8 +70,6 @@ class RepositoryController extends BaseController
     }
 
     /**
-     * @param Request $request
-     * @param string $path
      *
      * @throws AccessDeniedHttpException
      */

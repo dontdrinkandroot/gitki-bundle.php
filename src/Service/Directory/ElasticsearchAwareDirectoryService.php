@@ -6,32 +6,23 @@ use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 
-/**
- * @author Philip Washington Sorst <philip@sorst.net>
- */
 class ElasticsearchAwareDirectoryService extends DirectoryService
 {
-    /**
-     * @var ElasticsearchRepositoryInterface
-     */
-    private $elasticsearchRepository;
-
     /**
      * @param FileSystemServiceInterface $fileSystemService
      * @param ElasticsearchRepositoryInterface $elasticsearchRepository
      */
     public function __construct(
         FileSystemServiceInterface $fileSystemService,
-        ElasticsearchRepositoryInterface $elasticsearchRepository
+        private readonly ElasticsearchRepositoryInterface $elasticsearchRepository
     ) {
         parent::__construct($fileSystemService);
-        $this->elasticsearchRepository = $elasticsearchRepository;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false)
+    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false): array
     {
         $files = $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
         foreach ($files as $file) {

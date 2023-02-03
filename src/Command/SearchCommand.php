@@ -11,18 +11,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SearchCommand extends Command
 {
-    public function __construct(private ElasticsearchServiceInterface $elasticsearchService)
+    protected static $defaultDescription = 'Search for Markdown documents';
+
+    public function __construct(private readonly ElasticsearchServiceInterface $elasticsearchService)
     {
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure(): void
     {
         $this->setName('gitki:search')
-            ->setDescription('Search for Markdown documents')
             ->addArgument('searchstring', InputArgument::REQUIRED, 'The search string');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->elasticsearchService instanceof NoopElasticsearchService) {
@@ -38,12 +45,11 @@ class SearchCommand extends Command
         } else {
             foreach ($results as $result) {
                 $output->writeln(
-                    '[' . $result->getScore() . '] ' . $result->getTitle() . ' (' . $result->path->toAbsoluteString(
-                    ) . ')'
+                    '[' . $result->score . '] ' . $result->title . ' (' . $result->path->toAbsoluteString() . ')'
                 );
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
