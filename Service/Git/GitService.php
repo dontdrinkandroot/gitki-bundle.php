@@ -204,7 +204,7 @@ class GitService implements GitServiceInterface
     /**
      * @param string $log
      *
-     * @return CommitMetadata[]
+     * @return list<CommitMetadata>
      */
     protected function parseLog($log)
     {

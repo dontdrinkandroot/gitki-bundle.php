@@ -17,9 +17,11 @@
             "homepage": "https://sorst.net"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^8.1",
-        "dontdrinkandroot/common": "dev-master",
+        "dontdrinkandroot/common": "^0.2",
         "dontdrinkandroot/path": "^0.1.0",
         "league/commonmark": "^2.1",
         "sensio/framework-extra-bundle": "^6.2",
@@ -42,8 +44,8 @@
         "guzzlehttp/ringphp": "^1.1.1",
         "liip/test-fixtures-bundle": "^1.0",
         "phpunit/phpunit": "^9.5.11",
-        "symfony/console": "^5.4",
         "symfony/browser-kit": "^5.4",
+        "symfony/console": "^5.4",
         "symfony/css-selector": "^5.4",
         "symfony/phpunit-bridge": "^5.4",
         "symfony/security-bundle": "^5.4"
@@ -58,6 +60,10 @@
         }
     },
     "extra": {
+        "symfony": {
+            "require": "5.4.*",
+            "allow-contrib": true
+        },
         "branch-alias": {
             "dev-master": "0.3.x-dev"
         }

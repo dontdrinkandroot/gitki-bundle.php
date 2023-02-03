@@ -131,7 +131,7 @@ class FileSystemService implements FileSystemServiceInterface
      */
     public function listDirectories(DirectoryPath $root, bool $includeRoot = false, bool $recursive = true): array
     {
-        /** @var Directory[] $directories */
+        /** @var list<Directory> $directories */
         $directories = [];
 
         if ($includeRoot) {

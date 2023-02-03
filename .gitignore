@@ -2,3 +2,5 @@
 /vendor/
 /composer.lock
 /Tests/Functional/web/bundles/
+/symfony.lock
+/.phpunit.result.cache

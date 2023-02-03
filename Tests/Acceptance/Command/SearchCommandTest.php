@@ -49,7 +49,7 @@ class SearchCommandTest extends KernelTestCase
             ]
         );
 
-        $this->assertRegExp('#TOC Example#', $commandTester->getDisplay());
+        $this->assertMatchesRegularExpression('#TOC Example#', $commandTester->getDisplay());
     }
 
     public function testNoElasticsearch(): void
