@@ -85,7 +85,6 @@ jobs:
                 run: |
                     composer global config --no-plugins allow-plugins.symfony/flex true
                     composer global require --no-progress --no-scripts --no-plugins symfony/flex vimeo/psalm
-                    composer global config -l
             -   name: "Validate composer"
                 run: "composer validate"
             -   name: "Install dependencies with Composer"
