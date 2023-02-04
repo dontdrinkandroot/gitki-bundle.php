@@ -43,15 +43,21 @@ jobs:
                     php-version: "${{ matrix.php-version }}"
                     coverage: "pcov"
                     ini-values: "zend.assertions=1"
+            -   name: "Allow symfony/flex globally"
+                run: "composer global config --no-plugins allow-plugins.symfony/flex true"
             -   name: "Globally install symfony/flex"
-                run: "composer global require --no-progress --no-scripts --no-plugins symfony/flex"
+                run: |
+                    composer global config --no-plugins allow-plugins.symfony/flex true
+                    composer global require --no-progress --no-scripts --no-plugins symfony/flex
+            -   name: "Validate composer"
+                run: "composer validate"
             -   name: "Install dependencies with Composer"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
                 with:
                     dependency-versions: "${{ matrix.deps }}"
             -   name: "Run PHPUnit"
                 run: "vendor/bin/phpunit --coverage-clover=coverage.clover.xml --log-junit log.junit.xml"
-                continue-on-error: "${{ matrix.symfony-require == '4.4.*' }}"
+                continue-on-error: "${{ matrix.deps == 'lowest' }}"
             -   name: "Upload coverage"
                 uses: "actions/upload-artifact@v2"
                 if: matrix.php-version == '8.1' && matrix.deps == 'highest' && matrix.symfony-require == '5.4.*'
@@ -73,10 +79,16 @@ jobs:
                 uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: "8.1"
+            -   name: "Allow symfony/flex globally"
+                run: "composer global config --no-plugins allow-plugins.symfony/flex true"
             -   name: "Globally install symfony/flex"
-                run: "composer global require --no-progress --no-scripts --no-plugins symfony/flex"
+                run: |
+                    composer global config --no-plugins allow-plugins.symfony/flex true
+                    composer global require --no-progress --no-scripts --no-plugins symfony/flex
+            -   name: "Validate composer"
+                run: "composer validate"
             -   name: "Install dependencies with Composer"
-                uses: "ramsey/composer-install@v1"
+                uses: "ramsey/composer-install@v2"
             -   name: "Install psalm"
                 run: |
                     wget https://github.com/vimeo/psalm/releases/latest/download/psalm.phar -O /usr/local/bin/psalm \
