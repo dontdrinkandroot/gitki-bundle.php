@@ -30,11 +30,15 @@
 
 {% block ddr_gitki_javascript %}
     {{ parent() }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"
+            integrity="sha512-bgHRAiTjGrzHzLyKOnpFvaEpGzJet3z4tZnXGjpsCcqOnAH6VGUx9frc5bcIhKTVLEiCO6vEhNAgx5jtLUYrfA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 {% endblock ddr_gitki_javascript %}
 
 {% block ddr_gitki_stylesheet %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"
+          integrity="sha512-hasIneQUHlh06VNBe7f6ZcHmeRTLIaQWFd43YriJ0UND19bvYRauxthDg8E4eVNPm9bRUhr5JGeqH7FRFXQu5g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     {{ parent() }}
 {% endblock ddr_gitki_stylesheet %}
