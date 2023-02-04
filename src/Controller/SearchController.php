@@ -9,12 +9,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class SearchController extends BaseController
 {
     public function __construct(
         SecurityService $securityService,
-        private readonly ElasticsearchServiceInterface $elasticsearchService
+        private readonly ElasticsearchServiceInterface $elasticsearchService,
+        private readonly ?CsrfTokenManager $csrfTokenManager = null
     ) {
         parent::__construct($securityService);
     }
@@ -24,7 +26,9 @@ class SearchController extends BaseController
         $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH);
 
         $options = [];
-        if ($this->has('security.csrf.token_manager')) {
+
+        /* Disable csrf protection for search if available */
+        if (null !== $this->csrfTokenManager) {
             $options['csrf_protection'] = false;
         }
 

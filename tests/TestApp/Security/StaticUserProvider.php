@@ -23,11 +23,19 @@ class StaticUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername(string $username): UserInterface
     {
-        if (!array_key_exists($username, $this->users)) {
+        return $this->loadUserByIdentifier($username);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        if (!array_key_exists($identifier, $this->users)) {
             throw new UserNotFoundException();
         }
 
-        return $this->users[$username];
+        return $this->users[$identifier];
     }
 
     /**
