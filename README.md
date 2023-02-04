@@ -1,9 +1,13 @@
 gitki-bundle
 ============
 
-[![Build Status](https://travis-ci.org/dontdrinkandroot/gitki-bundle.php.svg?branch=master)](https://travis-ci.org/dontdrinkandroot/gitki-bundle.php)
-[![Code Coverage](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dontdrinkandroot/gitki-bundle.php/?branch=master)
+[![Latest Stable Version](http://poser.pugx.org/dontdrinkandroot/gitki-bundle/v)](https://packagist.org/packages/dontdrinkandroot/gitki-bundle)
+[![License](http://poser.pugx.org/dontdrinkandroot/gitki-bundle/license)](https://packagist.org/packages/dontdrinkandroot/gitki-bundle)
+![Continuous Integration](https://github.com/dontdrinkandroot/gitki-bundle.php/actions/workflows/continuous-integration.yml/badge.svg)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=dontdrinkandroot_gitki-bundle.php&metric=coverage)](https://sonarcloud.io/dashboard?id=dontdrinkandroot_gitki-bundle.php)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=dontdrinkandroot_gitki-bundle.php&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=dontdrinkandroot_gitki-bundle.php)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=dontdrinkandroot_gitki-bundle.php&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=dontdrinkandroot_gitki-bundle.php)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=dontdrinkandroot_gitki-bundle.php&metric=security_rating)](https://sonarcloud.io/dashboard?id=dontdrinkandroot_gitki-bundle.php)
 
 About
 -----
