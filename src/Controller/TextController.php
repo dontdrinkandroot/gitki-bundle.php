@@ -84,7 +84,7 @@ class TextController extends BaseController
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 'DdrGitkiBundle:File:locked.html.twig',
-                ['path' => $path, 'lockedBy' => $e->getLockedBy()]
+                ['path' => $path, 'lockedBy' => $e->lockedBy]
             );
 
             return new Response($renderedView, Response::HTTP_LOCKED);

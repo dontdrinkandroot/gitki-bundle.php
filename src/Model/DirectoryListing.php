@@ -9,37 +9,13 @@ use Dontdrinkandroot\Path\DirectoryPath;
 class DirectoryListing
 {
     /**
-     * @param Directory[] $subdirectories
+     * @param Directory[] $subDirectories
      * @param File[] $files
      */
     public function __construct(
-        private readonly DirectoryPath $path,
-        private readonly array $subdirectories,
-        private readonly array $files
+        public readonly DirectoryPath $path,
+        public readonly array $subDirectories,
+        public readonly array $files
     ) {
-    }
-
-    /**
-     * @return DirectoryPath
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @return Directory[]
-     */
-    public function getSubdirectories()
-    {
-        return $this->subdirectories;
-    }
-
-    /**
-     * @return File[]
-     */
-    public function getFiles()
-    {
-        return $this->files;
     }
 }

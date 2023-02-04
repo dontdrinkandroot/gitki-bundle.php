@@ -55,7 +55,7 @@ class FileController extends BaseController
         } catch (FileLockedException $e) {
             $renderedView = $this->renderView(
                 '@DdrGitki/File/locked.html.twig',
-                ['path' => $path, 'lockedBy' => $e->getLockedBy()]
+                ['path' => $path, 'lockedBy' => $e->lockedBy]
             );
 
             return new Response($renderedView, Response::HTTP_LOCKED);
@@ -162,9 +162,11 @@ class FileController extends BaseController
         error_reporting($level);
         if (false === $content) {
             $error = error_get_last();
+            error_reporting($level);
             throw new RuntimeException($error['message'] ?? 'Could not get contents');
         }
 
+        error_reporting($level);
         return $content;
     }
 }

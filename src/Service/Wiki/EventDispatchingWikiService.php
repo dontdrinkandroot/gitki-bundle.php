@@ -24,8 +24,12 @@ class EventDispatchingWikiService extends WikiService
     /**
      * {@inheritdoc}
      */
-    public function saveFile(GitUserInterface $user, FilePath $relativeFilePath, $content, $commitMessage): void
-    {
+    public function saveFile(
+        GitUserInterface $user,
+        FilePath $relativeFilePath,
+        string $content,
+        string $commitMessage
+    ): void {
         parent::saveFile($user, $relativeFilePath, $content, $commitMessage);
 
         $this->eventDispatcher->dispatch(
@@ -40,7 +44,7 @@ class EventDispatchingWikiService extends WikiService
         GitUserInterface $user,
         FilePath $relativeOldFilePath,
         FilePath $relativeNewFilePath,
-        $commitMessage
+        string $commitMessage
     ): void {
         parent::renameFile($user, $relativeOldFilePath, $relativeNewFilePath, $commitMessage);
 
@@ -52,7 +56,7 @@ class EventDispatchingWikiService extends WikiService
     /**
      * {@inheritdoc}
      */
-    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, $commitMessage): void
+    public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, string $commitMessage): void
     {
         parent::removeFile($user, $relativeFilePath, $commitMessage);
 

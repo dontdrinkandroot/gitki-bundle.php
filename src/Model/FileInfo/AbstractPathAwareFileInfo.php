@@ -7,13 +7,7 @@ use SplFileInfo;
 
 abstract class AbstractPathAwareFileInfo extends SplFileInfo
 {
-    /**
-     * @return Path
-     */
-    abstract public function getRelativePath();
+    abstract public function getRelativePath(): Path;
 
-    /**
-     * @return Path
-     */
-    abstract public function getAbsolutePath();
+    abstract public function getAbsolutePath(): Path;
 }

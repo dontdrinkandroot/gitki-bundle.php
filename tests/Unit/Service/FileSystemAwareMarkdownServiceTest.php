@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
+use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
@@ -34,7 +35,7 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
      */
     private FilePath $tocTestPath;
 
-    private $tocTestContent;
+    private string $tocTestContent;
 
     /**
      * {@inheritdoc}
@@ -47,7 +48,9 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
         $this->gitService = new GitService($this->fileSystemService);
         $this->user = new User('tester', 'Tester', 'test@example.com', []);
 
-        $this->tocTestContent = file_get_contents(__DIR__ . '/../../Data/repo/examples/toc-example.md');
+        $this->tocTestContent = Asserted::string(
+            file_get_contents(__DIR__ . '/../../Data/repo/examples/toc-example.md')
+        );
         $this->tocTestPath = new FilePath('toc.md');
 
         $this->gitService->putAndCommitFile($this->user, $this->tocTestPath, $this->tocTestContent, 'Adding tocTest');

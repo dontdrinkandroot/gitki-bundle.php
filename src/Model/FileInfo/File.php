@@ -7,9 +7,9 @@ use JsonSerializable;
 
 class File extends AbstractPathAwareFileInfo implements JsonSerializable
 {
-    protected FilePath $relativePath;
+    public readonly FilePath $relativePath;
 
-    protected FilePath $absolutePath;
+    public readonly FilePath $absolutePath;
 
     protected ?string $title = null;
 
@@ -21,17 +21,17 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
     }
 
     /**
-     * @return FilePath
+     * {@inheritdoc}
      */
-    public function getRelativePath()
+    public function getRelativePath(): FilePath
     {
         return $this->relativePath;
     }
 
     /**
-     * @return FilePath
+     * {@inheritdoc}
      */
-    public function getAbsolutePath()
+    public function getAbsolutePath(): FilePath
     {
         return $this->absolutePath;
     }

@@ -105,10 +105,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         return true;
     }
 
-    /**
-     * @return array
-     */
-    public function getLinkedPaths()
+    public function getLinkedPaths(): array
     {
         return $this->linkedPaths;
     }

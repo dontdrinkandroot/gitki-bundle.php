@@ -9,41 +9,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 class AbstractFileEvent extends Event
 {
     public function __construct(
-        private readonly GitUserInterface $user,
-        private readonly string $commitMessage,
-        private readonly int $time,
-        private readonly FilePath $file
+        public readonly GitUserInterface $user,
+        public readonly string $commitMessage,
+        public readonly int $time,
+        public readonly FilePath $file
     ) {
     }
 
-    /**
-     * @return GitUserInterface
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommitMessage()
-    {
-        return $this->commitMessage;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * @return FilePath
-     */
-    public function getFile()
+    public function getFile(): FilePath
     {
         return $this->file;
     }

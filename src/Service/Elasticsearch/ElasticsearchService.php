@@ -73,7 +73,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
      */
     public function onFileChanged(FileChangedEvent $event): void
     {
-        $this->indexFile($event->getFile());
+        $this->indexFile($event->file);
     }
 
     /**
@@ -81,7 +81,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
      */
     public function onFileRemoved(FileRemovedEvent $event): void
     {
-        $this->deleteFile($event->getFile());
+        $this->deleteFile($event->file);
     }
 
     /**
@@ -89,7 +89,7 @@ class ElasticsearchService implements ElasticsearchServiceInterface
      */
     public function onFileMoved(FileMovedEvent $event): void
     {
-        $this->deleteFile($event->getPreviousFile());
-        $this->indexFile($event->getFile());
+        $this->deleteFile($event->previousFile);
+        $this->indexFile($event->file);
     }
 }

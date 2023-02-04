@@ -7,9 +7,9 @@ use JsonSerializable;
 
 class Directory extends AbstractPathAwareFileInfo implements JsonSerializable
 {
-    protected DirectoryPath $relativePath;
+    public readonly DirectoryPath $relativePath;
 
-    protected DirectoryPath $absolutePath;
+    public readonly DirectoryPath $absolutePath;
 
     public function __construct($basePath, $currentDirectoryPath, $relativeDirectoryPath)
     {
@@ -19,17 +19,17 @@ class Directory extends AbstractPathAwareFileInfo implements JsonSerializable
     }
 
     /**
-     * @return DirectoryPath
+     * {@inheritdoc}
      */
-    public function getRelativePath()
+    public function getRelativePath(): DirectoryPath
     {
         return $this->relativePath;
     }
 
     /**
-     * @return DirectoryPath
+     * {@inheritdoc}
      */
-    public function getAbsolutePath()
+    public function getAbsolutePath(): DirectoryPath
     {
         return $this->absolutePath;
     }
