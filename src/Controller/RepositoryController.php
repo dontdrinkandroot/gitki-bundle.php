@@ -16,7 +16,7 @@ use Symplify\GitWrapper\Exception\GitException;
 
 class RepositoryController extends BaseController
 {
-    final public const REQUEST_PARAMETER_ACTION = 'action';
+    final public const string REQUEST_PARAMETER_ACTION = 'action';
 
     public function __construct(
         SecurityService $securityService,

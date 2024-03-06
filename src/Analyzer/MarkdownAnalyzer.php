@@ -5,6 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Analyzer;
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\GitkiBundle\Service\Markdown\MarkdownServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class MarkdownAnalyzer implements AnalyzerInterface
 {
@@ -12,9 +13,7 @@ class MarkdownAnalyzer implements AnalyzerInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function supports(FilePath $filePath, ?string $mimeType): bool
     {
         if (in_array($mimeType, ['text/markdown', 'text/x-markdown'])) {
@@ -28,9 +27,7 @@ class MarkdownAnalyzer implements AnalyzerInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function analyze(FilePath $path, $content): AnalyzedDocument
     {
         $markdownDocument = $this->markdownService->parse($content, $path);

@@ -7,13 +7,12 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\HtmlInline;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use Override;
 use Stringable;
 
 class EscapingHtmlInlineRenderer implements NodeRendererInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
         if (!($node instanceof HtmlInline)) {

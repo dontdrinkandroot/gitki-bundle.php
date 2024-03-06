@@ -43,7 +43,7 @@ class ViewAction extends AbstractController
                     return $response;
                 }
             } else {
-                $directoryPath = $path->getParentPath();
+                $directoryPath = $path->getParent();
                 $directoryListing = $this->directoryService->getDirectoryListing($directoryPath);
             }
 

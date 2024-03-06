@@ -4,44 +4,35 @@ namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Model\Document\AnalyzedDocument;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class NoopElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function search(string $searchString): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function indexFile(FilePath $path, AnalyzedDocument $document): mixed
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function deleteFile(FilePath $path): mixed
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function clear(): void
     {
         /* NOOP */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function findTitle(FilePath $path): ?string
     {
         return null;

@@ -8,6 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\FileInfo\File;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class DirectoryService implements DirectoryServiceInterface
 {
@@ -24,9 +25,7 @@ class DirectoryService implements DirectoryServiceInterface
         $this->indexFiles = $indexFiles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath
     {
         if (count($this->indexFiles) > 0) {
@@ -36,10 +35,8 @@ class DirectoryService implements DirectoryServiceInterface
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolveExistingIndexFile(DirectoryPath $directoryPath)
+    #[Override]
+    public function resolveExistingIndexFile(DirectoryPath $directoryPath): ?FilePath
     {
         foreach ($this->indexFiles as $indexFile) {
             $filePath = $directoryPath->appendFile($indexFile);
@@ -51,9 +48,7 @@ class DirectoryService implements DirectoryServiceInterface
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getDirectoryListing(DirectoryPath $relativeDirectoryPath): DirectoryListing
     {
         $files = $this->listFiles($relativeDirectoryPath);
@@ -83,18 +78,14 @@ class DirectoryService implements DirectoryServiceInterface
         return new DirectoryListing($relativeDirectoryPath, $subDirectories, $files);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false): array
+    #[Override]
+    public function listDirectories(DirectoryPath $rootPath, bool $includeRoot = true, bool $recursive = false): array
     {
         return $this->fileSystemService->listDirectories($rootPath, $includeRoot, $recursive);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false): array
+    #[Override]
+    public function listFiles(DirectoryPath $relativeDirectoryPath, bool $recursive = false): array
     {
         return $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
     }

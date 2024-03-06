@@ -3,15 +3,14 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Service;
 
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 class NoopElasticsearchServiceTest extends TestCase
 {
     private NoopElasticsearchService $elasticSearchService;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function setUp(): void
     {
         $this->elasticSearchService = new NoopElasticsearchService();

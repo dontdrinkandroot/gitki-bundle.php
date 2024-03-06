@@ -2,14 +2,16 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Security;
 
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * @extends Voter<'GITKI_READ_HISTORY'|'GITKI_WRITE_PATH'|'GITKI_READ_PATH',mixed>
+ */
 abstract class GitkiVoter extends Voter
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function supports(string $attribute, $subject): bool
     {
         return in_array(
@@ -19,9 +21,7 @@ abstract class GitkiVoter extends Voter
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         return match ($attribute) {

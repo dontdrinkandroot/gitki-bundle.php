@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance\Controller;
 
 use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Tests\Acceptance\WebTestCase;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,6 +36,7 @@ class MetadataControllerDefaultTest extends WebTestCase
         $this->assertCount(6, $deserializedContent);
     }
 
+    #[Override]
     protected function getEnvironment(): string
     {
         return 'default';

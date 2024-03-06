@@ -11,6 +11,7 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemService;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\DirectoryPath;
+use Dontdrinkandroot\Path\RootDirectoryPath;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -107,7 +108,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/create.subdirectory.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 
@@ -148,7 +149,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/create.file.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 
@@ -157,7 +158,7 @@ class DirectoryController extends BaseController
         $this->denyAccessUnlessGranted(SecurityAttribute::WRITE_PATH, $path);
 
         $files = $this->wikiService->findAllFiles($path);
-        $parentDirPath = $path->getParentPath()->toAbsoluteString();
+        $parentDirPath = $path->getParent() ?? new RootDirectoryPath();
 
         if (0 === count($files)) {
             $this->wikiService->removeDirectory($path);
@@ -188,7 +189,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/remove.html.twig',
-            ['form' => $form->createView(), 'path' => $path, 'files' => $files]
+            ['form' => $form, 'path' => $path, 'files' => $files]
         );
     }
 
@@ -230,7 +231,7 @@ class DirectoryController extends BaseController
 
         return $this->render(
             '@DdrGitki/Directory/upload.file.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 }

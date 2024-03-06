@@ -9,6 +9,7 @@ use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
 use Exception;
+use Override;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -44,70 +45,55 @@ class FileSystemService implements FileSystemServiceInterface
         $this->fileSystem = new Filesystem();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getBasePath(): DirectoryPath
     {
         return $this->basePath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function exists(Path $path): bool
     {
         return $this->fileSystem->exists($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function createDirectory(DirectoryPath $path): void
     {
         $this->fileSystem->mkdir($this->getAbsolutePathString($path), 0755);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function touchFile(FilePath $path): void
     {
         $this->fileSystem->touch($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function putContent(FilePath $path, string $content): void
     {
         file_put_contents($this->getAbsolutePathString($path), $content);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getContent(FilePath $path): string
     {
         return file_get_contents($this->getAbsolutePathString($path));
     }
 
+    #[Override]
     public function getModificationTime(Path $path): int
     {
         return filemtime($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeFile(FilePath $path): void
     {
         $this->fileSystem->remove($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeDirectory(DirectoryPath $path, bool $ignoreEmpty = false): void
     {
         if (!$ignoreEmpty) {
@@ -116,17 +102,13 @@ class FileSystemService implements FileSystemServiceInterface
         $this->fileSystem->remove($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getAbsolutePath(Path $path): Path
     {
         return $path->prepend($this->basePath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function listDirectories(DirectoryPath $root, bool $includeRoot = false, bool $recursive = true): array
     {
         /** @var list<Directory> $directories */
@@ -150,9 +132,7 @@ class FileSystemService implements FileSystemServiceInterface
         return $directories;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function listFiles(DirectoryPath $root, bool $recursive = true): array
     {
         /* @var File[] $files */

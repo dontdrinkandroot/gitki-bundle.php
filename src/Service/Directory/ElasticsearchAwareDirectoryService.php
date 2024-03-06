@@ -5,6 +5,7 @@ namespace Dontdrinkandroot\GitkiBundle\Service\Directory;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
+use Override;
 
 class ElasticsearchAwareDirectoryService extends DirectoryService
 {
@@ -19,10 +20,8 @@ class ElasticsearchAwareDirectoryService extends DirectoryService
         parent::__construct($fileSystemService);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false): array
+    #[Override]
+    public function listFiles(DirectoryPath $relativeDirectoryPath, bool $recursive = false): array
     {
         $files = $this->fileSystemService->listFiles($relativeDirectoryPath, $recursive);
         foreach ($files as $file) {

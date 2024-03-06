@@ -13,6 +13,7 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
+use Override;
 use Stringable;
 
 class FileSystemAwareLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
@@ -28,9 +29,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         $this->decoratedRenderer = new LinkRenderer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable|string|null
     {
         assert($node instanceof Link);
@@ -91,7 +90,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
 
             $urlPath = urldecode($urlPath);
 
-            $currentDirectoryPath = $this->currentFilePath->getParentPath();
+            $currentDirectoryPath = $this->currentFilePath->getParent();
             $path = $currentDirectoryPath->appendPathString($urlPath);
             $fileExists = $this->fileSystemService->exists($path);
 
@@ -110,9 +109,7 @@ class FileSystemAwareLinkRenderer implements NodeRendererInterface, Configuratio
         return $this->linkedPaths;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->decoratedRenderer->setConfiguration($configuration);

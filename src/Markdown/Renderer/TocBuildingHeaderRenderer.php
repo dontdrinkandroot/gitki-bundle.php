@@ -11,6 +11,7 @@ use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
+use Override;
 use Stringable;
 
 class TocBuildingHeaderRenderer implements NodeRendererInterface
@@ -30,9 +31,7 @@ class TocBuildingHeaderRenderer implements NodeRendererInterface
         $this->decoratedRender = new HeadingRenderer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
         $heading = Asserted::instanceOf($node, Heading::class);

@@ -2,13 +2,14 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry;
 
+use Override;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ExtensionRegistry implements ExtensionRegistryInterface
 {
-    private const ACTION_VIEW = '';
+    private const string ACTION_VIEW = '';
 
-    private const ACTION_EDIT = 'edit';
+    private const string ACTION_EDIT = 'edit';
 
     /** @var array <string, string> */
     protected $nameMap = [];
@@ -53,9 +54,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         $this->directoryActions[$action] = $controller;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getName(string $extension): ?string
     {
         if (!isset($this->nameMap[$extension])) {
@@ -65,9 +64,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         return $this->nameMap[$extension];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function isEditable(string $extension): bool
     {
         if (!isset($this->editableMap[$extension])) {
@@ -77,9 +74,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         return $this->editableMap[$extension];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getEditableExtensions(): array
     {
         $editableExtensions = [];
@@ -92,9 +87,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         return $editableExtensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function resolveDirectoryAction(string $action): string
     {
         if (!isset($this->directoryActions[$action])) {
@@ -104,9 +97,7 @@ class ExtensionRegistry implements ExtensionRegistryInterface
         return $this->directoryActions[$action];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function resolveFileAction(string $action, string $extension): string
     {
         if (isset($this->fileTypeActions[$extension][$action])) {

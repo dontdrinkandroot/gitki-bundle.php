@@ -18,9 +18,7 @@ interface GitServiceInterface
     public function getContent(FilePath $path): string;
 
     /**
-     * @param GitUserInterface $author
      * @param list<FilePath>|FilePath $paths
-     * @param string $commitMessage
      */
     public function removeAndCommit(GitUserInterface $author, FilePath|array $paths, string $commitMessage): void;
 

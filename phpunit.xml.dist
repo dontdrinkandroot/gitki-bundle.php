@@ -4,6 +4,7 @@
          bootstrap="vendor/autoload.php">
 
     <php>
+        <ini name="display_errors" value="1"/>
         <ini name="error_reporting" value="-1" />
         <env name="APP_SECRET" value="c2143e0e6fa7397bf72e127fc8ccf2b5" />
         <env name="SHELL_VERBOSITY" value="-1" />
@@ -26,4 +27,7 @@
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
+
+    <extensions>
+    </extensions>
 </phpunit>

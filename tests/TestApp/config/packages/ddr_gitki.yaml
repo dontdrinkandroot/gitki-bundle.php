@@ -1,0 +1,7 @@
+ddr_gitki:
+    repository_path: '/tmp/gitkitest/repo/'
+
+when@elasticsearch:
+    ddr_gitki:
+        elasticsearch:
+            index_name: gitki_test

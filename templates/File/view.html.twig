@@ -3,7 +3,8 @@
 {% block ddr_gitki_actions %}
     <div class="btn-group ddr-gitki-global-actions" role="group">
 
-        <a class="btn btn-outline-secondary" href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'list'}) }}" title="Show Folder">
+        <a class="btn btn-outline-secondary"
+           href="{{ path('ddr_gitki_directory', {'path': path.parent, 'action': 'list'}) }}" title="Show Folder">
             <span class="fas fa-fw fa-folder"></span>
         </a>
 
@@ -33,12 +34,14 @@
                        class="dropdown-item">
                         <span class="fas fa-fw fa-trash"></span> Delete
                     </a>
-                    <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.upload'}) }}" role="menuitem" tabindex="-1"
+                    <a href="{{ path('ddr_gitki_directory', {'path': path.parent, 'action': 'file.upload'}) }}"
+                       role="menuitem" tabindex="-1"
                        title="Upload File to containing folder" class="dropdown-item">
                         <span class="fas fa-fw fa-upload"></span> Upload file
                     </a>
                     {% for extension,name in editableExtensions %}
-                        <a href="{{ path('ddr_gitki_directory', {'path': path.parentPath, 'action': 'file.create', 'extension': extension}) }}" role="menuitem"
+                        <a href="{{ path('ddr_gitki_directory', {'path': path.parent, 'action': 'file.create', 'extension': extension}) }}"
+                           role="menuitem"
                            tabindex="-1" title="Create {{ name }} file" class="dropdown-item">
                             <span class="fas fa-fw fa-file"></span> Create {{ name }} file
                         </a>

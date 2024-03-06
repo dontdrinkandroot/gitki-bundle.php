@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security;
 
 use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
+use Override;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,65 +20,42 @@ class User implements UserInterface, GitUserInterface, PasswordAuthenticatedUser
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getGitUserName(): string
     {
         return $this->gitUserName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getGitUserEmail(): string
     {
         return $this->gitUserEmail;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getPassword(): string
     {
         return $this->username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getUserIdentifier(): string
     {
         return $this->username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function eraseCredentials(): void
     {
         /* Noop */

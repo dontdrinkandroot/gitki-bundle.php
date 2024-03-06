@@ -12,6 +12,7 @@ use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
 use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
 {
@@ -30,16 +31,11 @@ class FileSystemAwareMarkdownServiceTest extends GitRepositoryTestCase
      */
     protected $fileSystemService;
 
-    /**
-     * @var FilePath
-     */
     private FilePath $tocTestPath;
 
     private string $tocTestContent;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

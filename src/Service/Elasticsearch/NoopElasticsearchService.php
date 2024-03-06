@@ -6,60 +6,47 @@ use Dontdrinkandroot\GitkiBundle\Event\FileChangedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileMovedEvent;
 use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class NoopElasticsearchService implements ElasticsearchServiceInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function search(string $searchString): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function indexFile(FilePath $filePath): void
     {
         /* Noop */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function deleteFile(FilePath $filePath): void
     {
         /* Noop */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function clearIndex(): void
     {
         /* Noop */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileChanged(FileChangedEvent $event): void
     {
         /* Noop */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileRemoved(FileRemovedEvent $event): void
     {
         /* Noop */
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileMoved(FileMovedEvent $event): void
     {
         /* Noop */

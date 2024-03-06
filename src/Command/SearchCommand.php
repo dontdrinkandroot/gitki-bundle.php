@@ -4,32 +4,29 @@ namespace Dontdrinkandroot\GitkiBundle\Command;
 
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\NoopElasticsearchService;
+use Override;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'gitki:search', description: 'Search for documents')]
 class SearchCommand extends Command
 {
-    protected static $defaultDescription = 'Search for Markdown documents';
-
     public function __construct(private readonly ElasticsearchServiceInterface $elasticsearchService)
     {
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function configure(): void
     {
-        $this->setName('gitki:search')
+        $this
             ->addArgument('searchstring', InputArgument::REQUIRED, 'The search string');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($this->elasticsearchService instanceof NoopElasticsearchService) {

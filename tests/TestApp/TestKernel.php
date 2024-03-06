@@ -2,6 +2,7 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\TestApp;
 
+use Override;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -9,25 +10,19 @@ class TestKernel extends Kernel
 {
     use MicroKernelTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getProjectDir(): string
     {
         return __DIR__;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/ddr_gitki_bundle/cache/';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/ddr_gitki_bundle/logs/';

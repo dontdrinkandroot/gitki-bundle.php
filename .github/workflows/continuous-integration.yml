@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         services:
             elasticsearch:
-                image: elasticsearch:7.16.2
+                image: elasticsearch:7.17.18
                 ports:
                     - 9200:9200
                 env:
@@ -25,12 +25,12 @@ jobs:
         strategy:
             matrix:
                 include:
-                    -   php-version: "8.1"
-                        symfony-require: "5.4.*"
+                    -   php-version: "8.3"
+                        symfony-require: "6.4.*"
                         deps: "lowest"
                         symfony-deprecations-helper: "disabled=1"
-                    -   php-version: "8.1"
-                        symfony-require: "5.4.*"
+                    -   php-version: "8.3"
+                        symfony-require: "6.4.*"
                         deps: "highest"
                         symfony-deprecations-helper: "max[direct]=0"
 
@@ -60,7 +60,7 @@ jobs:
                 continue-on-error: "${{ matrix.deps == 'lowest' }}"
             -   name: "Upload coverage"
                 uses: "actions/upload-artifact@v2"
-                if: matrix.php-version == '8.1' && matrix.deps == 'highest' && matrix.symfony-require == '5.4.*'
+                if: matrix.php-version == '8.3' && matrix.deps == 'highest' && matrix.symfony-require == '6.4.*'
                 with:
                     name: "coverage"
                     path: |
@@ -78,7 +78,7 @@ jobs:
             -   name: "Install PHP"
                 uses: "shivammathur/setup-php@v2"
                 with:
-                    php-version: "8.1"
+                    php-version: "8.3"
             -   name: "Allow symfony/flex globally"
                 run: "composer global config --no-plugins allow-plugins.symfony/flex true"
             -   name: "Globally install symfony/flex and psalm"

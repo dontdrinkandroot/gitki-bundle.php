@@ -16,10 +16,12 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
+        LevelSetList::UP_TO_PHP_83,
         SetList::TYPE_DECLARATION,
-        SymfonySetList::SYMFONY_51,
-        SymfonySetList::SYMFONY_52,
-        SymfonySetList::SYMFONY_53,
-        SymfonySetList::SYMFONY_54,
+        SymfonySetList::SYMFONY_61,
+        SymfonySetList::SYMFONY_62,
+        SymfonySetList::SYMFONY_63,
+        SymfonySetList::SYMFONY_64,
     ]);
 };

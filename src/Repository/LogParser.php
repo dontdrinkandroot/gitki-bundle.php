@@ -4,18 +4,18 @@ namespace Dontdrinkandroot\GitkiBundle\Repository;
 
 class LogParser
 {
-    final const COMMIT_BEGIN = 'commit_begin';
-    final const COMMIT_END = 'commit_end';
-    final const HASH_BEGIN = 'hash_begin';
-    final const HASH_END = 'hash_end';
-    final const AUTHOR_BEGIN = 'author_begin';
-    final const AUTHOR_END = 'author_end';
-    final const MAIL_BEGIN = 'mail_begin';
-    final const MAIL_END = 'mail_end';
-    final const MESSAGE_BEGIN = 'message_begin';
-    final const MESSAGE_END = 'message_end';
-    final const DATE_BEGIN = 'date_begin';
-    final const DATE_END = 'date_end';
+    final public const string COMMIT_BEGIN = 'commit_begin';
+    final public const string COMMIT_END = 'commit_end';
+    final public const string HASH_BEGIN = 'hash_begin';
+    final public const string HASH_END = 'hash_end';
+    final public const string AUTHOR_BEGIN = 'author_begin';
+    final public const string AUTHOR_END = 'author_end';
+    final public const string MAIL_BEGIN = 'mail_begin';
+    final public const string MAIL_END = 'mail_end';
+    final public const string MESSAGE_BEGIN = 'message_begin';
+    final public const string MESSAGE_END = 'message_end';
+    final public const string DATE_BEGIN = 'date_begin';
+    final public const string DATE_END = 'date_end';
 
     public static function getFormatString(): string
     {
@@ -30,6 +30,9 @@ class LogParser
         return $s;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public static function getMatchString(): string
     {
         $s = '/';

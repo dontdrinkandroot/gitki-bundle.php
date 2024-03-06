@@ -9,6 +9,7 @@ use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\HtmlElement;
+use Override;
 use Stringable;
 
 class BootstrapTableRenderer implements NodeRendererInterface
@@ -20,9 +21,7 @@ class BootstrapTableRenderer implements NodeRendererInterface
         $this->decoratedRenderer = new TableRenderer();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function render(Node $node, ChildNodeRendererInterface $childRenderer): Stringable
     {
         $tableElement = $this->decoratedRenderer->render(Asserted::instanceOf($node, Table::class), $childRenderer);

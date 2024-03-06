@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
+use Dontdrinkandroot\Path\RootDirectoryPath;
 use RuntimeException;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -40,7 +41,7 @@ class FileController extends BaseController
 
         return $this->redirectToRoute(
             'ddr_gitki_directory',
-            ['path' => $path->getParentPath()->toAbsoluteString()]
+            ['path' => $path->getParent()->toAbsoluteString()]
         );
     }
 
@@ -91,7 +92,7 @@ class FileController extends BaseController
             throw new ConflictHttpException($e->getMessage());
         }
 
-        $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
+        $directories = $this->directoryService->listDirectories(new RootDirectoryPath(), true, true);
         $directoryChoices = [];
         foreach ($directories as $directory) {
             $directoryString = $directory->getAbsolutePath()->toAbsoluteUrlString();
@@ -105,7 +106,7 @@ class FileController extends BaseController
                 [
                     'choices' => $directoryChoices,
                     'required' => true,
-                    'data' => $path->getParentPath()->toAbsoluteString()
+                    'data' => $path->getParent()->toAbsoluteString()
                 ]
             )
             ->add('name', TextType::class, ['required' => true, 'data' => $path->getName()])
@@ -129,14 +130,14 @@ class FileController extends BaseController
             return $this->redirect(
                 $this->generateUrl(
                     'ddr_gitki_directory',
-                    ['path' => $newPath->getParentPath()->toAbsoluteString()]
+                    ['path' => $newPath->getParent()->toAbsoluteString()]
                 )
             );
         }
 
         return $this->render(
             '@DdrGitki/File/move.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 

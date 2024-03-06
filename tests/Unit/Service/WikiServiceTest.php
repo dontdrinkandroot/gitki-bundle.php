@@ -10,10 +10,10 @@ use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\GitkiBundle\Service\Wiki\WikiService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
-use Dontdrinkandroot\GitkiBundle\Tests\TestUser;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
+use Override;
 
 class WikiServiceTest extends GitRepositoryTestCase
 {
@@ -25,9 +25,7 @@ class WikiServiceTest extends GitRepositoryTestCase
 
     private WikiService $wikiService;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -37,9 +35,7 @@ class WikiServiceTest extends GitRepositoryTestCase
         $this->wikiService = new WikiService($this->gitService, $this->lockService);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function tearDown(): void
     {
         parent::tearDown();

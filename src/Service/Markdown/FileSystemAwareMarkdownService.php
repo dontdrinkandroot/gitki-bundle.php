@@ -20,6 +20,7 @@ use League\CommonMark\Extension\Table\Table;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\Parser\MarkdownParser;
 use League\CommonMark\Renderer\HtmlRenderer;
+use Override;
 
 class FileSystemAwareMarkdownService implements MarkdownServiceInterface
 {
@@ -29,9 +30,7 @@ class FileSystemAwareMarkdownService implements MarkdownServiceInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function parse(string $content, FilePath $path): ParsedMarkdownDocument
     {
         $linkRenderer = new FileSystemAwareLinkRenderer($this->fileSystemService, $path);

@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Lock\LockService;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventDispatchingWikiService extends WikiService
@@ -21,9 +22,7 @@ class EventDispatchingWikiService extends WikiService
         parent::__construct($gitRepository, $lockService);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function saveFile(
         GitUserInterface $user,
         FilePath $relativeFilePath,
@@ -37,9 +36,7 @@ class EventDispatchingWikiService extends WikiService
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function renameFile(
         GitUserInterface $user,
         FilePath $relativeOldFilePath,
@@ -53,9 +50,7 @@ class EventDispatchingWikiService extends WikiService
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeFile(GitUserInterface $user, FilePath $relativeFilePath, string $commitMessage): void
     {
         parent::removeFile($user, $relativeFilePath, $commitMessage);

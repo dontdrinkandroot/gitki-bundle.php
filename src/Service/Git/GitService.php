@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\Path;
+use Override;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
@@ -19,25 +20,19 @@ class GitService implements GitServiceInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getRepositoryPath(): DirectoryPath
     {
         return $this->fileSystemService->getBasePath();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getWorkingCopyHistory(?int $maxCount = null): array
     {
         return $this->getHistory(null, $maxCount);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getFileHistory(FilePath $path, ?int $maxCount = null): array
     {
         return $this->getHistory($path, $maxCount);
@@ -65,18 +60,14 @@ class GitService implements GitServiceInterface
         return $this->parseLog($outputListener->getBuffer());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeAndCommit(GitUserInterface $author, $paths, $commitMessage): void
     {
         $this->remove($this->toFilePathArray($paths));
         $this->commit($author, $commitMessage);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function moveAndCommit(
         GitUserInterface $author,
         FilePath $oldPath,
@@ -88,49 +79,37 @@ class GitService implements GitServiceInterface
         $this->commit($author, $commitMessage);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function exists(Path $path): bool
     {
         return $this->fileSystemService->exists($path);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getAbsolutePath(Path $path): Path
     {
         return $path->prepend($this->getRepositoryPath());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function createDirectory(DirectoryPath $path): void
     {
         $this->fileSystemService->createDirectory($path);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getContent(FilePath $path): string
     {
         return file_get_contents($this->getAbsolutePathString($path));
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeDirectory(DirectoryPath $path): void
     {
         $this->fileSystemService->removeDirectory($path);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function putAndCommitFile(
         GitUserInterface $author,
         FilePath $path,
@@ -142,9 +121,7 @@ class GitService implements GitServiceInterface
         $this->commit($author, $commitMessage);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function addAndCommitUploadedFile(
         GitUserInterface $author,
         FilePath $path,
@@ -152,7 +129,7 @@ class GitService implements GitServiceInterface
         string $commitMessage
     ): void {
         $uploadedFile->move(
-            $this->fileSystemService->getAbsolutePath($path->getParentPath())->toAbsoluteFileSystemString(),
+            $this->fileSystemService->getAbsolutePath($path->getParent())->toAbsoluteFileSystemString(),
             $path->getName()
         );
 
@@ -192,11 +169,9 @@ class GitService implements GitServiceInterface
     }
 
     /**
-     * @param string $log
-     *
      * @return list<CommitMetadata>
      */
-    protected function parseLog($log): array
+    protected function parseLog(string $log): array
     {
         preg_match_all(LogParser::getMatchString(), $log, $matches);
         $metaData = [];
@@ -213,10 +188,7 @@ class GitService implements GitServiceInterface
         return $metaData;
     }
 
-    /**
-     * @param string $commitMessage
-     */
-    protected function commit(GitUserInterface $author, $commitMessage): void
+    protected function commit(GitUserInterface $author, string $commitMessage): void
     {
         $this->getWorkingCopy()->commit(
             [
@@ -248,20 +220,12 @@ class GitService implements GitServiceInterface
         }
     }
 
-    /**
-     * @param string $commitMessage
-     */
-    protected function addAndCommitFile(GitUserInterface $author, $commitMessage, FilePath $path): void
+    protected function addAndCommitFile(GitUserInterface $author, string $commitMessage, FilePath $path): void
     {
         $this->add([$path]);
         $this->commit($author, $commitMessage);
     }
 
-    /**
-     * @param $path
-     *
-     * @return mixed
-     */
     protected function escapePath(Path $path): string
     {
         return str_replace(" ", "\\ ", $path->toRelativeFileSystemString());

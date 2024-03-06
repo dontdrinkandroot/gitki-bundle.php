@@ -8,6 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Service\Git\GitService;
 use Dontdrinkandroot\GitkiBundle\Tests\GitRepositoryTestCase;
 use Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\User;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 
 class GitServiceTest extends GitRepositoryTestCase
 {
@@ -15,9 +16,7 @@ class GitServiceTest extends GitRepositoryTestCase
 
     protected GitService $gitService;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

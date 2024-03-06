@@ -4,8 +4,8 @@
             <span class="fa fa-home"></span>
         </a>
     </li>
-    {% if path.hasParentPath %}
-        {% for parentPath in path.parentPath.collectPaths %}
+    {% if path.parent is not null %}
+        {% for parentPath in path.parent.collectPaths %}
             {% if parentPath.name is not empty %}
                 <li class="breadcrumb-item">
                     <a href="{{ path('ddr_gitki_directory', {'path': parentPath, 'action': 'index'}) }}">{{ parentPath.name }}</a>
@@ -14,7 +14,7 @@
         {% endfor %}
     {% endif %}
     <li class="breadcrumb-item active">
-        {% if path.filePath %}
+        {% if path.type.value is same as ('file') %}
             <a href="{{ path('ddr_gitki_file', {'path': path}) }}">
                 {{ path.name }}
             </a>

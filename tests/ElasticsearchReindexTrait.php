@@ -9,8 +9,7 @@ use Psr\Container\ContainerInterface;
 trait ElasticsearchReindexTrait
 {
     /**
-     * @param positive-int       $sleepSeconds
-     *
+     * @param positive-int $sleepSeconds
      */
     public function reindex(ContainerInterface $container, int $sleepSeconds = 1): void
     {

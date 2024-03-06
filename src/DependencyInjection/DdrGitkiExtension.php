@@ -2,6 +2,8 @@
 
 namespace Dontdrinkandroot\GitkiBundle\DependencyInjection;
 
+use Elasticsearch\Client;
+use Override;
 use RuntimeException;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
@@ -12,9 +14,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function prepend(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig($this->getAlias());
@@ -35,9 +35,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
         $container->prependExtensionConfig('twig', $twigConfig);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration($configs, $container);
@@ -64,13 +62,8 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 //        var_dump($container->getParameter('kernel.environment'));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     *
-     * @return ConfigurationInterface
-     */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    #[Override]
+    public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
     {
         $configuration = parent::getConfiguration($config, $container);
         if (null === $configuration) {
@@ -82,7 +75,7 @@ class DdrGitkiExtension extends Extension implements PrependExtensionInterface
 
     private function assertElasticSearchAvailable(): void
     {
-        if (!class_exists('Elasticsearch\Client')) {
+        if (!class_exists(Client::class)) {
             throw new RuntimeException('You configured elasticsearch but the client is not available');
         }
     }

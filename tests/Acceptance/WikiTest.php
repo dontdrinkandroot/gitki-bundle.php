@@ -2,13 +2,13 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
-use Dontdrinkandroot\Common\Asserted;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class WikiTest extends WebTestCase
 {
-    protected $environment = 'default';
+    protected string $environment = 'default';
 
     public function testBrowseRedirect(): void
     {
@@ -83,33 +83,15 @@ class WikiTest extends WebTestCase
     public function testNonExistingDirectoryCommitter(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
+        $client->loginUser(self::getUser('user'));
         $client->followRedirects(false);
         $crawler = $client->request(
             Request::METHOD_GET,
             '/browse/examples/not-existing/',
-            [],
-            [],
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
         );
-        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
-        $this->assertEquals(
-            '/browse/examples/not-existing/index.md',
-            $client->getResponse()->headers->get('location')
-        );
+        self::assertResponseRedirects('/browse/examples/not-existing/index.md');
 
-        $crawler = $client->request(
-            Request::METHOD_GET,
-            Asserted::notNull($client->getResponse()->headers->get('location')),
-            [],
-            [],
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $crawler = $client->followRedirect();
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertEquals(
             '/browse/examples/not-existing/index.md?action=edit',
@@ -120,19 +102,14 @@ class WikiTest extends WebTestCase
     public function testMoveFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/link-example.md?action=move');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('form_submit')->form(
             [
                 'form[directory]' => '/',
-                'form[name]'      => 'newname.md',
+                'form[name]' => 'newname.md',
             ]
         );
         $crawler = $client->submit($form);
@@ -191,12 +168,7 @@ class WikiTest extends WebTestCase
     public function testEditTextFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -247,12 +219,7 @@ class WikiTest extends WebTestCase
     public function testRemoveFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/examples/textfile.txt?action=remove');
         self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
@@ -275,12 +242,7 @@ class WikiTest extends WebTestCase
     public function testEditMarkdownFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -343,12 +305,7 @@ class WikiTest extends WebTestCase
     public function testCreateSubdirectoryAction(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/?action=subdirectory.create');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -377,24 +334,14 @@ class WikiTest extends WebTestCase
     public function testCannotEditLockedFile(): void
     {
         $client = static::createClient(['environment' => $this->getEnvironment()]);
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'admin',
-                'PHP_AUTH_PW'   => 'admin',
-            ]
-        );
+        $client->loginUser(self::getUser('admin'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=holdlock');
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        $client->setServerParameters(
-            [
-                'PHP_AUTH_USER' => 'user',
-                'PHP_AUTH_PW'   => 'user',
-            ]
-        );
+        $client->loginUser(self::getUser('user'));
         $crawler = $client->request(Request::METHOD_GET, '/browse/index.md?action=edit');
         self::assertResponseStatusCodeSame(Response::HTTP_LOCKED);
 
@@ -403,9 +350,7 @@ class WikiTest extends WebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_LOCKED);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function getEnvironment(): string
     {
         return 'default';

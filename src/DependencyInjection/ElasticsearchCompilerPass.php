@@ -8,14 +8,13 @@ use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepository;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchService;
 use Dontdrinkandroot\GitkiBundle\Service\Elasticsearch\ElasticsearchServiceInterface;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ElasticsearchCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         $enabled = $container->getParameter('ddr_gitki.elasticsearch.enabled');

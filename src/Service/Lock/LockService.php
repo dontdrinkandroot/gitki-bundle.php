@@ -8,6 +8,7 @@ use Dontdrinkandroot\GitkiBundle\Model\GitUserInterface;
 use Dontdrinkandroot\GitkiBundle\Service\FileSystem\FileSystemServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
 use Exception;
+use Override;
 
 class LockService implements LockServiceInterface
 {
@@ -15,13 +16,11 @@ class LockService implements LockServiceInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function createLock(GitUserInterface $user, FilePath $path): void
     {
         $lockPath = $this->getLockPath($path);
-        $relativeLockDir = $lockPath->getParentPath();
+        $relativeLockDir = $lockPath->getParent();
 
         $this->assertUnlocked($user, $lockPath);
 
@@ -36,9 +35,7 @@ class LockService implements LockServiceInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function removeLock(GitUserInterface $user, FilePath $path): void
     {
         $lockPath = $this->getLockPath($path);
@@ -58,9 +55,7 @@ class LockService implements LockServiceInterface
         $this->removeLockFile($lockPath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function assertUserHasLock(GitUserInterface $user, FilePath $path): bool
     {
         $lockPath = $this->getLockPath($path);
@@ -76,9 +71,7 @@ class LockService implements LockServiceInterface
         throw new FileLockExpiredException();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function holdLockForUser(GitUserInterface $user, FilePath $path): int
     {
         $this->assertUserHasLock($user, $path);
@@ -114,7 +107,7 @@ class LockService implements LockServiceInterface
     protected function getLockPath(FilePath $filePath): FilePath
     {
         $name = $filePath->getName();
-        $relativeLockPath = $filePath->getParentPath()->appendFile('.' . $name . '.lock');
+        $relativeLockPath = $filePath->getParent()->appendFile('.' . $name . '.lock');
 
         return $relativeLockPath;
     }
@@ -125,7 +118,6 @@ class LockService implements LockServiceInterface
     }
 
     /**
-     *
      * @throws FileLockedException
      */
     protected function assertUnlocked(GitUserInterface $user, FilePath $lockPath): bool

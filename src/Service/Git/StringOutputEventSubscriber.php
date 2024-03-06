@@ -2,11 +2,13 @@
 
 namespace Dontdrinkandroot\GitkiBundle\Service\Git;
 
+use Override;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 
 class StringOutputEventSubscriber implements EventSubscriberInterface
 {
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [

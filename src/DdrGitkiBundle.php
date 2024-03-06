@@ -3,22 +3,19 @@
 namespace Dontdrinkandroot\GitkiBundle;
 
 use Dontdrinkandroot\GitkiBundle\DependencyInjection\ElasticsearchCompilerPass;
+use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class DdrGitkiBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getPath(): string
     {
         return dirname(__DIR__);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

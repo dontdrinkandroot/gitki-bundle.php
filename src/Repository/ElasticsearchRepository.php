@@ -9,6 +9,7 @@ use Dontdrinkandroot\Path\FilePath;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Override;
 
 class ElasticsearchRepository implements ElasticsearchRepositoryInterface
 {
@@ -29,9 +30,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function clear(): void
     {
         $params = ['index' => $this->index];
@@ -39,9 +38,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         $response = $this->client->indices()->create($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function search(string $searchString): array
     {
         $params = [
@@ -74,9 +71,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         return $searchResults;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function indexFile(FilePath $path, AnalyzedDocument $document): mixed
     {
         $params = [
@@ -93,9 +88,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         return $this->client->index($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function deleteFile(FilePath $path): mixed
     {
         $params = [
@@ -106,9 +99,7 @@ class ElasticsearchRepository implements ElasticsearchRepositoryInterface
         return $this->client->delete($params);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function findTitle(FilePath $path): ?string
     {
         try {

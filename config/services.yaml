@@ -125,11 +125,13 @@ services:
         tags: [ 'controller.service_arguments' ]
 
     #
-    # Converters
+    # Value Resolvers
     #
 
-    Dontdrinkandroot\GitkiBundle\Request\ParamConverter\DirectoryPathConverter:
-        tags: [ 'request.param_converter' ]
+    Dontdrinkandroot\GitkiBundle\Request\ValueResolver\DirectoryPathValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 101 }
 
-    Dontdrinkandroot\GitkiBundle\Request\ParamConverter\FilePathConverter:
-        tags: [ 'request.param_converter' ]
+    Dontdrinkandroot\GitkiBundle\Request\ValueResolver\FilePathValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 101 }

@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Twig;
 
 use Dontdrinkandroot\GitkiBundle\Service\ExtensionRegistry\ExtensionRegistryInterface;
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -13,17 +14,7 @@ class GitkiExtension extends AbstractExtension
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getName(): string
-    {
-        return 'gitki_extension';
-    }
-
-    /**
-     * @inheritdoc
-     */
+    #[Override]
     public function getFilters(): array
     {
         return [
@@ -31,9 +22,7 @@ class GitkiExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+    #[Override]
     public function getFunctions(): array
     {
         return [

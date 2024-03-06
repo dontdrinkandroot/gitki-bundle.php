@@ -2,3 +2,7 @@ services:
 
     Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\Voter\TestVoter:
         tags: [ 'security.voter' ]
+
+    Dontdrinkandroot\GitkiBundle\Tests\TestApp\Security\StaticUserProvider:
+        autoconfigure: true
+        autowire: true

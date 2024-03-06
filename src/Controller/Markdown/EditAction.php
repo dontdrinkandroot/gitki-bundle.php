@@ -80,7 +80,7 @@ class EditAction extends AbstractController
 
         return $this->render(
             '@DdrGitki/Markdown/edit.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 }

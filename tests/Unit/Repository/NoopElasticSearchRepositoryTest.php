@@ -4,15 +4,14 @@ namespace Dontdrinkandroot\GitkiBundle\Tests\Unit\Repository;
 
 use Dontdrinkandroot\GitkiBundle\Repository\NoopElasticsearchRepository;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 use PHPUnit\Framework\TestCase;
 
 class NoopElasticSearchRepositoryTest extends TestCase
 {
     private NoopElasticsearchRepository $elasticSearchRepository;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function setUp(): void
     {
         $this->elasticSearchRepository = new NoopElasticsearchRepository();

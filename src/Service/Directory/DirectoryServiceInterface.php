@@ -12,32 +12,17 @@ interface DirectoryServiceInterface
 {
     public function getPrimaryIndexFile(DirectoryPath $directoryPath): ?FilePath;
 
-    /**
-     * @return FilePath|null
-     */
-    public function resolveExistingIndexFile(DirectoryPath $directoryPath);
+    public function resolveExistingIndexFile(DirectoryPath $directoryPath): ?FilePath;
+
+    public function getDirectoryListing(DirectoryPath $relativeDirectoryPath): DirectoryListing;
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     *
-     * @return DirectoryListing
-     */
-    public function getDirectoryListing(DirectoryPath $relativeDirectoryPath);
-
-    /**
-     * @param DirectoryPath $rootPath
-     * @param bool $includeRoot
-     * @param bool $recursive
-     *
      * @return Directory[]
      */
-    public function listDirectories(DirectoryPath $rootPath, $includeRoot = true, $recursive = false);
+    public function listDirectories(DirectoryPath $rootPath, bool $includeRoot = true, bool $recursive = false): array;
 
     /**
-     * @param DirectoryPath $relativeDirectoryPath
-     * @param bool $recursive
-     *
      * @return File[]
      */
-    public function listFiles(DirectoryPath $relativeDirectoryPath, $recursive = false);
+    public function listFiles(DirectoryPath $relativeDirectoryPath, bool $recursive = false);
 }

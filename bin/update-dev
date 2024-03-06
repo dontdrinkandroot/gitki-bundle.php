@@ -1,0 +1,5 @@
+#!/bin/sh
+git pull \
+&& composer require --dev symfony/flex \
+&& composer update \
+&& composer remove --dev symfony/flex --no-scripts --no-plugins

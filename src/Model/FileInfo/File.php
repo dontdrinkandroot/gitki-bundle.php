@@ -4,6 +4,7 @@ namespace Dontdrinkandroot\GitkiBundle\Model\FileInfo;
 
 use Dontdrinkandroot\Path\FilePath;
 use JsonSerializable;
+use Override;
 
 class File extends AbstractPathAwareFileInfo implements JsonSerializable
 {
@@ -20,17 +21,13 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
         $this->relativePath = FilePath::parse($relativeFilePath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getRelativePath(): FilePath
     {
         return $this->relativePath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function getAbsolutePath(): FilePath
     {
         return $this->absolutePath;
@@ -47,9 +44,9 @@ class File extends AbstractPathAwareFileInfo implements JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
      * @return array{path: string, name: string, extension: string|null, title: string|null}
      */
+    #[Override]
     public function jsonSerialize(): array
     {
         $absolutePath = $this->getAbsolutePath();

@@ -3,6 +3,7 @@
 namespace Dontdrinkandroot\GitkiBundle\Tests\Acceptance;
 
 use Dontdrinkandroot\GitkiBundle\Tests\ElasticsearchReindexTrait;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,9 +11,7 @@ class ElasticsearchTest extends WebTestCase
 {
     use ElasticsearchReindexTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -59,9 +58,7 @@ class ElasticsearchTest extends WebTestCase
         $this->assertEquals('textfile.txt', $fileNameParts->eq(8)->text());
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     protected function getEnvironment(): string
     {
         return "elasticsearch";

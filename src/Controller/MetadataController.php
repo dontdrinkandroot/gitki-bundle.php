@@ -6,9 +6,9 @@ use Dontdrinkandroot\Common\Asserted;
 use Dontdrinkandroot\GitkiBundle\Security\SecurityAttribute;
 use Dontdrinkandroot\GitkiBundle\Service\Directory\DirectoryServiceInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Security\SecurityService;
-use Dontdrinkandroot\Path\DirectoryPath;
 use Dontdrinkandroot\Path\FilePath;
 use Dontdrinkandroot\Path\PathUtils;
+use Dontdrinkandroot\Path\RootDirectoryPath;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,7 +25,7 @@ class MetadataController extends BaseController
     {
         $this->denyAccessUnlessGranted(SecurityAttribute::READ_PATH);
 
-        $directories = $this->directoryService->listDirectories(new DirectoryPath(), true, true);
+        $directories = $this->directoryService->listDirectories(new RootDirectoryPath(), true, true);
 
         $response = new Response(json_encode($directories, JSON_THROW_ON_ERROR));
         $response->headers->set('Content-Type', 'application/json');
@@ -43,7 +43,7 @@ class MetadataController extends BaseController
             $currentPath = FilePath::parse($currentPathString);
         }
 
-        $files = $this->directoryService->listFiles(new DirectoryPath(), true);
+        $files = $this->directoryService->listFiles(new RootDirectoryPath(), true);
 
         $data = [];
         foreach ($files as $file) {
@@ -55,7 +55,7 @@ class MetadataController extends BaseController
                 'title' => $file->getTitle()
             ];
             if (null !== $currentPath) {
-                $relativePath = PathUtils::getPathDiff($currentPath, $absolutePath);
+                $relativePath = $currentPath->diff($absolutePath);
                 if (str_starts_with($relativePath, '../')) {
                     $relativePath = './' . $relativePath;
                 }

@@ -9,6 +9,7 @@ use Dontdrinkandroot\GitkiBundle\Event\FileRemovedEvent;
 use Dontdrinkandroot\GitkiBundle\Repository\ElasticsearchRepositoryInterface;
 use Dontdrinkandroot\GitkiBundle\Service\Git\GitServiceInterface;
 use Dontdrinkandroot\Path\FilePath;
+use Override;
 use Symfony\Component\Mime\MimeTypeGuesserInterface;
 
 class ElasticsearchService implements ElasticsearchServiceInterface
@@ -24,17 +25,13 @@ class ElasticsearchService implements ElasticsearchServiceInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function search(string $searchString): array
     {
         return $this->repository->search($searchString);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function indexFile(FilePath $filePath): void
     {
         $mimeType = $this->mimeTypeGuesser->guessMimeType(
@@ -52,41 +49,31 @@ class ElasticsearchService implements ElasticsearchServiceInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function deleteFile(FilePath $filePath): void
     {
         $this->repository->deleteFile($filePath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function clearIndex(): void
     {
         $this->repository->clear();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileChanged(FileChangedEvent $event): void
     {
         $this->indexFile($event->file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileRemoved(FileRemovedEvent $event): void
     {
         $this->deleteFile($event->file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[Override]
     public function onFileMoved(FileMovedEvent $event): void
     {
         $this->deleteFile($event->previousFile);

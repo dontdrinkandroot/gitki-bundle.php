@@ -128,7 +128,7 @@ class TextController extends BaseController
 
         return $this->render(
             '@DdrGitki/Text/edit.html.twig',
-            ['form' => $form->createView(), 'path' => $path]
+            ['form' => $form, 'path' => $path]
         );
     }
 }
