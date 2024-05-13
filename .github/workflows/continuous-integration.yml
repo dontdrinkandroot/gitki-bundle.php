@@ -71,7 +71,7 @@ jobs:
         name: Psalm
         runs-on: ubuntu-latest
         env:
-            SYMFONY_REQUIRE: "5.4.*"
+            SYMFONY_REQUIRE: "6.4.*"
         steps:
             -   name: "Checkout code"
                 uses: "actions/checkout@v2"
